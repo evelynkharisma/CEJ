@@ -1,0 +1,104 @@
+@font-face {
+    font-family: segoeui;
+    src: url(../fonts/segoeui.ttf);
+}
+
+body{
+    font-family: segoeui;
+}
+
+.welcome-container{
+    height: 100%;
+    width: 100%;
+    background-image: url(../img/login/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    text-align: center;
+}
+
+.login-box{
+    height: 60%;
+    width: 50%;
+    margin-left: 25%;
+    top: 20%;
+    position: absolute;
+    background-color: white;
+}
+
+.login-box-choose{
+    width: 400px;
+    left: 50%;
+    top: 19%;
+    position: absolute;
+    transform: translate(-51%,0%);
+    background-color: white;
+}
+
+.alert{
+    padding: 0;
+    color: red;
+}
+
+.login-box-header{
+    border-bottom: solid 1px grey;
+    padding: 20px;
+    width: 100%;
+    text-align: left;
+    color:#00a6fb;
+    font-size: 18px;
+}
+
+.login-box-button{
+    width: 200px;
+    padding: 20px 0px;
+    border: 0;
+    background-color: #2e8ece;
+}
+
+.button-top{
+    margin-bottom: 1vw;
+}
+
+.login-box-content-choose{
+    padding: 30px 20px 10px 20px;
+    background-color: #464646;
+}
+
+.login-box-content-choose select{
+    padding: 12px;
+    margin-bottom: 20px;
+    width: 290px;
+    margin-left: -6px;
+}
+
+.login-box-content-choose input{
+    padding: 12px;
+    margin-bottom: 20px;
+    width: 290px;
+}
+
+.login-btn{
+    width: 34px;
+    height: 31px;
+    color: white;
+    background: url("../img/login/login-button.png");
+}
+
+.forgot-password{
+    letter-spacing: 0.2vw;
+}
+
+.login-box-footer{
+    border-top: solid 1px grey;
+    padding: 15px 20px 15px 20px;
+    width: 100%;
+    bottom: 0%;
+}
+
+.login-box-footer table{
+    width: 100%;
+}
+
+

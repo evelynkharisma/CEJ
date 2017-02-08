@@ -1,0 +1,202 @@
+.teacher_dashboard_today_schedule_container{
+    /*overflow-x: scroll;*/
+    border: 2px solid #e0e0e0;
+}
+
+.teacher_dashboard_today_schedule_table{
+    table-layout: fixed;
+    border: 2px solid #e0e0e0;
+    min-height: 150px;
+    width: 100%;
+}
+
+.teacher_dashboard_today_schedule_table th{
+    /*min-width: 250px;*/
+    text-align: center;
+    border: 2px solid #e0e0e0;
+}
+
+.teacher_dashboard_today_schedule_period{
+    background-color: #ffa63a;
+    color: white;
+}
+
+.teacher_dashboard_today_schedule_break{
+    background-color: #fe4972;
+    color: white;
+}
+
+.teacher_dashboard_today_schedule_table td{
+    padding: 1vw;
+    border: 2px solid #e0e0e0;
+    text-align: center;
+}
+
+.teacher_dashboard_deadline{
+    color: #fe4972;
+}
+
+.teacher_dashboard_upcoming_type{
+    float: right;
+    background: #fe4972;
+    color: white;
+    padding: 0.3vw;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.teacher_attendance_radio input[type="radio"] {
+    display:none;
+}
+
+.teacher_attendance_radio label {
+    display:inline-block;
+    background-color:#ddd;
+    padding:4px 11px;
+    font-family:Arial;
+    font-size:16px;
+    color: white;
+}
+
+.present:checked + label {
+    background-color:#48b51b;
+}
+
+.absent:checked + label {
+    background-color:#e61515;
+}
+
+.late:checked + label {
+    background-color:#f9c91c;
+}
+
+.teacher_profile_crop{
+    position: relative;
+    width: 220px;
+    height: 220px;
+    overflow: hidden;
+}
+
+.teacher_profile_img{
+    width: 220px;
+    height: auto;
+}
+
+.teacher_profile_group{
+    padding: 15px;
+}
+
+.teacher_profile_label{
+    color: #919191;
+    line-height: 30px;
+}
+
+.teacher_profile_value{
+    color: black;
+    font-size: 11pt;
+}
+
+.teacher_course_evaluation{
+    width: 70%;
+}
+
+.teacher_course_evaluation th{
+    padding: 10px;
+    background-color: gainsboro;
+}
+
+.teacher_course_evaluation td{
+    padding: 5px 10px 5px 10px;
+    border-bottom: solid 1px gainsboro;
+}
+
+.teacher_course_implementation{
+    width: 100%;
+}
+
+.teacher_course_implementation th{
+    padding: 10px;
+    background-color: gainsboro;
+}
+
+.teacher_course_implementation td{
+    padding: 10px;
+    border-bottom: solid 1px gainsboro;
+}
+
+.set-right{
+    float: right;
+}
+
+.set-margin-bottom{
+    margin-bottom: 10px;
+}
+
+.set-center{
+    text-align: center;
+}
+
+.btn-danger{
+    background-color: #fe4972;
+    color: white;
+}
+
+.btn-yellow{
+    background-color: #ffa63a;
+    color: white;
+}
+
+.btn-yellow:hover{
+    background-color: #f38e14;
+    color: white;
+}
+
+.teacher_photo_crop{
+    position: relative;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+.teacher_photo_img{
+    width: 100px;
+    height: auto;
+}
+
+.teacher_course_student_mid{
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.teacher_course_student_mid td{
+    padding: 10px;
+}
+
+.teacher_course_student_mid_td{
+    font-weight: bold;
+    background-color: gainsboro;
+    border: 1px solid white !important
+}
+
+.teacher_course_student_mid td input[type="radio"] {
+    display:none;
+}
+
+.teacher_course_student_mid td label {
+    background-color: #fff;
+    border: 1px solid gainsboro;
+    width: 15px;
+    height: 15px;
+}
+
+.teacher_course_student_mid td input[type="radio"]:checked + label {
+    background: url("../img/teacher/checkmark.png");
+}
+
+.option_tick{
+    background: url("../img/teacher/checkmark.png");
+    width: 15px;
+    height: 15px;
+    display: inline-block
+}
