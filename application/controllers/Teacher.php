@@ -50,6 +50,15 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function addCourse()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/teacher_add_course_view';
+        $this->load->view($this->template, $data);
+    }
+
     public function courseView()
     {
         $data['title'] = 'SMS';
@@ -130,6 +139,15 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/exam_schedule_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addTeacher()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/teacher_add_teacher_view';
         $this->load->view($this->template, $data);
     }
 
