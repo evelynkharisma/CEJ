@@ -1266,7 +1266,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	//		the logic to allow values with no types to be strings
 	//   params - used to store parameters in method calls
 	//   method - used to store method name
-	//	 stack - array with parent tree of the xml element,
+	//	 stack - array with parents tree of the xml element,
 	//			 used to validate the nesting of elements
 
 	// --------------------------------------------------------------------
@@ -1295,7 +1295,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				return;
 			}
 		}
-		// not top level element: see if parent is OK
+		// not top level element: see if parents is OK
 		elseif ( ! in_array($this->xh[$the_parser]['stack'][0], $this->valid_parents[$name], TRUE))
 		{
 			$this->xh[$the_parser]['isf'] = 2;

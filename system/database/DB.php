@@ -150,7 +150,7 @@ function &DB($params = '', $query_builder_override = NULL)
 	}
 
 	// Load the DB classes. Note: Since the query builder class is optional
-	// we need to dynamically create a class that extends proper parent class
+	// we need to dynamically create a class that extends proper parents class
 	// based on whether we're using the query builder class or not.
 	if ($query_builder_override !== NULL)
 	{

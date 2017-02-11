@@ -75,7 +75,7 @@ class login extends CI_Controller {
 //					$this->session->set_userdata($sessionData);
 //					$this->Parent_model->updateLastLogin($user['id']);
 
-				redirect('parent/home');
+				redirect('parents/home');
 //				}
 			}
 			else if($loginas == 'operation'){

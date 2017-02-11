@@ -85,7 +85,7 @@ class CI_Driver_Library {
 	 *
 	 * Separate load_driver call to support explicit driver load by library or user
 	 *
-	 * @param	string	Driver name (w/o parent prefix)
+	 * @param	string	Driver name (w/o parents prefix)
 	 * @return	object	Child class
 	 */
 	public function load_driver($child)
@@ -99,7 +99,7 @@ class CI_Driver_Library {
 			$this->lib_name = str_replace(array('CI_', $prefix), '', get_class($this));
 		}
 
-		// The child will be prefixed with the parent lib
+		// The child will be prefixed with the parents lib
 		$child_name = $this->lib_name.'_'.$child;
 
 		// See if requested child is a valid driver
@@ -197,7 +197,7 @@ class CI_Driver_Library {
  * CodeIgniter Driver Class
  *
  * This class enables you to create drivers for a Library based on the Driver Library.
- * It handles the drivers' access to the parent library
+ * It handles the drivers' access to the parents library
  *
  * @package		CodeIgniter
  * @subpackage	Libraries
@@ -208,28 +208,28 @@ class CI_Driver_Library {
 class CI_Driver {
 
 	/**
-	 * Instance of the parent class
+	 * Instance of the parents class
 	 *
 	 * @var object
 	 */
 	protected $_parent;
 
 	/**
-	 * List of methods in the parent class
+	 * List of methods in the parents class
 	 *
 	 * @var array
 	 */
 	protected $_methods = array();
 
 	/**
-	 * List of properties in the parent class
+	 * List of properties in the parents class
 	 *
 	 * @var array
 	 */
 	protected $_properties = array();
 
 	/**
-	 * Array of methods and properties for the parent class(es)
+	 * Array of methods and properties for the parents class(es)
 	 *
 	 * @static
 	 * @var	array
@@ -239,7 +239,7 @@ class CI_Driver {
 	/**
 	 * Decorate
 	 *
-	 * Decorates the child with the parent driver lib's methods and properties
+	 * Decorates the child with the parents driver lib's methods and properties
 	 *
 	 * @param	object
 	 * @return	void
@@ -286,7 +286,7 @@ class CI_Driver {
 	/**
 	 * __call magic method
 	 *
-	 * Handles access to the parent driver library's methods
+	 * Handles access to the parents driver library's methods
 	 *
 	 * @param	string
 	 * @param	array
@@ -307,7 +307,7 @@ class CI_Driver {
 	/**
 	 * __get magic method
 	 *
-	 * Handles reading of the parent driver library's properties
+	 * Handles reading of the parents driver library's properties
 	 *
 	 * @param	string
 	 * @return	mixed
@@ -325,7 +325,7 @@ class CI_Driver {
 	/**
 	 * __set magic method
 	 *
-	 * Handles writing to the parent driver library's properties
+	 * Handles writing to the parents driver library's properties
 	 *
 	 * @param	string
 	 * @param	array

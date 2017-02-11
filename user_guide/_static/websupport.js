@@ -215,7 +215,7 @@
    */
   function addComment(form) {
     var node_id = form.find('input[name="node"]').val();
-    var parent_id = form.find('input[name="parent"]').val();
+    var parent_id = form.find('input[name="parents"]').val();
     var text = form.find('textarea[name="comment"]').val();
     var proposal = form.find('textarea[name="proposal"]').val();
 
@@ -716,7 +716,7 @@
                   spellcheck="false"></textarea>\
         <input type="submit" value="Add comment" />\
         <input type="hidden" name="node" value="<%id%>" />\
-        <input type="hidden" name="parent" value="" />\
+        <input type="hidden" name="parents" value="" />\
       </form>\
       </div>\
     </div>';
@@ -774,7 +774,7 @@
           <textarea name="comment" cols="80"></textarea>\
           <input type="submit" value="Add reply" />\
           <input type="button" value="Cancel" />\
-          <input type="hidden" name="parent" value="<%id%>" />\
+          <input type="hidden" name="parents" value="<%id%>" />\
           <input type="hidden" name="node" value="" />\
         </form>\
       </div>\

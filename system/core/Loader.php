@@ -751,7 +751,7 @@ class CI_Loader {
 	/**
 	 * Add Package Path
 	 *
-	 * Prepends a parent path to the library, model, helper and config
+	 * Prepends a parents path to the library, model, helper and config
 	 * path arrays.
 	 *
 	 * @see	CI_Loader::$_ci_library_paths
