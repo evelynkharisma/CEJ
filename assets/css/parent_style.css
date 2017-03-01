@@ -1,0 +1,40 @@
+.parent_attachment ul li img{
+    padding:0;
+    width:150px;
+}
+.parent_sidebar_child{
+    box-shadow: 0px 0px 7px #888888;
+    margin-bottom: 20px;
+}
+.parent_dashboard_child{
+    padding:10px 0;
+}
+.parent_dashboard_top_tile h3{
+    margin-right: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.parent_dashboard_top_tile .message_top_tile{
+    border-bottom: 3px lightgreen solid;
+}
+.parent_dashboard_top_tile .invoice_top_tile{
+    border-bottom: 3px lightcoral solid;
+}
+.parent_dashboard_top_tile .announcement_top_tile{
+    border-bottom: 3px lightskyblue solid;
+}
+.pointer-mouse{
+    cursor: pointer;
+}
+.parent_report_coursename{
+    /*color: #2dbbe8;*/
+    text-align: center;
+    font-size: 15px;
+}
+.parent_report_gradeDropdown{
+    float: right;
+    margin: 10px 0;
+}
+.dropdown-menu-content{
+    min-width: 95px;
+}

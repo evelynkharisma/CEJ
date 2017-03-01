@@ -17,7 +17,7 @@
                             <div class="profile_img">
                                 <div class="teacher_profile_crop">
                                     <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/parents/chels.jpg" alt="Avatar" title="Change the avatar">
+                                    <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/operation/chels.jpg" alt="Avatar" title="Change the avatar">
                                 </div>
                             </div>
                             <h3>Chelsy Lim</h3>
@@ -32,12 +32,12 @@
 
                                 <li class="m-top-xs">
                                     <i class="fa fa-phone user-profile-icon"></i>
-                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> 08117678877</a>
+                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> 08998098035</a>
                                 </li>
 
                                 <li class="m-top-xs">
                                     <i class="fa fa-external-link user-profile-icon"></i>
-                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> kharismaeve@gmail.com</a>
+                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> chelsylim@gmail.com</a>
                                 </li>
                             </ul>
 
@@ -55,11 +55,11 @@
                                 <div class="col-md-6">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Name</div>
-                                        <div class="teacher_profile_value">Evelyn Kharisma</div>
+                                        <div class="teacher_profile_value">Chelsy Lim</div>
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Place of Birth</div>
-                                        <div class="teacher_profile_value">Pekanbaru</div>
+                                        <div class="teacher_profile_value">DKI Jakarta</div>
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Religion</div>
@@ -69,7 +69,7 @@
                                 <div class="col-md-6">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Date of Birth</div>
-                                        <div class="teacher_profile_value">26 November 1994</div>
+                                        <div class="teacher_profile_value">05 November 1996</div>
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Gender</div>
@@ -96,17 +96,17 @@
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">High School</div>
-                                        <div class="teacher_profile_value">Djuwita</div>
+                                        <div class="teacher_profile_value">Bina Tunas Bangsa International school</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Junior High School</div>
-                                        <div class="teacher_profile_value">Djuwita</div>
+                                        <div class="teacher_profile_value">Bina Tunas Bangsa International School</div>
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Elementary School</div>
-                                        <div class="teacher_profile_value">Djuwita</div>
+                                        <div class="teacher_profile_value">Bina Tunas Bangsa International School</div>
                                     </div>
                                 </div>
                             </div>

@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta charset="utf-8">
     <title>SMS</title>
 
+
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/font-awesome/css/font-awesome.min.css"/>
@@ -17,8 +18,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- FullCalendar -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/fullcalendar.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/fullcalendar.print.css" media="print">
+
+
     <!-- NProgress -->
-<!--    <link rel="stylesheet" type="text/css" href="--><?php //echo base_url() ?><!--assets/css/nprogress.css">-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/nprogress.css">
+    <!-- bootstrap-wysiwyg -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/prettify.min.css">
+
+
+
+
+    <!-- Custom Theme Style -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/custom.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/teacher_style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/parent_style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/operation_style.css">
+
+
+
     <!-- iCheck -->
 <!--    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">-->
     <!-- bootstrap-progressbar -->
@@ -27,10 +44,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!--    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>-->
     <!-- bootstrap-daterangepicker -->
 <!--    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">-->
-
-    <!-- Custom Theme Style -->
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/custom.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/teacher_style.css" rel="stylesheet">
 
 </head>
 <body class="nav-md">
@@ -61,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+<!--                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>-->
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -83,8 +96,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- FullCalendar -->
     <script src="<?php echo base_url() ?>assets/js/moment.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/fullcalendar.min.js"></script>
-
+    <!-- Custom Theme Scripts -->
     <script src="<?php echo base_url() ?>assets/js/custom.min.js"></script>
+
+
+
+    <!-- FastClick -->
+    <script src="<?php echo base_url() ?>assets/js/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="<?php echo base_url() ?>assets/js/nprogress.js"></script>
+    <!-- bootstrap-wysiwyg -->
+    <script src="<?php echo base_url() ?>assets/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/jquery.hotkeys.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/prettify.js"></script>
+
 
     <!-- Datatables -->
     <script>
