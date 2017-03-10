@@ -66,14 +66,14 @@
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-12">
-                                    <h2>Daily Performance</h2>
+                                    <h2>Overall Performance</h2>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-6">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Assignment</div>
-                                        <span class="chart" data-percent="86">
+                                        <div class="teacher_profile_label">Average Classwork</div>
+                                        <span class="chart" data-percent="90">
                                               <span class="percent"></span>
                                         </span>
                                     </div>

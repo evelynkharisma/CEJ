@@ -46,8 +46,8 @@
             </li>
             <li><a><i class="fa fa-calendar"></i> Schedule <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Class Schedule</a></li>
-                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Exam Schedule</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/parents/classScheduleView">Class Schedule</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/parents/examScheduleView">Exam Schedule</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-usd"></i> Payment <span class="fa fa-chevron-down"></span></a>
@@ -56,12 +56,7 @@
                     <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Payment Receipt</a></li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-download"></i> Download <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Rules & Code of Conduct</a></li>
-                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Academic Calendar & Study Plan</a></li>
-                </ul>
-            </li>
+            <li><a href="<?php echo base_url() ?>index.php/parents/parent_download"><i class="fa fa-download"></i> Download</a></li>
             <li><a href="<?php echo base_url() ?>index.php/parents/parent_correspond"><i class="fa fa-envelope"></i> Correspond</a></li>
 
 

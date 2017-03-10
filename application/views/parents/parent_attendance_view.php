@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Dashboard</h3>
+                <h3>Attendance</h3>
             </div>
         </div>
 
@@ -34,6 +34,17 @@
                                 <h3 class="invoice_top_tile">Absent</h3>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_content">
+
+                        <div id='calendar'></div>
+
                     </div>
                 </div>
             </div>
