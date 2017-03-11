@@ -23,6 +23,16 @@ class Teacher_model extends CI_Model {
             return $query->row_array();
         }
     }
+
+    function getProfileDataByID($id) {
+        $this->db->select('*');
+        $this->db->where('teacherid', $id);
+        $query = $this->db->get($this->table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
 }
 
 ?>

@@ -5,6 +5,11 @@ class teacher extends CI_Controller {
 
     var $template = 'template';
 
+    function __construct() {
+        parent::__construct();
+        $this->load->model('Teacher_model');
+    }
+
     public function home()
     {
         $data['title'] = 'SMS';
@@ -47,6 +52,8 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_profile_view';
+        $id = $this->session->userdata('id');
+        $data['info_db'] = $this->Teacher_model->getProfileDataByID($id);
         $this->load->view($this->template, $data);
     }
 
