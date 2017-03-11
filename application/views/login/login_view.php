@@ -19,7 +19,7 @@
             <option value="teacher">Teacher</option>
             <option value="parent">Parent</option>
             <option value="operation">Operation</option>
-            <option value="admini">Administrator</option>
+            <option value="admin">Administrator</option>
         </select>
         <input type="text" placeholder="Username" name="username"> <br>
         <input type="password" placeholder="Password" name="password"> <br>

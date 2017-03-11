@@ -5,21 +5,10 @@ class login extends CI_Controller {
 
 	var $template = 'login/login_template';
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+	function __construct() {
+		parent::__construct();
+		$this->load->model('Teacher_model');
+	}
 
 	public function index()
 	{
@@ -49,19 +38,17 @@ class login extends CI_Controller {
 //				}
 			}
 			else if($loginas == 'teacher'){
-//				$user = $this->Teacher_model->checkLogin($username, $password);
-//				if (!empty($user)) {
-//					$sessionData['id'] = $user['id'];
-//					$sessionData['email'] = $user['email'];
-//					$sessionData['full_name'] = $user['full_name'];
-//					$sessionData['level'] = $user['level'];
-//					$sessionData['is_login'] = TRUE;
-//
-//					$this->session->set_userdata($sessionData);
+				$user = $this->Teacher_model->checkLogin($username, $password);
+				if (!empty($user)) {
+					$sessionData['id'] = $user['teacherid'];
+					$sessionData['role'] = $user['role'];
+					$sessionData['is_login'] = TRUE;
+
+					$this->session->set_userdata($sessionData);
 //					$this->Teacher_model->updateLastLogin($user['id']);
 
-				redirect('teacher/home');
-//				}
+					redirect('teacher/home');
+				}
 			}
 			else if($loginas == 'parent'){
 //				$user = $this->Parent_model->checkLogin($username, $password);
@@ -109,8 +96,7 @@ class login extends CI_Controller {
 //				}
 			}
 
-			$this->session->set_flashdata('error', 'Login Failed!, username and password combination was wrong ');
-			redirect('login/loginAs?choice='.$loginas);
+			$this->session->set_flashdata('error', 'Login Failed!, username and password combination are wrong');
 		}
 
 		$data['title'] = 'SMS';
