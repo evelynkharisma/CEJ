@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             $('#directoryView').dataTable();
 
-            $('#duedate').daterangepicker({
+            $('#duedate, #pick-date').daterangepicker({
                 singleDatePicker: true,
                 calender_style: "picker_4"
             }, function(start, end, label) {

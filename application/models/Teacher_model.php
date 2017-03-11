@@ -33,6 +33,64 @@ class Teacher_model extends CI_Model {
             return $query->row_array();
         }
     }
+
+    function editProfile($id) {
+        if ($this->input->post('password')) {
+            $data = array(
+                'password' => hash('sha512', $this->input->post('password')),
+                'firstname' => $this->input->post('firstname'),
+                'lastname' => $this->input->post('lastname'),
+                'gender' => $this->input->post('gender'),
+                'phone' => $this->input->post('phone'),
+                'email' => $this->input->post('email'),
+                'address' => $this->input->post('address'),
+                'dateofbirth' => $this->input->post('dateofbirth'),
+                'placeofbirth' => $this->input->post('placeofbirth'),
+                'religion' => $this->input->post('religion'),
+                'elementary' => $this->input->post('elementary'),
+                'juniorhigh' => $this->input->post('juniorhigh'),
+                'seniorhigh' => $this->input->post('seniorhigh'),
+                'undergraduate' => $this->input->post('undergraduate'),
+                'graduate' => $this->input->post('graduate'),
+                'postgraduate' => $this->input->post('postgraduate'),
+                'experience' => $this->input->post('experience')
+            );
+        } else {
+            $data = array(
+                'firstname' => $this->input->post('firstname'),
+                'lastname' => $this->input->post('lastname'),
+                'gender' => $this->input->post('gender'),
+                'phone' => $this->input->post('phone'),
+                'email' => $this->input->post('email'),
+                'address' => $this->input->post('address'),
+                'dateofbirth' => $this->input->post('dateofbirth'),
+                'placeofbirth' => $this->input->post('placeofbirth'),
+                'religion' => $this->input->post('religion'),
+                'elementary' => $this->input->post('elementary'),
+                'juniorhigh' => $this->input->post('juniorhigh'),
+                'seniorhigh' => $this->input->post('seniorhigh'),
+                'undergraduate' => $this->input->post('undergraduate'),
+                'graduate' => $this->input->post('graduate'),
+                'postgraduate' => $this->input->post('postgraduate'),
+                'experience' => $this->input->post('experience')
+            );
+        }
+        $this->db->where('teacherid', $id);
+        $this->db->update($this->table, $data);
+    }
+
+    function editProfilePhoto($id, $filename) {
+        $data = array(
+            'photo' => $filename,
+        );
+
+        $this->db->where('teacherid', $id);
+        $this->db->update($this->table, $data);
+
+        return TRUE;
+    }
+
+
 }
 
 ?>
