@@ -131,7 +131,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             $('#duedate, #pick-date').daterangepicker({
                 singleDatePicker: true,
-                calender_style: "picker_4"
+                calender_style: "picker_4",
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
             }, function(start, end, label) {
                 console.log(start.toISOString(), end.toISOString(), label);
             });

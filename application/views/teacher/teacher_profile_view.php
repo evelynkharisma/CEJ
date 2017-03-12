@@ -34,7 +34,7 @@
                                 </li>
                             </ul>
 
-                            <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/teacher/profile_edit"><i class="fa fa-edit m-right-xs"></i> Edit Profile</a>
+                            <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/teacher/profile_edit/<?php echo $info_db['teacherid'] ?>"><i class="fa fa-edit m-right-xs"></i> Edit Profile</a>
                             <br />
 
                         </div>

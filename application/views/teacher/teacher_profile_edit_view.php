@@ -20,7 +20,7 @@
             </div>
         <?php endif; ?>
         
-        <?php echo form_open_multipart('teacher/profile_edit'); ?>
+        <?php echo form_open_multipart("teacher/profile_edit/".$info_db['teacherid']); ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -44,6 +44,7 @@
                             <br />
 
                         </div>
+                        <input type="hidden" class="form-control set-margin-bottom" name="teacherid" value="<?php echo $info_db['teacherid']; ?>"/>
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-12">
@@ -95,7 +96,7 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Date of Birth</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" id="pick-date" name="dateofbirth" value="<?php echo set_value('dateofbirth', isset($info_db['dateofbirth']) ? date('m-d-Y', strtotime($info_db['dateofbirth'])) : ''); ?>"/>
+                                            <input type="text" class="form-control set-margin-bottom" id="pick-date" name="dateofbirth" value="<?php echo set_value('dateofbirth', isset($info_db['dateofbirth']) ? date('Y-m-d', strtotime($info_db['dateofbirth'])) : ''); ?>"/>
                                         </div>
                                     </div>
                                 </div>

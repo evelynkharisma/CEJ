@@ -90,7 +90,41 @@ class Teacher_model extends CI_Model {
         return TRUE;
     }
 
+    function getLatestID(){
+        $this->db->select('teacherid');
+        $this->db->order_by("teacherid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->table, 1);
 
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addTeacher($id){
+        $data = array(
+            'teacherid' => $id,
+            'password' => hash('sha512', $this->input->post('password')),
+            'firstname' => $this->input->post('firstname'),
+            'lastname' => $this->input->post('lastname'),
+            'gender' => $this->input->post('gender'),
+            'phone' => $this->input->post('phone'),
+            'email' => $this->input->post('email'),
+            'address' => $this->input->post('address'),
+            'dateofbirth' => $this->input->post('dateofbirth'),
+            'placeofbirth' => $this->input->post('placeofbirth'),
+            'religion' => $this->input->post('religion'),
+            'elementary' => $this->input->post('elementary'),
+            'juniorhigh' => $this->input->post('juniorhigh'),
+            'seniorhigh' => $this->input->post('seniorhigh'),
+            'undergraduate' => $this->input->post('undergraduate'),
+            'graduate' => $this->input->post('graduate'),
+            'postgraduate' => $this->input->post('postgraduate'),
+            'experience' => $this->input->post('experience'),
+            'role' => '2'
+        );
+        $this->db->insert($this->table, $data);
+    }
 }
 
 ?>

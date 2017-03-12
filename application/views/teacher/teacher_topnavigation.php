@@ -9,11 +9,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="<?php echo base_url() ?>assets/img/teacher/eve.jpg" alt="">Evelyn Kharisma
+                        <img src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $this->session->userdata('photo') ?>" alt="">Evelyn Kharisma
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="<?php echo base_url() ?>index.php/teacher/teacher_profile"> Profile</a></li>
+                        <li><a href="<?php echo base_url() ?>index.php/teacher/teacher_profile/<?php echo $this->session->userdata('id') ?>"> Profile</a></li>
 <!--                        <li><a href="--><?php //echo base_url() ?><!--index.php/teacher/teacher_settings">Settings</a></li>-->
 <!--                        <li><a href="--><?php //echo base_url() ?><!--index.php/teacher/teacher_Help">Help</a></li>-->
                         <li><a href="<?php echo base_url() ?>index.php/login/loginAs?choice=teacher"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
