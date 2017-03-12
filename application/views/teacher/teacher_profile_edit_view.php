@@ -104,7 +104,18 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Gender</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="gender" value="<?php echo set_value('gender', isset($info_db['gender']) ? $info_db['gender'] : ''); ?>"/>
+                                            <select class="form-control set-margin-bottom" name="gender">
+                                                <option selected value="<?php echo $info_db['gender'] ?>"><?php echo $info_db['gender'] ?></option>
+                                                <?php if(strcmp($info_db['gender'],'Male')==0):
+                                                    echo "<option value='Female' >Female</option>";
+                                                endif;
+                                                ?>
+                                                <?php if(strcmp($info_db['gender'],'Female')==0):
+                                                    echo "<option value='Male' >Male</option>";
+                                                endif;
+                                                ?>
+                                            </select>
+<!--                                            <input type="text" class="form-control set-margin-bottom" name="gender" value="--><?php //echo set_value('gender', isset($info_db['gender']) ? $info_db['gender'] : ''); ?><!--"/>-->
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +123,26 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Religion</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="religion" value="<?php echo set_value('religion', isset($info_db['religion']) ? $info_db['religion'] : ''); ?>"/>
+                                            <select class="form-control set-margin-bottom" name="religion">
+                                                <option selected value="<?php echo $info_db['religion']; ?>"><?php echo $info_db['religion'] ?></option>
+                                                <?php if(strcmp($info_db['religion'],'Buddhist')!=0):
+                                                    echo "<option value='Buddhist' >Buddhist</option>";
+                                                endif;
+                                                ?>
+                                                <?php if(strcmp($info_db['religion'],'Christian')!=0):
+                                                    echo "<option value='Christian' >Christian</option>";
+                                                endif;
+                                                ?>
+                                                <?php if(strcmp($info_db['religion'],'Hindu')!=0):
+                                                    echo "<option value='Hindu' >Hindu</option>";
+                                                endif;
+                                                ?>
+                                                <?php if(strcmp($info_db['religion'],'Muslim')!=0):
+                                                    echo "<option value='Muslim' >Muslim</option>";
+                                                endif;
+                                                ?>
+                                            </select>
+<!--                                            <input type="text" class="form-control set-margin-bottom" name="religion" value="--><?php //echo set_value('religion', isset($info_db['religion']) ? $info_db['religion'] : ''); ?><!--"/>-->
                                         </div>
                                     </div>
                                 </div>

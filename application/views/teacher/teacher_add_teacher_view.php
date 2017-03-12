@@ -105,7 +105,11 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Gender</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="gender" value="<?php echo set_value('gender', isset($info_db['gender']) ? $info_db['gender'] : ''); ?>"/>
+                                            <select class="form-control set-margin-bottom" name="gender">
+                                                <option value="Female">Female</option>
+                                                <option value="Male">Male</option>
+                                            </select>
+<!--                                            <input type="text" class="form-control set-margin-bottom" name="gender" value="--><?php //echo set_value('gender', isset($info_db['gender']) ? $info_db['gender'] : ''); ?><!--"/>-->
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +117,13 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Religion</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="religion" value="<?php echo set_value('religion', isset($info_db['religion']) ? $info_db['religion'] : ''); ?>"/>
+                                            <select class="form-control set-margin-bottom" name="religion">
+                                                <option value='Buddhist' >Buddhist</option>
+                                                <option value='Christian' >Christian</option>
+                                                <option value='Hindu' >Hindu</option>
+                                                <option value='Muslim' >Muslim</option>
+                                            </select>
+<!--                                            <input type="text" class="form-control set-margin-bottom" name="religion" value="--><?php //echo set_value('religion', isset($info_db['religion']) ? $info_db['religion'] : ''); ?><!--"/>-->
                                         </div>
                                     </div>
                                 </div>
