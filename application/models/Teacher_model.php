@@ -2,6 +2,7 @@
 class Teacher_model extends CI_Model {
 
     var $table = 'teacher';
+    var $course_table = 'course';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -124,6 +125,72 @@ class Teacher_model extends CI_Model {
             'role' => '2'
         );
         $this->db->insert($this->table, $data);
+    }
+
+    function getCourseLatestID(){
+        $this->db->select('courseid');
+        $this->db->order_by("courseid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->course_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addCourse($id){
+        $data = array(
+            'courseid' => $id,
+            'coursename' => $this->input->post('coursename'),
+            'coursedescription' => $this->input->post('coursedescription'),
+            'courseresources' => $this->input->post('courseresources'),
+            'lesson1chapter' => $this->input->post('lesson1chapter'),
+            'lesson1objective' => $this->input->post('lesson1objective'),
+            'lesson1activities' => $this->input->post('lesson1activities'),
+            'lesson1material' => $this->input->post('lesson1material'),
+            'lesson2chapter' => $this->input->post('lesson2chapter'),
+            'lesson2objective' => $this->input->post('lesson2objective'),
+            'lesson2activities' => $this->input->post('lesson2activities'),
+            'lesson2material' => $this->input->post('lesson2material'),
+            'lesson3chapter' => $this->input->post('lesson3chapter'),
+            'lesson3objective' => $this->input->post('lesson3objective'),
+            'lesson3activities' => $this->input->post('lesson3activities'),
+            'lesson3material' => $this->input->post('lesson3material'),
+        );
+        $this->db->insert($this->course_table, $data);
+    }
+
+    function getCourseDataByID($id) {
+        $this->db->select('*');
+        $this->db->where('courseid', $id);
+        $query = $this->db->get($this->course_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editCourse($id){
+        $data = array(
+            'courseid' => $id,
+            'coursename' => $this->input->post('coursename'),
+            'coursedescription' => $this->input->post('coursedescription'),
+            'courseresources' => $this->input->post('courseresources'),
+            'lesson1chapter' => $this->input->post('lesson1chapter'),
+            'lesson1objective' => $this->input->post('lesson1objective'),
+            'lesson1activities' => $this->input->post('lesson1activities'),
+            'lesson1material' => $this->input->post('lesson1material'),
+            'lesson2chapter' => $this->input->post('lesson2chapter'),
+            'lesson2objective' => $this->input->post('lesson2objective'),
+            'lesson2activities' => $this->input->post('lesson2activities'),
+            'lesson2material' => $this->input->post('lesson2material'),
+            'lesson3chapter' => $this->input->post('lesson3chapter'),
+            'lesson3objective' => $this->input->post('lesson3objective'),
+            'lesson3activities' => $this->input->post('lesson3activities'),
+            'lesson3material' => $this->input->post('lesson3material'),
+        );
+        $this->db->where('courseid', $id);
+        $this->db->update($this->course_table, $data);
     }
 }
 

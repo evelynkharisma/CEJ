@@ -193,7 +193,7 @@ class teacher extends CI_Controller {
                 }
             }
             $this->session->set_flashdata('success', 'New Teacher Added');
-            redirect('teacher/teacher_profile/'.$latestID);
+            redirect('teacher/teacher_profile/'.$teacherID);
         }
 
         $data['title'] = 'SMS';
@@ -205,6 +205,23 @@ class teacher extends CI_Controller {
 
     public function addCourse()
     {
+        $this->form_validation->set_rules('coursename', 'Course Name', 'required');
+        $this->form_validation->set_rules('coursedescription', 'Course Description', 'required');
+        $this->form_validation->set_rules('courseresources', 'Course Resources', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Teacher_model->getCourseLatestID();
+            $latestID = $latestID['courseid'];
+            $latestID = substr($latestID, 1);
+            $courseID = 'c'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            $this->Teacher_model->addCourse($courseID);
+           
+            $this->session->set_flashdata('success', 'New Course Added');
+            redirect('teacher/courseView/'.$courseID);
+        }
+        
         $data['title'] = 'SMS';
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
@@ -212,12 +229,36 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function courseView()
+    public function editCourse($id)
+    {
+        $this->form_validation->set_rules('coursename', 'Course Name', 'required');
+        $this->form_validation->set_rules('coursedescription', 'Course Description', 'required');
+        $this->form_validation->set_rules('courseresources', 'Course Resources', 'required');
+        $courseid = $this->input->post('courseid');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $this->Teacher_model->editCourse($courseid);
+            $this->session->set_flashdata('success', 'Course saved');
+            redirect('teacher/teacher_profile/'.$courseid);
+        }
+
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/teacher_edit_course_view';
+        $data['info_db'] = $this->Teacher_model->getCourseDataByID($id);
+        $this->load->view($this->template, $data);
+    }
+
+    public function courseView($id)
     {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_course_view';
+        $data['info_db'] = $this->Teacher_model->getCourseDataByID($id);
         $this->load->view($this->template, $data);
     }
 

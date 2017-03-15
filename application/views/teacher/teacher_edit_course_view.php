@@ -2,8 +2,9 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <?php echo form_open_multipart('teacher/addCourse'); ?>
+            <?php echo form_open_multipart('teacher/editCourse/'.$info_db['courseid']); ?>
             <div class="title_left">
+                <input type="hidden" class="form-control set-margin-bottom" name="courseid" value="<?php echo $info_db['courseid']; ?>"/>
                 <h3>Course Name: <input type="text" class="form-control set-margin-bottom set-margin-top" name="coursename" value="<?php echo set_value('coursename', isset($info_db['coursename']) ? $info_db['coursename'] : ''); ?>"/></h3>
             </div>
 
