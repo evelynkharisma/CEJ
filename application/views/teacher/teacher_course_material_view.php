@@ -16,7 +16,7 @@
         <?php else: ?>
             Navigation not found !
         <?php endif; ?>
-        
+
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -37,18 +37,20 @@
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Topic</label>
                                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
-                                                <select class="form-control">
-                                                    <option>Topic 1</option>
-                                                    <option>Topic 2</option>
+                                                <select name="topic" class="form-control">
+                                                    <option value="Main Material">Main Material</option>
+                                                    <option value="Supporting Material">Supporting Material</option>
+                                                    <option value="References">References</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Type</label>
                                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
-                                                <select class="form-control">
-                                                    <option>Assignment</option>
-                                                    <option>Quiz</option>
+                                                <select name="type" class="form-control">
+                                                    <option value="Main Material">Main Material</option>
+                                                    <option value="Supporting Material">Supporting Material</option>
+                                                    <option value="References">References</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -79,14 +81,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Topic Session 1</td>
-                                <td>Supporting Material</td>
-                                <td>Tanggal</td>
-                                <td>
-                                    <a class="btn btn-success"><i class="fa fa-download"></i> Download</a>
-                                </td>
-                            </tr>
+                                <?php foreach($materials as $material){ ?>
+                                    <tr>
+                                        <td><?php echo $material['topic'] ?></td>
+                                        <td><?php echo $material['type'] ?></td>
+                                        <td><?php echo $material['date'] ?></td>
+                                        <td>
+                                            <a download href="<?php echo base_url() ?>assets/file/teacher/material/<?php echo $material['filename'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>

@@ -304,12 +304,14 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function courseMaterial(){
+    public function courseMaterial($id){
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
+        $data['info_db'] = $this->Teacher_model->getCourseDataByAssignID($id);
+        $data['materials'] = $this->Teacher_model->getMaterialsByAssignID($id);
         $data['content'] = 'teacher/teacher_course_material_view';
         $this->load->view($this->template, $data);
     }

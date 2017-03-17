@@ -4,6 +4,7 @@ class Teacher_model extends CI_Model {
     var $table = 'teacher';
     var $course_table = 'course';
     var $course_assign_table = 'course_assign';
+    var $material_table = 'material';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -227,6 +228,41 @@ class Teacher_model extends CI_Model {
         );
         $this->db->where('assignid', $id);
         $this->db->update($this->course_assign_table, $data);
+    }
+
+//    function addMaterial($assignid){
+//        $data = array(
+//            'courseid' => $id,
+//            'coursename' => $this->input->post('coursename'),
+//            'coursedescription' => $this->input->post('coursedescription'),
+//            'courseresources' => $this->input->post('courseresources'),
+//            'lesson1chapter' => $this->input->post('lesson1chapter'),
+//            'lesson1objective' => $this->input->post('lesson1objective'),
+//            'lesson1activities' => $this->input->post('lesson1activities'),
+//            'lesson1material' => $this->input->post('lesson1material'),
+//            'lesson2chapter' => $this->input->post('lesson2chapter'),
+//            'lesson2objective' => $this->input->post('lesson2objective'),
+//            'lesson2activities' => $this->input->post('lesson2activities'),
+//            'lesson2material' => $this->input->post('lesson2material'),
+//            'lesson3chapter' => $this->input->post('lesson3chapter'),
+//            'lesson3objective' => $this->input->post('lesson3objective'),
+//            'lesson3activities' => $this->input->post('lesson3activities'),
+//            'lesson3material' => $this->input->post('lesson3material'),
+//        );
+//        $this->db->insert($this->course_table, $data);
+//    }
+
+    function getMaterialsByAssignID($assignid){
+        $this->db->select('*');
+        $this->db->join('file', 'file.fileid = material.fileid');
+        $this->db->where('material.assignid', $assignid);
+        $this->db->order_by('material.date', 'desc');
+
+        $query = $this->db->get($this->material_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
     }
 }
 
