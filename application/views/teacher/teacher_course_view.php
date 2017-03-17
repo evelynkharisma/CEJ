@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success" href="<?php echo base_url() ?>index.php/teacher/editCourse/<?php echo $info_db['courseid'] ?>"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>
+                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success" href="<?php echo base_url() ?>index.php/teacher/editCourse/<?php echo $info_db['assignid'] ?>"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>
             </div>
 
           
@@ -11,19 +11,18 @@
 
         <div class="clearfix"></div>
 
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_content">
-                        <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $info_db['courseid'] ?>" class="btn btn-success">Lesson Plan</a>
-<!--                        <a href="--><?php //echo base_url() ?><!--index.php/teacher/courseImplementation/--><?php //echo $info_db['assignid'] ?><!--" class="btn btn-success">Lesson Implementation</a>-->
-<!--                        <a href="--><?php //echo base_url() ?><!--index.php/teacher/courseMaterial/--><?php //echo $info_db['assignid'] ?><!--" class="btn btn-success">Shared Materials</a>-->
-<!--                        <a href="--><?php //echo base_url() ?><!--index.php/teacher/courseAssignmentQuiz/--><?php //echo $info_db['assignid'] ?><!--" class="btn btn-success">Assignments and Quizzes</a>-->
-<!--                        <a href="--><?php //echo base_url() ?><!--index.php/teacher/courseStudent/--><?php //echo $info_db['assignid'] ?><!--" class="btn btn-success">Students</a>-->
-                    </div>
-                </div>
+        <?php if ($this->session->flashdata('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->session->flashdata('success'); ?>
             </div>
-        </div>
+        <?php endif; ?>
+
+        <?php if (!empty($top2navigation)): ?>
+            <?php $this->load->view($top2navigation); ?>
+        <?php else: ?>
+            Navigation not found !
+        <?php endif; ?>
+        
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">

@@ -3,6 +3,7 @@ class Teacher_model extends CI_Model {
 
     var $table = 'teacher';
     var $course_table = 'course';
+    var $course_assign_table = 'course_assign';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -170,6 +171,17 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getCourseDataByAssignID($id) {
+        $this->db->select('*');
+        $this->db->join('course', 'course.courseid = course_assign.courseid');
+        $this->db->where('course_assign.assignid', $id);
+        $query = $this->db->get($this->course_assign_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function editCourse($id){
         $data = array(
             'courseid' => $id,
@@ -191,6 +203,30 @@ class Teacher_model extends CI_Model {
         );
         $this->db->where('courseid', $id);
         $this->db->update($this->course_table, $data);
+    }
+
+    function getAllCoursesByTeacher($id){
+        $this->db->select('*');
+        $this->db->join('class', 'class.classid = course_assign.classid');
+        $this->db->join('course', 'course.courseid = course_assign.courseid');
+        $this->db->where('course_assign.teacherid', $id);
+        $this->db->order_by('classroom', 'asc');
+
+        $query = $this->db->get($this->course_assign_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function editCourseImplementation($id){
+        $data = array(
+            'lesson1implementation' => $this->input->post('lesson1implementation'),
+            'lesson2implementation' => $this->input->post('lesson2implementation'),
+            'lesson3implementation' => $this->input->post('lesson3implementation'),
+        );
+        $this->db->where('assignid', $id);
+        $this->db->update($this->course_assign_table, $data);
     }
 }
 

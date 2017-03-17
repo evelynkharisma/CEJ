@@ -2,7 +2,7 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <?php echo form_open_multipart('teacher/editCourse/'.$info_db['courseid']); ?>
+            <?php echo form_open_multipart('teacher/editCourse/'.$info_db['assignid']); ?>
             <div class="title_left">
                 <input type="hidden" class="form-control set-margin-bottom" name="courseid" value="<?php echo $info_db['courseid']; ?>"/>
                 <h3>Course Name: <input type="text" class="form-control set-margin-bottom set-margin-top" name="coursename" value="<?php echo set_value('coursename', isset($info_db['coursename']) ? $info_db['coursename'] : ''); ?>"/></h3>
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-success set-right"><i class="fa fa-save m-right-xs"></i> Add Course</button>
+        <button type="submit" class="btn btn-success set-right"><i class="fa fa-save m-right-xs"></i> Save Changes</button>
         <?php echo form_close(); ?>
     </div>
 </div>

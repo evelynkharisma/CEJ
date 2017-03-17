@@ -39,14 +39,75 @@
             <li><a><i class="fa fa-edit"></i> Courses <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Add Course</a>
-                    <li><a href="#level1_1">Grade 10</a>
-                    <li><a>Grade 11<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="<?php echo base_url() ?>index.php/teacher/courseView">Course 1</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#level1_2">Grade 12</a>
+                    <li>
+                        <?php
+                            foreach ($courses as $course){
+                                $grade = explode('-', $course['classroom']);
+                                $grade = $grade[0];
+                                switch ($grade){
+                                    case 1:
+                                        $grade1[] = $course;
+                                        break;
+
+                                    case 2:
+                                        $grade2[] = $course;
+                                        break;
+
+                                    case 3:
+                                        $grade3[] = $course;
+                                        break;
+
+                                    case 4:
+                                        $grade4[] = $course;
+                                        break;
+
+                                    case 5:
+                                        $grade5[] = $course;
+                                        break;
+
+                                    case 6:
+                                        $grade61[] = $course;
+                                        break;
+
+                                    case 7:
+                                        $grade7[] = $course;
+                                        break;
+
+                                    case 8:
+                                        $grade8[] = $course;
+                                        break;
+
+                                    case 9:
+                                        $grade9[] = $course;
+                                        break;
+
+                                    case 10:
+                                        $grade10[] = $course;
+                                        break;
+
+                                    case 11:
+                                        $grade11[] = $course;
+                                        break;
+
+                                    case 12:
+                                        $grade12[] = $course;
+                                        break;
+                                }
+                            }
+                        ?>
+                        <?php
+                            for($i=1; $i<13; $i++){
+                                if (isset(${'grade'.$i}) && ${'grade'.$i} != null): ?>
+                                <a>Grade <?php echo $i; ?><span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <?php foreach (${'grade'.$i} as $row){?>
+                                        <li>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $row['assignid'] ?>"><?php echo $row['classroom'] ?> <?php echo $row['coursename'] ?></a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                                <?php endif; ?>
+                        <?php  } ?>
                     </li>
                 </ul>
             </li>

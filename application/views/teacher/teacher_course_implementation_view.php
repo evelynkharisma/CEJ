@@ -11,20 +11,18 @@
 
         <div class="clearfix"></div>
 
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_content">
-                        <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $info_db['courseid'] ?>" class="btn btn-success">Lesson Plan</a>
-                        <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $info_db['courseid'] ?>" class="btn btn-success">Lesson Plan</a>
-                        <!--                        <a href="--><?php //echo base_url() ?><!--index.php/teacher/courseImplementation/--><?php //echo $info_db['assignid'] ?><!--" class="btn btn-success">Lesson Implementation</a>-->
-                        <!--                        <a href="--><?php //echo base_url() ?><!--index.php/teacher/courseMaterial/--><?php //echo $info_db['assignid'] ?><!--" class="btn btn-success">Shared Materials</a>-->
-                        <!--                        <a href="--><?php //echo base_url() ?><!--index.php/teacher/courseAssignmentQuiz/--><?php //echo $info_db['assignid'] ?><!--" class="btn btn-success">Assignments and Quizzes</a>-->
-                        <!--                        <a href="--><?php //echo base_url() ?><!--index.php/teacher/courseStudent/--><?php //echo $info_db['assignid'] ?><!--" class="btn btn-success">Students</a>-->
-                    </div>
-                </div>
+        <?php if ($this->session->flashdata('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->session->flashdata('success'); ?>
             </div>
-        </div>
+        <?php endif; ?>
+
+        <?php if (!empty($top2navigation)): ?>
+            <?php $this->load->view($top2navigation); ?>
+        <?php else: ?>
+            Navigation not found !
+        <?php endif; ?>
+        
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -42,46 +40,35 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php echo form_open_multipart('teacher/courseImplementation/'.$info_db['assignid']); ?>
+                            <input type="hidden" class="form-control set-margin-bottom" name="assignid" value="<?php echo $info_db['assignid']; ?>"/>
                                 <tr>
                                     <td align="center">1</td>
-                                    <td>Session 1 Topic</td>
-                                    <td>Session 1 Lesson Implementation</td>
+                                    <td><?php echo $info_db['lesson1activities'] ?></td>
+                                    <td>
+                                        <textarea <?php if($info_db['lesson1implementation'] != null) echo 'readonly rows="1"'; ?> class="form-control set-margin-bottom" name="lesson1implementation"><?php echo isset($info_db['lesson1implementation']) ? $info_db['lesson1implementation'] : 'Lesson Implementation'; ?></textarea>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td align="center">2</td>
-                                    <td>Session 2 Topic</td>
-                                    <td>Session 2 Lesson Implementation</td>
-                                </tr>
-                                <tr>
-                                    <td align="center">3</td>
-                                    <td>Session 3 Topic</td>
+                                    <td><?php echo $info_db['lesson2activities'] ?></td>
                                     <td>
-                                        <?php echo form_open('teacher/courseImplementationEdit'); ?>
-                                            <textarea style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Lesson Implementation'></textarea>
-                                            <button type="submit" class="btn btn-success set-right">Save changes</button>
-                                        <?php echo form_close(); ?>
+                                        <textarea <?php if($info_db['lesson2implementation'] != null) echo 'readonly rows="1"'; ?> class="form-control set-margin-bottom" name="lesson2implementation"><?php echo isset($info_db['lesson2implementation']) ? $info_db['lesson2implementation'] : 'Lesson Implementation'; ?></textarea>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td align="center">4</td>
-                                    <td>Session 4 Topic</td>
+                                    <td align="center">1</td>
+                                    <td><?php echo $info_db['lesson3activities'] ?></td>
                                     <td>
-                                        <?php echo form_open('teacher/courseImplementationEdit'); ?>
-                                        <textarea style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Lesson Implementation'></textarea>
-                                        <button type="submit" class="btn btn-success set-right">Save changes</button>
-                                        <?php echo form_close(); ?>
+                                        <textarea <?php if($info_db['lesson3implementation'] != null) echo 'readonly rows="1"'; ?> class="form-control set-margin-bottom" name="lesson3implementation"><?php echo isset($info_db['lesson3implementation']) ? $info_db['lesson3implementation'] : 'Lesson Implementation'; ?></textarea>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td align="center">5</td>
-                                    <td>Session 5 Topic</td>
-                                    <td>
-                                        <?php echo form_open('teacher/courseImplementationEdit'); ?>
-                                        <textarea style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Lesson Implementation'></textarea>
-                                        <button type="submit" class="btn btn-success set-right">Save changes</button>
-                                        <?php echo form_close(); ?>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <button type="submit" class="btn btn-success set-right"><i class="fa fa-save m-right-xs"></i> Save Changes</button>
+                                </td>
+                            </tr>
+                            <?php echo form_close(); ?>
                             </tbody>
                         </table>
                     </div>

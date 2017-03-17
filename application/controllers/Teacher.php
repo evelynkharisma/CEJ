@@ -14,6 +14,7 @@ class teacher extends CI_Controller {
     public function home()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_home_view';
@@ -23,6 +24,7 @@ class teacher extends CI_Controller {
     public function homeroom_attendance()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/homeroom_attendance_view';
@@ -32,6 +34,7 @@ class teacher extends CI_Controller {
     public function homeroomStudent()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/homeroom_student_view';
@@ -41,6 +44,7 @@ class teacher extends CI_Controller {
     public function homeroomReport()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/homeroom_report_view';
@@ -50,6 +54,7 @@ class teacher extends CI_Controller {
     public function teacher_profile($id)
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_profile_view';
@@ -125,6 +130,7 @@ class teacher extends CI_Controller {
         }
 
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_profile_edit_view';
@@ -197,6 +203,7 @@ class teacher extends CI_Controller {
         }
 
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_add_teacher_view';
@@ -223,6 +230,7 @@ class teacher extends CI_Controller {
         }
         
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_add_course_view';
@@ -241,79 +249,107 @@ class teacher extends CI_Controller {
         if ($this->form_validation->run() == TRUE) {
             $this->Teacher_model->editCourse($courseid);
             $this->session->set_flashdata('success', 'Course saved');
-            redirect('teacher/teacher_profile/'.$courseid);
+            redirect('teacher/courseView/'.$id);
         }
 
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_edit_course_view';
-        $data['info_db'] = $this->Teacher_model->getCourseDataByID($id);
+        $data['info_db'] = $this->Teacher_model->getCourseDataByAssignID($id);
         $this->load->view($this->template, $data);
     }
 
     public function courseView($id)
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
         $data['content'] = 'teacher/teacher_course_view';
-        $data['info_db'] = $this->Teacher_model->getCourseDataByID($id);
+        $data['info_db'] = $this->Teacher_model->getCourseDataByAssignID($id);
         $this->load->view($this->template, $data);
     }
 
-    public function coursePlan(){
-        $data['title'] = 'SMS';
-        $data['sidebar'] = 'teacher/teacher_sidebar';
-        $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['content'] = 'teacher/teacher_course_plan_view';
-        $this->load->view($this->template, $data);
-    }
+//    public function coursePlan(){
+//        $data['title'] = 'SMS';
+//        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+//        $data['sidebar'] = 'teacher/teacher_sidebar';
+//        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+//        $data['top2navigation'] = 'teacher/teacher_top2navigation';
+//        $data['content'] = 'teacher/teacher_course_plan_view';
+//        $this->load->view($this->template, $data);
+//    }
 
-    public function courseImplementation(){
+    public function courseImplementation($id){
+        $this->form_validation->set_rules('assignid', 'assignid', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $this->Teacher_model->editCourseImplementation($id);
+            $this->session->set_flashdata('success', 'Implementation saved');
+            redirect('teacher/courseImplementation/'.$id);
+        }
+        
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
+        $data['info_db'] = $this->Teacher_model->getCourseDataByAssignID($id);
         $data['content'] = 'teacher/teacher_course_implementation_view';
         $this->load->view($this->template, $data);
     }
 
     public function courseMaterial(){
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
         $data['content'] = 'teacher/teacher_course_material_view';
         $this->load->view($this->template, $data);
     }
 
     public function courseAssignmentQuiz(){
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
         $data['content'] = 'teacher/teacher_course_qna_view';
         $this->load->view($this->template, $data);
     }
 
     public function courseAssignmentQuizSubmission(){
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
         $data['content'] = 'teacher/teacher_course_qna_submission_view';
         $this->load->view($this->template, $data);
     }
 
     public function courseStudent(){
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
         $data['content'] = 'teacher/teacher_course_student_view';
         $this->load->view($this->template, $data);
     }
 
     public function courseStudentPerformance(){
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
         $data['content'] = 'teacher/teacher_course_student_performance_view';
         $this->load->view($this->template, $data);
     }
@@ -321,6 +357,7 @@ class teacher extends CI_Controller {
     public function classScheduleView()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/class_schedule_view';
@@ -330,6 +367,7 @@ class teacher extends CI_Controller {
     public function examScheduleView()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/exam_schedule_view';
@@ -339,6 +377,7 @@ class teacher extends CI_Controller {
     public function studentView()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/students_view';
@@ -348,6 +387,7 @@ class teacher extends CI_Controller {
     public function parentView()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/parents_view';
@@ -357,6 +397,7 @@ class teacher extends CI_Controller {
     public function teacherView()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/teachers_view';
@@ -366,6 +407,7 @@ class teacher extends CI_Controller {
     public function operationView()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/operations_view';
@@ -375,6 +417,7 @@ class teacher extends CI_Controller {
     public function administratorView()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/administrators_view';
@@ -384,6 +427,7 @@ class teacher extends CI_Controller {
     public function libraryView()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/libraries_view';
@@ -393,6 +437,7 @@ class teacher extends CI_Controller {
     public function payment()
     {
         $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/payments_view';
