@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Course Name</h3>
+                <h3><?php echo $info_db['coursename'] ?></h3>
             </div>
 
 

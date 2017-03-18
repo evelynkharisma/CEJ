@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Course Name</h3>
+                <h3><?php echo $info_db['coursename'] ?></h3>
             </div>
 
 
@@ -87,28 +87,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Topic Session 1</td>
-                                    <td>Assignment</td>
-                                    <td>Tanggal Upload</td>
-                                    <td>Tanggal Due</td>
-                                    <td>
-                                        <a class="btn btn-success"><i class="fa fa-download"></i> Download</a>
-                                        <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuizSubmission" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
-                                        <a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Topic Session 1</td>
-                                    <td>Quiz</td>
-                                    <td>Tanggal Upload</td>
-                                    <td>Tanggal Due</td>
-                                    <td>
-                                        <a class="btn btn-success"><i class="fa fa-download"></i> Download</a>
-                                        <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuizSubmission" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
-                                        <a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a>
-                                    </td>
-                                </tr>
+                                <?php foreach($qnas as $qna){ ?>
+                                    <tr>
+                                        <td><?php echo $qna['topic'] ?></td>
+                                        <td><?php echo $qna['type'] ?></td>
+                                        <td><?php echo $qna['date'] ?></td>
+                                        <td><?php echo $qna['duedate'] ?></td>
+                                        <td>
+                                            <a download href="<?php echo base_url() ?>assets/file/teacher/material/<?php echo $qna['filename'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuizSubmission" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
+                                            <a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>

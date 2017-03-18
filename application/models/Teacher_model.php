@@ -5,6 +5,7 @@ class Teacher_model extends CI_Model {
     var $course_table = 'course';
     var $course_assign_table = 'course_assign';
     var $material_table = 'material';
+    var $qna_table = 'assignmentandquiz';
     var $lesson_plan_table = 'lesson_plan';
     var $lesson_implementation_table = 'lesson_implementation';
     var $role= array(
@@ -334,6 +335,19 @@ class Teacher_model extends CI_Model {
         $this->db->order_by('material.date', 'desc');
 
         $query = $this->db->get($this->material_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getQnAByAssignID($assignid){
+        $this->db->select('*');
+        $this->db->join('file', 'file.fileid = assignmentandquiz.fileid');
+        $this->db->where('assignmentandquiz.assignid', $assignid);
+        $this->db->order_by('assignmentandquiz.duedate', 'desc');
+
+        $query = $this->db->get($this->qna_table);
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
