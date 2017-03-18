@@ -42,27 +42,22 @@
                             <tbody>
                             <?php echo form_open_multipart('teacher/courseImplementation/'.$info_db['assignid']); ?>
                             <input type="hidden" class="form-control set-margin-bottom" name="assignid" value="<?php echo $info_db['assignid']; ?>"/>
+                            <?php
+                            if($plans){
+                                $i = 0;
+                                foreach($plans as $plan){ ?>
+                                    <tr>
+                                        <td align="center"><?php echo $plan['lessoncount'] ?></td>
+                                        <td><?php echo $plan['activities'] ?></td>
+                                        <td><textarea <?php if(isset($implementation[$i]['implementation']) && $implementation[$i]['implementation'] != null) echo 'readonly rows="1"'; ?> class="form-control set-margin-bottom" name="implementation[]"><?php echo isset($implementation[$i]['implementation']) ? $implementation[$i]['implementation'] : 'Lesson Implementation'; ?></textarea></td>
+                                    </tr>
+                                <?php
+                                    $i++; }}
+                            else {?>
                                 <tr>
-                                    <td align="center">1</td>
-                                    <td><?php echo $info_db['lesson1activities'] ?></td>
-                                    <td>
-                                        <textarea <?php if($info_db['lesson1implementation'] != null) echo 'readonly rows="1"'; ?> class="form-control set-margin-bottom" name="lesson1implementation"><?php echo isset($info_db['lesson1implementation']) ? $info_db['lesson1implementation'] : 'Lesson Implementation'; ?></textarea>
-                                    </td>
+                                    <td colspan="3"><?php echo 'no lesson plan found' ?></td>
                                 </tr>
-                                <tr>
-                                    <td align="center">2</td>
-                                    <td><?php echo $info_db['lesson2activities'] ?></td>
-                                    <td>
-                                        <textarea <?php if($info_db['lesson2implementation'] != null) echo 'readonly rows="1"'; ?> class="form-control set-margin-bottom" name="lesson2implementation"><?php echo isset($info_db['lesson2implementation']) ? $info_db['lesson2implementation'] : 'Lesson Implementation'; ?></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center">1</td>
-                                    <td><?php echo $info_db['lesson3activities'] ?></td>
-                                    <td>
-                                        <textarea <?php if($info_db['lesson3implementation'] != null) echo 'readonly rows="1"'; ?> class="form-control set-margin-bottom" name="lesson3implementation"><?php echo isset($info_db['lesson3implementation']) ? $info_db['lesson3implementation'] : 'Lesson Implementation'; ?></textarea>
-                                    </td>
-                                </tr>
+                            <?php } ?>
                             <tr>
                                 <td colspan="3">
                                     <button type="submit" class="btn btn-success set-right"><i class="fa fa-save m-right-xs"></i> Save Changes</button>

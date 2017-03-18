@@ -6,6 +6,7 @@ class Teacher_model extends CI_Model {
     var $course_assign_table = 'course_assign';
     var $material_table = 'material';
     var $lesson_plan_table = 'lesson_plan';
+    var $lesson_implementation_table = 'lesson_implementation';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -227,6 +228,57 @@ class Teacher_model extends CI_Model {
             'courseid' => $cid,
         );
         $this->db->insert($this->lesson_plan_table, $data);
+    }
+
+    function getLessonImplementation($id) {
+        $this->db->select('*');
+        $this->db->where('assignid', $id);
+        $this->db->order_by('implementation', 'desc');
+        $query = $this->db->get($this->lesson_implementation_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getImplementationLatestID(){
+        $this->db->select('implementationid');
+        $this->db->order_by("implementationid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->lesson_implementation_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addImplementation($id, $count, $imp, $sid){
+        $data = array(
+            'implementationid' => $id,
+            'implementationcount' => $count,
+            'implementation' => $imp,
+            'assignid' => $sid,
+        );
+        $this->db->insert($this->lesson_implementation_table, $data);
+    }
+
+    function checkImplementation($count, $id) {
+        $this->db->select('*');
+        $this->db->where('assignid', $id);
+        $this->db->where('implementationcount', $count);
+        $query = $this->db->get($this->lesson_implementation_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editImplementation($id, $imp){
+        $data = array(
+            'implementation' => $imp,
+        );
+        $this->db->where('implementationid', $id);
+        $this->db->update($this->lesson_implementation_table, $data);
     }
 
     function getAllCoursesByTeacher($id){
