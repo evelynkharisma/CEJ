@@ -2,7 +2,7 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <?php echo form_open_multipart('teacher/editCourse/'.$info_db['assignid']); ?>
+            <?php echo form_open_multipart('teacher/editCourse/'.$info_db['courseid']); ?>
             <div class="title_left">
                 <input type="hidden" class="form-control set-margin-bottom" name="courseid" value="<?php echo $info_db['courseid']; ?>"/>
                 <h3>Course Name: <input type="text" class="form-control set-margin-bottom set-margin-top" name="coursename" value="<?php echo set_value('coursename', isset($info_db['coursename']) ? $info_db['coursename'] : ''); ?>"/></h3>
@@ -47,27 +47,23 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td align="center">1</td>
-                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="lesson1chapter" value="<?php echo set_value('lesson1chapter', isset($info_db['lesson1chapter']) ? $info_db['lesson1chapter'] : 'ex: 1,2,3-4'); ?>"/></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson1objective" rows="3"><?php echo isset($info_db['lesson1objective']) ? $info_db['lesson1objective'] : ''; ?></textarea></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson1activities" rows="3"><?php echo isset($info_db['lesson1activities']) ? $info_db['lesson1activities'] : ''; ?></textarea></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson1material" rows="3"><?php echo isset($info_db['lesson1material']) ? $info_db['lesson1material'] : ''; ?></textarea></td>
-                            </tr>
-                            <tr>
-                                <td align="center">2</td>
-                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="lesson2chapter" value="<?php echo set_value('lesson2chapter', isset($info_db['lesson2chapter']) ? $info_db['lesson2chapter'] : ''); ?>"/></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson2objective" rows="3"><?php echo isset($info_db['lesson2objective']) ? $info_db['lesson2objective'] : ''; ?></textarea></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson2activities" rows="3"><?php echo isset($info_db['lesson2activities']) ? $info_db['lesson2activities'] : ''; ?></textarea></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson2material" rows="3"><?php echo isset($info_db['lesson2material']) ? $info_db['lesson2material'] : ''; ?></textarea></td>
-                            </tr>
-                            <tr>
-                                <td align="center">3</td>
-                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="lesson3chapter" value="<?php echo set_value('lesson3chapter', isset($info_db['lesson3chapter']) ? $info_db['lesson3chapter'] : ''); ?>"/></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson3objective" rows="3"><?php echo isset($info_db['lesson3objective']) ? $info_db['lesson3objective'] : ''; ?></textarea></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson3activities" rows="3"><?php echo isset($info_db['lesson3activities']) ? $info_db['lesson3activities'] : ''; ?></textarea></td>
-                                <td><textarea class="form-control set-margin-bottom" name="lesson3material" rows="3"><?php echo isset($info_db['lesson3material']) ? $info_db['lesson3material'] : ''; ?></textarea></td>
-                            </tr>
+                            <?php
+                                if($plans){
+                                    foreach($plans as $plan){ ?>
+                                        <tr>
+                                            <input type="hidden" class="form-control set-margin-bottom" name="lessonid[]" value="<?php echo $plan['lessonid']; ?>"/>
+                                            <td align="center"><?php echo $plan['lessoncount'] ?></td>
+                                            <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" value="<?php echo set_value('chapter', isset($plan['chapter']) ? $plan['chapter'] : 'ex: 1,2,3-4'); ?>"/></td>
+                                            <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"><?php echo isset($plan['objective']) ? $plan['objective'] : ''; ?></textarea></td>
+                                            <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"><?php echo isset($plan['activities']) ? $plan['activities'] : ''; ?></textarea></td>
+                                            <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"><?php echo isset($plan['material']) ? $plan['material'] : ''; ?></textarea></td>
+                                        </tr>
+                            <?php }}
+                                else {?>
+                                    <tr>
+                                        <td colspan="5"><?php echo 'no lesson plan found' ?></td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>

@@ -224,6 +224,22 @@ class teacher extends CI_Controller {
             $latestID = substr($latestID, 1);
             $courseID = 'c'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
             $this->Teacher_model->addCourse($courseID);
+
+            $chapters = $this->input->post('chapter');
+            $objective = $this->input->post('objective');
+            $activities = $this->input->post('activities');
+            $material = $this->input->post('material');
+            $latestID = $this->Teacher_model->getPlanLatestID();
+            $latestID = $latestID['lessonid'];
+            for($i=0;$i<sizeof($chapters);$i++)
+            {
+                if($chapters[$i] != null){
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'l'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $lessoncount = $i+1;
+                    $this->Teacher_model->addPlan($latestID, $lessoncount, $chapters[$i], $objective[$i], $activities[$i], $material[$i], $courseID);
+                }
+            }
            
             $this->session->set_flashdata('success', 'New Course Added');
             redirect('teacher/courseView/'.$courseID);
@@ -248,6 +264,17 @@ class teacher extends CI_Controller {
 
         if ($this->form_validation->run() == TRUE) {
             $this->Teacher_model->editCourse($courseid);
+
+            $lessonid = $this->input->post('lessonid');
+            $chapters = $this->input->post('chapter');
+            $objective = $this->input->post('objective');
+            $activities = $this->input->post('activities');
+            $material = $this->input->post('material');
+            for($i=0;$i<sizeof($lessonid);$i++)
+            {
+                $this->Teacher_model->editPlan($lessonid[$i], $chapters[$i], $objective[$i], $activities[$i], $material[$i]);
+            }
+
             $this->session->set_flashdata('success', 'Course saved');
             redirect('teacher/courseView/'.$id);
         }
@@ -257,7 +284,12 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_edit_course_view';
-        $data['info_db'] = $this->Teacher_model->getCourseDataByAssignID($id);
+        if(!$info = $this->Teacher_model->getCourseDataByAssignID($id)){
+            $info = $this->Teacher_model->getCourseDataByID($id);
+        }
+        $data['info_db'] = $info;
+        $courseid = $info['courseid'];
+        $data['plans'] = $this->Teacher_model->getLessonPlan($courseid);
         $this->load->view($this->template, $data);
     }
 
@@ -269,7 +301,12 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
         $data['content'] = 'teacher/teacher_course_view';
-        $data['info_db'] = $this->Teacher_model->getCourseDataByAssignID($id);
+        if(!$info = $this->Teacher_model->getCourseDataByAssignID($id)){
+            $info = $this->Teacher_model->getCourseDataByID($id);
+        }
+        $data['info_db'] = $info;
+        $courseid = $info['courseid'];
+        $data['plans'] = $this->Teacher_model->getLessonPlan($courseid);
         $this->load->view($this->template, $data);
     }
 

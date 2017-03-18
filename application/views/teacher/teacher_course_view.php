@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success" href="<?php echo base_url() ?>index.php/teacher/editCourse/<?php echo $info_db['assignid'] ?>"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>
+                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success" href="<?php echo base_url() ?>index.php/teacher/editCourse/<?php echo isset($info_db['assignid']) && $info_db['assignid'] == null ? $info_db['assignid'] : $info_db['courseid'] ?>"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>
             </div>
 
           
@@ -65,27 +65,22 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td align="center">1</td>
-                                <td>Chapter <?php echo $info_db['lesson1chapter'] ?></td>
-                                <td><?php echo $info_db['lesson1objective'] ?></td>
-                                <td><?php echo $info_db['lesson1activities'] ?></td>
-                                <td><?php echo $info_db['lesson1material'] ?></td>
-                            </tr>
-                            <tr>
-                                <td align="center">2</td>
-                                <td>Chapter <?php echo $info_db['lesson2chapter'] ?></td>
-                                <td><?php echo $info_db['lesson2objective'] ?></td>
-                                <td><?php echo $info_db['lesson2activities'] ?></td>
-                                <td><?php echo $info_db['lesson2material'] ?></td>
-                            </tr>
-                            <tr>
-                                <td align="center">3</td>
-                                <td>Chapter <?php echo $info_db['lesson3chapter'] ?></td>
-                                <td><?php echo $info_db['lesson3objective'] ?></td>
-                                <td><?php echo $info_db['lesson3activities'] ?></td>
-                                <td><?php echo $info_db['lesson3material'] ?></td>
-                            </tr>
+                                <?php
+                                    if($plans){
+                                        foreach($plans as $plan){ ?>
+                                        <tr>
+                                            <td align="center"><?php echo $plan['lessoncount'] ?></td>
+                                            <td>Chapter <?php echo $plan['chapter'] ?></td>
+                                            <td><?php echo $plan['objective'] ?></td>
+                                            <td><?php echo $plan['activities'] ?></td>
+                                            <td><?php echo $plan['material'] ?></td>
+                                        </tr>
+                                <?php }}
+                                    else {?>
+                                        <tr>
+                                            <td colspan="5"><?php echo 'no lesson plan found' ?></td>
+                                        </tr>
+                                    <?php } ?>
                             </tbody>
                         </table>
                     </div>

@@ -186,6 +186,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('.scrollbar-inner').scrollbar();
         });
     </script>
+    <script>
+        $('.toAdd').hide();
+
+        var count = 0;
+        $('.addPlan').on('click',function(){
+            $('.toAdd:eq('+count+')').show();
+            count++;
+        });
+//        $('#addPlan').click(function(){
+//            var newEl = '<tr><td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td> <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td> <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td> <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td> </tr>';
+//            $('#plan_wrapper').append(newEl);
+//        });
+    </script>
     <!-- /Datatables -->
 
 </body>

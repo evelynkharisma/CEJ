@@ -5,6 +5,7 @@ class Teacher_model extends CI_Model {
     var $course_table = 'course';
     var $course_assign_table = 'course_assign';
     var $material_table = 'material';
+    var $lesson_plan_table = 'lesson_plan';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -146,18 +147,6 @@ class Teacher_model extends CI_Model {
             'coursename' => $this->input->post('coursename'),
             'coursedescription' => $this->input->post('coursedescription'),
             'courseresources' => $this->input->post('courseresources'),
-            'lesson1chapter' => $this->input->post('lesson1chapter'),
-            'lesson1objective' => $this->input->post('lesson1objective'),
-            'lesson1activities' => $this->input->post('lesson1activities'),
-            'lesson1material' => $this->input->post('lesson1material'),
-            'lesson2chapter' => $this->input->post('lesson2chapter'),
-            'lesson2objective' => $this->input->post('lesson2objective'),
-            'lesson2activities' => $this->input->post('lesson2activities'),
-            'lesson2material' => $this->input->post('lesson2material'),
-            'lesson3chapter' => $this->input->post('lesson3chapter'),
-            'lesson3objective' => $this->input->post('lesson3objective'),
-            'lesson3activities' => $this->input->post('lesson3activities'),
-            'lesson3material' => $this->input->post('lesson3material'),
         );
         $this->db->insert($this->course_table, $data);
     }
@@ -183,27 +172,61 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getLessonPlan($id) {
+        $this->db->select('*');
+        $this->db->where('courseid', $id);
+        $this->db->order_by('lessoncount', 'asc');
+        $query = $this->db->get($this->lesson_plan_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function editCourse($id){
         $data = array(
             'courseid' => $id,
             'coursename' => $this->input->post('coursename'),
             'coursedescription' => $this->input->post('coursedescription'),
             'courseresources' => $this->input->post('courseresources'),
-            'lesson1chapter' => $this->input->post('lesson1chapter'),
-            'lesson1objective' => $this->input->post('lesson1objective'),
-            'lesson1activities' => $this->input->post('lesson1activities'),
-            'lesson1material' => $this->input->post('lesson1material'),
-            'lesson2chapter' => $this->input->post('lesson2chapter'),
-            'lesson2objective' => $this->input->post('lesson2objective'),
-            'lesson2activities' => $this->input->post('lesson2activities'),
-            'lesson2material' => $this->input->post('lesson2material'),
-            'lesson3chapter' => $this->input->post('lesson3chapter'),
-            'lesson3objective' => $this->input->post('lesson3objective'),
-            'lesson3activities' => $this->input->post('lesson3activities'),
-            'lesson3material' => $this->input->post('lesson3material'),
         );
         $this->db->where('courseid', $id);
         $this->db->update($this->course_table, $data);
+    }
+
+    function editPlan($id, $ch, $obj, $act, $mat){
+        $data = array(
+            'chapter' => $ch,
+            'objective' => $obj,
+            'activities' => $act,
+            'material' => $mat,
+        );
+        $this->db->where('lessonid', $id);
+        $this->db->update($this->lesson_plan_table, $data);
+    }
+
+    function getPlanLatestID(){
+        $this->db->select('lessonid');
+        $this->db->order_by("lessonid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->lesson_plan_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addPlan($id, $count, $ch, $obj, $act, $mat, $cid){
+        $data = array(
+            'lessonid' => $id,
+            'lessoncount' => $count,
+            'chapter' => $ch,
+            'objective' => $obj,
+            'activities' => $act,
+            'material' => $mat,
+            'courseid' => $cid,
+        );
+        $this->db->insert($this->lesson_plan_table, $data);
     }
 
     function getAllCoursesByTeacher($id){
