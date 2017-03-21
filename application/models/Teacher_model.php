@@ -5,6 +5,7 @@ class Teacher_model extends CI_Model {
     var $course_table = 'course';
     var $course_assign_table = 'course_assign';
     var $material_table = 'material';
+    var $file_table = 'file';
     var $qna_table = 'assignmentandquiz';
     var $lesson_plan_table = 'lesson_plan';
     var $lesson_implementation_table = 'lesson_implementation';
@@ -341,6 +342,73 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getFilesByAssignID($assignid){
+        $this->db->select('*');
+        $this->db->join('file', 'file.teacherid = course_assign.teacherid');
+        $this->db->where('course_assign.assignid', $assignid);
+        $this->db->order_by('file.date', 'desc');
+
+        $query = $this->db->get($this->course_assign_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getMaterialLatestID(){
+        $this->db->select('materialid');
+        $this->db->order_by("materialid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->material_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getFileLatestID(){
+        $this->db->select('fileid');
+        $this->db->order_by("fileid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->file_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getTeacherOfAssignID($id) {
+        $this->db->select('teacherid');
+        $this->db->where('assignid', $id);
+        $query = $this->db->get($this->course_assign_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addFile($id, $filename, $tid){
+        $data = array(
+            'fileid' => $id,
+            'filename' => $filename,
+            'teacherid' => $tid,
+            'date' => date('Y-m-d H:i:s', now()),
+        );
+        $this->db->insert($this->file_table, $data);
+    }
+
+    function addMaterial($mid, $sid, $fid){
+        $data = array(
+            'materialid' => $mid,
+            'assignid' => $sid,
+            'topic' => $this->input->post('topic'),
+            'type' => $this->input->post('type'),
+            'date' => date('Y-m-d H:i:s', now()),
+            'fileid' => $fid,
+        );
+        $this->db->insert($this->material_table, $data);
+    }
+
     function getQnAByAssignID($assignid){
         $this->db->select('*');
         $this->db->join('file', 'file.fileid = assignmentandquiz.fileid');
@@ -352,6 +420,30 @@ class Teacher_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    function getQnALatestID(){
+        $this->db->select('anqid');
+        $this->db->order_by("anqid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->qna_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addQnA($anqid, $sid, $fid){
+        $data = array(
+            'anqid' => $anqid,
+            'assignid' => $sid,
+            'topic' => $this->input->post('topic'),
+            'type' => $this->input->post('type'),
+            'uploaddate' => date('Y-m-d H:i:s', now()),
+            'duedate' => $this->input->post('duedate'),
+            'fileid' => $fid,
+        );
+        $this->db->insert($this->qna_table, $data);
     }
 }
 

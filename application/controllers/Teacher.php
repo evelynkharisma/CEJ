@@ -5,6 +5,7 @@ class teacher extends CI_Controller {
 
     var $template = 'template';
     var $profilephotopath = 'assets/img/teacher/profile/';
+    var $materialpath = 'assets/file/teacher/material/';
 
     function __construct() {
         parent::__construct();
@@ -372,6 +373,72 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function addMaterial($id){
+        $this->form_validation->set_rules('topic', 'topic', 'required');
+        $this->form_validation->set_rules('type', 'type', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            if ($this->input->post('existingfile')==null && empty($_FILES['userfile']['name'])){
+                $this->session->set_flashdata('error', 'Existing file or New file is required');
+                redirect(current_url());
+            }
+            else{
+                $latestID = $this->Teacher_model->getMaterialLatestID();
+                $latestID = $latestID['materialid'];
+                $latestID = substr($latestID, 1);
+                $materialID = 'm'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                if ($_FILES['userfile']['error'] != 4) {
+                    $config['upload_path'] = $this->materialpath;
+                    $config['allowed_types'] = "doc|pdf|docx";
+                    $config['max_size'] = 200000;
+                    $config['overwrite'] = TRUE;
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('userfile')) {
+                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        redirect(current_url());
+                    } else {
+                        $data = $this->upload->data();
+                        $filename = $data['orig_name'];
+                        $latestID = $this->Teacher_model->getFileLatestID();
+                        $latestID = $latestID['fileid'];
+                        $latestID = substr($latestID, 1);
+                        $fileID = 'f'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                        $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
+                        $teacherid = $teacherid['teacherid'];
+
+                        $this->Teacher_model->addFile($fileID, $filename, $teacherid);
+                        $newfile = true;
+                        $this->session->set_flashdata('success', 'File Uploaded');
+
+                    }
+                }
+                if(isset($newfile) && $newfile == true){
+                    $this->Teacher_model->addMaterial($materialID, $id, $fileID);
+                }
+                else{
+                    $fileID = $this->input->post('existingfile');
+                    $this->Teacher_model->addMaterial($materialID, $id, $fileID);
+                }
+                $this->session->set_flashdata('success', 'New Material Added');
+                redirect('teacher/courseMaterial/'.$id);
+            }
+        }
+
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
+        $info = $this->Teacher_model->getCourseDataByAssignID($id);
+        $data['info_db'] = $info;
+        $courseid = $info['courseid'];
+        $data['lessons'] = $this->Teacher_model->getLessonPlan($courseid);
+        $data['files'] = $this->Teacher_model->getFilesByAssignID($id);
+        $data['content'] = 'teacher/teacher_course_material_add_view';
+        $this->load->view($this->template, $data);
+    }
+
     public function courseAssignmentQuiz($id){
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
@@ -381,6 +448,73 @@ class teacher extends CI_Controller {
         $data['info_db'] = $this->Teacher_model->getCourseDataByAssignID($id);
         $data['qnas'] = $this->Teacher_model->getQnAByAssignID($id);
         $data['content'] = 'teacher/teacher_course_qna_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addQnA($id){
+        $this->form_validation->set_rules('topic', 'topic', 'required');
+        $this->form_validation->set_rules('type', 'type', 'required');
+        $this->form_validation->set_rules('duedate', 'due date', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            if ($this->input->post('existingfile')==null && empty($_FILES['userfile']['name'])){
+                $this->session->set_flashdata('error', 'Existing file or New file is required');
+                redirect(current_url());
+            }
+            else{
+                $latestID = $this->Teacher_model->getQnALatestID();
+                $latestID = $latestID['anqid'];
+                $latestID = substr($latestID, 1);
+                $materialID = 'a'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                if ($_FILES['userfile']['error'] != 4) {
+                    $config['upload_path'] = $this->materialpath;
+                    $config['allowed_types'] = "doc|pdf|docx";
+                    $config['max_size'] = 200000;
+                    $config['overwrite'] = TRUE;
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('userfile')) {
+                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        redirect(current_url());
+                    } else {
+                        $data = $this->upload->data();
+                        $filename = $data['orig_name'];
+                        $latestID = $this->Teacher_model->getFileLatestID();
+                        $latestID = $latestID['fileid'];
+                        $latestID = substr($latestID, 1);
+                        $fileID = 'f'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                        $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
+                        $teacherid = $teacherid['teacherid'];
+
+                        $this->Teacher_model->addFile($fileID, $filename, $teacherid);
+                        $newfile = true;
+                        $this->session->set_flashdata('success', 'File Uploaded');
+
+                    }
+                }
+                if(isset($newfile) && $newfile == true){
+                    $this->Teacher_model->addQnA($materialID, $id, $fileID);
+                }
+                else{
+                    $fileID = $this->input->post('existingfile');
+                    $this->Teacher_model->addQnA($materialID, $id, $fileID);
+                }
+                $this->session->set_flashdata('success', 'New Material Added');
+                redirect('teacher/courseAssignmentQuiz/'.$id);
+            }
+        }
+
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
+        $info = $this->Teacher_model->getCourseDataByAssignID($id);
+        $data['info_db'] = $info;
+        $courseid = $info['courseid'];
+        $data['lessons'] = $this->Teacher_model->getLessonPlan($courseid);
+        $data['files'] = $this->Teacher_model->getFilesByAssignID($id);
+        $data['content'] = 'teacher/teacher_course_qna_add_view';
         $this->load->view($this->template, $data);
     }
 
@@ -502,5 +636,32 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/payments_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function sendEmail()
+    {
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'healthybonefamily@gmail.com',
+            'smtp_pass' => 'healthybonefamilycb4',
+        );
+        
+          $this->load->library('email', $config);
+          $this->email->set_newline('\r\n');
+          $this->email->from('healthybonefamily@gmail.com', 'your Name');
+          $this->email->to('kharismaeve@yahoo.com');
+          $this->email->subject(' Your Subject here..');
+          $this->email->message('Your Message here..');
+
+        if($this->email->send())
+            $this->session->set_flashdata("success","Email sent successfully.");
+        else
+            $this->session->set_flashdata("error",$this->email->print_debugger());
+        redirect('teacher/courseAssignmentQuiz/s0001');
+
+        return TRUE;
+
     }
 }
