@@ -528,24 +528,87 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function courseStudent(){
+    public function courseStudent($id){
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
+        $info = $this->Teacher_model->getCourseDataByAssignID($id);
+        $data['info_db'] = $info;
+        $classid = $info['classid'];
+        $data['students'] = $this->Teacher_model->getStudentsByClassID($classid);
         $data['content'] = 'teacher/teacher_course_student_view';
         $this->load->view($this->template, $data);
     }
 
-    public function courseStudentPerformance(){
+    public function courseStudentPerformance($assignid, $studentid){
+        $savebutton = $this->input->post('savebutton');
+        if($savebutton == 'midreport'){
+            $this->form_validation->set_rules('op1', 'Mid Term Is self-motivated', 'required');
+            $this->form_validation->set_rules('op2', 'Mid Term Shows initiatives and asks questions', 'required');
+            $this->form_validation->set_rules('op3', 'Mid Term Persists despite difficulties', 'required');
+            $this->form_validation->set_rules('op4', 'Mid Term Is well-organised and punctual', 'required');
+            $this->form_validation->set_rules('op5', 'Mid Term Completes classroom tasks', 'required');
+            $this->form_validation->set_rules('op6', 'Mid Term Completes homework on time', 'required');
+            $this->form_validation->set_rules('comment', 'Mid Term Comment', 'required');
+            $this->form_validation->set_error_delimiters('', '<br/>');
+
+            if ($this->form_validation->run() == TRUE) {
+                if($result = $this->Teacher_model->checkReport($assignid, $studentid, 1)){
+                    $this->Teacher_model->editMidReport($result['reportid']);
+                }
+                else{
+                    $latestID = $this->Teacher_model->getReportLatestID();
+                    $latestID = $latestID['reportid'];
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $this->Teacher_model->addMidReport($latestID, $assignid, $studentid);
+                }
+                $this->session->set_flashdata('success', 'Report saved');
+            }
+            redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
+        }
+        else if($savebutton == 'finalreport'){
+            $this->form_validation->set_rules('opf1', 'Final Term Is self-motivated', 'required');
+            $this->form_validation->set_rules('opf2', 'Final Term Shows initiatives and asks questions', 'required');
+            $this->form_validation->set_rules('opf3', 'Final Term Persists despite difficulties', 'required');
+            $this->form_validation->set_rules('opf4', 'Final Term Is well-organised and punctual', 'required');
+            $this->form_validation->set_rules('opf5', 'Final Term Completes classroom tasks', 'required');
+            $this->form_validation->set_rules('opf6', 'Final Term Completes homework on time', 'required');
+            $this->form_validation->set_rules('fcomment', 'Final Term Comment', 'required');
+            $this->form_validation->set_error_delimiters('', '<br/>');
+
+            if ($this->form_validation->run() == TRUE) {
+                if($result = $this->Teacher_model->checkReport($assignid, $studentid, 2)){
+                    $this->Teacher_model->editFinalReport($result['reportid']);
+                }
+                else{
+                    $latestID = $this->Teacher_model->getReportLatestID();
+                    $latestID = $latestID['reportid'];
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $this->Teacher_model->addFinalReport($latestID, $assignid, $studentid);
+                }
+                $this->session->set_flashdata('success', 'Report saved');
+            }
+            redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
+        }
+        
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
+        $data['info_db'] = $this->Teacher_model->getCourseDataByAssignID($assignid);
+        $data['student'] = $this->Teacher_model->getStudentDataByStudentID($studentid);
+        $data['report'] = $this->Teacher_model->getReportDataBy($assignid, $studentid);
         $data['content'] = 'teacher/teacher_course_student_performance_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function courseStudentMidReport($assignid, $studentid){
+        
     }
 
     public function classScheduleView()

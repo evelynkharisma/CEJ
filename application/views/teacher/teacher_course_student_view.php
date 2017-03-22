@@ -34,28 +34,20 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <div class="teacher_photo_crop">
-                                        <img src="<?php echo base_url() ?>assets/img/teacher/eve.jpg" alt="..." class="teacher_photo_img">
-                                    </div>
-                                </td>
-                                <td>Evelyn Kharisma</td>
-                                <td>
-                                    <a href="<?php echo base_url() ?>index.php/teacher/courseStudentPerformance" class="btn btn-success"><i class="fa fa-edit"></i> Performance Detail</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="teacher_photo_crop">
-                                        <img src="<?php echo base_url() ?>assets/img/teacher/eve.jpg" alt="..." class="teacher_photo_img">
-                                    </div>
-                                </td>
-                                <td>Evelyn Kharisma</td>
-                                <td>
-                                    <a href="<?php echo base_url() ?>index.php/teacher/courseStudentPerformance" class="btn btn-success"><i class="fa fa-edit"></i> Performance Detail</a>
-                                </td>
-                            </tr>
+                            <?php if($students){
+                                foreach ($students as $student){ ?>
+                                    <tr>
+                                        <td>
+                                            <div class="teacher_photo_crop">
+                                                <img src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo'] ?>" alt="..." class="teacher_photo_img">
+                                            </div>
+                                        </td>
+                                        <td><?php echo $student['firstname'] ?> <?php echo $student['lastname'] ?></td>
+                                        <td>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseStudentPerformance/<?php echo $info_db['assignid'] ?>/<?php echo $student['studentid'] ?>" class="btn btn-success"><i class="fa fa-edit"></i> Performance Detail</a>
+                                        </td>
+                                    </tr>
+                            <?php }} ?>
                             </tbody>
                         </table>
                     </div>

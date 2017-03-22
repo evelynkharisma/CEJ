@@ -9,6 +9,8 @@ class Teacher_model extends CI_Model {
     var $qna_table = 'assignmentandquiz';
     var $lesson_plan_table = 'lesson_plan';
     var $lesson_implementation_table = 'lesson_implementation';
+    var $student_table = 'student';
+    var $report_table = 'report';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -444,6 +446,129 @@ class Teacher_model extends CI_Model {
             'fileid' => $fid,
         );
         $this->db->insert($this->qna_table, $data);
+    }
+
+    function getStudentsByClassID($classid){
+        $this->db->select('*');
+        $this->db->where('classid', $classid);
+        $this->db->order_by('firstname', 'asc');
+
+        $query = $this->db->get($this->student_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getStudentDataByStudentID($id){
+        $this->db->select('*');
+        $this->db->join('class', 'class.classid = student.classid');
+        $this->db->where('student.studentid', $id);
+        $query = $this->db->get($this->student_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getReportDataBy($assignid, $studentid) {
+        $this->db->select('*');
+        $this->db->where('assignid', $assignid);
+        $this->db->where('studentid', $studentid);
+        $this->db->order_by('term', 'asc');
+
+        $query = $this->db->get($this->report_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function checkReport($assignid, $studentid, $term) {
+        $this->db->select('*');
+        $this->db->where('assignid', $assignid);
+        $this->db->where('studentid', $studentid);
+        $this->db->where('term', $term);
+        $query = $this->db->get($this->report_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getReportLatestID(){
+        $this->db->select('reportid');
+        $this->db->order_by("reportid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->report_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addMidReport($latestID, $assignid, $studentid){
+        $data = array(
+            'reportid' => $latestID,
+            'assignid' => $assignid,
+            'studentid' => $studentid,
+            'date' => date('Y-m-d H:i:s', now()),
+            'term' => '1',
+            'motivation' => $this->input->post('op1'),
+            'initiative' => $this->input->post('op2'),
+            'persistance' => $this->input->post('op3'),
+            'organize' => $this->input->post('op4'),
+            'task' => $this->input->post('op5'),
+            'homework' => $this->input->post('op6'),
+            'comment' => $this->input->post('comment'),
+        );
+        $this->db->insert($this->report_table, $data);
+    }
+
+    function editMidReport($id){
+        $data = array(
+            'motivation' => $this->input->post('op1'),
+            'initiative' => $this->input->post('op2'),
+            'persistance' => $this->input->post('op3'),
+            'organize' => $this->input->post('op4'),
+            'task' => $this->input->post('op5'),
+            'homework' => $this->input->post('op6'),
+            'comment' => $this->input->post('comment'),
+        );
+        $this->db->where('reportid', $id);
+        $this->db->update($this->report_table, $data);
+    }
+
+    function addFinalReport($latestID, $assignid, $studentid){
+        $data = array(
+            'reportid' => $latestID,
+            'assignid' => $assignid,
+            'studentid' => $studentid,
+            'date' => date('Y-m-d H:i:s', now()),
+            'term' => '2',
+            'motivation' => $this->input->post('opf1'),
+            'initiative' => $this->input->post('opf2'),
+            'persistance' => $this->input->post('opf3'),
+            'organize' => $this->input->post('opf4'),
+            'task' => $this->input->post('opf5'),
+            'homework' => $this->input->post('opf6'),
+            'comment' => $this->input->post('fcomment'),
+        );
+        $this->db->insert($this->report_table, $data);
+    }
+
+    function editFinalReport($id){
+        $data = array(
+            'motivation' => $this->input->post('opf1'),
+            'initiative' => $this->input->post('opf2'),
+            'persistance' => $this->input->post('opf3'),
+            'organize' => $this->input->post('opf4'),
+            'task' => $this->input->post('opf5'),
+            'homework' => $this->input->post('opf6'),
+            'comment' => $this->input->post('fcomment'),
+        );
+        $this->db->where('reportid', $id);
+        $this->db->update($this->report_table, $data);
     }
 }
 

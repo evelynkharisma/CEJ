@@ -16,7 +16,24 @@
         <?php else: ?>
             Navigation not found !
         <?php endif; ?>
-        
+
+        <?php if ($this->session->flashdata('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->session->flashdata('success'); ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($this->session->flashdata('error')): ?>
+            <div  class="alert alert-error">
+                <?php echo $this->session->flashdata('error'); ?>
+            </div>
+        <?php endif; ?>
+        <?php if (validation_errors()): ?>
+            <div  class="alert alert-error">
+                <?php echo validation_errors(); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php echo form_open('teacher/courseStudentPerformance/'.$info_db["assignid"].'/'.$student["studentid"]); ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -29,27 +46,27 @@
                             <div class="profile_img">
                                 <div class="teacher_profile_crop">
                                     <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/teacher/eve.jpg" alt="Avatar" title="Change the avatar">
+                                    <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo'] ?>" alt="Avatar" title="Change the avatar">
                                 </div>
                             </div>
-                            <h3>Evelyn Kharisma</h3>
+                            <h3><?php echo $student['firstname'] ?> <?php echo $student['lastname'] ?></h3>
 
                             <ul class="list-unstyled user_data">
-                                <li><i class="fa fa-map-marker user-profile-icon"></i> Jakarta
+                                <li><i class="fa fa-map-marker user-profile-icon"></i> <?php echo $student['address'] ?>
                                 </li>
 
                                 <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> Grade 12-C
+                                    <i class="fa fa-briefcase user-profile-icon"></i> Grade <?php echo $student['classroom'] ?>
                                 </li>
 
                                 <li class="m-top-xs">
                                     <i class="fa fa-phone user-profile-icon"></i>
-                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> 08117678877</a>
+                                    <?php echo $student['phone'] ?>
                                 </li>
 
                                 <li class="m-top-xs">
                                     <i class="fa fa-external-link user-profile-icon"></i>
-                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> kharismaeve@gmail.com</a>
+                                    <?php echo $student['email'] ?>
                                 </li>
                             </ul>
 
@@ -123,8 +140,7 @@
                                     <h2>Mid Term Report</h2>
                                 </div>
                                 <div class="col-md-3">
-                                    <?php echo form_open('teacher/courseStudentMidReport'); ?>
-                                    <button type="submit" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
+                                    <button type="submit" name="savebutton" value="midreport" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -139,59 +155,58 @@
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Is self-motivated</td>
-                                        <td class="set-center"><input id="op1_1" type="radio" name="op1" value="1"><label for="op1_1"></label></td>
-                                        <td class="set-center"><input id="op1_2" type="radio" name="op1" value="2"><label for="op1_2"></label></td>
-                                        <td class="set-center"><input id="op1_3" type="radio" name="op1" value="3"><label for="op1_3"></label></td>
-                                        <td class="set-center"><input id="op1_4" type="radio" name="op1" value="4"><label for="op1_4"></label></td>
-                                        <td class="set-center"><input id="op1_5" type="radio" name="op1" value="5"><label for="op1_5"></label></td>
+                                        <td class="set-center"><input id="op1_1" type="radio" name="op1" value="1" <?php echo (isset($report[0]['motivation']) && $report[0]['motivation']=='1')?'checked':'' ?>><label for="op1_1"></label></td>
+                                        <td class="set-center"><input id="op1_2" type="radio" name="op1" value="2" <?php echo (isset($report[0]['motivation']) && $report[0]['motivation']=='2')?'checked':'' ?>><label for="op1_2"></label></td>
+                                        <td class="set-center"><input id="op1_3" type="radio" name="op1" value="3" <?php echo (isset($report[0]['motivation']) && $report[0]['motivation']=='3')?'checked':'' ?>><label for="op1_3"></label></td>
+                                        <td class="set-center"><input id="op1_4" type="radio" name="op1" value="4" <?php echo (isset($report[0]['motivation']) && $report[0]['motivation']=='4')?'checked':'' ?>><label for="op1_4"></label></td>
+                                        <td class="set-center"><input id="op1_5" type="radio" name="op1" value="5" <?php echo (isset($report[0]['motivation']) && $report[0]['motivation']=='5')?'checked':'' ?>><label for="op1_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Shows initiatives and asks questions</td>
-                                        <td class="set-center"><input id="op2_1" type="radio" name="op2" value="1"><label for="op2_1"></label></td>
-                                        <td class="set-center"><input id="op2_2" type="radio" name="op2" value="2"><label for="op2_2"></label></td>
-                                        <td class="set-center"><input id="op2_3" type="radio" name="op2" value="3"><label for="op2_3"></label></td>
-                                        <td class="set-center"><input id="op2_4" type="radio" name="op2" value="4"><label for="op2_4"></label></td>
-                                        <td class="set-center"><input id="op2_5" type="radio" name="op2" value="5"><label for="op2_5"></label></td>
+                                        <td class="set-center"><input id="op2_1" type="radio" name="op2" value="1" <?php echo (isset($report[0]['initiative']) && $report[0]['initiative']=='1')?'checked':'' ?>><label for="op2_1"></label></td>
+                                        <td class="set-center"><input id="op2_2" type="radio" name="op2" value="2" <?php echo (isset($report[0]['initiative']) && $report[0]['initiative']=='2')?'checked':'' ?>><label for="op2_2"></label></td>
+                                        <td class="set-center"><input id="op2_3" type="radio" name="op2" value="3" <?php echo (isset($report[0]['initiative']) && $report[0]['initiative']=='3')?'checked':'' ?>><label for="op2_3"></label></td>
+                                        <td class="set-center"><input id="op2_4" type="radio" name="op2" value="4" <?php echo (isset($report[0]['initiative']) && $report[0]['initiative']=='4')?'checked':'' ?>><label for="op2_4"></label></td>
+                                        <td class="set-center"><input id="op2_5" type="radio" name="op2" value="5" <?php echo (isset($report[0]['initiative']) && $report[0]['initiative']=='5')?'checked':'' ?>><label for="op2_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Persists despite difficulties</td>
-                                        <td class="set-center"><input id="op3_1" type="radio" name="op3" value="1"><label for="op3_1"></label></td>
-                                        <td class="set-center"><input id="op3_2" type="radio" name="op3" value="2"><label for="op3_2"></label></td>
-                                        <td class="set-center"><input id="op3_3" type="radio" name="op3" value="3"><label for="op3_3"></label></td>
-                                        <td class="set-center"><input id="op3_4" type="radio" name="op3" value="4"><label for="op3_4"></label></td>
-                                        <td class="set-center"><input id="op3_5" type="radio" name="op3" value="5"><label for="op3_5"></label></td>
+                                        <td class="set-center"><input id="op3_1" type="radio" name="op3" value="1" <?php echo (isset($report[0]['persistance']) && $report[0]['persistance']=='1')?'checked':'' ?>><label for="op3_1"></label></td>
+                                        <td class="set-center"><input id="op3_2" type="radio" name="op3" value="2" <?php echo (isset($report[0]['persistance']) && $report[0]['persistance']=='2')?'checked':'' ?>><label for="op3_2"></label></td>
+                                        <td class="set-center"><input id="op3_3" type="radio" name="op3" value="3" <?php echo (isset($report[0]['persistance']) && $report[0]['persistance']=='3')?'checked':'' ?>><label for="op3_3"></label></td>
+                                        <td class="set-center"><input id="op3_4" type="radio" name="op3" value="4" <?php echo (isset($report[0]['persistance']) && $report[0]['persistance']=='4')?'checked':'' ?>><label for="op3_4"></label></td>
+                                        <td class="set-center"><input id="op3_5" type="radio" name="op3" value="5" <?php echo (isset($report[0]['persistance']) && $report[0]['persistance']=='5')?'checked':'' ?>><label for="op3_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Is well-organised and punctual</td>
-                                        <td class="set-center"><input id="op4_1" type="radio" name="op4" value="1"><label for="op4_1"></label></td>
-                                        <td class="set-center"><input id="op4_2" type="radio" name="op4" value="2"><label for="op4_2"></label></td>
-                                        <td class="set-center"><input id="op4_3" type="radio" name="op4" value="3"><label for="op4_3"></label></td>
-                                        <td class="set-center"><input id="op4_4" type="radio" name="op4" value="4"><label for="op4_4"></label></td>
-                                        <td class="set-center"><input id="op4_5" type="radio" name="op4" value="5"><label for="op4_5"></label></td>
+                                        <td class="set-center"><input id="op4_1" type="radio" name="op4" value="1" <?php echo (isset($report[0]['organize']) && $report[0]['organize']=='1')?'checked':'' ?>><label for="op4_1"></label></td>
+                                        <td class="set-center"><input id="op4_2" type="radio" name="op4" value="2" <?php echo (isset($report[0]['organize']) && $report[0]['organize']=='2')?'checked':'' ?>><label for="op4_2"></label></td>
+                                        <td class="set-center"><input id="op4_3" type="radio" name="op4" value="3" <?php echo (isset($report[0]['organize']) && $report[0]['organize']=='3')?'checked':'' ?>><label for="op4_3"></label></td>
+                                        <td class="set-center"><input id="op4_4" type="radio" name="op4" value="4" <?php echo (isset($report[0]['organize']) && $report[0]['organize']=='4')?'checked':'' ?>><label for="op4_4"></label></td>
+                                        <td class="set-center"><input id="op4_5" type="radio" name="op4" value="5" <?php echo (isset($report[0]['organize']) && $report[0]['organize']=='5')?'checked':'' ?>><label for="op4_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Completes classroom tasks</td>
-                                        <td class="set-center"><input id="op5_1" type="radio" name="op5" value="1"><label for="op5_1"></label></td>
-                                        <td class="set-center"><input id="op5_2" type="radio" name="op5" value="2"><label for="op5_2"></label></td>
-                                        <td class="set-center"><input id="op5_3" type="radio" name="op5" value="3"><label for="op5_3"></label></td>
-                                        <td class="set-center"><input id="op5_4" type="radio" name="op5" value="4"><label for="op5_4"></label></td>
-                                        <td class="set-center"><input id="op5_5" type="radio" name="op5" value="5"><label for="op5_5"></label></td>
+                                        <td class="set-center"><input id="op5_1" type="radio" name="op5" value="1" <?php echo (isset($report[0]['task']) && $report[0]['task']=='1')?'checked':'' ?>><label for="op5_1"></label></td>
+                                        <td class="set-center"><input id="op5_2" type="radio" name="op5" value="2" <?php echo (isset($report[0]['task']) && $report[0]['task']=='2')?'checked':'' ?>><label for="op5_2"></label></td>
+                                        <td class="set-center"><input id="op5_3" type="radio" name="op5" value="3" <?php echo (isset($report[0]['task']) && $report[0]['task']=='3')?'checked':'' ?>><label for="op5_3"></label></td>
+                                        <td class="set-center"><input id="op5_4" type="radio" name="op5" value="4" <?php echo (isset($report[0]['task']) && $report[0]['task']=='4')?'checked':'' ?>><label for="op5_4"></label></td>
+                                        <td class="set-center"><input id="op5_5" type="radio" name="op5" value="5" <?php echo (isset($report[0]['task']) && $report[0]['task']=='5')?'checked':'' ?>><label for="op5_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Completes homework on time</td>
-                                        <td class="set-center"><input id="op6_1" type="radio" name="op6" value="1"><label for="op6_1"></label></td>
-                                        <td class="set-center"><input id="op6_2" type="radio" name="op6" value="2"><label for="op6_2"></label></td>
-                                        <td class="set-center"><input id="op6_3" type="radio" name="op6" value="3"><label for="op6_3"></label></td>
-                                        <td class="set-center"><input id="op6_4" type="radio" name="op6" value="4"><label for="op6_4"></label></td>
-                                        <td class="set-center"><input id="op6_5" type="radio" name="op6" value="5"><label for="op6_5"></label></td>
+                                        <td class="set-center"><input id="op6_1" type="radio" name="op6" value="1" <?php echo (isset($report[0]['homework']) && $report[0]['homework']=='1')?'checked':'' ?>><label for="op6_1"></label></td>
+                                        <td class="set-center"><input id="op6_2" type="radio" name="op6" value="2" <?php echo (isset($report[0]['homework']) && $report[0]['homework']=='2')?'checked':'' ?>><label for="op6_2"></label></td>
+                                        <td class="set-center"><input id="op6_3" type="radio" name="op6" value="3" <?php echo (isset($report[0]['homework']) && $report[0]['homework']=='3')?'checked':'' ?>><label for="op6_3"></label></td>
+                                        <td class="set-center"><input id="op6_4" type="radio" name="op6" value="4" <?php echo (isset($report[0]['homework']) && $report[0]['homework']=='4')?'checked':'' ?>><label for="op6_4"></label></td>
+                                        <td class="set-center"><input id="op6_5" type="radio" name="op6" value="5" <?php echo (isset($report[0]['homework']) && $report[0]['homework']=='5')?'checked':'' ?>><label for="op6_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td colspan="6">
-                                            <textarea style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'></textarea>
+                                            <textarea name="comment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'><?php echo (isset($report[0]['comment']))? $report[0]['comment']:'' ?></textarea>
                                         </td>
                                     </tr>
                                 </table>
-                                <?php echo form_close(); ?>
                             </div>
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -200,8 +215,7 @@
                                     <h2>Final Term Report</h2>
                                 </div>
                                 <div class="col-md-3">
-                                    <?php echo form_open('teacher/courseStudentMidReport'); ?>
-                                    <button type="submit" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
+                                    <button type="submit" name="savebutton" value="finalreport" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -216,55 +230,55 @@
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Is self-motivated</td>
-                                        <td class="set-center"><input id="op21_1" type="radio" name="op1" value="1"><label for="op21_1"></label></td>
-                                        <td class="set-center"><input id="op21_2" type="radio" name="op1" value="2"><label for="op21_2"></label></td>
-                                        <td class="set-center"><input id="op21_3" type="radio" name="op1" value="3"><label for="op21_3"></label></td>
-                                        <td class="set-center"><input id="op21_4" type="radio" name="op1" value="4"><label for="op21_4"></label></td>
-                                        <td class="set-center"><input id="op21_5" type="radio" name="op1" value="5"><label for="op21_5"></label></td>
+                                        <td class="set-center"><input id="op21_1" type="radio" name="opf1" value="1" <?php echo (isset($report[1]['motivation']) && $report[1]['motivation']=='1')?'checked':'' ?>><label for="op21_1"></label></td>
+                                        <td class="set-center"><input id="op21_2" type="radio" name="opf1" value="2" <?php echo (isset($report[1]['motivation']) && $report[1]['motivation']=='2')?'checked':'' ?>><label for="op21_2"></label></td>
+                                        <td class="set-center"><input id="op21_3" type="radio" name="opf1" value="3" <?php echo (isset($report[1]['motivation']) && $report[1]['motivation']=='3')?'checked':'' ?>><label for="op21_3"></label></td>
+                                        <td class="set-center"><input id="op21_4" type="radio" name="opf1" value="4" <?php echo (isset($report[1]['motivation']) && $report[1]['motivation']=='4')?'checked':'' ?>><label for="op21_4"></label></td>
+                                        <td class="set-center"><input id="op21_5" type="radio" name="opf1" value="5" <?php echo (isset($report[1]['motivation']) && $report[1]['motivation']=='5')?'checked':'' ?>><label for="op21_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Shows initiatives and asks questions</td>
-                                        <td class="set-center"><input id="op22_1" type="radio" name="op2" value="1"><label for="op22_1"></label></td>
-                                        <td class="set-center"><input id="op22_2" type="radio" name="op2" value="2"><label for="op22_2"></label></td>
-                                        <td class="set-center"><input id="op22_3" type="radio" name="op2" value="3"><label for="op22_3"></label></td>
-                                        <td class="set-center"><input id="op22_4" type="radio" name="op2" value="4"><label for="op22_4"></label></td>
-                                        <td class="set-center"><input id="op22_5" type="radio" name="op2" value="5"><label for="op22_5"></label></td>
+                                        <td class="set-center"><input id="op22_1" type="radio" name="opf2" value="1" <?php echo (isset($report[1]['initiative']) && $report[1]['initiative']=='1')?'checked':'' ?>><label for="op22_1"></label></td>
+                                        <td class="set-center"><input id="op22_2" type="radio" name="opf2" value="2" <?php echo (isset($report[1]['initiative']) && $report[1]['initiative']=='2')?'checked':'' ?>><label for="op22_2"></label></td>
+                                        <td class="set-center"><input id="op22_3" type="radio" name="opf2" value="3" <?php echo (isset($report[1]['initiative']) && $report[1]['initiative']=='3')?'checked':'' ?>><label for="op22_3"></label></td>
+                                        <td class="set-center"><input id="op22_4" type="radio" name="opf2" value="4" <?php echo (isset($report[1]['initiative']) && $report[1]['initiative']=='4')?'checked':'' ?>><label for="op22_4"></label></td>
+                                        <td class="set-center"><input id="op22_5" type="radio" name="opf2" value="5" <?php echo (isset($report[1]['initiative']) && $report[1]['initiative']=='5')?'checked':'' ?>><label for="op22_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Persists despite difficulties</td>
-                                        <td class="set-center"><input id="op23_1" type="radio" name="op3" value="1"><label for="op23_1"></label></td>
-                                        <td class="set-center"><input id="op23_2" type="radio" name="op3" value="2"><label for="op23_2"></label></td>
-                                        <td class="set-center"><input id="op23_3" type="radio" name="op3" value="3"><label for="op23_3"></label></td>
-                                        <td class="set-center"><input id="op23_4" type="radio" name="op3" value="4"><label for="op23_4"></label></td>
-                                        <td class="set-center"><input id="op23_5" type="radio" name="op3" value="5"><label for="op23_5"></label></td>
+                                        <td class="set-center"><input id="op23_1" type="radio" name="opf3" value="1" <?php echo (isset($report[1]['persistance']) && $report[1]['persistance']=='1')?'checked':'' ?>><label for="op23_1"></label></td>
+                                        <td class="set-center"><input id="op23_2" type="radio" name="opf3" value="2" <?php echo (isset($report[1]['persistance']) && $report[1]['persistance']=='2')?'checked':'' ?>><label for="op23_2"></label></td>
+                                        <td class="set-center"><input id="op23_3" type="radio" name="opf3" value="3" <?php echo (isset($report[1]['persistance']) && $report[1]['persistance']=='3')?'checked':'' ?>><label for="op23_3"></label></td>
+                                        <td class="set-center"><input id="op23_4" type="radio" name="opf3" value="4" <?php echo (isset($report[1]['persistance']) && $report[1]['persistance']=='4')?'checked':'' ?>><label for="op23_4"></label></td>
+                                        <td class="set-center"><input id="op23_5" type="radio" name="opf3" value="5" <?php echo (isset($report[1]['persistance']) && $report[1]['persistance']=='5')?'checked':'' ?>><label for="op23_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Is well-organised and punctual</td>
-                                        <td class="set-center"><input id="op24_1" type="radio" name="op4" value="1"><label for="op24_1"></label></td>
-                                        <td class="set-center"><input id="op24_2" type="radio" name="op4" value="2"><label for="op24_2"></label></td>
-                                        <td class="set-center"><input id="op24_3" type="radio" name="op4" value="3"><label for="op24_3"></label></td>
-                                        <td class="set-center"><input id="op24_4" type="radio" name="op4" value="4"><label for="op24_4"></label></td>
-                                        <td class="set-center"><input id="op24_5" type="radio" name="op4" value="5"><label for="op24_5"></label></td>
+                                        <td class="set-center"><input id="op24_1" type="radio" name="opf4" value="1" <?php echo (isset($report[1]['organize']) && $report[1]['organize']=='1')?'checked':'' ?>><label for="op24_1"></label></td>
+                                        <td class="set-center"><input id="op24_2" type="radio" name="opf4" value="2" <?php echo (isset($report[1]['organize']) && $report[1]['organize']=='2')?'checked':'' ?>><label for="op24_2"></label></td>
+                                        <td class="set-center"><input id="op24_3" type="radio" name="opf4" value="3" <?php echo (isset($report[1]['organize']) && $report[1]['organize']=='3')?'checked':'' ?>><label for="op24_3"></label></td>
+                                        <td class="set-center"><input id="op24_4" type="radio" name="opf4" value="4" <?php echo (isset($report[1]['organize']) && $report[1]['organize']=='4')?'checked':'' ?>><label for="op24_4"></label></td>
+                                        <td class="set-center"><input id="op24_5" type="radio" name="opf4" value="5" <?php echo (isset($report[1]['organize']) && $report[1]['organize']=='5')?'checked':'' ?>><label for="op24_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Completes classroom tasks</td>
-                                        <td class="set-center"><input id="op25_1" type="radio" name="op5" value="1"><label for="op25_1"></label></td>
-                                        <td class="set-center"><input id="op25_2" type="radio" name="op5" value="2"><label for="op25_2"></label></td>
-                                        <td class="set-center"><input id="op25_3" type="radio" name="op5" value="3"><label for="op25_3"></label></td>
-                                        <td class="set-center"><input id="op25_4" type="radio" name="op5" value="4"><label for="op25_4"></label></td>
-                                        <td class="set-center"><input id="op25_5" type="radio" name="op5" value="5"><label for="op25_5"></label></td>
+                                        <td class="set-center"><input id="op25_1" type="radio" name="opf5" value="1" <?php echo (isset($report[1]['task']) && $report[1]['task']=='1')?'checked':'' ?>><label for="op25_1"></label></td>
+                                        <td class="set-center"><input id="op25_2" type="radio" name="opf5" value="2" <?php echo (isset($report[1]['task']) && $report[1]['task']=='2')?'checked':'' ?>><label for="op25_2"></label></td>
+                                        <td class="set-center"><input id="op25_3" type="radio" name="opf5" value="3" <?php echo (isset($report[1]['task']) && $report[1]['task']=='3')?'checked':'' ?>><label for="op25_3"></label></td>
+                                        <td class="set-center"><input id="op25_4" type="radio" name="opf5" value="4" <?php echo (isset($report[1]['task']) && $report[1]['task']=='4')?'checked':'' ?>><label for="op25_4"></label></td>
+                                        <td class="set-center"><input id="op25_5" type="radio" name="opf5" value="5" <?php echo (isset($report[1]['task']) && $report[1]['task']=='5')?'checked':'' ?>><label for="op25_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Completes homework on time</td>
-                                        <td class="set-center"><input id="op26_1" type="radio" name="op6" value="1"><label for="op26_1"></label></td>
-                                        <td class="set-center"><input id="op26_2" type="radio" name="op6" value="2"><label for="op26_2"></label></td>
-                                        <td class="set-center"><input id="op26_3" type="radio" name="op6" value="3"><label for="op26_3"></label></td>
-                                        <td class="set-center"><input id="op26_4" type="radio" name="op6" value="4"><label for="op26_4"></label></td>
-                                        <td class="set-center"><input id="op26_5" type="radio" name="op6" value="5"><label for="op26_5"></label></td>
+                                        <td class="set-center"><input id="op26_1" type="radio" name="opf6" value="1" <?php echo (isset($report[1]['homework']) && $report[1]['homework']=='1')?'checked':'' ?>><label for="op26_1"></label></td>
+                                        <td class="set-center"><input id="op26_2" type="radio" name="opf6" value="2" <?php echo (isset($report[1]['homework']) && $report[1]['homework']=='2')?'checked':'' ?>><label for="op26_2"></label></td>
+                                        <td class="set-center"><input id="op26_3" type="radio" name="opf6" value="3" <?php echo (isset($report[1]['homework']) && $report[1]['homework']=='3')?'checked':'' ?>><label for="op26_3"></label></td>
+                                        <td class="set-center"><input id="op26_4" type="radio" name="opf6" value="4" <?php echo (isset($report[1]['homework']) && $report[1]['homework']=='4')?'checked':'' ?>><label for="op26_4"></label></td>
+                                        <td class="set-center"><input id="op26_5" type="radio" name="opf6" value="5" <?php echo (isset($report[1]['homework']) && $report[1]['homework']=='5')?'checked':'' ?>><label for="op26_5"></label></td>
                                     </tr>
                                     <tr>
                                         <td colspan="6">
-                                            <textarea style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'></textarea>
+                                            <textarea name="fcomment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'> <?php echo (isset($report[1]['comment']))? $report[1]['comment']:'' ?></textarea>
                                         </td>
                                     </tr>
                                 </table>
