@@ -58,6 +58,10 @@ class teacher extends CI_Controller {
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $info = $this->Teacher_model->getClassByTeacherID($this->session->userdata('id'));
+        $classid = $info['classid'];
+        $data['info_db'] = $info;
+        $data['students'] = $this->Teacher_model->getStudentsByClassID($classid);
         $data['content'] = 'teacher/homeroom_student_view';
         $this->load->view($this->template, $data);
     }
@@ -677,6 +681,7 @@ class teacher extends CI_Controller {
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['teachers'] =  $this->Teacher_model->getAllTeacher();
         $data['content'] = 'includes/teachers_view';
         $this->load->view($this->template, $data);
     }

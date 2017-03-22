@@ -619,6 +619,18 @@ class Teacher_model extends CI_Model {
         );
         $this->db->insert($this->attendance_table, $data);
     }
+
+    function getAllTeacher(){
+        $this->db->select('*');
+        $this->db->join('class', 'class.teacherid = teacher.teacherid');
+        $this->db->order_by('teacher.firstname', 'asc');
+
+        $query = $this->db->get($this->table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
 }
 
 ?>

@@ -19,25 +19,31 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Photo</th>
+                                <th>Name</th>
                                 <th>Homeroom</th>
                                 <th>Address</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Subject</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Evelyn</td>
-                                <td>Kharisma</td>
-                                <td>12-C</td>
-                                <td>Jakarta</td>
-                                <td>kharismaeve@yahoo.com</td>
-                                <td>08117678877</td>
-                                <td>Subject</td>
-                            </tr>
+                            <?php if($teachers){
+                                foreach ($teachers as $teacher){ ?>
+                                    <tr>
+                                        <td>
+                                            <div class="teacher_photo_crop">
+                                                <img src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $teacher['photo'] ?>" alt="..." class="teacher_photo_img">
+                                            </div>
+                                        </td>
+                                        <td><?php echo $teacher['firstname'] ?> <?php echo $teacher['lastname'] ?></td>
+                                        <td><?php echo $teacher['classroom'] ?></td>
+                                        <td><?php echo $teacher['address'] ?></td>
+                                        <td><?php echo $teacher['email'] ?></td>
+                                        <td><?php echo $teacher['phone'] ?></td>
+                                    </tr>
+                                    </tr>
+                                <?php }} ?>
                             </tbody>
                         </table>
                     </div>
