@@ -24,10 +24,30 @@ class teacher extends CI_Controller {
 
     public function homeroom_attendance()
     {
+        $info = $this->Teacher_model->getClassByTeacherID($this->session->userdata('id'));
+        $classid = $info['classid'];
+
+        $savebutton = $this->input->post('savebutton');
+        if($savebutton == 'true'){
+            $studentids = $this->input->post('studentid');
+            $status = $this->input->post('attendance');
+            $comments = $this->input->post('comment');
+            $latestID = $this->Teacher_model->getAttendanceLatestID();
+            $latestID = $latestID['attendanceid'];
+            for($i=0;$i<sizeof($studentids);$i++)
+            {
+                $latestID = substr($latestID, 1);
+                $latestID = 'e'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                $this->Teacher_model->addAttendance($latestID, $classid, $studentids[$i], $status[$i], $comments[$i]);
+            }
+        }
+
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['info_db'] = $info;
+        $data['students'] = $this->Teacher_model->getStudentsAttendanceByClassID($classid);
         $data['content'] = 'teacher/homeroom_attendance_view';
         $this->load->view($this->template, $data);
     }

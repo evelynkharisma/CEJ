@@ -3,17 +3,18 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Grade 12 Attendance</h3>
+                <h3>Grade <?php echo $info_db['classroom'] ?></h3>
             </div>
         </div>
 
         <div class="clearfix"></div>
 
+        <?php echo form_open('teacher/homeroom_attendance'); ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>23 January 2017</h2>
+                        <h2><?php echo date('d F Y', now()) ?></h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -26,71 +27,36 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Chelsy</td>
-                                <td>
-                                    <div class="teacher_attendance_radio">
-                                        <input class="present" type="radio" id="present" name="attendance" value="p" checked>
-                                        <label for="present">P</label>
+                            <?php if($students){
+                                $i = 0;
+                                foreach ($students as $student){ ?>
+                                    <tr>
+                                        <input type="hidden" class="form-control set-margin-bottom" name="studentid[]" value="<?php echo $student['studentid']; ?>"/>
+                                        <td><?php echo $student['firstname'] ?> <?php echo $student['lastname'] ?></td>
+                                        <td>
+                                            <div class="teacher_attendance_radio">
+                                                <input class="present" type="radio" id="present_<?php echo $student['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="p"  <?php echo (isset($student['status']) && $student['status']=='p')?'checked':'' ?>>
+                                                <label for="present_<?php echo $student['studentid'] ?>">P</label>
 
-                                        <input class="absent" type="radio" id="absent" name="attendance" value="a">
-                                        <label for="absent">A</label>
+                                                <input class="absent" type="radio" id="absent_<?php echo $student['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="a" <?php echo (isset($student['status']) && $student['status']=='a')?'checked':'' ?>>
+                                                <label for="absent_<?php echo $student['studentid'] ?>">A</label>
 
-                                        <input class="late" type="radio" id="late" name="attendance" value="l">
-                                        <label for="late">L</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                        <input type="text" class="form-control has-feedback-left" id="attendance_comment" placeholder="Comment">
-                                        <span class="fa fa-comment form-control-feedback left" aria-hidden="true"></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Evelyn Kharisma</td>
-                                <td>
-                                    <div class="teacher_attendance_radio">
-                                        <input class="present" type="radio" id="present_eve" name="attendance_eve" value="p" checked>
-                                        <label for="present_eve">P</label>
-
-                                        <input class="absent" type="radio" id="absent_eve" name="attendance_eve" value="a">
-                                        <label for="absent_eve">A</label>
-
-                                        <input class="late" type="radio" id="late_eve" name="attendance_eve" value="l">
-                                        <label for="late_eve">L</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                        <input type="text" class="form-control has-feedback-left" id="attendance_comment" placeholder="Comment">
-                                        <span class="fa fa-comment form-control-feedback left" aria-hidden="true"></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Janis Giovani Tan</td>
-                                <td>
-                                    <div class="teacher_attendance_radio">
-                                        <input class="present" type="radio" id="present_jan" name="attendance_jan" value="p" checked>
-                                        <label for="present_jan">P</label>
-
-                                        <input class="absent" type="radio" id="absent_jan" name="attendance_jan" value="a">
-                                        <label for="absent_jan">A</label>
-
-                                        <input class="late" type="radio" id="late_jan" name="attendance_jan" value="l">
-                                        <label for="late_jan">L</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                        <input type="text" class="form-control has-feedback-left" id="attendance_comment" placeholder="Comment">
-                                        <span class="fa fa-comment form-control-feedback left" aria-hidden="true"></span>
-                                    </div>
-                                </td>
-                            </tr>
+                                                <input class="late" type="radio" id="late_<?php echo $student['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="l" <?php echo (isset($student['status']) && $student['status']=='l')?'checked':'' ?>>
+                                                <label for="late_<?php echo $student['studentid'] ?>">L</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                                <input name="comment[<?php echo $i ?>]" type="text" class="form-control has-feedback-left" id="attendance_comment" placeholder="Comment" value="<?php echo (isset($student['description']))? $student['description']:'' ?>">
+                                                <span class="fa fa-comment form-control-feedback left" aria-hidden="true"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php $i++; }} ?>
                             </tbody>
                         </table>
+                        <button type="submit" name="savebutton" value="true" class="btn btn-success set-right"><i class="fa fa-save"></i> Save</button>
+                        <?php echo form_close(); ?>
                     </div>
                 </div>
             </div>

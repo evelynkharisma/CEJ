@@ -11,6 +11,8 @@ class Teacher_model extends CI_Model {
     var $lesson_implementation_table = 'lesson_implementation';
     var $student_table = 'student';
     var $report_table = 'report';
+    var $class_table = 'class';
+    var $attendance_table = 'attendance';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -394,7 +396,7 @@ class Teacher_model extends CI_Model {
             'fileid' => $id,
             'filename' => $filename,
             'teacherid' => $tid,
-            'date' => date('Y-m-d H:i:s', now()),
+            'date' => date('Y-m-d', now()),
         );
         $this->db->insert($this->file_table, $data);
     }
@@ -405,7 +407,7 @@ class Teacher_model extends CI_Model {
             'assignid' => $sid,
             'topic' => $this->input->post('topic'),
             'type' => $this->input->post('type'),
-            'date' => date('Y-m-d H:i:s', now()),
+            'date' => date('Y-m-d', now()),
             'fileid' => $fid,
         );
         $this->db->insert($this->material_table, $data);
@@ -441,7 +443,7 @@ class Teacher_model extends CI_Model {
             'assignid' => $sid,
             'topic' => $this->input->post('topic'),
             'type' => $this->input->post('type'),
-            'uploaddate' => date('Y-m-d H:i:s', now()),
+            'uploaddate' => date('Y-m-d', now()),
             'duedate' => $this->input->post('duedate'),
             'fileid' => $fid,
         );
@@ -512,7 +514,7 @@ class Teacher_model extends CI_Model {
             'reportid' => $latestID,
             'assignid' => $assignid,
             'studentid' => $studentid,
-            'date' => date('Y-m-d H:i:s', now()),
+            'date' => date('Y-m-d', now()),
             'term' => '1',
             'motivation' => $this->input->post('op1'),
             'initiative' => $this->input->post('op2'),
@@ -544,7 +546,7 @@ class Teacher_model extends CI_Model {
             'reportid' => $latestID,
             'assignid' => $assignid,
             'studentid' => $studentid,
-            'date' => date('Y-m-d H:i:s', now()),
+            'date' => date('Y-m-d', now()),
             'term' => '2',
             'motivation' => $this->input->post('opf1'),
             'initiative' => $this->input->post('opf2'),
@@ -569,6 +571,53 @@ class Teacher_model extends CI_Model {
         );
         $this->db->where('reportid', $id);
         $this->db->update($this->report_table, $data);
+    }
+
+    function getClassByTeacherID($id){
+        $this->db->select('*');
+        $this->db->where('teacherid', $id);
+        $query = $this->db->get($this->class_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getStudentsAttendanceByClassID($classid){
+        $this->db->select('*');
+        $this->db->join('attendance', 'attendance.studentid = student.studentid');
+        $this->db->where('student.classid', $classid);
+        $this->db->where('attendance.date', date('Y-m-d', now()));
+        $this->db->order_by('firstname', 'asc');
+
+        $query = $this->db->get($this->student_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAttendanceLatestID(){
+        $this->db->select('attendanceid');
+        $this->db->order_by("attendanceid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->attendance_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addAttendance($aid, $cid, $sid, $status, $desc){
+        $data = array(
+            'attendanceid' => $aid,
+            'classid' => $cid,
+            'studentid' => $sid,
+            'status' => $status,
+            'description' => $desc,
+            'date' => date('Y-m-d', now()),
+        );
+        $this->db->insert($this->attendance_table, $data);
     }
 }
 
