@@ -79,13 +79,61 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function homeroomReport()
+    public function homeroomReport($id, $term)
+    {
+        $this->form_validation->set_rules('op1', 'Consideration', 'required');
+        $this->form_validation->set_rules('op2', 'Responsibility', 'required');
+        $this->form_validation->set_rules('op3', 'Communication', 'required');
+        $this->form_validation->set_rules('op4', 'Punctual', 'required');
+        $this->form_validation->set_rules('comment', 'Comment', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            if($result = $this->Teacher_model->checkHomeroomReport($id, $term)){
+                $this->Teacher_model->editHomeroomReport($result['homeroomid']);
+            }
+            else{
+                $latestID = $this->Teacher_model->getHomeroomReportLatestID();
+                $latestID = $latestID['homeroomid'];
+                $latestID = substr($latestID, 1);
+                $latestID = 'h'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                $this->Teacher_model->addHomeroomReport($latestID, $id, $term);
+            }
+            $this->session->set_flashdata('success', 'Homeroom Report saved');
+            redirect('teacher/homeroomReport/'.$id.'/'.$term);
+        }
+        
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $info = $this->Teacher_model->getClassByStudentID($id);
+        $classid = $info['classid'];
+        $data['info_db'] = $info;
+        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
+        $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
+        $data['term'] = $term;
+        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
+        $data['content'] = 'teacher/homeroom_report_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function printPreview($id, $term)
     {
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['content'] = 'teacher/homeroom_report_view';
+        $info = $this->Teacher_model->getClassByStudentID($id);
+        $classid = $info['classid'];
+        $data['info_db'] = $info;
+        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
+        $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
+        $data['term'] = $term;
+        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
+        $data['content'] = 'teacher/homeroom_report_print_preview';
         $this->load->view($this->template, $data);
     }
 
@@ -642,10 +690,6 @@ class teacher extends CI_Controller {
         $data['report'] = $this->Teacher_model->getReportDataBy($assignid, $studentid);
         $data['content'] = 'teacher/teacher_course_student_performance_view';
         $this->load->view($this->template, $data);
-    }
-
-    public function courseStudentMidReport($assignid, $studentid){
-        
     }
 
     public function classScheduleView()

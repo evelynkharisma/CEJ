@@ -26,14 +26,7 @@
             <li><a><i class="fa fa-home"></i> Homeroom <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url() ?>index.php/teacher/homeroom_attendance">Attendance</a></li>
-                    <li><a>Report<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="<?php echo base_url() ?>index.php/teacher/homeroomStudent">Mid Term Report</a>
-                            </li>
-                            <li><a href="<?php echo base_url() ?>index.php/teacher/homeroomStudent">Final Term Report</a>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/homeroomStudent">Students</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-edit"></i> Courses <span class="fa fa-chevron-down"></span></a>

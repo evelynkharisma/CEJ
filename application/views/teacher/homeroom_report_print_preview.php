@@ -11,35 +11,17 @@
 
         <div class="clearfix"></div>
 
-        <?php if ($this->session->flashdata('success')): ?>
-            <div  class="alert alert-success">
-                <?php echo $this->session->flashdata('success'); ?>
-            </div>
-        <?php endif; ?>
-        <?php if ($this->session->flashdata('error')): ?>
-            <div  class="alert alert-error">
-                <?php echo $this->session->flashdata('error'); ?>
-            </div>
-        <?php endif; ?>
-        <?php if (validation_errors()): ?>
-            <div  class="alert alert-error">
-                <?php echo validation_errors(); ?>
-            </div>
-        <?php endif; ?>
-
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Grade <?php echo $info_db['classroom'] ?></h2>
-                        <a href="<?php echo base_url() ?>index.php/teacher/printPreview/<?php echo $info_db['studentid'] ?>/<?php echo $term ?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Print Preview</a>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="col-md-12">
                                 <table class="teacher_course_student_mid table-bordered">
-                                    <?php echo form_open('teacher/homeroomReport/'.$info_db["studentid"].'/'.$term); ?>
                                     <tr>
                                         <td width="50%" class="teacher_course_student_mid_td">Homeroom Teacher: <?php echo $teacher['firstname'] ?> <?php echo $teacher['lastname'] ?></td>
                                         <td class="teacher_course_student_mid_td set-center">1</td>
@@ -50,35 +32,35 @@
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Shows consideration for others</td>
-                                        <td class="set-center"><input id="op1_1" type="radio" name="op1" value="1" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='1')?'checked':'' ?>><label for="op1_1"></label></td>
-                                        <td class="set-center"><input id="op1_2" type="radio" name="op1" value="2" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='2')?'checked':'' ?>><label for="op1_2"></label></td>
-                                        <td class="set-center"><input id="op1_3" type="radio" name="op1" value="3" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='3')?'checked':'' ?>><label for="op1_3"></label></td>
-                                        <td class="set-center"><input id="op1_4" type="radio" name="op1" value="4" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='4')?'checked':'' ?>><label for="op1_4"></label></td>
-                                        <td class="set-center"><input id="op1_5" type="radio" name="op1" value="5" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='5')?'checked':'' ?>><label for="op1_5"></label></td>
+                                        <td class="set-center"><?php if ($homeroomreport['consideration'] == '1') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['consideration'] == '2') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['consideration'] == '3') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['consideration'] == '4') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['consideration'] == '5') { ?><span class="option_tick"></span><?php } ?></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Behaves responsibly</td>
-                                        <td class="set-center"><input id="op2_1" type="radio" name="op2" value="1" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='1')?'checked':'' ?>><label for="op2_1"></label></td>
-                                        <td class="set-center"><input id="op2_2" type="radio" name="op2" value="2" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='2')?'checked':'' ?>><label for="op2_2"></label></td>
-                                        <td class="set-center"><input id="op2_3" type="radio" name="op2" value="3" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='3')?'checked':'' ?>><label for="op2_3"></label></td>
-                                        <td class="set-center"><input id="op2_4" type="radio" name="op2" value="4" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='4')?'checked':'' ?>><label for="op2_4"></label></td>
-                                        <td class="set-center"><input id="op2_5" type="radio" name="op2" value="5" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='5')?'checked':'' ?>><label for="op2_5"></label></td>
+                                        <td class="set-center"><?php if ($homeroomreport['responsibility'] == '1') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['responsibility'] == '2') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['responsibility'] == '3') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['responsibility'] == '4') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['responsibility'] == '5') { ?><span class="option_tick"></span><?php } ?></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Communicates effectively</td>
-                                        <td class="set-center"><input id="op3_1" type="radio" name="op3" value="1" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='1')?'checked':'' ?>><label for="op3_1"></label></td>
-                                        <td class="set-center"><input id="op3_2" type="radio" name="op3" value="2" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='2')?'checked':'' ?>><label for="op3_2"></label></td>
-                                        <td class="set-center"><input id="op3_3" type="radio" name="op3" value="3" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='3')?'checked':'' ?>><label for="op3_3"></label></td>
-                                        <td class="set-center"><input id="op3_4" type="radio" name="op3" value="4" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='4')?'checked':'' ?>><label for="op3_4"></label></td>
-                                        <td class="set-center"><input id="op3_5" type="radio" name="op3" value="5" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='5')?'checked':'' ?>><label for="op3_5"></label></td>
+                                        <td class="set-center"><?php if ($homeroomreport['communication'] == '1') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['communication'] == '2') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['communication'] == '3') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['communication'] == '4') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['communication'] == '5') { ?><span class="option_tick"></span><?php } ?></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Is punctual</td>
-                                        <td class="set-center"><input id="op4_1" type="radio" name="op4" value="1" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='1')?'checked':'' ?>><label for="op4_1"></label></td>
-                                        <td class="set-center"><input id="op4_2" type="radio" name="op4" value="2" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='2')?'checked':'' ?>><label for="op4_2"></label></td>
-                                        <td class="set-center"><input id="op4_3" type="radio" name="op4" value="3" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='3')?'checked':'' ?>><label for="op4_3"></label></td>
-                                        <td class="set-center"><input id="op4_4" type="radio" name="op4" value="4" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='4')?'checked':'' ?>><label for="op4_4"></label></td>
-                                        <td class="set-center"><input id="op4_5" type="radio" name="op4" value="5" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='5')?'checked':'' ?>><label for="op4_5"></label></td>
+                                        <td class="set-center"><?php if ($homeroomreport['punctual'] == '1') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['punctual'] == '2') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['punctual'] == '3') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['punctual'] == '4') { ?><span class="option_tick"></span><?php } ?></td>
+                                        <td class="set-center"><?php if ($homeroomreport['punctual'] == '5') { ?><span class="option_tick"></span><?php } ?></td>
                                     </tr>
                                     <tr>
                                         <td class="teacher_course_student_mid_td">Attendance</td>
@@ -88,16 +70,13 @@
                                     </tr>
                                     <tr>
                                         <td colspan="6">
-                                            <textarea name="comment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'><?php echo (isset($homeroomreport['comment']))? $homeroomreport['comment']:'' ?></textarea>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6">
-                                            <button type="submit" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
+                                            <textarea readonly style="resize: none"
+                                                      class="form-control set-margin-bottom"
+                                                      rows="3"
+                                                      placeholder='Comments'><?php echo $homeroomreport['comment'] ?></textarea>
                                         </td>
                                     </tr>
                                 </table>
-                                <?php echo form_close(); ?>
                                 <?php
                                     $i = 0;
                                     if($coursesList){
@@ -107,12 +86,10 @@
                                             }
                                             if ($course['coursename'] != $reports[$i]['coursename']) {
                                 ?>
-                                            <div class="col-md-12 set-margin-top set-margin-bottom">
                                                <span class="alert alert-error">
                                                    <?php echo $course['coursename'] ?> report is not yet submitted by <?php echo $course['firstname'] ?> <?php echo $course['lastname'] ?>
                                                </span>
                                                 <a href="<?php echo base_url() ?>index.php/teacher/sendEmail" class="btn btn-danger set-margin-left"><i class="fa fa-bell-o"></i> Request Report</a>
-                                            </div>
                                 <?php
                                             }
                                             else{

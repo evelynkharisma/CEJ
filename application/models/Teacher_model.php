@@ -13,6 +13,7 @@ class Teacher_model extends CI_Model {
     var $report_table = 'report';
     var $class_table = 'class';
     var $attendance_table = 'attendance';
+    var $homeroom_table = 'homeroom';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -650,6 +651,121 @@ class Teacher_model extends CI_Model {
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
+        }
+    }
+
+    function getClassByStudentID($id){
+        $this->db->select('*');
+        $this->db->join('class', 'class.classid = student.classid');
+        $this->db->where('studentid', $id);
+        $query = $this->db->get($this->student_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getStudentReport($classid, $id, $term){
+        $this->db->select('*');
+        $this->db->join('course', 'course.courseid = course_assign.courseid');
+        $this->db->join('teacher', 'teacher.teacherid = course_assign.teacherid');
+        $this->db->join('report', 'report.assignid = course_assign.assignid');
+        $this->db->where('course_assign.classid', $classid);
+        $this->db->where('report.studentid', $id);
+        $this->db->where('report.term', $term);
+        $this->db->order_by('course.coursename', 'asc');
+
+        $query = $this->db->get($this->course_assign_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getStudentCourses($classid){
+        $this->db->select('*');
+        $this->db->join('course', 'course.courseid = course_assign.courseid');
+        $this->db->join('teacher', 'teacher.teacherid = course_assign.teacherid');
+        $this->db->where('course_assign.classid', $classid);
+        $this->db->order_by('course.coursename', 'asc');
+
+        $query = $this->db->get($this->course_assign_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function checkHomeroomReport($studentid, $term) {
+        $this->db->select('*');
+        $this->db->where('studentid', $studentid);
+        $this->db->where('term', $term);
+        $query = $this->db->get($this->homeroom_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getHomeroomReportLatestID(){
+        $this->db->select('homeroomid');
+        $this->db->order_by("homeroomid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->homeroom_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addHomeroomReport($latestID, $studentid, $term){
+        $data = array(
+            'homeroomid' => $latestID,
+            'studentid' => $studentid,
+            'date' => date('Y-m-d', now()),
+            'term' => $term,
+            'consideration' => $this->input->post('op1'),
+            'responsibility' => $this->input->post('op2'),
+            'communication' => $this->input->post('op3'),
+            'punctual' => $this->input->post('op4'),
+            'comment' => $this->input->post('comment'),
+        );
+        $this->db->insert($this->homeroom_table, $data);
+    }
+
+    function editHomeroomReport($id){
+        $data = array(
+            'consideration' => $this->input->post('op1'),
+            'responsibility' => $this->input->post('op2'),
+            'communication' => $this->input->post('op3'),
+            'punctual' => $this->input->post('op4'),
+            'comment' => $this->input->post('comment'),
+        );
+        $this->db->where('homeroomid', $id);
+        $this->db->update($this->homeroom_table, $data);
+    }
+
+    function getHomeroomReport($studentid, $term) {
+        $this->db->select('*');
+        $this->db->where('studentid', $studentid);
+        $this->db->where('term', $term);
+
+        $query = $this->db->get($this->homeroom_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getHomeroomTeacher($classid) {
+        $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = class.teacherid');
+        $this->db->where('classid', $classid);
+
+        $query = $this->db->get($this->class_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
         }
     }
 }

@@ -13,7 +13,6 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Mid Term Report</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -38,7 +37,8 @@
                                         <td><?php echo $student['firstname'] ?></td>
                                         <td><?php echo $student['lastname'] ?></td>
                                         <td>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport/<?php echo $student['studentid'] ?>" class="btn btn-success"><i class="fa fa-eye"></i> View Report</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport/<?php echo $student['studentid'] ?>/1" class="btn btn-success"><i class="fa fa-eye"></i> Mid Report</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport/<?php echo $student['studentid'] ?>/2" class="btn btn-success"><i class="fa fa-eye"></i> Final Report</a>
                                         </td>
                                     </tr>
                                 <?php }} ?>

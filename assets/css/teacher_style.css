@@ -128,6 +128,14 @@
     float: right;
 }
 
+.set-margin-left{
+    margin-left: 15px;
+}
+
+.set-margin-right{
+    margin-right: 15px;
+}
+
 .set-margin-top{
     margin-top: 10px;
 }
