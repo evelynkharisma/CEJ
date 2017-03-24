@@ -14,7 +14,27 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><?php echo date('d F Y', now()) ?></h2>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <h2><?php echo $students[0]['date'] ?></h2>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                                <?php
+                                    if($students[0]['date'] == date('Y-m-d', now())){
+                                ?>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <input type="text" id="pick-date" class="form-control set-margin-bottom set-right" name="datechoosen" value="<?php echo date('Y-m-d', now()) ?>"/>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        <button type="submit" name="datebutton" value="setdate" class="btn btn-success set-right"><i class="fa fa-search"></i> Search</button>
+                                    </div>
+                                <?php
+                                    }else{
+                                ?>
+                                        <button type="submit" name="datebutton" value="today" class="btn btn-success set-right"><i class="fa fa-search"></i> Go to Today</button>
+                                <?php
+                                    }
+                                ?>
+                        </div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">

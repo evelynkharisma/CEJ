@@ -27,6 +27,14 @@ class teacher extends CI_Controller {
         $info = $this->Teacher_model->getClassByTeacherID($this->session->userdata('id'));
         $classid = $info['classid'];
 
+        $datebutton = $this->input->post('datebutton');
+        if($datebutton == 'setdate'){
+            $setdate = $this->input->post('datechoosen');
+        }
+        else{
+            $setdate = date('Y-m-d', now());
+        }
+
         $savebutton = $this->input->post('savebutton');
         if($savebutton == 'true'){
             $studentids = $this->input->post('studentid');
@@ -36,9 +44,14 @@ class teacher extends CI_Controller {
             $latestID = $latestID['attendanceid'];
             for($i=0;$i<sizeof($studentids);$i++)
             {
-                $latestID = substr($latestID, 1);
-                $latestID = 'e'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-                $this->Teacher_model->addAttendance($latestID, $classid, $studentids[$i], $status[$i], $comments[$i]);
+                if($result = $this->Teacher_model->checkAttendance($classid, $studentids[$i], $setdate)){
+                    $this->Teacher_model->editAttendance($result['attendanceid'], $status[$i], $comments[$i]);
+                }
+                else{
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'e'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $this->Teacher_model->addAttendance($latestID, $classid, $studentids[$i], $status[$i], $comments[$i]);
+                }
             }
         }
 
@@ -47,7 +60,7 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['info_db'] = $info;
-        $data['students'] = $this->Teacher_model->getStudentsAttendanceByClassID($classid);
+        $data['students'] = $this->Teacher_model->getStudentsAttendanceByClassID($classid, $setdate);
         $data['content'] = 'teacher/homeroom_attendance_view';
         $this->load->view($this->template, $data);
     }
@@ -356,13 +369,13 @@ class teacher extends CI_Controller {
             $latestID = $latestID['implementationid'];
             for($i=0;$i<sizeof($implementation);$i++)
             {
-                $latestID = substr($latestID, 1);
-                $latestID = 'i'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
                 $lessoncount = $i+1;
                 if($result = $this->Teacher_model->checkImplementation($lessoncount, $id)){
                     $this->Teacher_model->editImplementation($result['implementationid'], $implementation[$i]);
                 }
                 else{
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'i'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
                     $this->Teacher_model->addImplementation($latestID, $lessoncount, $implementation[$i], $id);
                 }
             }

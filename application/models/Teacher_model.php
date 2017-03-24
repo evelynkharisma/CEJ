@@ -583,11 +583,11 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function getStudentsAttendanceByClassID($classid){
+    function getStudentsAttendanceByClassID($classid, $date){
         $this->db->select('*');
         $this->db->join('attendance', 'attendance.studentid = student.studentid');
         $this->db->where('student.classid', $classid);
-        $this->db->where('attendance.date', date('Y-m-d', now()));
+        $this->db->where('attendance.date', $date);
         $this->db->order_by('firstname', 'asc');
 
         $query = $this->db->get($this->student_table);
@@ -606,6 +606,27 @@ class Teacher_model extends CI_Model {
         if ($query->num_rows() == 1) {
             return $query->row_array();
         }
+    }
+    
+    function checkAttendance($classid, $studentid, $setdate){
+        $this->db->select('*');
+        $this->db->where('classid', $classid);
+        $this->db->where('studentid', $studentid);
+        $this->db->where('date', $setdate);
+        $query = $this->db->get($this->attendance_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editAttendance($attendanceid, $status, $comment){
+        $data = array(
+            'status' => $status,
+            'description' => $comment,
+        );
+        $this->db->where('attendanceid', $attendanceid);
+        $this->db->update($this->attendance_table, $data);
     }
 
     function addAttendance($aid, $cid, $sid, $status, $desc){
