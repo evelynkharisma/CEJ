@@ -598,6 +598,18 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getStudentsAttendanceList($classid){
+        $this->db->select('*');
+        $this->db->where('classid', $classid);
+        $this->db->order_by('firstname', 'asc');
+
+        $query = $this->db->get($this->student_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getAttendanceLatestID(){
         $this->db->select('attendanceid');
         $this->db->order_by("attendanceid", "desc");

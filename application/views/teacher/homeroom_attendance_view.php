@@ -15,11 +15,11 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <h2><?php echo $students[0]['date'] ?></h2>
+                            <h2><?php echo $setdate ?></h2>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12">
                                 <?php
-                                    if($students[0]['date'] == date('Y-m-d', now())){
+                                    if($setdate == date('Y-m-d', now())){
                                 ?>
                                     <div class="col-md-8 col-sm-8 col-xs-12">
                                         <input type="text" id="pick-date" class="form-control set-margin-bottom set-right" name="datechoosen" value="<?php echo date('Y-m-d', now()) ?>"/>

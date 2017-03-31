@@ -30,9 +30,11 @@ class teacher extends CI_Controller {
         $datebutton = $this->input->post('datebutton');
         if($datebutton == 'setdate'){
             $setdate = $this->input->post('datechoosen');
+            $data['setdate'] = $setdate;
         }
         else{
             $setdate = date('Y-m-d', now());
+            $data['setdate'] = $setdate;
         }
 
         $savebutton = $this->input->post('savebutton');
@@ -60,7 +62,12 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['info_db'] = $info;
-        $data['students'] = $this->Teacher_model->getStudentsAttendanceByClassID($classid, $setdate);
+        if($attendancedata = $this->Teacher_model->getStudentsAttendanceByClassID($classid, $setdate)){
+            $data['students'] = $attendancedata;
+        }
+        else{
+            $data['students'] = $this->Teacher_model->getStudentsAttendanceList($classid);
+        }
         $data['content'] = 'teacher/homeroom_attendance_view';
         $this->load->view($this->template, $data);
     }
