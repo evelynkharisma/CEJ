@@ -14,6 +14,9 @@ class Teacher_model extends CI_Model {
     var $class_table = 'class';
     var $attendance_table = 'attendance';
     var $homeroom_table = 'homeroom';
+    var $semester_table = 'semester';
+    var $form_table = 'forms';
+    var $event_table = 'events';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -240,7 +243,7 @@ class Teacher_model extends CI_Model {
     function getLessonImplementation($id) {
         $this->db->select('*');
         $this->db->where('assignid', $id);
-        $this->db->order_by('implementation', 'desc');
+        $this->db->order_by('implementationcount', 'asc');
         $query = $this->db->get($this->lesson_implementation_table);
 
         if ($query->num_rows() > 0) {
@@ -259,11 +262,14 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function addImplementation($id, $count, $imp, $sid){
+    function addImplementation($id, $count, $ch, $obj, $act, $mat, $sid){
         $data = array(
             'implementationid' => $id,
             'implementationcount' => $count,
-            'implementation' => $imp,
+            'chapter' => $ch,
+            'objective' => $obj,
+            'activities' => $act,
+            'material' => $mat,
             'assignid' => $sid,
         );
         $this->db->insert($this->lesson_implementation_table, $data);
@@ -280,9 +286,12 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function editImplementation($id, $imp){
+    function editImplementation($id, $ch, $obj, $act, $mat){
         $data = array(
-            'implementation' => $imp,
+            'chapter' => $ch,
+            'objective' => $obj,
+            'activities' => $act,
+            'material' => $mat,
         );
         $this->db->where('implementationid', $id);
         $this->db->update($this->lesson_implementation_table, $data);
@@ -292,7 +301,7 @@ class Teacher_model extends CI_Model {
         $this->db->select('*');
         $this->db->join('class', 'class.classid = course_assign.classid');
         $this->db->join('course', 'course.courseid = course_assign.courseid');
-        $this->db->where('course_assign.teacherid', $id);
+        $this->db->like('course_assign.teacherid', $id);
         $this->db->order_by('classroom', 'asc');
 
         $query = $this->db->get($this->course_assign_table);
@@ -523,12 +532,11 @@ class Teacher_model extends CI_Model {
             'organize' => $this->input->post('op4'),
             'task' => $this->input->post('op5'),
             'homework' => $this->input->post('op6'),
-            'comment' => $this->input->post('comment'),
         );
         $this->db->insert($this->report_table, $data);
     }
 
-    function editMidReport($id){
+    function editTerm1Report($id){
         $data = array(
             'motivation' => $this->input->post('op1'),
             'initiative' => $this->input->post('op2'),
@@ -536,6 +544,16 @@ class Teacher_model extends CI_Model {
             'organize' => $this->input->post('op4'),
             'task' => $this->input->post('op5'),
             'homework' => $this->input->post('op6'),
+            'comment' => $this->input->post('comment'),
+        );
+        $this->db->where('reportid', $id);
+        $this->db->update($this->report_table, $data);
+    }
+
+    function editMidReport($id){
+        $data = array(
+            'mark' => $this->input->post('mark'),
+            'grade' => $this->input->post('grade'),
             'comment' => $this->input->post('comment'),
         );
         $this->db->where('reportid', $id);
@@ -560,7 +578,7 @@ class Teacher_model extends CI_Model {
         $this->db->insert($this->report_table, $data);
     }
 
-    function editFinalReport($id){
+    function editTerm3Report($id){
         $data = array(
             'motivation' => $this->input->post('opf1'),
             'initiative' => $this->input->post('opf2'),
@@ -568,6 +586,16 @@ class Teacher_model extends CI_Model {
             'organize' => $this->input->post('opf4'),
             'task' => $this->input->post('opf5'),
             'homework' => $this->input->post('opf6'),
+            'comment' => $this->input->post('fcomment'),
+        );
+        $this->db->where('reportid', $id);
+        $this->db->update($this->report_table, $data);
+    }
+
+    function editFinalReport($id){
+        $data = array(
+            'mark' => $this->input->post('fmark'),
+            'grade' => $this->input->post('fgrade'),
             'comment' => $this->input->post('fcomment'),
         );
         $this->db->where('reportid', $id);
@@ -739,8 +767,7 @@ class Teacher_model extends CI_Model {
             'consideration' => $this->input->post('op1'),
             'responsibility' => $this->input->post('op2'),
             'communication' => $this->input->post('op3'),
-            'punctual' => $this->input->post('op4'),
-            'comment' => $this->input->post('comment'),
+            'punctual' => $this->input->post('op4')
         );
         $this->db->insert($this->homeroom_table, $data);
     }
@@ -750,8 +777,14 @@ class Teacher_model extends CI_Model {
             'consideration' => $this->input->post('op1'),
             'responsibility' => $this->input->post('op2'),
             'communication' => $this->input->post('op3'),
-            'punctual' => $this->input->post('op4'),
-            'comment' => $this->input->post('comment'),
+            'punctual' => $this->input->post('op4')
+        );
+        $this->db->where('homeroomid', $id);
+        $this->db->update($this->homeroom_table, $data);
+    }
+    function editHomeroomReport2($id){
+        $data = array(
+            'comment' => $this->input->post('comment')
         );
         $this->db->where('homeroomid', $id);
         $this->db->update($this->homeroom_table, $data);
@@ -779,6 +812,149 @@ class Teacher_model extends CI_Model {
         if ($query->num_rows() == 1) {
             return $query->row_array();
         }
+    }
+
+    function getTotalAttendance($id){
+        $this->db->select('*');
+        $this->db->where('studentid', $id);
+
+        $query = $this->db->get($this->attendance_table);
+
+        return $query->num_rows();
+    }
+
+    function getTotalPresentByStudent($id){
+        $this->db->select('*');
+        $this->db->where('studentid', $id);
+        $this->db->where('status', 'p');
+
+        $query = $this->db->get($this->attendance_table);
+
+        return $query->num_rows();
+    }
+
+    function getSemesterPlan($id) {
+        $this->db->select('*');
+        $this->db->where('courseid', $id);
+        $query = $this->db->get($this->semester_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getSemesterLatestID(){
+        $this->db->select('semesterid');
+        $this->db->order_by("semesterid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->semester_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addSemester($id, $w, $t, $o, $a, $r, $cid){
+        $data = array(
+            'semesterid' => $id,
+            'week' => $w,
+            'topic' => $t,
+            'outcome' => $o,
+            'assessment' => $a,
+            'resources' => $r,
+            'courseid' => $cid,
+        );
+        $this->db->insert($this->semester_table, $data);
+    }
+
+    function editSemester($id, $w, $t, $o, $a, $r){
+        $data = array(
+            'week' => $w,
+            'topic' => $t,
+            'outcome' => $o,
+            'assessment' => $a,
+            'resources' => $r,
+        );
+        $this->db->where('semesterid', $id);
+        $this->db->update($this->semester_table, $data);
+    }
+
+    function getAllForms(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->form_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getFormLatestID(){
+        $this->db->select('formid');
+        $this->db->order_by("formid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->form_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addForm($id, $f){
+        $data = array(
+            'formid' => $id,
+            'title' => $this->input->post('title'),
+            'description' => $this->input->post('description'),
+            'formname' => $f,
+        );
+        $this->db->insert($this->form_table, $data);
+    }
+
+    function getAllEvents($id){
+        $this->db->select('*');
+        $status_array = array($id,'0');
+        $this->db->where_in('teacherid', $status_array);
+        $this->db->where('date >=' ,date('Y-m-d', now()));
+        $this->db->order_by('date', 'desc');
+
+        $query = $this->db->get($this->event_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getEventLatestID(){
+        $this->db->select('eventid');
+        $this->db->order_by("eventid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->event_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addEvent($id){
+        $data = array(
+            'eventid' => $id,
+            'title' => $this->input->post('title'),
+            'description' => $this->input->post('description'),
+            'date' => $this->input->post('duedate'),
+            'teacherid' => 0,
+        );
+        $this->db->insert($this->event_table, $data);
+    }
+
+    function addQnAEvent($id, $tid){
+        $data = array(
+            'eventid' => $id,
+            'title' => $this->input->post('coursename').''.$this->input->post('type'),
+            'description' => 'Submit before '.date('Y-m-d', strtotime($this->input->post('duedate') . ' +1 day')),
+            'date' => $this->input->post('duedate'),
+            'teacherid' => $tid,
+        );
+        $this->db->insert($this->event_table, $data);
     }
 }
 

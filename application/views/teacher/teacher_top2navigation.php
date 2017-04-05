@@ -3,6 +3,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_content">
+                <a href="<?php echo base_url() ?>index.php/teacher/courseSemester/<?php echo $info_db['assignid'] ?>" class="btn btn-success">Semester Plan</a>
                 <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $info_db['assignid'] ?>" class="btn btn-success">Lesson Plan</a>
                 <a href="<?php echo base_url() ?>index.php/teacher/courseImplementation/<?php echo $info_db['assignid'] ?>" class="btn btn-success">Lesson Implementation</a>
                 <a href="<?php echo base_url() ?>index.php/teacher/courseMaterial/<?php echo $info_db['assignid'] ?>" class="btn btn-success">Shared Materials</a>

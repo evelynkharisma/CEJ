@@ -107,7 +107,7 @@
 
 .teacher_course_evaluation td{
     padding: 5px 10px 5px 10px;
-    border-bottom: solid 1px gainsboro;
+    /*border-bottom: solid 1px gainsboro;*/
 }
 
 .teacher_course_implementation{
@@ -121,7 +121,11 @@
 
 .teacher_course_implementation td{
     padding: 10px;
-    border-bottom: solid 1px gainsboro;
+    /*border-bottom: solid 1px gainsboro;*/
+}
+
+.set-align-right{
+    text-align: right;
 }
 
 .set-right{
@@ -188,7 +192,7 @@
 .teacher_course_student_mid_td{
     font-weight: bold;
     background-color: gainsboro;
-    border: 1px solid white !important
+    /*border: 1px solid white !important*/
 }
 
 .teacher_course_student_mid td input[type="radio"] {
@@ -197,7 +201,7 @@
 
 .teacher_course_student_mid td label {
     background-color: #fff;
-    border: 1px solid gainsboro;
+    /*border: 1px solid gainsboro;*/
     width: 15px;
     height: 15px;
 }
@@ -215,4 +219,15 @@
 
 textarea{
     resize: vertical;
+}
+
+@media print {
+    .teacher_course_implementation th {
+        background-color: gainsboro !important;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+.print-padding{
+    padding: 10px 20px 0;
 }

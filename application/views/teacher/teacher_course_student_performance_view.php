@@ -137,16 +137,16 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-9">
-                                    <h2>Mid Term Report</h2>
+                                    <h2>Term 1 Report</h2>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="submit" name="savebutton" value="midreport" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
+                                    <button type="submit" name="savebutton" value="term1" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <table class="teacher_course_student_mid table-bordered">
                                     <tr>
-                                        <td width="50%" class="teacher_course_student_mid_td">Course Name</td>
+                                        <td width="50%" class="teacher_course_student_mid_td"></td>
                                         <td class="teacher_course_student_mid_td set-center">1</td>
                                         <td class="teacher_course_student_mid_td set-center">2</td>
                                         <td class="teacher_course_student_mid_td set-center">3</td>
@@ -201,6 +201,30 @@
                                         <td class="set-center"><input id="op6_4" type="radio" name="op6" value="4" <?php echo (isset($report[0]['homework']) && $report[0]['homework']=='4')?'checked':'' ?>><label for="op6_4"></label></td>
                                         <td class="set-center"><input id="op6_5" type="radio" name="op6" value="5" <?php echo (isset($report[0]['homework']) && $report[0]['homework']=='5')?'checked':'' ?>><label for="op6_5"></label></td>
                                     </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="profile_title">
+                                <div class="col-md-9">
+                                    <h2>Term 2 Report</h2>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" name="savebutton" value="term2" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="teacher_course_student_mid table-bordered">
+                                    <tr>
+                                        <td width="50%" class="teacher_course_student_mid_td"></td>
+                                        <td class="teacher_course_student_mid_td set-center">EXAM MARK</td>
+                                        <td class="teacher_course_student_mid_td set-center">COURSE GRADE</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%" class="teacher_course_student_mid_td"></td>
+                                        <td class="set-center"><input type="text" class="form-control set-margin-bottom" name="mark" value="<?php echo set_value('mark', isset($report[0]['mark']) ? $report[0]['mark'] : ''); ?>"/></td>
+                                        <td class="set-center"><input type="text" class="form-control set-margin-bottom" name="grade" value="<?php echo set_value('grade', isset($report[0]['grade']) ? $report[0]['grade'] : ''); ?>"/></td>
+                                    </tr>
                                     <tr>
                                         <td colspan="6">
                                             <textarea name="comment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'><?php echo (isset($report[0]['comment']))? $report[0]['comment']:'' ?></textarea>
@@ -212,16 +236,16 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-9">
-                                    <h2>Final Term Report</h2>
+                                    <h2>Term 3 Report</h2>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="submit" name="savebutton" value="finalreport" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
+                                    <button type="submit" name="savebutton" value="term3" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <table class="teacher_course_student_mid table-bordered">
                                     <tr>
-                                        <td width="50%" class="teacher_course_student_mid_td">Course Name</td>
+                                        <td width="50%" class="teacher_course_student_mid_td"></td>
                                         <td class="teacher_course_student_mid_td set-center">1</td>
                                         <td class="teacher_course_student_mid_td set-center">2</td>
                                         <td class="teacher_course_student_mid_td set-center">3</td>
@@ -276,13 +300,37 @@
                                         <td class="set-center"><input id="op26_4" type="radio" name="opf6" value="4" <?php echo (isset($report[1]['homework']) && $report[1]['homework']=='4')?'checked':'' ?>><label for="op26_4"></label></td>
                                         <td class="set-center"><input id="op26_5" type="radio" name="opf6" value="5" <?php echo (isset($report[1]['homework']) && $report[1]['homework']=='5')?'checked':'' ?>><label for="op26_5"></label></td>
                                     </tr>
+                                </table>
+                                <?php echo form_close(); ?>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="profile_title">
+                                <div class="col-md-9">
+                                    <h2>Term 4 Report</h2>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="submit" name="savebutton" value="term4" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="teacher_course_student_mid table-bordered">
+                                    <tr>
+                                        <td width="50%" class="teacher_course_student_mid_td"></td>
+                                        <td class="teacher_course_student_mid_td set-center">EXAM MARK</td>
+                                        <td class="teacher_course_student_mid_td set-center">COURSE GRADE</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%" class="teacher_course_student_mid_td"></td>
+                                        <td class="set-center"><input type="text" class="form-control set-margin-bottom" name="fmark" value="<?php echo set_value('fmark', isset($report[1]['mark']) ? $report[1]['mark'] : ''); ?>"/></td>
+                                        <td class="set-center"><input type="text" class="form-control set-margin-bottom" name="fgrade" value="<?php echo set_value('fgrade', isset($report[1]['grade']) ? $report[1]['grade'] : ''); ?>"/></td>
+                                    </tr>
                                     <tr>
                                         <td colspan="6">
-                                            <textarea name="fcomment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'> <?php echo (isset($report[1]['comment']))? $report[1]['comment']:'' ?></textarea>
+                                            <textarea name="fcomment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'><?php echo (isset($report[1]['comment']))? $report[1]['comment']:'' ?></textarea>
                                         </td>
                                     </tr>
                                 </table>
-                                <?php echo form_close(); ?>
                             </div>
                         </div>
                     </div>

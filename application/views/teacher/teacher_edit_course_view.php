@@ -2,7 +2,7 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <?php echo form_open_multipart('teacher/editCourse/'.$info_db['courseid']); ?>
+            <?php echo form_open_multipart('teacher/editCourse/'.$info_db['assignid']); ?>
             <div class="title_left">
                 <input type="hidden" class="form-control set-margin-bottom" name="courseid" value="<?php echo $info_db['courseid']; ?>"/>
                 <h3>Course Name: <input type="text" class="form-control set-margin-bottom set-margin-top" name="coursename" value="<?php echo set_value('coursename', isset($info_db['coursename']) ? $info_db['coursename'] : ''); ?>"/></h3>
@@ -50,7 +50,6 @@
                         <table class="teacher_course_implementation">
                             <thead>
                             <tr>
-                                <th width="10%" style="text-align: center">Lesson</th>
                                 <th width="20%">Chapter/Unit</th>
                                 <th width="20%">Learning Objective</th>
                                 <th width="20%">Student Activities</th>
@@ -62,12 +61,11 @@
                                 if($plans){
                                     foreach($plans as $plan){ ?>
                                         <tr>
-                                            <input type="hidden" class="form-control set-margin-bottom" name="lessonid[]" value="<?php echo $plan['lessonid']; ?>"/>
-                                            <td align="center"><?php echo $plan['lessoncount'] ?></td>
-                                            <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" value="<?php echo set_value('chapter', isset($plan['chapter']) ? $plan['chapter'] : 'ex: 1,2,3-4'); ?>"/></td>
-                                            <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"><?php echo isset($plan['objective']) ? $plan['objective'] : ''; ?></textarea></td>
-                                            <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"><?php echo isset($plan['activities']) ? $plan['activities'] : ''; ?></textarea></td>
-                                            <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"><?php echo isset($plan['material']) ? $plan['material'] : ''; ?></textarea></td>
+                                            <input type="hidden" class="form-control set-margin-bottom" name="lessonido[]" value="<?php echo $plan['lessonid']; ?>"/>
+                                            <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chaptero[]" value="<?php echo set_value('chapter', isset($plan['chapter']) ? $plan['chapter'] : 'ex: 1,2,3-4'); ?>"/></td>
+                                            <td><textarea class="form-control set-margin-bottom" name="objectiveo[]" rows="3"><?php echo isset($plan['objective']) ? $plan['objective'] : ''; ?></textarea></td>
+                                            <td><textarea class="form-control set-margin-bottom" name="activitieso[]" rows="3"><?php echo isset($plan['activities']) ? $plan['activities'] : ''; ?></textarea></td>
+                                            <td><textarea class="form-control set-margin-bottom" name="materialo[]" rows="3"><?php echo isset($plan['material']) ? $plan['material'] : ''; ?></textarea></td>
                                         </tr>
                             <?php }}
                                 else {?>
@@ -75,6 +73,151 @@
                                         <td colspan="5"><?php echo 'no lesson plan found' ?></td>
                                     </tr>
                                 <?php } ?>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <tr class="toAdd">
+                                <td><input type="text" class="form-control set-margin-bottom set-margin-top" name="chapter[]" placeholder="ex: 1,2,3"/></td>
+                                <td><textarea class="form-control set-margin-bottom" name="objective[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="activities[]" rows="3"></textarea></td>
+                                <td><textarea class="form-control set-margin-bottom" name="material[]" rows="3"></textarea></td>
+                            </tr>
+                            <a class="btn btn-success set-right addPlan"><i class="fa fa-plus m-right-xs"></i> Add Plan</a>
                             </tbody>
                         </table>
                     </div>

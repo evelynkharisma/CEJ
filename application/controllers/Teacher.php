@@ -4,8 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class teacher extends CI_Controller {
 
     var $template = 'template';
+    var $print_template = 'print_template';
     var $profilephotopath = 'assets/img/teacher/profile/';
     var $materialpath = 'assets/file/teacher/material/';
+    var $formpath = 'assets/file/forms/';
 
     function __construct() {
         parent::__construct();
@@ -92,7 +94,6 @@ class teacher extends CI_Controller {
         $this->form_validation->set_rules('op2', 'Responsibility', 'required');
         $this->form_validation->set_rules('op3', 'Communication', 'required');
         $this->form_validation->set_rules('op4', 'Punctual', 'required');
-        $this->form_validation->set_rules('comment', 'Comment', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
@@ -109,6 +110,10 @@ class teacher extends CI_Controller {
             $this->session->set_flashdata('success', 'Homeroom Report saved');
             redirect('teacher/homeroomReport/'.$id.'/'.$term);
         }
+
+        $allattendance = $this->Teacher_model->getTotalAttendance($id);
+        $present = $this->Teacher_model->getTotalPresentByStudent($id);
+        $attendancepercentage = $present/$allattendance*100;
         
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
@@ -116,6 +121,7 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $info = $this->Teacher_model->getClassByStudentID($id);
         $classid = $info['classid'];
+        $data['attendance'] = $attendancepercentage;
         $data['info_db'] = $info;
         $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
         $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
@@ -123,6 +129,40 @@ class teacher extends CI_Controller {
         $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
         $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
         $data['content'] = 'teacher/homeroom_report_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function homeroomReport2($id, $term)
+    {
+        $this->form_validation->set_rules('comment', 'Comment', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            if($result = $this->Teacher_model->checkHomeroomReport($id, $term)){
+                $this->Teacher_model->editHomeroomReport2($result['homeroomid']);
+            }
+            $this->session->set_flashdata('success', 'Homeroom Report saved');
+            redirect('teacher/homeroomReport2/'.$id.'/'.$term);
+        }
+
+        $allattendance = $this->Teacher_model->getTotalAttendance($id);
+        $present = $this->Teacher_model->getTotalPresentByStudent($id);
+        $attendancepercentage = $present/$allattendance*100;
+
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $info = $this->Teacher_model->getClassByStudentID($id);
+        $classid = $info['classid'];
+        $data['attendance'] = $attendancepercentage;
+        $data['info_db'] = $info;
+        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
+        $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
+        $data['term'] = $term;
+        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
+        $data['content'] = 'teacher/homeroom_report2_view';
         $this->load->view($this->template, $data);
     }
 
@@ -358,14 +398,30 @@ class teacher extends CI_Controller {
         if ($this->form_validation->run() == TRUE) {
             $this->Teacher_model->editCourse($courseid);
 
-            $lessonid = $this->input->post('lessonid');
+            $lessonid = $this->input->post('lessonido');
+            $chapters = $this->input->post('chaptero');
+            $objective = $this->input->post('objectiveo');
+            $activities = $this->input->post('activitieso');
+            $material = $this->input->post('materialo');
+            for($i=0;$i<sizeof($lessonid);$i++)
+            {
+                $lessoncount = $i+1;
+                $this->Teacher_model->editPlan($lessonid[$i], $chapters[$i], $objective[$i], $activities[$i], $material[$i]);
+            }
             $chapters = $this->input->post('chapter');
             $objective = $this->input->post('objective');
             $activities = $this->input->post('activities');
             $material = $this->input->post('material');
-            for($i=0;$i<sizeof($lessonid);$i++)
+            $latestID = $this->Teacher_model->getPlanLatestID();
+            $latestID = $latestID['lessonid'];
+            for($i=0;$i<sizeof($chapters);$i++)
             {
-                $this->Teacher_model->editPlan($lessonid[$i], $chapters[$i], $objective[$i], $activities[$i], $material[$i]);
+                if($chapters[$i] != null){
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'l'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $lessoncount = $lessoncount+1;
+                    $this->Teacher_model->addPlan($latestID, $lessoncount, $chapters[$i], $objective[$i], $activities[$i], $material[$i], $courseid);
+                }
             }
 
             $this->session->set_flashdata('success', 'Course saved');
@@ -403,6 +459,88 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function courseSemester($id)
+    {
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['top2navigation'] = 'teacher/teacher_top2navigation';
+        $data['content'] = 'teacher/teacher_course_semester_view';
+        if(!$info = $this->Teacher_model->getCourseDataByAssignID($id)){
+            $info = $this->Teacher_model->getCourseDataByID($id);
+        }
+        $data['info_db'] = $info;
+        $courseid = $info['courseid'];
+        $data['plans'] = $this->Teacher_model->getSemesterPlan($courseid);
+        $this->load->view($this->template, $data);
+    }
+
+    public function printPreviewSemester($id)
+    {
+        $data['title'] = 'SMS';
+        $data['content'] = 'teacher/teacher_course_semester_print_view';
+        if(!$info = $this->Teacher_model->getCourseDataByAssignID($id)){
+            $info = $this->Teacher_model->getCourseDataByID($id);
+        }
+        $data['info_db'] = $info;
+        $courseid = $info['courseid'];
+        $data['plans'] = $this->Teacher_model->getSemesterPlan($courseid);
+        $this->load->view($this->print_template, $data);
+    }
+
+    public function editSemester($id)
+    {
+        $this->form_validation->set_rules('courseid', 'Course ID', 'required');
+        $courseid = $this->input->post('courseid');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $semesterid = $this->input->post('semesterido');
+            $weeks = $this->input->post('weeko');
+            $topics = $this->input->post('topico');
+            $outcomes = $this->input->post('outcomeo');
+            $assessments = $this->input->post('assessmento');
+            $resources = $this->input->post('resourceo');
+            for($i=0;$i<sizeof($semesterid);$i++)
+            {
+                $this->Teacher_model->editSemester($semesterid[$i], $weeks[$i], $topics[$i], $outcomes[$i], $assessments[$i], $resources[$i]);
+            }
+            $weeks = $this->input->post('week');
+            $topics = $this->input->post('topic');
+            $outcomes = $this->input->post('outcome');
+            $assessments = $this->input->post('assessment');
+            $resources = $this->input->post('resource');
+            $latestID = $this->Teacher_model->getSemesterLatestID();
+            $latestID = $latestID['semesterid'];
+            for($i=0;$i<sizeof($weeks);$i++)
+            {
+                if($weeks[$i] != null){
+                    $latestID = substr($latestID, 1);
+                    $latestID = 's'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $this->Teacher_model->addSemester($latestID, $weeks[$i], $topics[$i], $outcomes[$i], $assessments[$i],$resources[$i], $courseid);
+                }
+            }
+
+            $this->session->set_flashdata('success', 'Course saved');
+            redirect('teacher/courseSemester/'.$id);
+        }
+
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/teacher_edit_semester_view';
+        if(!$info = $this->Teacher_model->getCourseDataByAssignID($id)){
+            $info = $this->Teacher_model->getCourseDataByID($id);
+        }
+        $data['info_db'] = $info;
+        $courseid = $info['courseid'];
+        $data['plans'] = $this->Teacher_model->getSemesterPlan($courseid);
+        $this->load->view($this->template, $data);
+    }
+
 //    public function coursePlan(){
 //        $data['title'] = 'SMS';
 //        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
@@ -419,19 +557,22 @@ class teacher extends CI_Controller {
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
-            $implementation = $this->input->post('implementation');
+            $chapters = $this->input->post('chapter');
+            $objective = $this->input->post('objective');
+            $activities = $this->input->post('activities');
+            $material = $this->input->post('material');
             $latestID = $this->Teacher_model->getImplementationLatestID();
             $latestID = $latestID['implementationid'];
-            for($i=0;$i<sizeof($implementation);$i++)
+            for($i=0;$i<sizeof($chapters);$i++)
             {
                 $lessoncount = $i+1;
                 if($result = $this->Teacher_model->checkImplementation($lessoncount, $id)){
-                    $this->Teacher_model->editImplementation($result['implementationid'], $implementation[$i]);
+                    $this->Teacher_model->editImplementation($result['implementationid'], $chapters[$i], $objective[$i], $activities[$i], $material[$i]);
                 }
                 else{
                     $latestID = substr($latestID, 1);
                     $latestID = 'i'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-                    $this->Teacher_model->addImplementation($latestID, $lessoncount, $implementation[$i], $id);
+                    $this->Teacher_model->addImplementation($latestID, $lessoncount, $chapters[$i], $objective[$i], $activities[$i], $material[$i], $id);
                 }
             }
 
@@ -451,6 +592,15 @@ class teacher extends CI_Controller {
         $data['implementation'] = $this->Teacher_model->getLessonImplementation($id);
         $data['content'] = 'teacher/teacher_course_implementation_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function printPreviewImplementation($id){
+        $data['title'] = 'SMS';
+        $info = $this->Teacher_model->getCourseDataByAssignID($id);
+        $data['info_db'] = $info;
+        $data['plans'] = $this->Teacher_model->getLessonImplementation($id);
+        $data['content'] = 'teacher/teacher_course_implementation_print_view';
+        $this->load->view($this->print_template, $data);
     }
 
     public function courseMaterial($id){
@@ -548,6 +698,8 @@ class teacher extends CI_Controller {
         $this->form_validation->set_rules('type', 'type', 'required');
         $this->form_validation->set_rules('duedate', 'due date', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
+        $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
+        $teacherid = $teacherid['teacherid'];
         if ($this->form_validation->run() == TRUE) {
             if ($this->input->post('existingfile')==null && empty($_FILES['userfile']['name'])){
                 $this->session->set_flashdata('error', 'Existing file or New file is required');
@@ -575,8 +727,6 @@ class teacher extends CI_Controller {
                         $latestID = $latestID['fileid'];
                         $latestID = substr($latestID, 1);
                         $fileID = 'f'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-                        $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
-                        $teacherid = $teacherid['teacherid'];
 
                         $this->Teacher_model->addFile($fileID, $filename, $teacherid);
                         $newfile = true;
@@ -591,6 +741,12 @@ class teacher extends CI_Controller {
                     $fileID = $this->input->post('existingfile');
                     $this->Teacher_model->addQnA($materialID, $id, $fileID);
                 }
+                $latestID = $this->Teacher_model->getEventLatestID();
+                $latestID = $latestID['eventid'];
+                $latestID = substr($latestID, 1);
+                $latestID = 'v'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                $this->Teacher_model->addQnAEvent($latestID, $teacherid);
+
                 $this->session->set_flashdata('success', 'New Material Added');
                 redirect('teacher/courseAssignmentQuiz/'.$id);
             }
@@ -636,19 +792,18 @@ class teacher extends CI_Controller {
 
     public function courseStudentPerformance($assignid, $studentid){
         $savebutton = $this->input->post('savebutton');
-        if($savebutton == 'midreport'){
+        if($savebutton == 'term1'){
             $this->form_validation->set_rules('op1', 'Mid Term Is self-motivated', 'required');
             $this->form_validation->set_rules('op2', 'Mid Term Shows initiatives and asks questions', 'required');
             $this->form_validation->set_rules('op3', 'Mid Term Persists despite difficulties', 'required');
             $this->form_validation->set_rules('op4', 'Mid Term Is well-organised and punctual', 'required');
             $this->form_validation->set_rules('op5', 'Mid Term Completes classroom tasks', 'required');
             $this->form_validation->set_rules('op6', 'Mid Term Completes homework on time', 'required');
-            $this->form_validation->set_rules('comment', 'Mid Term Comment', 'required');
             $this->form_validation->set_error_delimiters('', '<br/>');
 
             if ($this->form_validation->run() == TRUE) {
                 if($result = $this->Teacher_model->checkReport($assignid, $studentid, 1)){
-                    $this->Teacher_model->editMidReport($result['reportid']);
+                    $this->Teacher_model->editTerm1Report($result['reportid']);
                 }
                 else{
                     $latestID = $this->Teacher_model->getReportLatestID();
@@ -661,19 +816,32 @@ class teacher extends CI_Controller {
             }
             redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
         }
-        else if($savebutton == 'finalreport'){
+        else if($savebutton == 'term2'){
+            $this->form_validation->set_rules('mark', 'Mid Term Exam Mark', 'required');
+            $this->form_validation->set_rules('grade', 'Mid Term Course Grade', 'required');
+            $this->form_validation->set_rules('comment', 'Mid Term Comment', 'required');
+            $this->form_validation->set_error_delimiters('', '<br/>');
+
+            if ($this->form_validation->run() == TRUE) {
+                if($result = $this->Teacher_model->checkReport($assignid, $studentid, 1)){
+                    $this->Teacher_model->editMidReport($result['reportid']);
+                }
+                $this->session->set_flashdata('success', 'Report saved');
+            }
+            redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
+        }
+        else if($savebutton == 'term3'){
             $this->form_validation->set_rules('opf1', 'Final Term Is self-motivated', 'required');
             $this->form_validation->set_rules('opf2', 'Final Term Shows initiatives and asks questions', 'required');
             $this->form_validation->set_rules('opf3', 'Final Term Persists despite difficulties', 'required');
             $this->form_validation->set_rules('opf4', 'Final Term Is well-organised and punctual', 'required');
             $this->form_validation->set_rules('opf5', 'Final Term Completes classroom tasks', 'required');
             $this->form_validation->set_rules('opf6', 'Final Term Completes homework on time', 'required');
-            $this->form_validation->set_rules('fcomment', 'Final Term Comment', 'required');
             $this->form_validation->set_error_delimiters('', '<br/>');
 
             if ($this->form_validation->run() == TRUE) {
                 if($result = $this->Teacher_model->checkReport($assignid, $studentid, 2)){
-                    $this->Teacher_model->editFinalReport($result['reportid']);
+                    $this->Teacher_model->editTerm3Report($result['reportid']);
                 }
                 else{
                     $latestID = $this->Teacher_model->getReportLatestID();
@@ -681,6 +849,20 @@ class teacher extends CI_Controller {
                     $latestID = substr($latestID, 1);
                     $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
                     $this->Teacher_model->addFinalReport($latestID, $assignid, $studentid);
+                }
+                $this->session->set_flashdata('success', 'Report saved');
+            }
+            redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
+        }
+        else if($savebutton == 'term4'){
+            $this->form_validation->set_rules('mark', 'Mid Term Exam Mark', 'required');
+            $this->form_validation->set_rules('grade', 'Mid Term Course Grade', 'required');
+            $this->form_validation->set_rules('comment', 'Mid Term Comment', 'required');
+            $this->form_validation->set_error_delimiters('', '<br/>');
+
+            if ($this->form_validation->run() == TRUE) {
+                if($result = $this->Teacher_model->checkReport($assignid, $studentid, 2)){
+                    $this->Teacher_model->editFinalReport($result['reportid']);
                 }
                 $this->session->set_flashdata('success', 'Report saved');
             }
@@ -750,23 +932,13 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function operationView()
+    public function staffView()
     {
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['content'] = 'includes/operations_view';
-        $this->load->view($this->template, $data);
-    }
-
-    public function administratorView()
-    {
-        $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['sidebar'] = 'teacher/teacher_sidebar';
-        $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['content'] = 'includes/administrators_view';
+        $data['content'] = 'includes/staff_view';
         $this->load->view($this->template, $data);
     }
 
@@ -787,6 +959,97 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/payments_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addEvent()
+    {
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_rules('duedate', 'Date', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Teacher_model->getEventLatestID();
+            $latestID = $latestID['eventid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'v'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            $this->Teacher_model->addEvent($latestID);
+
+            $this->session->set_flashdata('success', 'New Event Added');
+            redirect('teacher/eventList/');
+        }
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/add_event_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function eventList()
+    {
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->session->userdata('id'));
+        $data['content'] = 'teacher/event_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function forms()
+    {
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['info_dbs'] = $this->Teacher_model->getAllForms();
+        $data['content'] = 'includes/forms_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addForm()
+    {
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            if (empty($_FILES['userfile']['name'])){
+                $this->session->set_flashdata('error', 'File is required');
+                redirect(current_url());
+            }
+            else{
+                $latestID = $this->Teacher_model->getFormLatestID();
+                $latestID = $latestID['formid'];
+                $latestID = substr($latestID, 1);
+                $latestID = 'f'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                if ($_FILES['userfile']['error'] != 4) {
+                    $config['upload_path'] = $this->formpath;
+                    $config['allowed_types'] = "doc|pdf|docx";
+                    $config['max_size'] = 200000;
+                    $config['overwrite'] = TRUE;
+                    $config['file_name'] = $latestID;
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('userfile')) {
+                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        redirect(current_url());
+                    } else {
+                        $data = $this->upload->data();
+                        $filename = $data['orig_name'];
+                        $this->Teacher_model->addForm($latestID, $filename);
+                    }
+                }
+                $this->session->set_flashdata('success', 'New Form Added');
+                redirect('teacher/forms/');
+            }
+        }
+        
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'includes/add_form_view';
         $this->load->view($this->template, $data);
     }
 

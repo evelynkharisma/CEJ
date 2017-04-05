@@ -85,11 +85,15 @@
                                     case 12:
                                         $grade12[] = $course;
                                         break;
+
+                                    case 13:
+                                        $grade13[] = $course;
+                                        break;
                                 }
                             }
                         ?>
                         <?php
-                            for($i=1; $i<13; $i++){
+                            for($i=1; $i<14; $i++){
                                 if (isset(${'grade'.$i}) && ${'grade'.$i} != null): ?>
                                 <a>Grade <?php echo $i; ?><span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -113,22 +117,21 @@
             <li><a><i class="fa fa-address-book-o"></i> Directories <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addTeacher">Add Teacher</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/teacherView">Teachers</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/studentView">Students</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/parentView">Parents</a></li>
-                    <li><a>Staffs<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="<?php echo base_url() ?>index.php/teacher/teacherView">Teachers</a>
-                            </li>
-                            <li><a href="<?php echo base_url() ?>index.php/teacher/operationView">Operations</a>
-                            </li>
-                            <li><a href="<?php echo base_url() ?>index.php/teacher/AdministratorView">Administrators</a>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/staffView">Staff</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/libraryView">Libraries</a></li>
                 </ul>
             </li>
             <li><a href="<?php echo base_url() ?>index.php/teacher/payment"><i class="fa fa-usd"></i>Payments</span></a></li>
+            <li><a><i class="fa fa-bell"></i> Events <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/addEvent">Add Event</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/eventList">Events List</a></li>
+                </ul>
+            </li>
+            <li><a href="<?php echo base_url() ?>index.php/teacher/forms"><i class="fa fa-sticky-note-o"></i>Forms</span></a></li>
         </ul>
     </div>
 

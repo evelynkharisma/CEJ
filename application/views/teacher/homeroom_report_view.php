@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3><?php echo $info_db['firstname'] ?> <?php echo $info_db['lastname'] ?> <?php echo ($term == 1) ? 'Mid Term Report': 'Final Term Report' ?></h3>
+                <h3><?php echo $info_db['firstname'] ?> <?php echo $info_db['lastname'] ?> <?php echo ($term == 1) ? 'Term 1 Report': 'Term 3 Report' ?></h3>
             </div>
 
 
@@ -41,7 +41,7 @@
                                 <table class="teacher_course_student_mid table-bordered">
                                     <?php echo form_open('teacher/homeroomReport/'.$info_db["studentid"].'/'.$term); ?>
                                     <tr>
-                                        <td width="50%" class="teacher_course_student_mid_td">Homeroom Teacher: <?php echo $teacher['firstname'] ?> <?php echo $teacher['lastname'] ?></td>
+                                        <td width="50%" class="teacher_course_student_mid_td">FORM CLASS</td>
                                         <td class="teacher_course_student_mid_td set-center">1</td>
                                         <td class="teacher_course_student_mid_td set-center">2</td>
                                         <td class="teacher_course_student_mid_td set-center">3</td>
@@ -49,7 +49,7 @@
                                         <td class="teacher_course_student_mid_td set-center">5</td>
                                     </tr>
                                     <tr>
-                                        <td class="teacher_course_student_mid_td">Shows consideration for others</td>
+                                        <td class="">Shows consideration for others</td>
                                         <td class="set-center"><input id="op1_1" type="radio" name="op1" value="1" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='1')?'checked':'' ?>><label for="op1_1"></label></td>
                                         <td class="set-center"><input id="op1_2" type="radio" name="op1" value="2" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='2')?'checked':'' ?>><label for="op1_2"></label></td>
                                         <td class="set-center"><input id="op1_3" type="radio" name="op1" value="3" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='3')?'checked':'' ?>><label for="op1_3"></label></td>
@@ -57,7 +57,7 @@
                                         <td class="set-center"><input id="op1_5" type="radio" name="op1" value="5" <?php echo (isset($homeroomreport['consideration']) && $homeroomreport['consideration']=='5')?'checked':'' ?>><label for="op1_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="teacher_course_student_mid_td">Behaves responsibly</td>
+                                        <td class="">Behaves responsibly</td>
                                         <td class="set-center"><input id="op2_1" type="radio" name="op2" value="1" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='1')?'checked':'' ?>><label for="op2_1"></label></td>
                                         <td class="set-center"><input id="op2_2" type="radio" name="op2" value="2" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='2')?'checked':'' ?>><label for="op2_2"></label></td>
                                         <td class="set-center"><input id="op2_3" type="radio" name="op2" value="3" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='3')?'checked':'' ?>><label for="op2_3"></label></td>
@@ -65,7 +65,7 @@
                                         <td class="set-center"><input id="op2_5" type="radio" name="op2" value="5" <?php echo (isset($homeroomreport['responsibility']) && $homeroomreport['responsibility']=='5')?'checked':'' ?>><label for="op2_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="teacher_course_student_mid_td">Communicates effectively</td>
+                                        <td class="">Communicates effectively</td>
                                         <td class="set-center"><input id="op3_1" type="radio" name="op3" value="1" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='1')?'checked':'' ?>><label for="op3_1"></label></td>
                                         <td class="set-center"><input id="op3_2" type="radio" name="op3" value="2" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='2')?'checked':'' ?>><label for="op3_2"></label></td>
                                         <td class="set-center"><input id="op3_3" type="radio" name="op3" value="3" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='3')?'checked':'' ?>><label for="op3_3"></label></td>
@@ -73,7 +73,7 @@
                                         <td class="set-center"><input id="op3_5" type="radio" name="op3" value="5" <?php echo (isset($homeroomreport['communication']) && $homeroomreport['communication']=='5')?'checked':'' ?>><label for="op3_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="teacher_course_student_mid_td">Is punctual</td>
+                                        <td class="">Is punctual</td>
                                         <td class="set-center"><input id="op4_1" type="radio" name="op4" value="1" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='1')?'checked':'' ?>><label for="op4_1"></label></td>
                                         <td class="set-center"><input id="op4_2" type="radio" name="op4" value="2" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='2')?'checked':'' ?>><label for="op4_2"></label></td>
                                         <td class="set-center"><input id="op4_3" type="radio" name="op4" value="3" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='3')?'checked':'' ?>><label for="op4_3"></label></td>
@@ -81,14 +81,15 @@
                                         <td class="set-center"><input id="op4_5" type="radio" name="op4" value="5" <?php echo (isset($homeroomreport['punctual']) && $homeroomreport['punctual']=='5')?'checked':'' ?>><label for="op4_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="teacher_course_student_mid_td">Attendance</td>
+                                        <td class=" set-align-right">Attendance:</td>
                                         <td colspan="5">
-                                            97%
+                                            <?php echo round($attendance) ?>%
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="6">
-                                            <textarea name="comment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'><?php echo (isset($homeroomreport['comment']))? $homeroomreport['comment']:'' ?></textarea>
+                                        <td class="set-align-right">Form Teacher:</td>
+                                        <td colspan="5">
+                                            <?php echo $teacher['firstname'] ?> <?php echo $teacher['lastname'] ?>
                                         </td>
                                     </tr>
                                     <tr>
@@ -120,7 +121,7 @@
                                                 <table class="teacher_course_student_mid table-bordered">
                                                         <tr>
                                                             <td width="50%"
-                                                                class="teacher_course_student_mid_td"><?php echo $reports[$i]['coursename'] ?></td>
+                                                                class="teacher_course_student_mid_td"><?php echo strtoupper($reports[$i]['coursename']) ?></td>
                                                             <td class="teacher_course_student_mid_td set-center">1</td>
                                                             <td class="teacher_course_student_mid_td set-center">2</td>
                                                             <td class="teacher_course_student_mid_td set-center">3</td>
@@ -128,8 +129,8 @@
                                                             <td class="teacher_course_student_mid_td set-center">5</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="teacher_course_student_mid_td">Is
-                                                                self-motivated
+                                                            <td class="">
+                                                                Is self-motivated
                                                             </td>
                                                             <td class="set-center"><?php if ($reports[$i]['motivation'] == '1') { ?>
                                                                     <span class="option_tick"></span><?php } ?></td>
@@ -143,7 +144,7 @@
                                                                     <span class="option_tick"></span><?php } ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="teacher_course_student_mid_td">Shows initiatives
+                                                            <td class="">Shows initiatives
                                                                 and asks questions
                                                             </td>
                                                             <td class="set-center"><?php if ($reports[$i]['initiative'] == '1') { ?>
@@ -158,7 +159,7 @@
                                                                     <span class="option_tick"></span><?php } ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="teacher_course_student_mid_td">Persists despite
+                                                            <td class="">Persists despite
                                                                 difficulties
                                                             </td>
                                                             <td class="set-center"><?php if ($reports[$i]['persistance'] == '1') { ?>
@@ -173,7 +174,7 @@
                                                                     <span class="option_tick"></span><?php } ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="teacher_course_student_mid_td">Is well-organised
+                                                            <td class="">Is well-organised
                                                                 and punctual
                                                             </td>
                                                             <td class="set-center"><?php if ($reports[$i]['organize'] == '1') { ?>
@@ -188,7 +189,7 @@
                                                                     <span class="option_tick"></span><?php } ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="teacher_course_student_mid_td">Completes
+                                                            <td class="">Completes
                                                                 classroom tasks
                                                             </td>
                                                             <td class="set-center"><?php if ($reports[$i]['task'] == '1') { ?>
@@ -203,7 +204,7 @@
                                                                     <span class="option_tick"></span><?php } ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="teacher_course_student_mid_td">Completes homework
+                                                            <td class="">Completes homework
                                                                 on time
                                                             </td>
                                                             <td class="set-center"><?php if ($reports[$i]['homework'] == '1') { ?>
@@ -218,24 +219,8 @@
                                                                     <span class="option_tick"></span><?php } ?></td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="teacher_course_student_mid_td">Exam Mark</td>
-                                                            <td colspan="5">90</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="teacher_course_student_mid_td">Course Grade</td>
-                                                            <td colspan="5">A</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="teacher_course_student_mid_td">Teacher</td>
+                                                            <td class="set-align-right">Teacher:</td>
                                                             <td colspan="5"><?php echo $reports[$i]['firstname'] ?><?php echo $reports[$i]['lastname'] ?></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="6">
-                                                                <textarea readonly style="resize: none"
-                                                                          class="form-control set-margin-bottom"
-                                                                          rows="3"
-                                                                          placeholder='Comments'><?php echo $reports[$i]['comment'] ?></textarea>
-                                                            </td>
                                                         </tr>
                                                     </table>
                                 <?php
