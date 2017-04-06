@@ -125,12 +125,20 @@ class parents extends CI_Controller {
         $data['content'] = 'parents/parent_correspond_view';
         $this->load->view($this->template, $data);
     }
-//    public function payment()
-//    {
-//        $data['title'] = 'SMS';
-//        $data['sidebar'] = 'parents/parent_sidebar';
-//        $data['topnavigation'] = 'parents/parent_topnavigation';
-//        $data['content'] = 'includes/payments_view';
-//        $this->load->view($this->template, $data);
-//    }
+    public function payment_status()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['content'] = 'parents/payment_status_view';
+        $this->load->view($this->template, $data);
+    }
+    public function payment_receipt()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['content'] = 'parents/payment_receipt_view';
+        $this->load->view($this->template, $data);
+    }
 }

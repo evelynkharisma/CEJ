@@ -1,9 +1,10 @@
 .parent_attachment ul li img{
     padding:0;
     width:150px;
+    object-fit: cover;
 }
 .parent_sidebar_child{
-    box-shadow: 0px 0px 7px #888888;
+    box-shadow: 0 0 7px #888888;
     margin-bottom: 20px;
 }
 .parent_dashboard_child{
@@ -37,4 +38,44 @@
 }
 .dropdown-menu-content{
     min-width: 95px;
+}
+.parent .x_title h2{
+    overflow: visible;
+}
+.offline .title,.offline .btn, .offline .btn-success:active:hover{
+    background: rgba(243,156,18,.88);
+}
+.offline .btn, .online .btn{
+    font-size: 25px;
+}
+.offline .btn, .offline .btn-success:active:hover{
+    border: 1px solid rgba(243,156,18,.88);
+}
+.pricing .title{
+    height: 85px;
+}
+.pricing .title h1 {
+    margin: 5px;
+}
+.bank-transfer-section{
+    border-top: 1px solid #ddd;
+}
+.payment-status .row{
+    margin-top: 15px;
+}
+.payment-status .price{
+    color: rgba(243,156,18,.88);
+}
+.payment-icon{
+    text-align: center;
+}
+.payment-icon img{
+    width: 15%;
+}
+.pricing_features{
+    min-height: 95px;
+}
+.due-date{
+    color: red;
+    font-weight:bold;
 }

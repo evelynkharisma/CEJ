@@ -11,7 +11,7 @@
     </div>
     <div class="profile_info">
         <span>Welcome,</span>
-        <h2>Evelyn Kharisma</h2>
+        <h2>Chelsy Lim</h2>
     </div>
 </div>
 <!-- /menu profile quick info -->
@@ -27,74 +27,11 @@
                 <ul class="nav child_menu">
                     <li><a>Academic<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a>Grade 1<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 2<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 3<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 4<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 5<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 6<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 7<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 8<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 9<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
                             <li><a>Grade 10<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
+                                    <li><a href="<?php echo base_url() ?>index.php/operation/grade_status">Status</a></li>
+                                    <li><a href="<?php echo base_url() ?>index.php/operation/grade_invoice">Invoices</a></li>
+                                    <li><a href="<?php echo base_url() ?>index.php/operation/grade_confirmation">Confirmation Request</a></li>
                                 </ul>
                             </li>
                             <li><a>Grade 11<span class="fa fa-chevron-down"></span></a>
@@ -133,7 +70,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Resource Order</a>
+                    <li><a href="<?php echo base_url() ?>index.php/operation/order_resource">Resource Order</a>
                 </ul>
             </li>
         </ul>

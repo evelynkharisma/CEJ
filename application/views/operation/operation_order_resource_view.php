@@ -3,7 +3,7 @@
     <div class="operation_order_stationary">
         <div class="page-title">
             <div class="title_left">
-                <h3>Stationary Order - History</h3>
+                <h3>Resource Order</h3>
             </div>
         </div>
 
