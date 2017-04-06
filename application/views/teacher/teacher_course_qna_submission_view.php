@@ -19,7 +19,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Assignment Judul Submission</h2><a class="btn btn-danger set-right"><i class="fa fa-bell-o"></i> Notify All</a>
+                        <h2><?php echo $qna['topic'] ?> <?php echo $qna['type'] ?> Submission</h2><a class="btn btn-danger set-right"><i class="fa fa-bell-o"></i> Notify All</a>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -34,42 +34,44 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="teacher_photo_crop">
-                                            <img src="<?php echo base_url() ?>assets/img/teacher/eve.jpg" alt="..." class="teacher_photo_img">
-                                        </div>
-                                    </td>
-                                    <td>Evelyn Kharisma</td>
-                                    <td>Tanggal Submission</td>
-                                    <td>
-                                        <?php echo form_open('teacher/courseSubmissionGrading'); ?>
+                                <?php
+                                    foreach($submit as $s){ ?>
+                                        <tr>
+                                            <td>
+                                                <div class="teacher_photo_crop">
+                                                    <img src="<?php echo base_url() ?>assets/img/student/<?php echo $s['photo'] ?>" alt="..." class="teacher_photo_img">
+                                                </div>
+                                            </td>
+                                            <td><?php echo $s['firstname'] ?> <?php echo $s['lastname'] ?></td>
+                                            <td><?php echo $s['submissiondate'] ?></td>
+                                            <td>
+                                                <?php echo form_open('teacher/courseSubmissionGrading/'.$info_db['assignid'].'/'.$s['anqscoreid']); ?>
+                                                    <button type="submit" class="btn btn-success set-right"><i class="fa fa-check"></i></button>
+                                                    <input style="width:70%;" class="form-control" placeholder='Score' name="score" value="<?php echo set_value('score', isset($s['score']) ? $s['score'] : ''); ?>">
+                                                <?php echo form_close(); ?>
+                                            <td><a download href="<?php echo base_url() ?>assets/file/student/submission/<?php echo $s['file'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a></td>
+                                        </tr>
+                                <?php } ?>
+                                <?php
+                                foreach($nosubmit as $s){ ?>
+                                    <tr>
+                                        <td>
+                                            <div class="teacher_photo_crop">
+                                                <img src="<?php echo base_url() ?>assets/img/student/<?php echo $s['photo'] ?>" alt="..." class="teacher_photo_img">
+                                            </div>
+                                        </td>
+                                        <td><?php echo $s['firstname'] ?> <?php echo $s['lastname'] ?></td>
+                                        <td><?php echo $s['submissiondate'] ?></td>
+                                        <td>
+                                            <?php echo form_open('teacher/courseSubmissionGrading/'.$info_db['assignid'].'/'.$s['anqscoreid']); ?>
+                                            <input type="hidden" class="form-control set-margin-bottom" name="studentid" value="<?php echo $s['studentid']; ?>"/>
+                                            <input type="hidden" class="form-control set-margin-bottom" name="qnaid" value="<?php echo $qna['anqid']; ?>"/>
                                             <button type="submit" class="btn btn-success set-right"><i class="fa fa-check"></i></button>
-                                            <input style="width:70%;" class="form-control" placeholder='Score'>
-                                        <?php echo form_close(); ?>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-success"><i class="fa fa-download"></i> Download</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="teacher_photo_crop">
-                                            <img src="<?php echo base_url() ?>assets/img/teacher/eve.jpg" alt="..." class="teacher_photo_img">
-                                        </div>
-                                    </td>
-                                    <td>Evelyn Kharisma</td>
-                                    <td>-</td>
-                                    <td>
-                                        <?php echo form_open('teacher/courseSubmissionGrading'); ?>
-                                        <button type="submit" class="btn btn-success set-right"><i class="fa fa-check"></i></button>
-                                        <input style="width:70%;" class="form-control" placeholder='Score'>
-                                        <?php echo form_close(); ?>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a>
-                                    </td>
-                                </tr>
+                                            <input style="width:70%;" class="form-control" placeholder='Score' name="score" value="<?php echo set_value('score', isset($s['score']) ? $s['score'] : ''); ?>">
+                                            <?php echo form_close(); ?>
+                                        <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>

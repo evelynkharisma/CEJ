@@ -7,6 +7,7 @@ class Teacher_model extends CI_Model {
     var $material_table = 'material';
     var $file_table = 'file';
     var $qna_table = 'assignmentandquiz';
+    var $qnascore_table = 'assignmentandquizscore';
     var $lesson_plan_table = 'lesson_plan';
     var $lesson_implementation_table = 'lesson_implementation';
     var $student_table = 'student';
@@ -915,13 +916,25 @@ class Teacher_model extends CI_Model {
         $status_array = array($id,'0');
         $this->db->where_in('teacherid', $status_array);
         $this->db->where('date >=' ,date('Y-m-d', now()));
-        $this->db->order_by('date', 'desc');
+        $this->db->order_by('date', 'asc');
 
         $query = $this->db->get($this->event_table);
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    function getAllEventsCount($id, $lastlogin){
+        $this->db->select('*');
+        $status_array = array($id,'0');
+        $this->db->where_in('teacherid', $status_array);
+        $this->db->where('date >=' ,$lastlogin);
+        $this->db->order_by('date', 'desc');
+
+        $query = $this->db->get($this->event_table);
+
+        return $query->num_rows();
     }
 
     function getEventLatestID(){
@@ -949,12 +962,89 @@ class Teacher_model extends CI_Model {
     function addQnAEvent($id, $tid){
         $data = array(
             'eventid' => $id,
-            'title' => $this->input->post('coursename').''.$this->input->post('type'),
+            'title' => $this->input->post('coursename').' '.$this->input->post('type'),
             'description' => 'Submit before '.date('Y-m-d', strtotime($this->input->post('duedate') . ' +1 day')),
             'date' => $this->input->post('duedate'),
             'teacherid' => $tid,
         );
         $this->db->insert($this->event_table, $data);
+    }
+
+    function getSubmission($id){
+        $this->db->select('*');
+        $this->db->join('student', 'student.studentid = assignmentandquizscore.studentid');
+        $this->db->order_by('submissiondate', 'desc');
+        $this->db->where('anqid', $id);
+
+        $query = $this->db->get($this->qnascore_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function checkNoSubmission($sid, $qid){
+        $this->db->select('*');
+        $this->db->where('studentid', $sid);
+        $this->db->where('anqid', $qid);
+        $query = $this->db->get($this->qnascore_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function checkSubmission($nid){
+        $this->db->select('*');
+        $this->db->where('anqscoreid', $nid);
+        $query = $this->db->get($this->qnascore_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getQnA($qid){
+        $this->db->select('*');
+        $this->db->join('file', 'file.fileid = assignmentandquiz.fileid');
+        $this->db->where('assignmentandquiz.anqid', $qid);
+
+        $query = $this->db->get($this->qna_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getScoreLatestID(){
+        $this->db->select('anqscoreid');
+        $this->db->order_by("anqscoreid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->qnascore_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editSubmission($id){
+        $data = array(
+            'score' => $this->input->post('score'),
+        );
+        $this->db->where('anqscoreid', $id);
+        $this->db->update($this->qnascore_table, $data);
+    }
+
+    function addSubmission($id){
+        $data = array(
+            'anqscoreid' => $id,
+            'studentid' => $this->input->post('studentid'),
+            'anqid' => $this->input->post('qnaid'),
+            'score' => $this->input->post('score'),
+            'submissiondate' => date('Y-m-d', now()),
+            'file' => 'not uploaded',
+        );
+        $this->db->insert($this->qnascore_table, $data);
     }
 }
 

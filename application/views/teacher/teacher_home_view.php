@@ -51,64 +51,25 @@
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item One Title</a>
-                <div class="teacher_dashboard_upcoming_type">QUIZ</div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <div class="teacher_dashboard_deadline">
-                  <i class="fa fa-clock-o"></i> Due date: 23 January 2017
-                </div>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <div class="teacher_dashboard_upcoming_type">Assignment</div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <div class="teacher_dashboard_deadline">
-                  <i class="fa fa-clock-o"></i> Due date: 24 January 2017
-                </div>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Two Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
-            <article class="media event">
-              <a class="pull-left date">
-                <p class="month">April</p>
-                <p class="day">23</p>
-              </a>
-              <div class="media-body">
-                <a class="title" href="#">Item Three Title</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </article>
+            <?php
+            if($events){
+              foreach($events as $event){ ?>
+                <article class="media event">
+                  <a class="pull-left date <?php echo isset($event['teacherid']) && $event['teacherid'] != '0' ? 'quizandassignment' : '' ?>">
+                    <p class="month"><?php echo date('F', strtotime($event['date'])) ?></p>
+                    <p class="day"><?php echo date('d', strtotime($event['date'])) ?></p>
+                  </a>
+                  <div class="media-body">
+                    <a class="title" href="#"><?php echo $event['title'] ?></a>
+                    <p><?php echo $event['description'] ?></p>
+                  </div>
+                </article>
+              <?php }}
+            else {?>
+              <tr>
+                <td colspan="3"><?php echo 'no event found' ?></td>
+              </tr>
+            <?php } ?>
           </div>
         </div>
       </div>

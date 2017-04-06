@@ -125,7 +125,7 @@
                 </ul>
             </li>
             <li><a href="<?php echo base_url() ?>index.php/teacher/payment"><i class="fa fa-usd"></i>Payments</span></a></li>
-            <li><a><i class="fa fa-bell"></i> Events <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-bell"></i> Events <span class="badge bg-green"><?php echo $eventnotif ?></span> <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addEvent">Add Event</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/eventList">Events List</a></li>

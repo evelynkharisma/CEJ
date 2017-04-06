@@ -49,87 +49,57 @@
                                     <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo'] ?>" alt="Avatar" title="Change the avatar">
                                 </div>
                             </div>
-                            <h3><?php echo $student['firstname'] ?> <?php echo $student['lastname'] ?></h3>
-
-                            <ul class="list-unstyled user_data">
-                                <li><i class="fa fa-map-marker user-profile-icon"></i> <?php echo $student['address'] ?>
-                                </li>
-
-                                <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> Grade <?php echo $student['classroom'] ?>
-                                </li>
-
-                                <li class="m-top-xs">
-                                    <i class="fa fa-phone user-profile-icon"></i>
-                                    <?php echo $student['phone'] ?>
-                                </li>
-
-                                <li class="m-top-xs">
-                                    <i class="fa fa-external-link user-profile-icon"></i>
-                                    <?php echo $student['email'] ?>
-                                </li>
-                            </ul>
-
-                            <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Performance</a>
-                            <br />
 
                         </div>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <div class="profile_title">
-                                <div class="col-md-9">
-                                    <h2>Daily Performance</h2>
-                                </div>
-                                <div class="col-md-3">
-                                    <a class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</a>
-                                </div>
-                            </div>
+
                             <div class="col-md-12">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Assignment</div>
-                                        <span class="chart" data-percent="86">
-                                              <span class="percent"></span>
-                                        </span>
+                                        <div class="teacher_profile_label">Name</div>
+                                        <div class="teacher_profile_value"><?php echo $student['firstname'].' '.$student['lastname'] ?></div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6  col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Quiz</div>
-                                        <span class="chart" data-percent="86">
-                                              <span class="percent"></span>
-                                        </span>
+                                        <div class="teacher_profile_label">Phone</div>
+                                        <div class="teacher_profile_value"><?php echo $student['phone'] ?></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6  col-sm-6 col-xs-12">
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Email</div>
+                                        <div class="teacher_profile_value"><?php echo $student['email'] ?></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Address</div>
+                                        <div class="teacher_profile_value"><?php echo $student['address'] ?></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <div class="profile_title">
-                                <div class="col-md-9">
-                                    <h2>Exam</h2>
-                                </div>
-                                <div class="col-md-3">
-                                    <a class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</a>
+                        <div class="col-md-12 col-sm-12 col-xs-12 set-margin-top">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Class Work</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <canvas id="lineChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-md-6">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Daily Exam 1</div>
-                                        <div class="teacher_profile_value">80</div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Homework</h2>
+                                        <div class="clearfix"></div>
                                     </div>
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Mid Exam</div>
-                                        <div class="teacher_profile_value">80</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Daily Exam 2</div>
-                                        <div class="teacher_profile_value">80</div>
-                                    </div>
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Final Exam</div>
-                                        <div class="teacher_profile_value">80</div>
+                                    <div class="x_content">
+                                        <canvas id="lineChart2"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -340,3 +310,51 @@
     </div>
 </div>
 <!-- /page content -->
+
+<script src="<?php echo base_url() ?>assets/js/Chart.min.js"></script>
+
+<script>
+    Chart.defaults.global.legend = {
+        enabled: false
+    };
+
+    // Line chart
+    var ctx = document.getElementById("lineChart");
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: "My First dataset",
+                backgroundColor: "rgba(38, 185, 154, 0.31)",
+                borderColor: "rgba(38, 185, 154, 0.7)",
+                pointBorderColor: "rgba(38, 185, 154, 0.7)",
+                pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointBorderWidth: 1,
+                data: [31, 74, 6, 39, 20, 85, 7]
+            }]
+        },
+    });
+
+    var ct2 = document.getElementById("lineChart2");
+    var lineChart = new Chart(ct2, {
+        type: 'line',
+        data: {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: "My Second dataset",
+                backgroundColor: "rgba(3, 88, 106, 0.3)",
+                borderColor: "rgba(3, 88, 106, 0.70)",
+                pointBorderColor: "rgba(3, 88, 106, 0.70)",
+                pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(151,187,205,1)",
+                pointBorderWidth: 1,
+                data: [82, 23, 66, 9, 99, 4, 2]
+            }]
+        },
+    });
+
+</script>

@@ -108,7 +108,7 @@
                                         <td><?php echo $qna['duedate'] ?></td>
                                         <td>
                                             <a download href="<?php echo base_url() ?>assets/file/teacher/material/<?php echo $qna['filename'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuizSubmission" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuizSubmission/<?php echo $info_db['assignid'] ?>/<?php echo $qna['anqid'] ?>" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
                                             <a href="<?php echo base_url() ?>index.php/teacher/sendEmail" class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a>
                                         </td>
                                     </tr>
