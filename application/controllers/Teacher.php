@@ -172,23 +172,61 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function printPreview($id, $term)
+    public function printPreview13($id, $term)
     {
+        $allattendance = $this->Teacher_model->getTotalAttendance($id);
+        $present = $this->Teacher_model->getTotalPresentByStudent($id);
+        $attendancepercentage = $present/$allattendance*100;
+        
+        if($term == 1){
+            $sid = 's0001';
+        }
+        else{
+            $sid = 's0003';
+        }
+
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
-        $data['sidebar'] = 'teacher/teacher_sidebar';
-        $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $info = $this->Teacher_model->getClassByStudentID($id);
         $classid = $info['classid'];
         $data['info_db'] = $info;
         $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
         $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
         $data['term'] = $term;
+        $data['attendance'] = $attendancepercentage;
         $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['setting'] = $this->Teacher_model->getSetting($sid);
         $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
         $data['content'] = 'teacher/homeroom_report_print_preview';
-        $this->load->view($this->template, $data);
+        $this->load->view($this->print_template, $data);
+    }
+
+    public function printPreview24($id, $term)
+    {
+        $allattendance = $this->Teacher_model->getTotalAttendance($id);
+        $present = $this->Teacher_model->getTotalPresentByStudent($id);
+        $attendancepercentage = $present/$allattendance*100;
+
+        if($term == 1){
+            $sid = 's0002';
+        }
+        else{
+            $sid = 's0004';
+        }
+
+        $data['title'] = 'SMS';
+        $info = $this->Teacher_model->getClassByStudentID($id);
+        $classid = $info['classid'];
+        $data['info_db'] = $info;
+        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
+        $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
+        $data['term'] = $term;
+        $data['attendance'] = $attendancepercentage;
+        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
+        $data['principal'] = $this->Teacher_model->getPrincipal();
+        $data['setting'] = $this->Teacher_model->getSetting($sid);
+        $data['content'] = 'teacher/homeroom_report2_print_view';
+        $this->load->view($this->print_template, $data);
     }
 
     public function teacher_profile($id)
@@ -1130,6 +1168,28 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/add_form_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function settings()
+    {
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['info_dbs'] = $this->Teacher_model->getAllSettings();
+        $data['content'] = 'teacher/teacher_settings_view';
+        $this->load->view($this->template, $data);
+    }
+    
+    public function editSetting($id){
+        $this->form_validation->set_rules('value', 'Value', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+                $this->Teacher_model->editSetting($id);
+                $this->session->set_flashdata('success', 'Setting Edited');
+                redirect('teacher/settings/');
+        }
     }
 
     public function sendEmail()

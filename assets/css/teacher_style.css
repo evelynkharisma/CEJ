@@ -144,6 +144,10 @@
     margin-top: 10px;
 }
 
+.set-margin-top2{
+    margin-top: 100px;
+}
+
 .set-margin-bottom{
     margin-bottom: 10px;
 }
@@ -226,6 +230,31 @@ textarea{
         background-color: gainsboro !important;
         -webkit-print-color-adjust: exact;
     }
+
+    .option_tick{
+        background: url("../img/teacher/checkmark.png") !important;
+    }
+
+    .teacher_course_student_mid .x_panel .col-md-12  {
+        width: 100% !important;
+    }
+
+    .teacher_course_student_mid_td {
+        background-color: gainsboro !important;
+        width: 10% !important;
+    }
+
+    .print-size-td{
+        width: 100% !important;
+    }
+
+    .print-size30{
+        width: 30% !important;
+    }
+
+    .set-border-top{
+        border-top: 1px solid black !important;
+    }
 }
 
 .print-padding{
@@ -234,4 +263,54 @@ textarea{
 
 .quizandassignment{
     background: #fe4972 !important;
+}
+
+.title_center{
+    text-align: center;
+}
+
+.report-title{
+    font-weight: bold;
+    color: black;
+    font-size: x-large;
+}
+
+.print-title{
+    width: 100%;
+    padding: 10px 0;
+}
+
+.set-bold{
+    font-weight: bold;
+}
+
+.no-border{
+    border-bottom: none !important;
+    padding: 1px 30px 6px !important;
+}
+
+.font-h2{
+    font-size: 18px;
+}
+
+.report2-title{
+    font-weight: bold;
+    color: black;
+    font-size: xx-large;
+}
+
+.comment-table{
+    width: 100%;
+}
+
+.comment-table textarea{
+    border-color: black;
+}
+
+.print-name{
+    font-size: large;
+}
+
+.set-border-top{
+    border-top: 1px solid black;
 }

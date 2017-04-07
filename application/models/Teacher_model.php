@@ -18,6 +18,7 @@ class Teacher_model extends CI_Model {
     var $semester_table = 'semester';
     var $form_table = 'forms';
     var $event_table = 'events';
+    var $setting_table = 'settings';
     var $role= array(
         2 => 'Teacher',
         1 => 'Head of School',
@@ -1045,6 +1046,44 @@ class Teacher_model extends CI_Model {
             'file' => 'not uploaded',
         );
         $this->db->insert($this->qnascore_table, $data);
+    }
+
+    function getPrincipal() {
+        $this->db->select('*');
+        $this->db->where('role', 0);
+        $query = $this->db->get($this->table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getAllSettings(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->setting_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function editSetting($id){
+        $data = array(
+            'value' => $this->input->post('value'),
+        );
+        $this->db->where('settingid', $id);
+        $this->db->update($this->setting_table, $data);
+    }
+
+    function getSetting($id) {
+        $this->db->select('*');
+        $this->db->where('settingid', $id);
+        $query = $this->db->get($this->setting_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
     }
 }
 

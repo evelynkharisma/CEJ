@@ -9,6 +9,12 @@
 
         <div class="clearfix"></div>
 
+        <?php if ($this->session->flashdata('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->session->flashdata('success'); ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (!empty($top2navigation)): ?>
             <?php $this->load->view($top2navigation); ?>
         <?php else: ?>
