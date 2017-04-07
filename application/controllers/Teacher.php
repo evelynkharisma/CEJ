@@ -11,6 +11,7 @@ class teacher extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        $this->general->TeacherLogin();
         $this->load->model('Teacher_model');
     }
 
@@ -1217,5 +1218,10 @@ class teacher extends CI_Controller {
 
         return TRUE;
 
+    }
+
+    public function logout(){
+        $this->session->sess_destroy();
+        redirect('');
     }
 }

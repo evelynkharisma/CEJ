@@ -32,7 +32,8 @@ class Teacher_model extends CI_Model {
     function checkLogin($username, $password) {
         $this->db->select('*');
         $this->db->where('teacherid', $username);
-        $password = hash('sha512', $password);
+//        $password = hash('sha512', $password);
+        $password = crypt($password,'$6$rounds=5000$simsthesisproject$');
         $this->db->where('password', $password);
         $query = $this->db->get($this->table, 1);
 
@@ -54,7 +55,8 @@ class Teacher_model extends CI_Model {
     function editProfile($id) {
         if ($this->input->post('password')) {
             $data = array(
-                'password' => hash('sha512', $this->input->post('password')),
+//                'password' => hash('sha512', $this->input->post('password')),
+                'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
                 'firstname' => $this->input->post('firstname'),
                 'lastname' => $this->input->post('lastname'),
                 'gender' => $this->input->post('gender'),
@@ -121,7 +123,8 @@ class Teacher_model extends CI_Model {
     function addTeacher($id){
         $data = array(
             'teacherid' => $id,
-            'password' => hash('sha512', $this->input->post('password')),
+//            'password' => hash('sha512', $this->input->post('password')),
+            'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
             'firstname' => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
             'gender' => $this->input->post('gender'),
