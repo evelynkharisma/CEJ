@@ -20,7 +20,7 @@ class General
 
     function TeacherLogin() {
         if ($this->isLogin() == TRUE) {
-            if ($this->ci->session->userdata('role') != 0 || $this->ci->session->userdata('role') != 1 || $this->ci->session->userdata('role') != 2) {
+            if ($this->ci->session->userdata('role') != 0 && $this->ci->session->userdata('role') != 1 && $this->ci->session->userdata('role') != 2) {
                 $this->ci->session->set_flashdata('error', 'Access Denied');
                 redirect('');
             }

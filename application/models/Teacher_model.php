@@ -31,9 +31,9 @@ class Teacher_model extends CI_Model {
 
     function checkLogin($username, $password) {
         $this->db->select('*');
-        $this->db->where('teacherid', $username);
+        $this->db->where('teacherid', $this->security->xss_clean($username));
 //        $password = hash('sha512', $password);
-        $password = crypt($password,'$6$rounds=5000$simsthesisproject$');
+        $password = crypt($this->security->xss_clean($password),'$6$rounds=5000$simsthesisproject$');
         $this->db->where('password', $password);
         $query = $this->db->get($this->table, 1);
 

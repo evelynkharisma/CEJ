@@ -13,7 +13,7 @@ class login extends CI_Controller {
 	public function index()
 	{
 		$this->form_validation->set_rules('loginas', 'loginas', 'required');
-		$this->form_validation->set_rules('username', 'username', 'required');
+		$this->form_validation->set_rules('username', 'username', 'required|alpha_numeric');
 		$this->form_validation->set_rules('password', 'password', 'required');
 		$this->form_validation->set_error_delimiters('', '<br/>');
 
