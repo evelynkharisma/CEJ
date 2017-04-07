@@ -52,8 +52,8 @@
             </li>
             <li><a><i class="fa fa-usd"></i> Payment <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Payment Status</a></li>
-                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Payment Receipt</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/parents/payment_status">Payment Status</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/parents/payment_receipt">Payment Receipt</a></li>
                 </ul>
             </li>
             <li><a href="<?php echo base_url() ?>index.php/parents/parent_download"><i class="fa fa-download"></i> Download</a></li>
