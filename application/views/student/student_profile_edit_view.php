@@ -15,7 +15,7 @@
                     <div class="x_content">
                         <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
                             <div class="profile_img">
-                                <div class="student_profile_crop">
+                                <div class="teacher_profile_crop">
                                     <!-- Current avatar -->
                                     <img class="img-responsive avatar-view student_profile_img" src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="Avatar" title="Change the avatar">
                                 </div>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="tab-content">
-                                <div id="student_personal-info" class="col-md-12 tab-pane fade in active">
+                                <div id="teacher_personal-info" class="col-md-12 tab-pane fade in active">
                                     <div class="col-md-8">
                                         <form>
                                             <div class="form-group">
@@ -81,7 +81,7 @@
                                     </div>
 
                                 </div>
-                                <div id="student_academic-info" class="col-md-12 tab-pane fade">
+                                <div id="teacher_academic-info" class="col-md-12 tab-pane fade">
                                     <div class="col-md-8">
                                         <form>
                                             <div class="form-group">
@@ -113,7 +113,7 @@
                                     </div>
 
                                 </div>
-                                <div id="student_account-info" class="col-md-12 tab-pane fade">
+                                <div id="teacher_account-info" class="col-md-12 tab-pane fade">
                                     <div class="col-md-8">
                                         <form>
                                             <div class="form-group">

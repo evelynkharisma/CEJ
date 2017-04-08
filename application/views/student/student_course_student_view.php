@@ -32,7 +32,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <table class="student_course_implementation">
+                        <table class="teacher_course_implementation">
                             <thead>
                             <tr>
                                 <th width="30%">Photo</th>
@@ -43,8 +43,8 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    <div class="student_photo_crop">
-                                        <img src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="..." class="student_photo_img">
+                                    <div class="teacher_photo_crop">
+                                        <img src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="..." class="teacher_photo_img">
                                     </div>
                                 </td>
                                 <td>1701320560</td>
@@ -52,8 +52,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div class="student_photo_crop">
-                                        <img src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="..." class="student_photo_img">
+                                    <div class="teacher_photo_crop">
+                                        <img src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="..." class="teacher_photo_img">
                                     </div>
                                 </td>
                                 <td>1701320560</td>

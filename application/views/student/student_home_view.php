@@ -246,43 +246,43 @@
 <!--                                    </ul>-->
 <!--                                </div>-->
 <!--                            </article>-->
-<!--<!--                            <table class="student_dashboard_today_schedule_table">-->-->
+<!--<!--                            <table class="teacher_dashboard_today_schedule_table">-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <th class="student_dashboard_today_schedule_period">Period 1<br>time</th>-->-->
+<!--<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>-->-->
 <!--<!--                                    <td>Subject<br>Room</td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <th class="student_dashboard_today_schedule_period">Period 2<br>time</th>-->-->
+<!--<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>-->-->
 <!--<!--                                    <td>Subject<br>Room</td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <th class="student_dashboard_today_schedule_period">Period 3<br>time</th>-->-->
+<!--<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>-->-->
 <!--<!--                                    <td>Subject<br>Room</td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <th class="student_dashboard_today_schedule_period">Period 4<br>time</th>-->-->
+<!--<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>-->-->
 <!--<!--                                    <td>Subject<br>Room</td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <td class="student_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->-->
+<!--<!--                                    <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <th class="student_dashboard_today_schedule_period">Period 5<br>time</th>-->-->
+<!--<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>-->-->
 <!--<!--                                    <td>Subject<br>Room</td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <th class="student_dashboard_today_schedule_period">Period 6<br>time</th>-->-->
+<!--<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>-->-->
 <!--<!--                                    <td>Subject<br>Room</td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <td class="student_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->-->
+<!--<!--                                    <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <th class="student_dashboard_today_schedule_period">Period 7<br>time</th>-->-->
+<!--<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>-->-->
 <!--<!--                                    <td>Subject<br>Room</td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!--                                <tr>-->-->
-<!--<!--                                    <th class="student_dashboard_today_schedule_period">Period 8<br>time</th>-->-->
+<!--<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>-->-->
 <!--<!--                                    <td>Subject<br>Room</td>-->-->
 <!--<!--                                </tr>-->-->
 <!--<!---->-->
@@ -298,44 +298,44 @@
 <!--                        <div class="clearfix"></div>-->
 <!--                    </div>-->
 <!--                    <div class="x_content">-->
-<!--                        <div class="student_dashboard_today_schedule_container">-->
-<!--                            <table class="student_dashboard_today_schedule_table">-->
+<!--                        <div class="teacher_dashboard_today_schedule_container">-->
+<!--                            <table class="teacher_dashboard_today_schedule_table">-->
 <!--                                <tr>-->
-<!--                                    <th class="student_dashboard_today_schedule_period">Period 1<br>time</th>-->
+<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>-->
 <!--                                    <td>Subject<br>Room</td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <th class="student_dashboard_today_schedule_period">Period 2<br>time</th>-->
+<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>-->
 <!--                                    <td>Subject<br>Room</td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <th class="student_dashboard_today_schedule_period">Period 3<br>time</th>-->
+<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>-->
 <!--                                    <td>Subject<br>Room</td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <th class="student_dashboard_today_schedule_period">Period 4<br>time</th>-->
+<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>-->
 <!--                                    <td>Subject<br>Room</td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <td class="student_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->
+<!--                                    <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <th class="student_dashboard_today_schedule_period">Period 5<br>time</th>-->
+<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>-->
 <!--                                    <td>Subject<br>Room</td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <th class="student_dashboard_today_schedule_period">Period 6<br>time</th>-->
+<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>-->
 <!--                                    <td>Subject<br>Room</td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <td class="student_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->
+<!--                                    <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <th class="student_dashboard_today_schedule_period">Period 7<br>time</th>-->
+<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>-->
 <!--                                    <td>Subject<br>Room</td>-->
 <!--                                </tr>-->
 <!--                                <tr>-->
-<!--                                    <th class="student_dashboard_today_schedule_period">Period 8<br>time</th>-->
+<!--                                    <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>-->
 <!--                                    <td>Subject<br>Room</td>-->
 <!--                                </tr>-->
 <!---->
@@ -360,9 +360,9 @@
 <!--                            </a>-->
 <!--                            <div class="media-body">-->
 <!--                                <a class="title" href="#">Item One Title</a>-->
-<!--                                <div class="student_dashboard_upcoming_type">QUIZ</div>-->
+<!--                                <div class="teacher_dashboard_upcoming_type">QUIZ</div>-->
 <!--                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
-<!--                                <div class="student_dashboard_deadline">-->
+<!--                                <div class="teacher_dashboard_deadline">-->
 <!--                                    <i class="fa fa-clock-o"></i> Due date: 23 January 2017-->
 <!--                                </div>-->
 <!--                            </div>-->
@@ -374,9 +374,9 @@
 <!--                            </a>-->
 <!--                            <div class="media-body">-->
 <!--                                <a class="title" href="#">Item Two Title</a>-->
-<!--                                <div class="student_dashboard_upcoming_type">Assignment</div>-->
+<!--                                <div class="teacher_dashboard_upcoming_type">Assignment</div>-->
 <!--                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>-->
-<!--                                <div class="student_dashboard_deadline">-->
+<!--                                <div class="teacher_dashboard_deadline">-->
 <!--                                    <i class="fa fa-clock-o"></i> Due date: 24 January 2017-->
 <!--                                </div>-->
 <!--                            </div>-->

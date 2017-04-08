@@ -30,7 +30,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <table class="student_course_implementation">
+                        <table class="teacher_course_implementation">
                             <thead>
                             <tr>
                                 <th width="10%" style="text-align: center">Lesson</th>

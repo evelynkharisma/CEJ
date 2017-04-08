@@ -15,7 +15,7 @@
                     <div class="x_content">
                         <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
                             <div class="profile_img">
-                                <div class="student_profile_crop">
+                                <div class="teacher_profile_crop">
                                     <!-- Current avatar -->
                                     <img class="img-responsive avatar-view student_profile_img" src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="Avatar" title="Change the avatar">
                                 </div>
@@ -53,27 +53,27 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-6">
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Name</div>
-                                        <div class="student_profile_value">Janis Giovani Tan</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Name</div>
+                                        <div class="teacher_profile_value">Janis Giovani Tan</div>
                                     </div>
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Place of Birth</div>
-                                        <div class="student_profile_value">Tasikmalaya</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Place of Birth</div>
+                                        <div class="teacher_profile_value">Tasikmalaya</div>
                                     </div>
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Religion</div>
-                                        <div class="student_profile_value">Christian</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Religion</div>
+                                        <div class="teacher_profile_value">Christian</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Date of Birth</div>
-                                        <div class="student_profile_value">9 June 1996</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Date of Birth</div>
+                                        <div class="teacher_profile_value">9 June 1996</div>
                                     </div>
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Gender</div>
-                                        <div class="student_profile_value">Female</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Gender</div>
+                                        <div class="teacher_profile_value">Female</div>
                                     </div>
                                 </div>
                             </div>
@@ -86,27 +86,27 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-6">
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Graduate</div>
-                                        <div class="student_profile_value">Bina Nusantara</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Graduate</div>
+                                        <div class="teacher_profile_value">Bina Nusantara</div>
                                     </div>
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Undergraduate</div>
-                                        <div class="student_profile_value">Bina Nusantara</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Undergraduate</div>
+                                        <div class="teacher_profile_value">Bina Nusantara</div>
                                     </div>
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">High School</div>
-                                        <div class="student_profile_value">SMAN 1 Tasikmalaya</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">High School</div>
+                                        <div class="teacher_profile_value">SMAN 1 Tasikmalaya</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Junior High School</div>
-                                        <div class="student_profile_value">SMPN 1 Tasikmalaya</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Junior High School</div>
+                                        <div class="teacher_profile_value">SMPN 1 Tasikmalaya</div>
                                     </div>
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Elementary School</div>
-                                        <div class="student_profile_value">SDK Bina Bakti</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Elementary School</div>
+                                        <div class="teacher_profile_value">SDK Bina Bakti</div>
                                     </div>
                                 </div>
                             </div>
