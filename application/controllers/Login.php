@@ -46,6 +46,8 @@ class login extends CI_Controller {
 					$sessionData['lastlogin'] = $user['lastlogin'];
 					$sessionData['is_login'] = TRUE;
 
+					$this->Teacher_model->changeLastLogin($user['teacherid'], $user['currentlogin']);
+					$this->Teacher_model->setCurrentLogin($user['teacherid']);
 					$this->session->set_userdata($sessionData);
 //					$this->Teacher_model->updateLastLogin($user['id']);
 

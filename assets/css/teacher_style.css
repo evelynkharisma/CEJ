@@ -205,7 +205,7 @@
 
 .teacher_course_student_mid td label {
     background-color: #fff;
-    /*border: 1px solid gainsboro;*/
+    border: 1px solid gainsboro;
     width: 15px;
     height: 15px;
 }
@@ -313,4 +313,25 @@ textarea{
 
 .set-border-top{
     border-top: 1px solid black;
+}
+
+input[type=checkbox] {
+    display:none;
+}
+
+input[type=checkbox] + label, .worknotavailable
+{
+    background: red;
+    height: 20px;
+    width: 20px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+}
+input[type=checkbox]:checked + label, .workavailable
+{
+    background: green;
+    height: 20px;
+    width: 20px;
+    display:inline-block;
+    padding: 0 0 0 0px;
 }

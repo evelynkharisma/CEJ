@@ -237,6 +237,14 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['day'] = $this->Teacher_model->getSetting('s0005');
+        $data['period'] = $this->Teacher_model->getSetting('s0006');
+        $data['hour'] = $this->Teacher_model->getSetting('s0007');
+        $data['starttime'] = $this->Teacher_model->getSetting('s0008');
+        $data['breakstarttime'] = $this->Teacher_model->getSetting('s0009');
+        $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
+        $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
+        $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
         $data['content'] = 'teacher/teacher_profile_view';
         $data['info_db'] = $this->Teacher_model->getProfileDataByID($id);
         $this->load->view($this->template, $data);
@@ -304,7 +312,14 @@ class teacher extends CI_Controller {
                     }
                 }
             }
-            $this->Teacher_model->editProfile($teacherid);
+
+            $availabletime = '';
+            $workinghour = $this->input->post('workinghour');
+            for($i=0;$i<sizeof($workinghour);$i++)
+            {
+                $availabletime = $availabletime.'|'.$workinghour[$i];
+            }
+            $this->Teacher_model->editProfile($teacherid, $availabletime);
             $this->session->set_flashdata('success', 'Profile saved');
             redirect('teacher/teacher_profile/'.$teacherid);
         }
@@ -314,6 +329,14 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['day'] = $this->Teacher_model->getSetting('s0005');
+        $data['period'] = $this->Teacher_model->getSetting('s0006');
+        $data['hour'] = $this->Teacher_model->getSetting('s0007');
+        $data['starttime'] = $this->Teacher_model->getSetting('s0008');
+        $data['breakstarttime'] = $this->Teacher_model->getSetting('s0009');
+        $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
+        $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
+        $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
         $data['content'] = 'teacher/teacher_profile_edit_view';
         $data['info_db'] = $this->Teacher_model->getProfileDataByID($id);
         $this->load->view($this->template, $data);
@@ -339,11 +362,18 @@ class teacher extends CI_Controller {
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
+            $availabletime = '';
+            $workinghour = $this->input->post('workinghour');
+            for($i=0;$i<sizeof($workinghour);$i++)
+            {
+                $availabletime = $availabletime.'|'.$workinghour[$i];
+            }
+
             $latestID = $this->Teacher_model->getLatestID();
             $latestID = $latestID['teacherid'];
             $latestID = substr($latestID, 1);
             $teacherID = 't'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-            $this->Teacher_model->addTeacher($teacherID);
+            $this->Teacher_model->addTeacher($teacherID, $availabletime);
             if ($_FILES['photo']['error'] != 4) {
                 $config['upload_path'] = $this->profilephotopath;
                 $config['allowed_types'] = "jpg|jpeg|png";
@@ -388,6 +418,14 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['day'] = $this->Teacher_model->getSetting('s0005');
+        $data['period'] = $this->Teacher_model->getSetting('s0006');
+        $data['hour'] = $this->Teacher_model->getSetting('s0007');
+        $data['starttime'] = $this->Teacher_model->getSetting('s0008');
+        $data['breakstarttime'] = $this->Teacher_model->getSetting('s0009');
+        $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
+        $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
+        $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
         $data['content'] = 'teacher/teacher_add_teacher_view';
         $this->load->view($this->template, $data);
     }

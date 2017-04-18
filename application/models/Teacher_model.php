@@ -41,6 +41,28 @@ class Teacher_model extends CI_Model {
             return $query->row_array();
         }
     }
+    
+    function setCurrentLogin($id){
+        $data = array(
+            'currentlogin' => date('Y-m-d', now()),
+        );
+
+        $this->db->where('teacherid', $id);
+        $this->db->update($this->table, $data);
+
+        return TRUE;
+    }
+    
+    function changeLastLogin($id, $current){
+        $data = array(
+            'lastlogin' => $current,
+        );
+
+        $this->db->where('teacherid', $id);
+        $this->db->update($this->table, $data);
+
+        return TRUE;
+    }
 
     function getProfileDataByID($id) {
         $this->db->select('*');
@@ -52,7 +74,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function editProfile($id) {
+    function editProfile($id, $at) {
         if ($this->input->post('password')) {
             $data = array(
 //                'password' => hash('sha512', $this->input->post('password')),
@@ -72,7 +94,8 @@ class Teacher_model extends CI_Model {
                 'undergraduate' => $this->input->post('undergraduate'),
                 'graduate' => $this->input->post('graduate'),
                 'postgraduate' => $this->input->post('postgraduate'),
-                'experience' => $this->input->post('experience')
+                'experience' => $this->input->post('experience'),
+                'workinghour' => $at
             );
         } else {
             $data = array(
@@ -91,7 +114,8 @@ class Teacher_model extends CI_Model {
                 'undergraduate' => $this->input->post('undergraduate'),
                 'graduate' => $this->input->post('graduate'),
                 'postgraduate' => $this->input->post('postgraduate'),
-                'experience' => $this->input->post('experience')
+                'experience' => $this->input->post('experience'),
+                'workinghour' => $at
             );
         }
         $this->db->where('teacherid', $id);
@@ -120,7 +144,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function addTeacher($id){
+    function addTeacher($id, $at){
         $data = array(
             'teacherid' => $id,
 //            'password' => hash('sha512', $this->input->post('password')),
@@ -141,7 +165,8 @@ class Teacher_model extends CI_Model {
             'graduate' => $this->input->post('graduate'),
             'postgraduate' => $this->input->post('postgraduate'),
             'experience' => $this->input->post('experience'),
-            'role' => '2'
+            'role' => '2',
+            'workinghour' => $at
         );
         $this->db->insert($this->table, $data);
     }
@@ -934,6 +959,7 @@ class Teacher_model extends CI_Model {
         $status_array = array($id,'0');
         $this->db->where_in('teacherid', $status_array);
         $this->db->where('date >=' ,$lastlogin);
+        $this->db->where('date >=' ,date('Y-m-d', now()));
         $this->db->order_by('date', 'desc');
 
         $query = $this->db->get($this->event_table);
