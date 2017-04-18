@@ -30,6 +30,22 @@ class Library extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function contact()
+    {
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['content'] = 'library/library_contact_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function login()
+    {
+        $data['title'] = 'Library LMS';
+//        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['content'] = 'library/library_login_view';
+        $this->load->view($this->template, $data);
+    }
+
     public function learning_report()
     {
         $data['title'] = 'Library LMS';

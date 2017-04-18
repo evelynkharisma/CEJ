@@ -406,3 +406,10 @@
         });
     });
 </script>
+
+
+<!-- script change the active class in menu -->
+<script>
+    document.getElementById("libmenu_home").className = "active";
+</script>
+

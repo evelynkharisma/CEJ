@@ -128,3 +128,8 @@
         </div>
     </div>
 </div>
+
+<!-- script change the active class in menu -->
+<script>
+    document.getElementById("libmenu_collection").className = "active";
+</script>

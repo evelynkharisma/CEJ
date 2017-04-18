@@ -22,6 +22,16 @@ input[type="button"],input[type="submit"]{
     -moz-transition:0.5s all;
     -o-transition:0.5s all;
     -ms-transition:0.5s all;
+    width: 10vw;
+}
+
+input[type="button"],input[type="submit"]{
+    transition:0.5s all;
+    -webkit-transition:0.5s all;
+    -moz-transition:0.5s all;
+    -o-transition:0.5s all;
+    -ms-transition:0.5s all;
+    width: 10vw;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -159,7 +169,7 @@ section {
     padding: 6px 15px;
     outline: none;
     font-size: 16px;
-    width: 216px;
+    /*width: 216px;*/
     color: #000;
 }
 .subscribe input[type="submit"] {
@@ -168,7 +178,7 @@ section {
     outline: none;
     background: url(../img/library//search.png)no-repeat 0px 0px;
     position: absolute;
-    width: 32px;
+    /*width: 32px;*/
     height: 32px;
     background-size: 25px;
     bottom: 5px;
@@ -753,15 +763,15 @@ li.text {
     font-family: 'Lato', sans-serif;
 }
 .agileits-main input[type="text"],input[type="email"],input[type="password"] {
-    width: 100%!important;
+    /*width: 100%!important;*/
     padding: 10px 15px;
     border: none;
-    background: rgba(28, 160, 222, 0.11);
+    /*background: rgba(28, 160, 222, 0.11);*/
     color: #000;
     outline:none;
 }
 .agileits-main input[type="email"]{
-    width: 100%!important;
+    /*width: 100%!important;*/
     padding: 10px 15px;
     border: none;
     background: rgba(28, 160, 222, 0.11);
@@ -1689,8 +1699,8 @@ li.twt {
     /*background: rgba(28, 160, 222, 0.15);*/
     /*border: none;*/
     outline: none;
-    padding: 10px;
-    width: 48.5%;
+    /*padding: 10px;*/
+    /*width: 48.5%;*/
     margin-bottom: 15px;
 }
 .contact-agile input{
@@ -1698,11 +1708,11 @@ li.twt {
 }
 .contact-agile input[type="email"] {
     font-size: 14px;
-    background: rgba(28, 160, 222, 0.15);
-    border: none;
+    /*background: rgba(28, 160, 222, 0.15);*/
+    /*border: none;*/
     outline: none;
     padding: 10px;
-    width: 48.5%!important;
+    /*width: 48.5%!important;*/
     margin-bottom: 15px;
 }
 .contact-agile textarea {
@@ -1711,7 +1721,7 @@ li.twt {
     outline: none;
     resize: none;
     height: 150px;
-    background: rgba(28, 160, 222, 0.15);
+    /*background: rgba(28, 160, 222, 0.15);*/
     border: none;
     font-size: 14px;
 }
@@ -3416,3 +3426,8 @@ li.twt {
     }
 }
 /*--responsive--*/
+
+
+.library-container{
+    background-image: url(../img/library/lib_login1.jpg);
+}
