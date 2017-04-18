@@ -41,6 +41,7 @@ class login extends CI_Controller {
 				$user = $this->Teacher_model->checkLogin($username, $password);
 				if (!empty($user)) {
 					$sessionData['id'] = $user['teacherid'];
+					$sessionData['name'] = $user['firstname'].' '.$user['lastname'];
 					$sessionData['photo'] = $user['photo'];
 					$sessionData['role'] = $user['role'];
 					$sessionData['lastlogin'] = $user['lastlogin'];

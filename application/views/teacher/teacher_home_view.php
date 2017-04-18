@@ -62,6 +62,9 @@
                   <div class="media-body">
                     <a class="title" href="#"><?php echo $event['title'] ?></a>
                     <p><?php echo $event['description'] ?></p>
+                    <div class="teacher_dashboard_deadline">
+                      <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
+                    </div>
                   </div>
                 </article>
               <?php }}

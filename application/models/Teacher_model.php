@@ -1114,6 +1114,20 @@ class Teacher_model extends CI_Model {
             return $query->row_array();
         }
     }
+
+    function getAllQnAByStudent($studentid, $type){
+        $this->db->select('*');
+        $this->db->join('assignmentandquiz', 'assignmentandquiz.anqid = assignmentandquizscore.anqid');
+        $this->db->order_by('submissiondate', 'asc');
+        $this->db->where('assignmentandquizscore.studentid', $studentid);
+        $this->db->where('assignmentandquiz.type', $type);
+
+        $query = $this->db->get($this->qnascore_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
 }
 
 ?>

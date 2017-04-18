@@ -310,10 +310,23 @@
     </div>
 </div>
 <!-- /page content -->
-
 <script src="<?php echo base_url() ?>assets/js/Chart.min.js"></script>
 
 <script>
+
+    var  months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var submissiondate = [];
+    var score = [];
+
+    <?php foreach ($homework as $h){
+        ?>
+        var d = new Date("<?php echo $h['submissiondate']?>");
+        var format = d.getDate()+' '+months[d.getMonth()];
+        submissiondate.push(format);
+        score.push(<?php echo $h['score']?>);
+    <?php
+    }?>
+
     Chart.defaults.global.legend = {
         enabled: false
     };
@@ -323,9 +336,9 @@
     var lineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            labels: submissiondate,
             datasets: [{
-                label: "My First dataset",
+                label: "Score",
                 backgroundColor: "rgba(38, 185, 154, 0.31)",
                 borderColor: "rgba(38, 185, 154, 0.7)",
                 pointBorderColor: "rgba(38, 185, 154, 0.7)",
@@ -333,18 +346,30 @@
                 pointHoverBackgroundColor: "#fff",
                 pointHoverBorderColor: "rgba(220,220,220,1)",
                 pointBorderWidth: 1,
-                data: [31, 74, 6, 39, 20, 85, 7]
+                data: score
             }]
         },
     });
+
+    var submissiondate2 = [];
+    var score2 = [];
+
+    <?php foreach ($classwork as $c){
+    ?>
+        var d = new Date("<?php echo $c['submissiondate']?>");
+        var format = d.getDate()+' '+months[d.getMonth()];
+        submissiondate2.push(format);
+        score2.push(<?php echo $c['score']?>);
+    <?php
+    }?>
 
     var ct2 = document.getElementById("lineChart2");
     var lineChart = new Chart(ct2, {
         type: 'line',
         data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            labels: submissiondate2,
             datasets: [{
-                label: "My Second dataset",
+                label: "Score",
                 backgroundColor: "rgba(3, 88, 106, 0.3)",
                 borderColor: "rgba(3, 88, 106, 0.70)",
                 pointBorderColor: "rgba(3, 88, 106, 0.70)",
@@ -352,7 +377,7 @@
                 pointHoverBackgroundColor: "#fff",
                 pointHoverBorderColor: "rgba(151,187,205,1)",
                 pointBorderWidth: 1,
-                data: [82, 23, 66, 9, 99, 4, 2]
+                data: score2
             }]
         },
     });

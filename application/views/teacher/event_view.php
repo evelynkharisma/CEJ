@@ -22,23 +22,22 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <table id="directoryView" class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
                             <?php
                             if($info_dbs){
-                                foreach($info_dbs as $info_db){ ?>
-                                    <tr>
-                                        <td><?php echo $info_db['title'] ?></td>
-                                        <td><?php echo $info_db['description'] ?></td>
-                                        <td><?php echo $info_db['date'] ?></td>
-                                    </tr>
+                                foreach($info_dbs as $event){ ?>
+                                    <article class="media event">
+                                        <a class="pull-left date <?php echo isset($event['teacherid']) && $event['teacherid'] != '0' ? 'quizandassignment' : '' ?>">
+                                            <p class="month"><?php echo date('F', strtotime($event['date'])) ?></p>
+                                            <p class="day"><?php echo date('d', strtotime($event['date'])) ?></p>
+                                        </a>
+                                        <div class="media-body">
+                                            <a class="title" href="#"><?php echo $event['title'] ?></a>
+                                            <p><?php echo $event['description'] ?></p>
+                                            <div class="teacher_dashboard_deadline">
+                                                <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
+                                            </div>
+                                        </div>
+                                    </article>
                                 <?php }}
                             else {?>
                                 <tr>
@@ -46,7 +45,6 @@
                                 </tr>
                             <?php } ?>
 
-                            </tbody>
                         </table>
                     </div>
                 </div>

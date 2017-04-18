@@ -1011,6 +1011,10 @@ class teacher extends CI_Controller {
             }
             redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
         }
+
+        $data['homework'] = $this->Teacher_model->getAllQnAByStudent($studentid, 'Quiz');
+        $data['classwork'] = $this->Teacher_model->getAllQnAByStudent($studentid, 'Assignment');
+        
         
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
@@ -1023,6 +1027,15 @@ class teacher extends CI_Controller {
         $data['report'] = $this->Teacher_model->getReportDataBy($assignid, $studentid);
         $data['content'] = 'teacher/teacher_course_student_performance_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function performancedata($studentid){
+        $homework = $this->Teacher_model->getAllQnAByStudent($studentid, 'Quiz');
+        $data = array();
+        foreach ($homework as $row) {
+            $data[] = $row;
+        }
+        print json_encode($data);
     }
 
     public function classScheduleView()

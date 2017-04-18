@@ -261,6 +261,18 @@ textarea{
     padding: 10px 20px 0;
 }
 
+.date {
+    background: #2c9609 !important;
+    border-radius: 0 !important;
+    padding: 6px !important;
+}
+
+.day{
+    color: black !important;
+    background: white;
+    margin: 0px -4px -4px -4px !important;
+}
+
 .quizandassignment{
     background: #fe4972 !important;
 }
@@ -334,4 +346,22 @@ input[type=checkbox]:checked + label, .workavailable
     width: 20px;
     display:inline-block;
     padding: 0 0 0 0px;
+}
+
+.teacher_sidebar_crop{
+    position: relative;
+    width: 57px;
+    height: 57px;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-left: 15%;
+}
+
+.teacher_sidebar_photo{
+    width: 57px;
+    height: 57px;
+    background: #fff;
+    z-index: 1000;
+    position: inherit;
+    border: 1px solid rgba(52,73,94,0.44);
 }

@@ -7,8 +7,10 @@
 <!-- menu profile quick info -->
 <div class="profile clearfix">
     <div class="profile_pic">
-        <img src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $this->session->userdata('photo') ?>" alt="..." class="img-circle profile_img">
-    </div>
+        <div class="teacher_sidebar_crop">
+            <img src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $this->session->userdata('photo') ?>" alt="..." class="img-circle teacher_sidebar_photo">
+        </div>
+        </div>
     <div class="profile_info">
         <span>Welcome,</span>
         <h2>Evelyn Kharisma</h2>
