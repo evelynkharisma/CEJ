@@ -10,6 +10,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <title>SMS</title>
 
       <!-- CSS Files -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/login_style.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/library_bootstrap.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/library_style.css">
 
@@ -160,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php if (!empty($topnavigation)): ?>
         <?php $this->load->view($topnavigation); ?>
         <?php else: ?>
-        Top Navigation not found !
+<!--        Top Navigation not found !-->
     <?php endif; ?>
 
     <?php if (!empty($content)): ?>

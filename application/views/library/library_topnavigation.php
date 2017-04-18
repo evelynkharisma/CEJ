@@ -23,16 +23,16 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="<?php echo base_url() ?>index.php/library/home" class="active" href="index.html">Home</a></li>
-                        <li><a href="<?php echo base_url() ?>index.php/library/collection">Collection</a></li>
-                        <li><a href="<?php echo base_url() ?>index.php/library/about">About</a></li>
+                        <li><a href="<?php echo base_url() ?>index.php/library/home" id="libmenu_home">Home</a></li>
+                        <li><a href="<?php echo base_url() ?>index.php/library/collection" id="libmenu_collection">Collection</a></li>
+                        <li><a href="<?php echo base_url() ?>index.php/library/about" id="libmenu_about">About</a></li>
 
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="<?php echo base_url() ?>index.php/library/contact" id="libmenu_contact">Contact</a></li>
 
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><span ></span> Sign In</a></li>
+                        <li><a href="<?php echo base_url() ?>index.php/library/login"><span ></span> Sign In</a></li>
                     </ul>
 
 
