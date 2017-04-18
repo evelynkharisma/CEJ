@@ -84,7 +84,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <table class="student_course_implementation">
+                        <table class="teacher_course_implementation">
                             <thead>
                             <tr>
                                 <th width="25%">Topic</th>

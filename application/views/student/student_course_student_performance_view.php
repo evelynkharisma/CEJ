@@ -34,7 +34,7 @@
                     <div class="x_content">
                         <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
                             <div class="profile_img">
-                                <div class="student_profile_crop">
+                                <div class="teacher_profile_crop">
                                     <!-- Current avatar -->
                                     <img class="img-responsive avatar-view student_profile_img" src="<?php echo base_url() ?>assets/img/student/eve.jpg" alt="Avatar" title="Change the avatar">
                                 </div>
@@ -75,16 +75,16 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-6">
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Assignment</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Assignment</div>
                                         <span class="chart" data-percent="86">
                                               <span class="percent"></span>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Quiz</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Quiz</div>
                                         <span class="chart" data-percent="86">
                                               <span class="percent"></span>
                                         </span>
@@ -103,23 +103,23 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="col-md-6">
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Daily Exam 1</div>
-                                        <div class="student_profile_value">80</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Daily Exam 1</div>
+                                        <div class="teacher_profile_value">80</div>
                                     </div>
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Mid Exam</div>
-                                        <div class="student_profile_value">80</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Mid Exam</div>
+                                        <div class="teacher_profile_value">80</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Daily Exam 2</div>
-                                        <div class="student_profile_value">80</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Daily Exam 2</div>
+                                        <div class="teacher_profile_value">80</div>
                                     </div>
-                                    <div class="student_profile_group">
-                                        <div class="student_profile_label">Final Exam</div>
-                                        <div class="student_profile_value">80</div>
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Final Exam</div>
+                                        <div class="teacher_profile_value">80</div>
                                     </div>
                                 </div>
                             </div>
@@ -135,17 +135,17 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <table class="student_course_student_mid table-bordered">
+                                <table class="teacher_course_student_mid table-bordered">
                                     <tr>
-                                        <td width="50%" class="student_course_student_mid_td">Course Name</td>
-                                        <td class="student_course_student_mid_td set-center">1</td>
-                                        <td class="student_course_student_mid_td set-center">2</td>
-                                        <td class="student_course_student_mid_td set-center">3</td>
-                                        <td class="student_course_student_mid_td set-center">4</td>
-                                        <td class="student_course_student_mid_td set-center">5</td>
+                                        <td width="50%" class="teacher_course_student_mid_td">Course Name</td>
+                                        <td class="teacher_course_student_mid_td set-center">1</td>
+                                        <td class="teacher_course_student_mid_td set-center">2</td>
+                                        <td class="teacher_course_student_mid_td set-center">3</td>
+                                        <td class="teacher_course_student_mid_td set-center">4</td>
+                                        <td class="teacher_course_student_mid_td set-center">5</td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Is self-motivated</td>
+                                        <td class="teacher_course_student_mid_td">Is self-motivated</td>
                                         <td class="set-center"><input id="op1_1" type="radio" name="op1" value="1"><label for="op1_1"></label></td>
                                         <td class="set-center"><input id="op1_2" type="radio" name="op1" value="2"><label for="op1_2"></label></td>
                                         <td class="set-center"><input id="op1_3" type="radio" name="op1" value="3"><label for="op1_3"></label></td>
@@ -153,7 +153,7 @@
                                         <td class="set-center"><input id="op1_5" type="radio" name="op1" value="5"><label for="op1_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Shows initiatives and asks questions</td>
+                                        <td class="teacher_course_student_mid_td">Shows initiatives and asks questions</td>
                                         <td class="set-center"><input id="op2_1" type="radio" name="op2" value="1"><label for="op2_1"></label></td>
                                         <td class="set-center"><input id="op2_2" type="radio" name="op2" value="2"><label for="op2_2"></label></td>
                                         <td class="set-center"><input id="op2_3" type="radio" name="op2" value="3"><label for="op2_3"></label></td>
@@ -161,7 +161,7 @@
                                         <td class="set-center"><input id="op2_5" type="radio" name="op2" value="5"><label for="op2_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Persists despite difficulties</td>
+                                        <td class="teacher_course_student_mid_td">Persists despite difficulties</td>
                                         <td class="set-center"><input id="op3_1" type="radio" name="op3" value="1"><label for="op3_1"></label></td>
                                         <td class="set-center"><input id="op3_2" type="radio" name="op3" value="2"><label for="op3_2"></label></td>
                                         <td class="set-center"><input id="op3_3" type="radio" name="op3" value="3"><label for="op3_3"></label></td>
@@ -169,7 +169,7 @@
                                         <td class="set-center"><input id="op3_5" type="radio" name="op3" value="5"><label for="op3_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Is well-organised and punctual</td>
+                                        <td class="teacher_course_student_mid_td">Is well-organised and punctual</td>
                                         <td class="set-center"><input id="op4_1" type="radio" name="op4" value="1"><label for="op4_1"></label></td>
                                         <td class="set-center"><input id="op4_2" type="radio" name="op4" value="2"><label for="op4_2"></label></td>
                                         <td class="set-center"><input id="op4_3" type="radio" name="op4" value="3"><label for="op4_3"></label></td>
@@ -177,7 +177,7 @@
                                         <td class="set-center"><input id="op4_5" type="radio" name="op4" value="5"><label for="op4_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Completes classroom tasks</td>
+                                        <td class="teacher_course_student_mid_td">Completes classroom tasks</td>
                                         <td class="set-center"><input id="op5_1" type="radio" name="op5" value="1"><label for="op5_1"></label></td>
                                         <td class="set-center"><input id="op5_2" type="radio" name="op5" value="2"><label for="op5_2"></label></td>
                                         <td class="set-center"><input id="op5_3" type="radio" name="op5" value="3"><label for="op5_3"></label></td>
@@ -185,7 +185,7 @@
                                         <td class="set-center"><input id="op5_5" type="radio" name="op5" value="5"><label for="op5_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Completes homework on time</td>
+                                        <td class="teacher_course_student_mid_td">Completes homework on time</td>
                                         <td class="set-center"><input id="op6_1" type="radio" name="op6" value="1"><label for="op6_1"></label></td>
                                         <td class="set-center"><input id="op6_2" type="radio" name="op6" value="2"><label for="op6_2"></label></td>
                                         <td class="set-center"><input id="op6_3" type="radio" name="op6" value="3"><label for="op6_3"></label></td>
@@ -212,17 +212,17 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <table class="student_course_student_mid table-bordered">
+                                <table class="teacher_course_student_mid table-bordered">
                                     <tr>
-                                        <td width="50%" class="student_course_student_mid_td">Course Name</td>
-                                        <td class="student_course_student_mid_td set-center">1</td>
-                                        <td class="student_course_student_mid_td set-center">2</td>
-                                        <td class="student_course_student_mid_td set-center">3</td>
-                                        <td class="student_course_student_mid_td set-center">4</td>
-                                        <td class="student_course_student_mid_td set-center">5</td>
+                                        <td width="50%" class="teacher_course_student_mid_td">Course Name</td>
+                                        <td class="teacher_course_student_mid_td set-center">1</td>
+                                        <td class="teacher_course_student_mid_td set-center">2</td>
+                                        <td class="teacher_course_student_mid_td set-center">3</td>
+                                        <td class="teacher_course_student_mid_td set-center">4</td>
+                                        <td class="teacher_course_student_mid_td set-center">5</td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Is self-motivated</td>
+                                        <td class="teacher_course_student_mid_td">Is self-motivated</td>
                                         <td class="set-center"><input id="op21_1" type="radio" name="op1" value="1"><label for="op21_1"></label></td>
                                         <td class="set-center"><input id="op21_2" type="radio" name="op1" value="2"><label for="op21_2"></label></td>
                                         <td class="set-center"><input id="op21_3" type="radio" name="op1" value="3"><label for="op21_3"></label></td>
@@ -230,7 +230,7 @@
                                         <td class="set-center"><input id="op21_5" type="radio" name="op1" value="5"><label for="op21_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Shows initiatives and asks questions</td>
+                                        <td class="teacher_course_student_mid_td">Shows initiatives and asks questions</td>
                                         <td class="set-center"><input id="op22_1" type="radio" name="op2" value="1"><label for="op22_1"></label></td>
                                         <td class="set-center"><input id="op22_2" type="radio" name="op2" value="2"><label for="op22_2"></label></td>
                                         <td class="set-center"><input id="op22_3" type="radio" name="op2" value="3"><label for="op22_3"></label></td>
@@ -238,7 +238,7 @@
                                         <td class="set-center"><input id="op22_5" type="radio" name="op2" value="5"><label for="op22_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Persists despite difficulties</td>
+                                        <td class="teacher_course_student_mid_td">Persists despite difficulties</td>
                                         <td class="set-center"><input id="op23_1" type="radio" name="op3" value="1"><label for="op23_1"></label></td>
                                         <td class="set-center"><input id="op23_2" type="radio" name="op3" value="2"><label for="op23_2"></label></td>
                                         <td class="set-center"><input id="op23_3" type="radio" name="op3" value="3"><label for="op23_3"></label></td>
@@ -246,7 +246,7 @@
                                         <td class="set-center"><input id="op23_5" type="radio" name="op3" value="5"><label for="op23_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Is well-organised and punctual</td>
+                                        <td class="teacher_course_student_mid_td">Is well-organised and punctual</td>
                                         <td class="set-center"><input id="op24_1" type="radio" name="op4" value="1"><label for="op24_1"></label></td>
                                         <td class="set-center"><input id="op24_2" type="radio" name="op4" value="2"><label for="op24_2"></label></td>
                                         <td class="set-center"><input id="op24_3" type="radio" name="op4" value="3"><label for="op24_3"></label></td>
@@ -254,7 +254,7 @@
                                         <td class="set-center"><input id="op24_5" type="radio" name="op4" value="5"><label for="op24_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Completes classroom tasks</td>
+                                        <td class="teacher_course_student_mid_td">Completes classroom tasks</td>
                                         <td class="set-center"><input id="op25_1" type="radio" name="op5" value="1"><label for="op25_1"></label></td>
                                         <td class="set-center"><input id="op25_2" type="radio" name="op5" value="2"><label for="op25_2"></label></td>
                                         <td class="set-center"><input id="op25_3" type="radio" name="op5" value="3"><label for="op25_3"></label></td>
@@ -262,7 +262,7 @@
                                         <td class="set-center"><input id="op25_5" type="radio" name="op5" value="5"><label for="op25_5"></label></td>
                                     </tr>
                                     <tr>
-                                        <td class="student_course_student_mid_td">Completes homework on time</td>
+                                        <td class="teacher_course_student_mid_td">Completes homework on time</td>
                                         <td class="set-center"><input id="op26_1" type="radio" name="op6" value="1"><label for="op26_1"></label></td>
                                         <td class="set-center"><input id="op26_2" type="radio" name="op6" value="2"><label for="op26_2"></label></td>
                                         <td class="set-center"><input id="op26_3" type="radio" name="op6" value="3"><label for="op26_3"></label></td>
