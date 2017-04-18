@@ -13,39 +13,39 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
-                            <div class="profile_img">
-                                <div class="teacher_profile_crop">
-                                    <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view student_profile_img" src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="Avatar" title="Change the avatar">
+                        <div class="col-md-12 col-sm-12 col-xs-12 profile_left" style="padding-bottom: 2vw">
+                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                <div class="profile_img">
+                                    <div class="teacher_profile_crop">
+                                        <!-- Current avatar -->
+                                        <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="Avatar" title="Change the avatar">
+                                    </div>
                                 </div>
                             </div>
-                            <h3>Janis Giovani Tan</h3>
+                           <div class="col-md-4 col-sm-6 col-xs-12">
+                                <h3>Janis Giovani Tan</h3>
+                                <ul class="list-unstyled user_data">
+                                    <li><i class="fa fa-map-marker user-profile-icon"></i> Jakarta
+                                    </li>
 
-                            <ul class="list-unstyled user_data">
-                                <li><i class="fa fa-map-marker user-profile-icon"></i> Jakarta
-                                </li>
+                                    <li>
+                                        <i class="fa fa-briefcase user-profile-icon"></i> Computer Science
+                                    </li>
 
-                                <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> Computer Science
-                                </li>
+                                    <li class="m-top-xs">
+                                        <i class="fa fa-phone user-profile-icon"></i>
+                                        <a href="http://www.kimlabs.com/profile/" target="_blank"> 08382703093</a>
+                                    </li>
 
-                                <li class="m-top-xs">
-                                    <i class="fa fa-phone user-profile-icon"></i>
-                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> 08382703093</a>
-                                </li>
-
-                                <li class="m-top-xs">
-                                    <i class="fa fa-external-link user-profile-icon"></i>
-                                    <a href="http://www.kimlabs.com/profile/" target="_blank"> janisgtan@gmail.com</a>
-                                </li>
-                            </ul>
-
-                            <a href="<?php echo base_url() ?>index.php/student/student_profile_edit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
-                            <br />
-
+                                    <li class="m-top-xs">
+                                        <i class="fa fa-external-link user-profile-icon"></i>
+                                        <a href="http://www.kimlabs.com/profile/" target="_blank"> janisgtan@gmail.com</a>
+                                    </li>
+                                </ul>
+                                <a href="<?php echo base_url() ?>index.php/student/student_profile_edit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                            </div>
                         </div>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-12">
                                     <h2>Personal Information</h2>

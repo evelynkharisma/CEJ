@@ -13,7 +13,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                        <div class="col-md-4 col-sm-4 col-xs-12 profile_left">
                             <div class="profile_img">
                                 <div class="teacher_profile_crop">
                                     <!-- Current avatar -->
@@ -25,9 +25,9 @@
                             <br />
 
                         </div>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
                             <div class="profile_title">
-                                <div class="col-md-12">
+                                <div class="col-md-11 col-sm-12 col-xs-12">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#student_personal-info" data-toggle="tab" >Personal Information</a></li>
                                         <li><a href="#student_academic-info" data-toggle="tab" >Academic Information</a></li>
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="tab-content">
-                                <div id="teacher_personal-info" class="col-md-12 tab-pane fade in active">
+                                <div id="student_personal-info" class="col-md-11 col-sm-12 col-xs-12 tab-pane fade in active">
                                     <div class="col-md-8">
                                         <form>
                                             <div class="form-group">
@@ -81,7 +81,7 @@
                                     </div>
 
                                 </div>
-                                <div id="teacher_academic-info" class="col-md-12 tab-pane fade">
+                                <div id="student_academic-info" class="col-md-12 tab-pane fade">
                                     <div class="col-md-8">
                                         <form>
                                             <div class="form-group">
@@ -113,7 +113,7 @@
                                     </div>
 
                                 </div>
-                                <div id="teacher_account-info" class="col-md-12 tab-pane fade">
+                                <div id="student_account-info" class="col-md-12 tab-pane fade">
                                     <div class="col-md-8">
                                         <form>
                                             <div class="form-group">
