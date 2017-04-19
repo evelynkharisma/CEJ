@@ -26,12 +26,19 @@
                         <li><a href="<?php echo base_url() ?>index.php/library/home" id="libmenu_home">Home</a></li>
                         <li><a href="<?php echo base_url() ?>index.php/library/collection" id="libmenu_collection">Collection</a></li>
                         <li><a href="<?php echo base_url() ?>index.php/library/about" id="libmenu_about">About</a></li>
-
                         <li><a href="<?php echo base_url() ?>index.php/library/contact" id="libmenu_contact">Contact</a></li>
-
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Janis<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="codes.html">Profile</a></li>
+                                <li><a href="<?php echo base_url() ?>index.php/library/borrowing_history">My Borrowing History</a></li>
+                                <li><a href="<?php echo base_url() ?>index.php/library/obligation">My Obligation</a></li>
+                                <li><a href="icons.html">Log Out</a></li>
+                            </ul>
+                        </li>
                         <li><a href="<?php echo base_url() ?>index.php/library/login"><span ></span> Sign In</a></li>
                     </ul>
 
