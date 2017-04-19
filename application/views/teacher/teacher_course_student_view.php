@@ -44,7 +44,11 @@
                                         </td>
                                         <td><?php echo $student['firstname'] ?> <?php echo $student['lastname'] ?></td>
                                         <td>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/courseStudentPerformance/<?php echo $info_db['assignid'] ?>/<?php echo $student['studentid'] ?>" class="btn btn-success"><i class="fa fa-edit"></i> Performance Detail</a>
+                                            <?php
+                                                $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                                                $sencrypted = $this->general->encryptParaID($student['studentid'],'student');
+                                            ?>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseStudentPerformance/<?php echo $encrypted ?>/<?php echo $sencrypted ?>" class="btn btn-success"><i class="fa fa-edit"></i> Performance Detail</a>
                                         </td>
                                     </tr>
                             <?php }} ?>

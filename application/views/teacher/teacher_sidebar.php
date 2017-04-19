@@ -101,7 +101,10 @@
                                 <ul class="nav child_menu">
                                     <?php foreach (${'grade'.$i} as $row){?>
                                         <li>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $row['assignid'] ?>"><?php echo $row['classroom'] ?> <?php echo $row['coursename'] ?></a>
+                                            <?php
+                                                $encrypted = $this->general->encryptParaID($row['assignid'],'courseassigned');
+                                            ?>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $encrypted ?>"><?php echo $row['classroom'] ?> <?php echo $row['coursename'] ?></a>
                                         </li>
                                     <?php } ?>
                                 </ul>

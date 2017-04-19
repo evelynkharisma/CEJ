@@ -32,8 +32,11 @@
                 <?php echo validation_errors(); ?>
             </div>
         <?php endif; ?>
-
-        <?php echo form_open('teacher/courseStudentPerformance/'.$info_db["assignid"].'/'.$student["studentid"]); ?>
+        <?php
+            $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+            $sencrypted = $this->general->encryptParaID($student['studentid'],'student');
+        ?>
+        <?php echo form_open('teacher/courseStudentPerformance/'.$encrypted.'/'.$sencrypted); ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">

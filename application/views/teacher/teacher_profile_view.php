@@ -33,8 +33,10 @@
                                     <i class="fa fa-briefcase user-profile-icon"></i> <?php echo $info_db['role'] ?>
                                 </li>
                             </ul>
-
-                            <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/teacher/profile_edit/<?php echo $info_db['teacherid'] ?>"><i class="fa fa-edit m-right-xs"></i> Edit Profile</a>
+                            <?php
+                                $encrypted = $this->general->encryptParaID($info_db['teacherid'],'teacher');
+                            ?>
+                            <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/teacher/profile_edit/<?php echo $encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Profile</a>
                             <br />
 
                         </div>

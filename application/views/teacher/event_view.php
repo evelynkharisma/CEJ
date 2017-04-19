@@ -15,6 +15,12 @@
             </div>
         <?php endif; ?>
 
+        <?php if ($this->session->flashdata('error')): ?>
+            <div  class="alert alert-error">
+                <?php echo $this->session->flashdata('error'); ?>
+            </div>
+        <?php endif; ?>
+
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -31,10 +37,15 @@
                                             <p class="day"><?php echo date('d', strtotime($event['date'])) ?></p>
                                         </a>
                                         <div class="media-body">
+                                            <?php
+                                                $encrypted = $this->general->encryptParaID($event['eventid'],'event');
+                                            ?>
                                             <a class="title" href="#"><?php echo $event['title'] ?></a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteEvent/<?php echo $encrypted ?>" class="btn-success btn set-right" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/editEvent/<?php echo $encrypted ?>" class="btn-success btn set-right"><i class="fa fa-edit"></i> Edit</a>
                                             <p><?php echo $event['description'] ?></p>
                                             <div class="teacher_dashboard_deadline">
-                                                <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
+                                                <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $encrypted ?>">Read More</a>
                                             </div>
                                         </div>
                                     </article>

@@ -27,7 +27,10 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Shared Material</h2><a href="<?php echo base_url() ?>index.php/teacher/addMaterial/<?php echo $info_db['assignid']?>" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>
+                        <?php
+                            $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                        ?>
+                        <h2>Shared Material</h2><a href="<?php echo base_url() ?>index.php/teacher/addMaterial/<?php echo $encrypted ?>" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>
 <!--                        <a  data-toggle="modal" data-target="#upload" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>-->
 
 <!--                        <div id="upload" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">-->

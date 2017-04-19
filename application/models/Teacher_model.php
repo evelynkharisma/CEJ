@@ -919,6 +919,17 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getForm($id){
+        $this->db->select('*');
+        $this->db->where('formid' ,$id);
+
+        $query = $this->db->get($this->form_table);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function getFormLatestID(){
         $this->db->select('formid');
         $this->db->order_by("formid", "desc");
@@ -938,6 +949,35 @@ class Teacher_model extends CI_Model {
             'formname' => $f,
         );
         $this->db->insert($this->form_table, $data);
+    }
+
+    function editForm($id){
+        $data = array(
+            'title' => $this->input->post('title'),
+            'description' => $this->input->post('description')
+        );
+        $this->db->where('formid', $id);
+        $this->db->update($this->form_table, $data);
+    }
+
+    function editFormWithFile($id, $f){
+        $data = array(
+            'title' => $this->input->post('title'),
+            'description' => $this->input->post('description'),
+            'formname' => $f,
+        );
+        $this->db->where('formid', $id);
+        $this->db->update($this->form_table, $data);
+    }
+
+
+    function deleteForm($id){
+        $this->db->where('formid', $id);
+        $this->db->delete($this->form_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     function getAllEvents($id){
@@ -967,6 +1007,17 @@ class Teacher_model extends CI_Model {
         return $query->num_rows();
     }
 
+    function getEvent($id){
+        $this->db->select('*');
+        $this->db->where('eventid' ,$id);
+
+        $query = $this->db->get($this->event_table);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function getEventLatestID(){
         $this->db->select('eventid');
         $this->db->order_by("eventid", "desc");
@@ -987,6 +1038,25 @@ class Teacher_model extends CI_Model {
             'teacherid' => 0,
         );
         $this->db->insert($this->event_table, $data);
+    }
+
+    function editEvent($id){
+        $data = array(
+            'title' => $this->input->post('title'),
+            'description' => $this->input->post('description'),
+            'date' => $this->input->post('duedate')
+        );
+        $this->db->where('eventid', $id);
+        $this->db->update($this->event_table, $data);
+    }
+
+    function deleteEvent($id){
+        $this->db->where('eventid', $id);
+        $this->db->delete($this->event_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     function addQnAEvent($id, $tid){

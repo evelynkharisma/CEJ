@@ -55,7 +55,7 @@
                                         <td><?php echo $student['firstname'] ?> <?php echo $student['lastname'] ?></td>
                                         <td>
                                             <div class="teacher_attendance_radio">
-                                                <input class="present" type="radio" id="present_<?php echo $student['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="p"  <?php echo (isset($student['status']) && $student['status']=='p')?'checked':'' ?>>
+                                                <input class="present" type="radio" id="present_<?php echo $student['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="p"  <?php echo (isset($student['status']) && $student['status']=='p') || (!isset($student['status'])) ?'checked':'' ?>>
                                                 <label for="present_<?php echo $student['studentid'] ?>">P</label>
 
                                                 <input class="absent" type="radio" id="absent_<?php echo $student['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="a" <?php echo (isset($student['status']) && $student['status']=='a')?'checked':'' ?>>

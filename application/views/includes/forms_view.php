@@ -37,7 +37,14 @@
                                     <tr>
                                         <td><?php echo $info_db['title'] ?></td>
                                         <td><?php echo $info_db['description'] ?></td>
-                                        <td><a download href="<?php echo base_url() ?>assets/file/forms/<?php echo $info_db['formname'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a></td>
+                                        <td width="30%">
+                                            <?php
+                                                $encrypted = $this->general->encryptParaID($info_db['formid'],'form');
+                                            ?>
+                                            <a download href="<?php echo base_url() ?>assets/file/forms/<?php echo $info_db['formname'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteForm/<?php echo $encrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/editForm/<?php echo $encrypted ?>" class="btn-success btn"><i class="fa fa-edit"></i> Edit</a>
+                                        </td>
                                     </tr>
                                 <?php }}
                             else {?>

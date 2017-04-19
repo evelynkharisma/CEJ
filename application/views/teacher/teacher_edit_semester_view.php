@@ -2,7 +2,10 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <?php echo form_open_multipart('teacher/editSemester/'.$info_db['assignid']); ?>
+            <?php
+                $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+            ?>
+            <?php echo form_open_multipart('teacher/editSemester/'.$encrypted); ?>
             <div class="title_left">
                 <input type="hidden" class="form-control set-margin-bottom" name="courseid" value="<?php echo $info_db['courseid']; ?>"/>
             </div>

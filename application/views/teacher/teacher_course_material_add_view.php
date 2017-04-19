@@ -35,7 +35,10 @@
                         <?php endif; ?>
                     </div>
                     <div class="x_content">
-                        <?php echo form_open_multipart('teacher/addMaterial/'.$info_db['assignid']); ?>
+                        <?php
+                            $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                        ?>
+                        <?php echo form_open_multipart('teacher/addMaterial/'.$encrypted); ?>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Topic</label>
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">

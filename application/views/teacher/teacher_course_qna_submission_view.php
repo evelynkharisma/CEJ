@@ -41,6 +41,7 @@
                             </thead>
                             <tbody>
                                 <?php
+                                    if($submit){
                                     foreach($submit as $s){ ?>
                                         <tr>
                                             <td>
@@ -57,8 +58,9 @@
                                                 <?php echo form_close(); ?>
                                             <td><a download href="<?php echo base_url() ?>assets/file/student/submission/<?php echo $s['file'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a></td>
                                         </tr>
-                                <?php } ?>
+                                <?php }} ?>
                                 <?php
+                                if($nosubmit){
                                 foreach($nosubmit as $s){ ?>
                                     <tr>
                                         <td>
@@ -69,7 +71,11 @@
                                         <td><?php echo $s['firstname'] ?> <?php echo $s['lastname'] ?></td>
                                         <td><?php echo $s['submissiondate'] ?></td>
                                         <td>
-                                            <?php echo form_open('teacher/courseSubmissionGrading/'.$info_db['assignid'].'/'.$s['anqscoreid']); ?>
+                                            <?php
+                                                $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                                                $qencrypted = $this->general->encryptParaID($s['anqscoreid'],'anqscore');
+                                            ?>
+                                            <?php echo form_open('teacher/courseSubmissionGrading/'.$encrypted.'/'.$qencrypted); ?>
                                             <input type="hidden" class="form-control set-margin-bottom" name="studentid" value="<?php echo $s['studentid']; ?>"/>
                                             <input type="hidden" class="form-control set-margin-bottom" name="qnaid" value="<?php echo $qna['anqid']; ?>"/>
                                             <button type="submit" class="btn btn-success set-right"><i class="fa fa-check"></i></button>
@@ -77,7 +83,7 @@
                                             <?php echo form_close(); ?>
                                         <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
                                     </tr>
-                                <?php } ?>
+                                <?php } }?>
                             </tbody>
                         </table>
                     </div>

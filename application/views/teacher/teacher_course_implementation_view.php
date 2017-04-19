@@ -28,7 +28,10 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Lesson Implementation</h2>
-                        <a href="<?php echo base_url() ?>index.php/teacher/printPreviewImplementation/<?php echo $info_db['assignid'] ?>" target="_blank" class="btn btn-success set-right"><i class="fa fa-eye"></i> Print Preview</a>
+                        <?php
+                            $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                        ?>
+                        <a href="<?php echo base_url() ?>index.php/teacher/printPreviewImplementation/<?php echo $encrypted ?>" target="_blank" class="btn btn-success set-right"><i class="fa fa-eye"></i> Print Preview</a>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -43,7 +46,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php echo form_open_multipart('teacher/courseImplementation/'.$info_db['assignid']); ?>
+                            <?php echo form_open_multipart('teacher/courseImplementation/'.$encrypted); ?>
                             <input type="hidden" class="form-control set-margin-bottom" name="assignid" value="<?php echo $info_db['assignid']; ?>"/>
                             <?php
                             if($plans){
