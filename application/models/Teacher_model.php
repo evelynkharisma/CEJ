@@ -171,6 +171,25 @@ class Teacher_model extends CI_Model {
         $this->db->insert($this->table, $data);
     }
 
+    function getAllCourses(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->course_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function deleteCourse($id){
+        $this->db->where('courseid', $id);
+        $this->db->delete($this->course_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
     function getCourseLatestID(){
         $this->db->select('courseid');
         $this->db->order_by("courseid", "desc");

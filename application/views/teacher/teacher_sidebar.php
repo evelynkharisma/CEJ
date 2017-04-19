@@ -34,6 +34,7 @@
             <li><a><i class="fa fa-edit"></i> Courses <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Add Course</a>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/allCourse">All Courses</a>
                     <li>
                         <?php
                             foreach ($courses as $course){

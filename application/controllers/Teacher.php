@@ -488,7 +488,7 @@ class teacher extends CI_Controller {
             $id = $this->general->decryptParaID(substr($fid, 1), 'courseassigned');
         }
         else{
-//            $id = $this->general->decryptParaID(substr($fid, 1), 'course');
+            $id = $this->general->decryptParaID(substr($fid, 1), 'course');
         }
 
         $this->form_validation->set_rules('coursename', 'Course Name', 'required');
@@ -530,11 +530,13 @@ class teacher extends CI_Controller {
             $this->session->set_flashdata('success', 'Course saved');
             if(substr($fid, 0 ,1) == 's'){
                 $id = $this->general->encryptParaID($id, 'courseassigned');
+                redirect('teacher/courseView/'.$id);
             }
             else{
-//                $id = $this->general->encryptParaID($id, 'course');
+                $id = $this->general->encryptParaID($id, 'course');
+                redirect('teacher/allCourse');
             }
-            redirect('teacher/courseView/'.$id);
+
         }
 
         $data['title'] = 'SMS';
@@ -550,6 +552,29 @@ class teacher extends CI_Controller {
         $courseid = $info['courseid'];
         $data['plans'] = $this->Teacher_model->getLessonPlan($courseid);
         $this->load->view($this->template, $data);
+    }
+
+    public function allCourse()
+    {
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['info_dbs'] = $this->Teacher_model->getAllCourses();
+        $data['content'] = 'teacher/teacher_courses_list_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteCourse($id){
+        $id = $this->general->decryptParaID($id, 'course');
+        if($this->Teacher_model->deleteCourse($id)){
+            $this->session->set_flashdata('success', 'Course Deleted');
+        }
+        else{
+            $this->session->set_flashdata('error', 'Failed to Delete Course');
+        }
+        redirect('teacher/allCourse');
     }
 
     public function courseView($id)

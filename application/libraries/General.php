@@ -66,6 +66,11 @@ class General
             $value = substr($id,1) + 789;
             $id = $variable.$value;
         }
+        elseif($type == 'course'){
+            $variable = ord('c');
+            $value = substr($id,1) + 891;
+            $id = $variable.$value;
+        }
         return $id;
     }
 
@@ -104,6 +109,11 @@ class General
             $variable = strlen(ord('f'));
             $id = substr($id, $variable) - 789;
             $id = 'f'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'course'){
+            $variable = strlen(ord('c'));
+            $id = substr($id, $variable) - 891;
+            $id = 'c'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         return $id;
     }
