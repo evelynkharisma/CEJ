@@ -5,6 +5,39 @@ class Library extends CI_Controller {
 
     var $template = 'template_library';
 
+
+    public function index()
+    {
+        $this->form_validation->set_rules('username', 'username', 'required|alpha_numeric');
+        $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $username = $this->input->post('username');
+            $password = $this->input->post('password');
+
+            $user = $this->Teacher_model->checkLogin($username, $password);
+                if (!empty($user)) {
+                    $sessionData['id'] = $user['teacherid'];
+                    $sessionData['photo'] = $user['photo'];
+                    $sessionData['role'] = $user['role'];
+                    $sessionData['lastlogin'] = $user['lastlogin'];
+                    $sessionData['is_login'] = TRUE;
+
+                    $this->session->set_userdata($sessionData);
+//					$this->Teacher_model->updateLastLogin($user['id']);
+
+                    redirect('teacher/home');
+                }
+
+            $this->session->set_flashdata('error', 'Login Failed!, username and password combination are wrong');
+        }
+
+        $data['title'] = 'SMS';
+        $data['content'] = 'login/login_view';
+        $this->load->view($this->template, $data);
+    }
+
     public function home()
     {
         $data['title'] = 'Library LMS';
@@ -37,6 +70,23 @@ class Library extends CI_Controller {
         $data['content'] = 'library/library_contact_view';
         $this->load->view($this->template, $data);
     }
+
+    public function borrowing_history ()
+    {
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['content'] = 'library/library_borrowing_history_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function obligation ()
+    {
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['content'] = 'library/library_obligation_view';
+        $this->load->view($this->template, $data);
+    }
+
 
     public function login()
     {
