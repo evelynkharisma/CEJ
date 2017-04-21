@@ -14,7 +14,7 @@
                     <?php echo validation_errors(); ?>
                 </div>
             <?php endif; ?>
-            <?php echo form_open('login/index'); ?>
+            <?php echo form_open('library/index'); ?>
             <input type="text" placeholder="Username" name="username"> <br>
             <input type="password" placeholder="Password" name="password"> <br>
         </div>

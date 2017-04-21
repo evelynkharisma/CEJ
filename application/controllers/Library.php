@@ -87,6 +87,13 @@ class Library extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function profile ()
+    {
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['content'] = 'library/library_profile_view';
+        $this->load->view($this->template, $data);
+    }
 
     public function login()
     {
