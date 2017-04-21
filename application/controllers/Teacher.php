@@ -95,6 +95,7 @@ class teacher extends CI_Controller {
 
     public function homeroomReport($id, $term)
     {
+        $id = $this->general->decryptParaID($id, 'student');
         $this->form_validation->set_rules('op1', 'Consideration', 'required');
         $this->form_validation->set_rules('op2', 'Responsibility', 'required');
         $this->form_validation->set_rules('op3', 'Communication', 'required');
@@ -140,6 +141,7 @@ class teacher extends CI_Controller {
 
     public function homeroomReport2($id, $term)
     {
+        $id = $this->general->decryptParaID($id, 'student');
         $this->form_validation->set_rules('comment', 'Comment', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
 
@@ -175,6 +177,7 @@ class teacher extends CI_Controller {
 
     public function printPreview13($id, $term)
     {
+        $id = $this->general->decryptParaID($id, 'student');
         $allattendance = $this->Teacher_model->getTotalAttendance($id);
         $present = $this->Teacher_model->getTotalPresentByStudent($id);
         $attendancepercentage = $present/$allattendance*100;
@@ -203,6 +206,7 @@ class teacher extends CI_Controller {
 
     public function printPreview24($id, $term)
     {
+        $id = $this->general->decryptParaID($id, 'student');
         $allattendance = $this->Teacher_model->getTotalAttendance($id);
         $present = $this->Teacher_model->getTotalPresentByStudent($id);
         $attendancepercentage = $present/$allattendance*100;
@@ -232,6 +236,8 @@ class teacher extends CI_Controller {
 
     public function teacher_profile($id)
     {
+        $id = $this->general->decryptParaID($id, 'teacher');
+        $data['de'] = $id;
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -252,6 +258,7 @@ class teacher extends CI_Controller {
 
     public function profile_edit($id)
     {
+        $id = $this->general->decryptParaID($id, 'teacher');
         $this->form_validation->set_rules('firstname', 'firstname', 'required');
         $this->form_validation->set_rules('lastname', 'lastname', 'required');
         $this->form_validation->set_rules('gender', 'gender', 'required');
@@ -321,7 +328,8 @@ class teacher extends CI_Controller {
             }
             $this->Teacher_model->editProfile($teacherid, $availabletime);
             $this->session->set_flashdata('success', 'Profile saved');
-            redirect('teacher/teacher_profile/'.$teacherid);
+            $eid = $this->general->encryptParaID($id, 'teacher');
+            redirect('teacher/teacher_profile/'.$eid);
         }
 
         $data['title'] = 'SMS';
@@ -474,8 +482,15 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function editCourse($id)
+    public function editCourse($fid)
     {
+        if(substr($fid, 0 ,1) == 's'){
+            $id = $this->general->decryptParaID(substr($fid, 1), 'courseassigned');
+        }
+        else{
+            $id = $this->general->decryptParaID(substr($fid, 1), 'course');
+        }
+
         $this->form_validation->set_rules('coursename', 'Course Name', 'required');
         $this->form_validation->set_rules('coursedescription', 'Course Description', 'required');
         $this->form_validation->set_rules('courseresources', 'Course Resources', 'required');
@@ -513,7 +528,15 @@ class teacher extends CI_Controller {
             }
 
             $this->session->set_flashdata('success', 'Course saved');
-            redirect('teacher/courseView/'.$id);
+            if(substr($fid, 0 ,1) == 's'){
+                $id = $this->general->encryptParaID($id, 'courseassigned');
+                redirect('teacher/courseView/'.$id);
+            }
+            else{
+                $id = $this->general->encryptParaID($id, 'course');
+                redirect('teacher/allCourse');
+            }
+
         }
 
         $data['title'] = 'SMS';
@@ -531,8 +554,32 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function allCourse()
+    {
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['info_dbs'] = $this->Teacher_model->getAllCourses();
+        $data['content'] = 'teacher/teacher_courses_list_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteCourse($id){
+        $id = $this->general->decryptParaID($id, 'course');
+        if($this->Teacher_model->deleteCourse($id)){
+            $this->session->set_flashdata('success', 'Course Deleted');
+        }
+        else{
+            $this->session->set_flashdata('error', 'Failed to Delete Course');
+        }
+        redirect('teacher/allCourse');
+    }
+
     public function courseView($id)
     {
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -551,6 +598,7 @@ class teacher extends CI_Controller {
 
     public function courseSemester($id)
     {
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -569,6 +617,7 @@ class teacher extends CI_Controller {
 
     public function printPreviewSemester($id)
     {
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
         $data['content'] = 'teacher/teacher_course_semester_print_view';
         if(!$info = $this->Teacher_model->getCourseDataByAssignID($id)){
@@ -582,6 +631,7 @@ class teacher extends CI_Controller {
 
     public function editSemester($id)
     {
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $this->form_validation->set_rules('courseid', 'Course ID', 'required');
         $courseid = $this->input->post('courseid');
 
@@ -615,7 +665,8 @@ class teacher extends CI_Controller {
             }
 
             $this->session->set_flashdata('success', 'Course saved');
-            redirect('teacher/courseSemester/'.$id);
+            $encryptid = $this->general->encryptParaID($id, 'courseassigned');
+            redirect('teacher/courseSemester/'.$encryptid);
         }
 
         $data['title'] = 'SMS';
@@ -644,6 +695,8 @@ class teacher extends CI_Controller {
 //    }
 
     public function courseImplementation($id){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
+
         $this->form_validation->set_rules('assignid', 'assignid', 'required');
 
         $this->form_validation->set_error_delimiters('', '<br/>');
@@ -669,7 +722,8 @@ class teacher extends CI_Controller {
             }
 
             $this->session->set_flashdata('success', 'Implementation saved');
-            redirect('teacher/courseImplementation/'.$id);
+            $encryptid = $this->general->encryptParaID($id, 'courseassigned');
+            redirect('teacher/courseImplementation/'.$encryptid);
         }
         
         $data['title'] = 'SMS';
@@ -688,6 +742,7 @@ class teacher extends CI_Controller {
     }
 
     public function printPreviewImplementation($id){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
         $info = $this->Teacher_model->getCourseDataByAssignID($id);
         $data['info_db'] = $info;
@@ -697,6 +752,7 @@ class teacher extends CI_Controller {
     }
 
     public function courseMaterial($id){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -710,6 +766,7 @@ class teacher extends CI_Controller {
     }
 
     public function addMaterial($id){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $this->form_validation->set_rules('topic', 'topic', 'required');
         $this->form_validation->set_rules('type', 'type', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
@@ -757,7 +814,8 @@ class teacher extends CI_Controller {
                     $this->Teacher_model->addMaterial($materialID, $id, $fileID);
                 }
                 $this->session->set_flashdata('success', 'New Material Added');
-                redirect('teacher/courseMaterial/'.$id);
+                $eid = $this->general->encryptParaID($id, 'courseassigned');
+                redirect('teacher/courseMaterial/'.$eid);
             }
         }
 
@@ -777,6 +835,7 @@ class teacher extends CI_Controller {
     }
 
     public function courseAssignmentQuiz($id){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -790,13 +849,16 @@ class teacher extends CI_Controller {
     }
 
     public function addQnA($id){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $this->form_validation->set_rules('topic', 'topic', 'required');
         $this->form_validation->set_rules('type', 'type', 'required');
         $this->form_validation->set_rules('duedate', 'due date', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
-        $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
-        $teacherid = $teacherid['teacherid'];
+
         if ($this->form_validation->run() == TRUE) {
+            $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
+            $teacherid = $teacherid['teacherid'];
+
             if ($this->input->post('existingfile')==null && empty($_FILES['userfile']['name'])){
                 $this->session->set_flashdata('error', 'Existing file or New file is required');
                 redirect(current_url());
@@ -841,10 +903,13 @@ class teacher extends CI_Controller {
                 $latestID = $latestID['eventid'];
                 $latestID = substr($latestID, 1);
                 $latestID = 'v'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
+                $teacherid = $teacherid['teacherid'];
                 $this->Teacher_model->addQnAEvent($latestID, $teacherid);
 
                 $this->session->set_flashdata('success', 'New Material Added');
-                redirect('teacher/courseAssignmentQuiz/'.$id);
+                $eid = $this->general->encryptParaID($id, 'courseassigned');
+                redirect('teacher/courseAssignmentQuiz/'.$eid);
             }
         }
 
@@ -864,6 +929,9 @@ class teacher extends CI_Controller {
     }
 
     public function courseAssignmentQuizSubmission($id, $qid){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
+        $qid = $this->general->decryptParaID($qid, 'anq');
+
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -901,6 +969,9 @@ class teacher extends CI_Controller {
     }
     
     public function courseSubmissionGrading($id, $nid){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
+        $nid = $this->general->decryptParaID($nid, 'anqscore');
+        
         $this->form_validation->set_rules('score', 'Score', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
         
@@ -914,11 +985,15 @@ class teacher extends CI_Controller {
             $this->session->set_flashdata('success', 'Score updated');
             $qid = $this->Teacher_model->checkSubmission($nid);
             $qid = $qid['anqid'];
-            redirect('teacher/courseAssignmentQuizSubmission/'.$id.'/'.$qid);
+
+            $eid = $this->general->encryptParaID($id, 'courseassigned');
+            $qid = $this->general->encryptParaID($qid, 'anq');
+            redirect('teacher/courseAssignmentQuizSubmission/'.$eid.'/'.$qid);
         }
     }
 
     public function courseStudent($id){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -934,6 +1009,11 @@ class teacher extends CI_Controller {
     }
 
     public function courseStudentPerformance($assignid, $studentid){
+        $assignid = $this->general->decryptParaID($assignid, 'courseassigned');
+        $studentid = $this->general->decryptParaID($studentid, 'student');
+        $eid = $this->general->encryptParaID($assignid, 'courseassigned');
+        $esid = $this->general->encryptParaID($studentid, 'student');
+
         $savebutton = $this->input->post('savebutton');
         if($savebutton == 'term1'){
             $this->form_validation->set_rules('op1', 'Mid Term Is self-motivated', 'required');
@@ -957,7 +1037,7 @@ class teacher extends CI_Controller {
                 }
                 $this->session->set_flashdata('success', 'Report saved');
             }
-            redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
+            redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
         else if($savebutton == 'term2'){
             $this->form_validation->set_rules('mark', 'Mid Term Exam Mark', 'required');
@@ -971,7 +1051,7 @@ class teacher extends CI_Controller {
                 }
                 $this->session->set_flashdata('success', 'Report saved');
             }
-            redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
+            redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
         else if($savebutton == 'term3'){
             $this->form_validation->set_rules('opf1', 'Final Term Is self-motivated', 'required');
@@ -995,7 +1075,7 @@ class teacher extends CI_Controller {
                 }
                 $this->session->set_flashdata('success', 'Report saved');
             }
-            redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
+            redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
         else if($savebutton == 'term4'){
             $this->form_validation->set_rules('mark', 'Mid Term Exam Mark', 'required');
@@ -1009,7 +1089,7 @@ class teacher extends CI_Controller {
                 }
                 $this->session->set_flashdata('success', 'Report saved');
             }
-            redirect('teacher/courseStudentPerformance/'.$assignid.'/'.$studentid);
+            redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
 
         $data['homework'] = $this->Teacher_model->getAllQnAByStudent($studentid, 'Quiz');
@@ -1151,6 +1231,39 @@ class teacher extends CI_Controller {
         $data['content'] = 'teacher/add_event_view';
         $this->load->view($this->template, $data);
     }
+    
+    public function editEvent($id){
+        $id = $this->general->decryptParaID($id, 'event');
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_rules('duedate', 'Date', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Teacher_model->editEvent($id);
+
+            $this->session->set_flashdata('success', 'Event Edited');
+            redirect('teacher/eventList/');
+        }
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['event'] = $this->Teacher_model->getEvent($id);
+        $data['content'] = 'teacher/edit_event_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteEvent($id){
+        $id = $this->general->decryptParaID($id, 'event');
+        if($this->Teacher_model->deleteEvent($id)){
+            $this->session->set_flashdata('success', 'Event Deleted');
+        }
+        else{
+            $this->session->set_flashdata('error', 'Failed to Delete Event');
+        }
+        redirect('teacher/eventList');
+    }
 
     public function eventList()
     {
@@ -1220,6 +1333,59 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/add_form_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function editForm($id){
+        $id = $this->general->decryptParaID($id, 'form');
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            if (empty($_FILES['userfile']['name'])){
+                $this->Teacher_model->editForm($id);
+            }
+            else{
+                if ($_FILES['userfile']['error'] != 4) {
+                    $config['upload_path'] = $this->formpath;
+                    $config['allowed_types'] = "doc|pdf|docx";
+                    $config['max_size'] = 200000;
+                    $config['overwrite'] = TRUE;
+                    $config['file_name'] = $id;
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('userfile')) {
+                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        redirect(current_url());
+                    } else {
+                        $data = $this->upload->data();
+                        $filename = $data['orig_name'];
+                        $this->Teacher_model->editFormWithFile($id, $filename);
+                    }
+                }
+            }
+            $this->session->set_flashdata('success', 'Form Edited');
+            redirect('teacher/forms/');
+        }
+
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['form'] = $this->Teacher_model->getForm($id);
+        $data['content'] = 'includes/edit_form_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteForm($id){
+        $id = $this->general->decryptParaID($id, 'form');
+        if($this->Teacher_model->deleteForm($id)){
+            $this->session->set_flashdata('success', 'Form Deleted');
+        }
+        else{
+            $this->session->set_flashdata('error', 'Failed to Delete Form');
+        }
+        redirect('teacher/forms');
     }
 
     public function settings()

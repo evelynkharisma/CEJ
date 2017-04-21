@@ -37,10 +37,13 @@
                                         <td><?php echo $student['firstname'] ?></td>
                                         <td><?php echo $student['lastname'] ?></td>
                                         <td>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport/<?php echo $student['studentid'] ?>/1" class="btn btn-success"><i class="fa fa-eye"></i> Term 1</a>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport2/<?php echo $student['studentid'] ?>/1" class="btn btn-success"><i class="fa fa-eye"></i> Term 2</a>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport/<?php echo $student['studentid'] ?>/2" class="btn btn-success"><i class="fa fa-eye"></i> Term 3</a>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport2/<?php echo $student['studentid'] ?>/2" class="btn btn-success"><i class="fa fa-eye"></i> Term 4</a>
+                                            <?php
+                                                $encrypted = $this->general->encryptParaID($student['studentid'],'student');
+                                            ?>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport/<?php echo $encrypted ?>/1" class="btn btn-success"><i class="fa fa-eye"></i> Term 1</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport2/<?php echo $encrypted ?>/1" class="btn btn-success"><i class="fa fa-eye"></i> Term 2</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport/<?php echo $encrypted ?>/2" class="btn btn-success"><i class="fa fa-eye"></i> Term 3</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/homeroomReport2/<?php echo $encrypted ?>/2" class="btn btn-success"><i class="fa fa-eye"></i> Term 4</a>
                                         </td>
                                     </tr>
                                 <?php }} ?>

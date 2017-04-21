@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="">
-                <h3>Forms <a href="<?php echo base_url() ?>index.php/teacher/addForm" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a></h3>
+                <h3>All Courses <a href="<?php echo base_url() ?>index.php/teacher/addCourse" class="btn btn-success set-right"><i class="fa fa-plus"></i> Add Course</a></h3>
             </div>
         </div>
 
@@ -25,8 +25,9 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Title</th>
+                                <th>Name</th>
                                 <th>Description</th>
+                                <th>Resources</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -35,15 +36,22 @@
                             if($info_dbs){
                                 foreach($info_dbs as $info_db){ ?>
                                     <tr>
-                                        <td><?php echo $info_db['title'] ?></td>
-                                        <td><?php echo $info_db['description'] ?></td>
+                                        <td><?php echo $info_db['coursename'] ?></td>
+                                        <td><?php echo $info_db['coursedescription'] ?></td>
+                                        <td>
+                                            <?php
+                                                $courseResources = explode('|', $info_db['courseresources']);
+                                                foreach ($courseResources as $resource){
+                                                    echo "<li>".$resource."</li>";
+                                                }
+                                            ?>
+                                        </td>
                                         <td width="30%">
                                             <?php
-                                                $encrypted = $this->general->encryptParaID($info_db['formid'],'form');
+                                                $encrypted = $this->general->encryptParaID($info_db['courseid'],'course');
                                             ?>
-                                            <a download href="<?php echo base_url() ?>assets/file/forms/<?php echo $info_db['formname'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteForm/<?php echo $encrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/editForm/<?php echo $encrypted ?>" class="btn-success btn"><i class="fa fa-edit"></i> Edit</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteCourse/<?php echo $encrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/editCourse/c<?php echo $encrypted ?>" class="btn-success btn"><i class="fa fa-edit"></i> Edit</a>
                                         </td>
                                     </tr>
                                 <?php }}

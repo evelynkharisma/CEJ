@@ -1,9 +1,12 @@
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
+        <?php
+            $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+        ?>
         <div class="page-title">
             <div class="title_left">
-                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/teacher/editSemester/<?php echo $info_db['assignid'] ?>"><i class="fa fa-edit m-right-xs"></i> Edit Semester Plan</a></h3>
+                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/teacher/editSemester/<?php echo $encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Semester Plan</a></h3>
             </div>
         </div>
 
@@ -20,7 +23,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Semester Plan</h2>
-                        <a href="<?php echo base_url() ?>index.php/teacher/printPreviewSemester/<?php echo $info_db['assignid'] ?>" target="_blank" class="btn btn-success set-right"><i class="fa fa-eye"></i> Print Preview</a>
+                        <a href="<?php echo base_url() ?>index.php/teacher/printPreviewSemester/<?php echo $encrypted ?>" target="_blank" class="btn btn-success set-right"><i class="fa fa-eye"></i> Print Preview</a>
                         
                         <div class="clearfix"></div>
                     </div>

@@ -19,8 +19,10 @@
                 <?php echo validation_errors(); ?>
             </div>
         <?php endif; ?>
-        
-        <?php echo form_open_multipart("teacher/profile_edit/".$info_db['teacherid']); ?>
+        <?php
+            $encrypted = $this->general->encryptParaID($info_db['teacherid'],'teacher');
+        ?>
+        <?php echo form_open_multipart("teacher/profile_edit/".$encrypted); ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">

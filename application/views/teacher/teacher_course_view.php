@@ -1,10 +1,13 @@
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
+        <?php
+            $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+        ?>
         <div class="page-title">
             <div class="title_left">
 <!--                <h3>--><?php //echo $info_db['coursename'] ?><!-- <a class="btn btn-success" href="--><?php //echo base_url() ?><!--index.php/teacher/editCourse/--><?php //echo isset($info_db['assignid']) && $info_db['assignid'] == null ? $info_db['assignid'] : $info_db['courseid'] ?><!--"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>-->
-                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success" href="<?php echo base_url() ?>index.php/teacher/editCourse/<?php echo $info_db['assignid'] ?>"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>
+                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success" href="<?php echo base_url() ?>index.php/teacher/editCourse/<?php echo 's'.$encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>
             </div>
 
           

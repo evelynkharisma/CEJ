@@ -32,7 +32,10 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Assignment and Quizzes</h2><a href="<?php echo base_url() ?>index.php/teacher/addQnA/<?php echo $info_db['assignid']?>" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>
+                        <?php
+                            $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                        ?>
+                        <h2>Assignment and Quizzes</h2><a href="<?php echo base_url() ?>index.php/teacher/addQnA/<?php echo $encrypted ?>" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>
 <!--                        <a data-toggle="modal" data-target="#upload" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>-->
 <!---->
 <!--                        <div id="upload" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">-->
@@ -107,8 +110,11 @@
                                         <td><?php echo $qna['date'] ?></td>
                                         <td><?php echo $qna['duedate'] ?></td>
                                         <td>
+                                            <?php
+                                                $qencrypted = $this->general->encryptParaID($qna['anqid'],'anq');
+                                            ?>
                                             <a download href="<?php echo base_url() ?>assets/file/teacher/material/<?php echo $qna['filename'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuizSubmission/<?php echo $info_db['assignid'] ?>/<?php echo $qna['anqid'] ?>" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuizSubmission/<?php echo $encrypted ?>/<?php echo $qencrypted ?>" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
                                             <a href="<?php echo base_url() ?>index.php/teacher/sendEmail" class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a>
                                         </td>
                                     </tr>

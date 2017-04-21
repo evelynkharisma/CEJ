@@ -2,7 +2,16 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <?php echo form_open_multipart('teacher/editCourse/'.$info_db['assignid']); ?>
+            <?php
+            if(!isset($info_db['assignid'])){
+                $encrypted = $this->general->encryptParaID($info_db['courseid'],'course');
+                echo form_open_multipart('teacher/editCourse/c'.$encrypted);
+            }
+            else{
+                $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                echo form_open_multipart('teacher/editCourse/s'.$encrypted);
+            }
+            ?>
             <div class="title_left">
                 <input type="hidden" class="form-control set-margin-bottom" name="courseid" value="<?php echo $info_db['courseid']; ?>"/>
                 <h3>Course Name: <input type="text" class="form-control set-margin-bottom set-margin-top" name="coursename" value="<?php echo set_value('coursename', isset($info_db['coursename']) ? $info_db['coursename'] : ''); ?>"/></h3>

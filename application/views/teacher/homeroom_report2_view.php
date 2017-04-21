@@ -32,7 +32,10 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Grade <?php echo $info_db['classroom'] ?></h2>
-                        <a target="_blank" href="<?php echo base_url() ?>index.php/teacher/printPreview24/<?php echo $info_db['studentid'] ?>/<?php echo $term ?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Print Preview</a>
+                        <?php
+                            $encrypted = $this->general->encryptParaID($info_db['studentid'],'student');
+                        ?>
+                        <a target="_blank" href="<?php echo base_url() ?>index.php/teacher/printPreview24/<?php echo $encrypted ?>/<?php echo $term ?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Print Preview</a>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">

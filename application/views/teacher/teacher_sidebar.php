@@ -34,6 +34,7 @@
             <li><a><i class="fa fa-edit"></i> Courses <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Add Course</a>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/allCourse">All Courses</a>
                     <li>
                         <?php
                             foreach ($courses as $course){
@@ -101,7 +102,10 @@
                                 <ul class="nav child_menu">
                                     <?php foreach (${'grade'.$i} as $row){?>
                                         <li>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $row['assignid'] ?>"><?php echo $row['classroom'] ?> <?php echo $row['coursename'] ?></a>
+                                            <?php
+                                                $encrypted = $this->general->encryptParaID($row['assignid'],'courseassigned');
+                                            ?>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $encrypted ?>"><?php echo $row['classroom'] ?> <?php echo $row['coursename'] ?></a>
                                         </li>
                                     <?php } ?>
                                 </ul>
