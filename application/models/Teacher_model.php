@@ -568,7 +568,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function addMidReport($latestID, $assignid, $studentid){
+    function addMidReport($latestID, $assignid, $studentid, $class){
         $data = array(
             'reportid' => $latestID,
             'assignid' => $assignid,
@@ -581,6 +581,7 @@ class Teacher_model extends CI_Model {
             'organize' => $this->input->post('op4'),
             'task' => $this->input->post('op5'),
             'homework' => $this->input->post('op6'),
+            'class' => $class
         );
         $this->db->insert($this->report_table, $data);
     }
@@ -609,7 +610,7 @@ class Teacher_model extends CI_Model {
         $this->db->update($this->report_table, $data);
     }
 
-    function addFinalReport($latestID, $assignid, $studentid){
+    function addFinalReport($latestID, $assignid, $studentid, $class){
         $data = array(
             'reportid' => $latestID,
             'assignid' => $assignid,
@@ -623,6 +624,7 @@ class Teacher_model extends CI_Model {
             'task' => $this->input->post('opf5'),
             'homework' => $this->input->post('opf6'),
             'comment' => $this->input->post('fcomment'),
+            'class' => $class
         );
         $this->db->insert($this->report_table, $data);
     }
@@ -754,7 +756,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function getStudentReport($classid, $id, $term){
+    function getStudentReport($classid, $id, $term, $class){
         $this->db->select('*');
         $this->db->join('course', 'course.courseid = course_assign.courseid');
         $this->db->join('teacher', 'teacher.teacherid = course_assign.teacherid');
@@ -762,6 +764,7 @@ class Teacher_model extends CI_Model {
         $this->db->where('course_assign.classid', $classid);
         $this->db->where('report.studentid', $id);
         $this->db->where('report.term', $term);
+        $this->db->where('report.class', $class);
         $this->db->order_by('course.coursename', 'asc');
 
         $query = $this->db->get($this->course_assign_table);
@@ -785,10 +788,11 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function checkHomeroomReport($studentid, $term) {
+    function checkHomeroomReport($studentid, $term, $class) {
         $this->db->select('*');
         $this->db->where('studentid', $studentid);
         $this->db->where('term', $term);
+        $this->db->where('class', $class);
         $query = $this->db->get($this->homeroom_table, 1);
 
         if ($query->num_rows() == 1) {
@@ -807,7 +811,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function addHomeroomReport($latestID, $studentid, $term){
+    function addHomeroomReport($latestID, $studentid, $term, $class){
         $data = array(
             'homeroomid' => $latestID,
             'studentid' => $studentid,
@@ -816,7 +820,8 @@ class Teacher_model extends CI_Model {
             'consideration' => $this->input->post('op1'),
             'responsibility' => $this->input->post('op2'),
             'communication' => $this->input->post('op3'),
-            'punctual' => $this->input->post('op4')
+            'punctual' => $this->input->post('op4'),
+            'class' => $class
         );
         $this->db->insert($this->homeroom_table, $data);
     }
@@ -839,10 +844,11 @@ class Teacher_model extends CI_Model {
         $this->db->update($this->homeroom_table, $data);
     }
 
-    function getHomeroomReport($studentid, $term) {
+    function getHomeroomReport($studentid, $term, $class) {
         $this->db->select('*');
         $this->db->where('studentid', $studentid);
         $this->db->where('term', $term);
+        $this->db->where('class', $class);
 
         $query = $this->db->get($this->homeroom_table, 1);
 

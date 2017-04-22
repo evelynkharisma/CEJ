@@ -96,6 +96,9 @@ class teacher extends CI_Controller {
     public function homeroomReport($id, $term)
     {
         $id = $this->general->decryptParaID($id, 'student');
+        $class = $this->Teacher_model->getClassByStudentID($id);
+        $class = explode('-', $class['classroom']);
+
         $this->form_validation->set_rules('op1', 'Consideration', 'required');
         $this->form_validation->set_rules('op2', 'Responsibility', 'required');
         $this->form_validation->set_rules('op3', 'Communication', 'required');
@@ -103,7 +106,7 @@ class teacher extends CI_Controller {
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
-            if($result = $this->Teacher_model->checkHomeroomReport($id, $term)){
+            if($result = $this->Teacher_model->checkHomeroomReport($id, $term, $class[0])){
                 $this->Teacher_model->editHomeroomReport($result['homeroomid']);
             }
             else{
@@ -111,10 +114,12 @@ class teacher extends CI_Controller {
                 $latestID = $latestID['homeroomid'];
                 $latestID = substr($latestID, 1);
                 $latestID = 'h'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-                $this->Teacher_model->addHomeroomReport($latestID, $id, $term);
+                
+                $this->Teacher_model->addHomeroomReport($latestID, $id, $term, $class[0]);
             }
             $this->session->set_flashdata('success', 'Homeroom Report saved');
-            redirect('teacher/homeroomReport/'.$id.'/'.$term);
+            $eid = $this->general->encryptParaID($id, 'student');
+            redirect('teacher/homeroomReport/'.$eid.'/'.$term);
         }
 
         $allattendance = $this->Teacher_model->getTotalAttendance($id);
@@ -130,10 +135,10 @@ class teacher extends CI_Controller {
         $classid = $info['classid'];
         $data['attendance'] = $attendancepercentage;
         $data['info_db'] = $info;
-        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
+        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term, $class[0]);
         $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
         $data['term'] = $term;
-        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term, $class[0]);
         $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
         $data['content'] = 'teacher/homeroom_report_view';
         $this->load->view($this->template, $data);
@@ -142,6 +147,9 @@ class teacher extends CI_Controller {
     public function homeroomReport2($id, $term)
     {
         $id = $this->general->decryptParaID($id, 'student');
+        $class = $this->Teacher_model->getClassByStudentID($id);
+        $class = explode('-', $class['classroom']);
+
         $this->form_validation->set_rules('comment', 'Comment', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
 
@@ -166,10 +174,10 @@ class teacher extends CI_Controller {
         $classid = $info['classid'];
         $data['attendance'] = $attendancepercentage;
         $data['info_db'] = $info;
-        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
+        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term, $class[0]);
         $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
         $data['term'] = $term;
-        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term, $class[0]);
         $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
         $data['content'] = 'teacher/homeroom_report2_view';
         $this->load->view($this->template, $data);

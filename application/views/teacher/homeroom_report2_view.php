@@ -42,7 +42,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="col-md-12">
                                 <table class="teacher_course_student_mid table-bordered">
-                                    <?php echo form_open('teacher/homeroomReport2/'.$info_db["studentid"].'/'.$term); ?>
+                                    <?php echo form_open('teacher/homeroomReport2/'.$encrypted.'/'.$term); ?>
                                     <tr>
                                         <td width="30%" class="teacher_course_student_mid_td">FORM TEACHER</td>
                                         <td colspan="5">
