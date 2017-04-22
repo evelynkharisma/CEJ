@@ -154,11 +154,12 @@ class teacher extends CI_Controller {
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
-            if($result = $this->Teacher_model->checkHomeroomReport($id, $term)){
+            if($result = $this->Teacher_model->checkHomeroomReport($id, $term, $class[0])){
                 $this->Teacher_model->editHomeroomReport2($result['homeroomid']);
             }
             $this->session->set_flashdata('success', 'Homeroom Report saved');
-            redirect('teacher/homeroomReport2/'.$id.'/'.$term);
+            $eid = $this->general->encryptParaID($id, 'student');
+            redirect('teacher/homeroomReport2/'.$eid.'/'.$term);
         }
 
         $allattendance = $this->Teacher_model->getTotalAttendance($id);
@@ -186,6 +187,8 @@ class teacher extends CI_Controller {
     public function printPreview13($id, $term)
     {
         $id = $this->general->decryptParaID($id, 'student');
+        $class = $this->Teacher_model->getClassByStudentID($id);
+        $class = explode('-', $class['classroom']);
         $allattendance = $this->Teacher_model->getTotalAttendance($id);
         $present = $this->Teacher_model->getTotalPresentByStudent($id);
         $attendancepercentage = $present/$allattendance*100;
@@ -201,11 +204,11 @@ class teacher extends CI_Controller {
         $info = $this->Teacher_model->getClassByStudentID($id);
         $classid = $info['classid'];
         $data['info_db'] = $info;
-        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
+        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term, $class[0]);
         $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
         $data['term'] = $term;
         $data['attendance'] = $attendancepercentage;
-        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term, $class[0]);
         $data['setting'] = $this->Teacher_model->getSetting($sid);
         $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
         $data['content'] = 'teacher/homeroom_report_print_preview';
@@ -215,6 +218,8 @@ class teacher extends CI_Controller {
     public function printPreview24($id, $term)
     {
         $id = $this->general->decryptParaID($id, 'student');
+        $class = $this->Teacher_model->getClassByStudentID($id);
+        $class = explode('-', $class['classroom']);
         $allattendance = $this->Teacher_model->getTotalAttendance($id);
         $present = $this->Teacher_model->getTotalPresentByStudent($id);
         $attendancepercentage = $present/$allattendance*100;
@@ -230,11 +235,11 @@ class teacher extends CI_Controller {
         $info = $this->Teacher_model->getClassByStudentID($id);
         $classid = $info['classid'];
         $data['info_db'] = $info;
-        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term);
+        $data['reports'] = $this->Teacher_model->getStudentReport($classid, $id, $term, $class[0]);
         $data['coursesList'] = $this->Teacher_model->getStudentCourses($classid);
         $data['term'] = $term;
         $data['attendance'] = $attendancepercentage;
-        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term);
+        $data['homeroomreport'] = $this->Teacher_model->getHomeroomReport($id, $term, $class[0]);
         $data['teacher'] = $this->Teacher_model->getHomeroomTeacher($classid);
         $data['principal'] = $this->Teacher_model->getPrincipal();
         $data['setting'] = $this->Teacher_model->getSetting($sid);
@@ -444,6 +449,110 @@ class teacher extends CI_Controller {
         $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
         $data['content'] = 'teacher/teacher_add_teacher_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function editTeacher($id)
+    {
+        $id = $this->general->decryptParaID($id, 'teacher');
+        $this->form_validation->set_rules('firstname', 'firstname', 'required');
+        $this->form_validation->set_rules('lastname', 'lastname', 'required');
+        $this->form_validation->set_rules('gender', 'gender', 'required');
+        $this->form_validation->set_rules('phone', 'phone', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('address', 'address', 'required');
+        $this->form_validation->set_rules('dateofbirth', 'date of birth', 'required');
+        $this->form_validation->set_rules('placeofbirth', 'place of birth', 'required');
+        $this->form_validation->set_rules('religion', 'religion', 'required');
+        $this->form_validation->set_rules('elementary', 'elementary', 'required');
+        $this->form_validation->set_rules('juniorhigh', 'junior high', 'required');
+        $this->form_validation->set_rules('seniorhigh', 'senior high', 'required');
+        $teacherid = $this->input->post('teacherid');
+//        $this->form_validation->set_rules('undergraduate', 'undergraduate', 'required');
+//        $this->form_validation->set_rules('graduate', 'graduate', 'required');
+//        $this->form_validation->set_rules('postgraduate', 'postgraduate', 'required');
+//        $this->form_validation->set_rules('experience', 'working experience', 'required');
+
+        if ($this->input->post('password')):
+            $this->form_validation->set_rules('password', 'password', 'required');
+            $this->form_validation->set_rules('confirmpassword', 'confirm password', 'required|matches[password]');
+        endif;
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            if ($_FILES['photo']['error'] != 4) {
+                $config['upload_path'] = $this->profilephotopath;
+                $config['allowed_types'] = "jpg|jpeg|png";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $teacherid;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('photo')) {
+
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect(current_url());
+                } else {
+                    $data = $this->upload->data();
+                    $config_image = array(
+                        'image_library' => 'gd2',
+                        'source_image' => $this->profilephotopath.'/'.$data['orig_name'],
+                        'new_image' => $this->profilephotopath.'/'.$data['orig_name'],
+                        'width' => 1240,
+                        'maintain_ratio' => TRUE,
+                        'rotate_by_exif' => TRUE,
+//                'strip_exif' => TRUE,
+                    );
+                    $this->load->library('image_lib', $config_image);
+                    $this->image_lib->resize();
+
+                    $filename = $data['orig_name'];
+                    if ($this->Teacher_model->editProfilePhoto($teacherid, $filename)) {
+                    } else {
+                        $this->session->set_flashdata('error', 'Upload Photo Failed, try again !');
+                        redirect(current_url());
+                    }
+                }
+            }
+
+            $availabletime = '';
+            $workinghour = $this->input->post('workinghour');
+            for($i=0;$i<sizeof($workinghour);$i++)
+            {
+                $availabletime = $availabletime.'|'.$workinghour[$i];
+            }
+            $this->Teacher_model->editProfile($teacherid, $availabletime);
+            $this->session->set_flashdata('success', 'Profile saved');
+            redirect('teacher/teacherView');
+        }
+
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['day'] = $this->Teacher_model->getSetting('s0005');
+        $data['period'] = $this->Teacher_model->getSetting('s0006');
+        $data['hour'] = $this->Teacher_model->getSetting('s0007');
+        $data['starttime'] = $this->Teacher_model->getSetting('s0008');
+        $data['breakstarttime'] = $this->Teacher_model->getSetting('s0009');
+        $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
+        $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
+        $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
+        $data['content'] = 'teacher/teacher_edit_view';
+        $data['info_db'] = $this->Teacher_model->getProfileDataByID($id);
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteTeacher($id){
+        $id = $this->general->decryptParaID($id, 'teacher');
+        if($this->Teacher_model->deleteTeacher($id)){
+            $this->session->set_flashdata('success', 'Teacher Deleted');
+        }
+        else{
+            $this->session->set_flashdata('error', 'Failed to Delete Teacher');
+        }
+        redirect('teacher/teacherView');
     }
 
     public function addCourse()
@@ -1022,6 +1131,9 @@ class teacher extends CI_Controller {
         $eid = $this->general->encryptParaID($assignid, 'courseassigned');
         $esid = $this->general->encryptParaID($studentid, 'student');
 
+        $class = $this->Teacher_model->getClassByStudentID($studentid);
+        $class = explode('-', $class['classroom']);
+
         $savebutton = $this->input->post('savebutton');
         if($savebutton == 'term1'){
             $this->form_validation->set_rules('op1', 'Mid Term Is self-motivated', 'required');
@@ -1041,7 +1153,7 @@ class teacher extends CI_Controller {
                     $latestID = $latestID['reportid'];
                     $latestID = substr($latestID, 1);
                     $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-                    $this->Teacher_model->addMidReport($latestID, $assignid, $studentid);
+                    $this->Teacher_model->addMidReport($latestID, $assignid, $studentid, $class[0]);
                 }
                 $this->session->set_flashdata('success', 'Report saved');
             }
@@ -1079,7 +1191,7 @@ class teacher extends CI_Controller {
                     $latestID = $latestID['reportid'];
                     $latestID = substr($latestID, 1);
                     $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-                    $this->Teacher_model->addFinalReport($latestID, $assignid, $studentid);
+                    $this->Teacher_model->addFinalReport($latestID, $assignid, $studentid, $class[0]);
                 }
                 $this->session->set_flashdata('success', 'Report saved');
             }
@@ -1177,7 +1289,35 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['teachers'] =  $this->Teacher_model->getAllTeacher();
+        $teachers = $this->Teacher_model->getAllTeacher();
+        $i = 0;
+        $j = 0;
+        foreach ($teachers as $teacher) {
+            if($found = $this->Teacher_model->checkTeacherHomeroom($teacher['teacherid'])){
+                $twh[$i]['teacherid'] = $teacher['teacherid'];
+                $twh[$i]['photo'] = $teacher['photo'];
+                $twh[$i]['firstname'] = $teacher['firstname'];
+                $twh[$i]['lastname'] = $teacher['lastname'];
+                $twh[$i]['phone'] = $teacher['phone'];
+                $twh[$i]['email'] = $teacher['email'];
+                $twh[$i]['address'] = $teacher['address'];
+                $twh[$i]['classroom'] = $found['classroom'];
+                $i++;
+            }
+            else{
+                $th[$j]['teacherid'] = $teacher['teacherid'];
+                $th[$j]['photo'] = $teacher['photo'];
+                $th[$j]['firstname'] = $teacher['firstname'];
+                $th[$j]['lastname'] = $teacher['lastname'];
+                $th[$j]['phone'] = $teacher['phone'];
+                $th[$j]['email'] = $teacher['email'];
+                $th[$j]['address'] = $teacher['address'];
+                $j++;
+            }
+        }
+
+        $data['teachers'] = $twh;
+        $data['teachersWithoutHomeroom'] =  $th;
         $data['content'] = 'includes/teachers_view';
         $this->load->view($this->template, $data);
     }

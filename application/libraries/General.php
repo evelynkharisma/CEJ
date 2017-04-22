@@ -7,6 +7,7 @@ class General
     function __construct()
     {
         $this->ci = &get_instance();
+        $this->ci->load->model('Privilege_model');
 //        $this->isLogin();
     }
 
@@ -116,6 +117,11 @@ class General
             $id = 'c'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         return $id;
+    }
+    
+    function checkPrivilege($role, $privilege){
+        $result = $this->ci->Privilege_model->checkPrivilege($role, $privilege);
+        return $result;
     }
 
 }

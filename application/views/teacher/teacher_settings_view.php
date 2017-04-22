@@ -27,7 +27,12 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Value</th>
+                                <?php
+                                $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0010');
+                                if($privilege == 1){
+                                ?>
                                 <th>Action</th>
+                                <?php } ?>
                             </tr>
                             </thead>
                             <tbody>
@@ -37,7 +42,12 @@
                                         <td><?php echo $s['name'] ?></td>
                                         <?php echo form_open('teacher/editSetting/'.$s['settingid']); ?>
                                         <td><input class="form-control" name="value" value="<?php echo set_value('value', isset($s['value']) ? $s['value'] : ''); ?>"></td>
+                                    <?php
+                                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0010');
+                                    if($privilege == 1){
+                                        ?>
                                         <td><button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button></td>
+                                        <?php } ?>
                                         <?php echo form_close(); ?>
                                     </tr>
                                 <?php }} ?>

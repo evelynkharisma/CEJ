@@ -19,11 +19,6 @@ class Teacher_model extends CI_Model {
     var $form_table = 'forms';
     var $event_table = 'events';
     var $setting_table = 'settings';
-    var $role= array(
-        2 => 'Teacher',
-        1 => 'Head of School',
-        0 => 'Principal'
-    );
 
     function __construct() {
         parent::__construct();
@@ -165,10 +160,19 @@ class Teacher_model extends CI_Model {
             'graduate' => $this->input->post('graduate'),
             'postgraduate' => $this->input->post('postgraduate'),
             'experience' => $this->input->post('experience'),
-            'role' => '2',
+            'role' => 'r0001',
             'workinghour' => $at
         );
         $this->db->insert($this->table, $data);
+    }
+
+    function deleteTeacher($id){
+        $this->db->where('teacherid', $id);
+        $this->db->delete($this->table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     function getAllCourses(){
@@ -732,16 +736,26 @@ class Teacher_model extends CI_Model {
         );
         $this->db->insert($this->attendance_table, $data);
     }
-
+    
     function getAllTeacher(){
         $this->db->select('*');
-        $this->db->join('class', 'class.teacherid = teacher.teacherid');
-        $this->db->order_by('teacher.firstname', 'asc');
 
         $query = $this->db->get($this->table);
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
+        }
+    }
+
+    function checkTeacherHomeroom($teacherid){
+        $this->db->select('*');
+        $this->db->join('class', 'class.teacherid = teacher.teacherid');
+        $this->db->where('teacher.teacherid', $teacherid);
+
+        $query = $this->db->get($this->table);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
         }
     }
 
@@ -1174,7 +1188,7 @@ class Teacher_model extends CI_Model {
 
     function getPrincipal() {
         $this->db->select('*');
-        $this->db->where('role', 0);
+        $this->db->where('role', 'r0002');
         $query = $this->db->get($this->table, 1);
 
         if ($query->num_rows() == 1) {

@@ -2,9 +2,15 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <div class="">
-                <h3>Events <a href="<?php echo base_url() ?>index.php/teacher/addEvent" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a></h3>
+            <div class="title_left">
+                <h3>Events</h3>
             </div>
+            <?php
+            $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0006');
+            if($privilege == 1){
+                ?>
+                <a href="<?php echo base_url() ?>index.php/teacher/addEvent" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>
+            <?php } ?>
         </div>
 
         <div class="clearfix"></div>
@@ -41,8 +47,13 @@
                                                 $encrypted = $this->general->encryptParaID($event['eventid'],'event');
                                             ?>
                                             <a class="title" href="#"><?php echo $event['title'] ?></a>
+                                    <?php
+                                        $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0007');
+                                        if($privilege == 1){
+                                    ?>
                                             <a href="<?php echo base_url() ?>index.php/teacher/deleteEvent/<?php echo $encrypted ?>" class="btn-success btn set-right" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                             <a href="<?php echo base_url() ?>index.php/teacher/editEvent/<?php echo $encrypted ?>" class="btn-success btn set-right"><i class="fa fa-edit"></i> Edit</a>
+                                    <?php } ?>
                                             <p><?php echo $event['description'] ?></p>
                                             <div class="teacher_dashboard_deadline">
                                                 <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $encrypted ?>">Read More</a>

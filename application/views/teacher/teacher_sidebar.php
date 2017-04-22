@@ -33,7 +33,12 @@
             </li>
             <li><a><i class="fa fa-edit"></i> Courses <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
+                    <?php
+                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0013');
+                    if($privilege == 1){
+                    ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Add Course</a>
+                    <?php } ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/allCourse">All Courses</a>
                     <li>
                         <?php
@@ -116,13 +121,24 @@
             </li>
             <li><a><i class="fa fa-table"></i> Schedule <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
+                    <?php
+                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0008');
+                    if($privilege == 1){
+                    ?>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/createSchedule">Create Schedule</a></li>
+                    <?php } ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/classScheduleView">Class Schedule</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/examScheduleView">Exam Schedule</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-address-book-o"></i> Directories <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
+                    <?php
+                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0004');
+                    if($privilege == 1){
+                    ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addTeacher">Add Teacher</a></li>
+                    <?php } ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/teacherView">Teachers</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/studentView">Students</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/parentView">Parents</a></li>
@@ -130,15 +146,30 @@
                     <li><a href="<?php echo base_url() ?>index.php/teacher/libraryView">Libraries</a></li>
                 </ul>
             </li>
+            <?php
+                $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0001');
+                if($privilege == 1){
+            ?>
             <li><a href="<?php echo base_url() ?>index.php/teacher/payment"><i class="fa fa-usd"></i>Payments</span></a></li>
+            <?php } ?>
             <li><a><i class="fa fa-bell"></i> Events <span class="badge bg-green"><?php echo $eventnotif ?></span> <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
+                    <?php
+                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0006');
+                    if($privilege == 1){
+                    ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addEvent">Add Event</a></li>
+                    <?php } ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/eventList">Events List</a></li>
                 </ul>
             </li>
             <li><a href="<?php echo base_url() ?>index.php/teacher/forms"><i class="fa fa-sticky-note-o"></i>Forms</span></a></li>
+            <?php
+            $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0009');
+            if($privilege == 1){
+            ?>
             <li><a href="<?php echo base_url() ?>index.php/teacher/settings"><i class="fa fa-gear"></i>Settings</span></a></li>
+            <?php } ?>
         </ul>
     </div>
 

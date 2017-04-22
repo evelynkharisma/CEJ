@@ -2,9 +2,15 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <div class="">
-                <h3>All Courses <a href="<?php echo base_url() ?>index.php/teacher/addCourse" class="btn btn-success set-right"><i class="fa fa-plus"></i> Add Course</a></h3>
+            <div class="title_left">
+                <h3>All Courses</h3>
             </div>
+            <?php
+            $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0013');
+            if($privilege == 1){
+            ?>
+                <a href="<?php echo base_url() ?>index.php/teacher/addCourse" class="btn btn-success set-right"><i class="fa fa-plus"></i> Add Course</a>
+            <?php } ?>
         </div>
 
         <div class="clearfix"></div>
@@ -28,7 +34,12 @@
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Resources</th>
+                                <?php
+                                $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0014');
+                                if($privilege == 1){
+                                ?>
                                 <th>Action</th>
+                                <?php } ?>
                             </tr>
                             </thead>
                             <tbody>
@@ -46,6 +57,10 @@
                                                 }
                                             ?>
                                         </td>
+                                    <?php
+                                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0014');
+                                    if($privilege == 1){
+                                        ?>
                                         <td width="30%">
                                             <?php
                                                 $encrypted = $this->general->encryptParaID($info_db['courseid'],'course');
@@ -53,6 +68,7 @@
                                             <a href="<?php echo base_url() ?>index.php/teacher/deleteCourse/<?php echo $encrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                             <a href="<?php echo base_url() ?>index.php/teacher/editCourse/c<?php echo $encrypted ?>" class="btn-success btn"><i class="fa fa-edit"></i> Edit</a>
                                         </td>
+                                        <?php } ?>
                                     </tr>
                                 <?php }}
                             else {?>

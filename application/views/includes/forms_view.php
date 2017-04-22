@@ -2,9 +2,15 @@
 <div class="right_col" role="main">
     <div class="">
         <div class="page-title">
-            <div class="">
-                <h3>Forms <a href="<?php echo base_url() ?>index.php/teacher/addForm" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a></h3>
+            <div class="title_left">
+                <h3>Forms</h3>
             </div>
+            <?php
+            $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0011');
+            if($privilege == 1){
+            ?>
+            <a href="<?php echo base_url() ?>index.php/teacher/addForm" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>
+            <?php } ?>
         </div>
 
         <div class="clearfix"></div>
@@ -42,8 +48,13 @@
                                                 $encrypted = $this->general->encryptParaID($info_db['formid'],'form');
                                             ?>
                                             <a download href="<?php echo base_url() ?>assets/file/forms/<?php echo $info_db['formname'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+                                    <?php
+                                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0012');
+                                    if($privilege == 1){
+                                        ?>
                                             <a href="<?php echo base_url() ?>index.php/teacher/deleteForm/<?php echo $encrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                             <a href="<?php echo base_url() ?>index.php/teacher/editForm/<?php echo $encrypted ?>" class="btn-success btn"><i class="fa fa-edit"></i> Edit</a>
+                                        <?php } ?>
                                         </td>
                                     </tr>
                                 <?php }}
