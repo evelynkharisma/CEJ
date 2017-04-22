@@ -19,6 +19,7 @@ class Teacher_model extends CI_Model {
     var $form_table = 'forms';
     var $event_table = 'events';
     var $setting_table = 'settings';
+    var $event_image_table = 'event_images';
 
     function __construct() {
         parent::__construct();
@@ -1068,6 +1069,17 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getEventImageLatestID(){
+        $this->db->select('eiid');
+        $this->db->order_by("eiid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->event_image_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function addEvent($id){
         $data = array(
             'eventid' => $id,
@@ -1079,6 +1091,23 @@ class Teacher_model extends CI_Model {
         $this->db->insert($this->event_table, $data);
     }
 
+    function addEventImage($id, $img){
+        $data = array(
+            'eiid' => $id,
+            'photo' => $img
+        );
+        $this->db->insert($this->event_image_table, $data);
+    }
+
+    function deleteEventImage($id){
+        $this->db->where('eiid', $id);
+        $this->db->delete($this->event_image_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
     function editEvent($id){
         $data = array(
             'title' => $this->input->post('title'),
@@ -1087,6 +1116,16 @@ class Teacher_model extends CI_Model {
         );
         $this->db->where('eventid', $id);
         $this->db->update($this->event_table, $data);
+    }
+
+    function getAllEventImages(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->event_image_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
     }
 
     function deleteEvent($id){

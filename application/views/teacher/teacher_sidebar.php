@@ -170,6 +170,7 @@
             ?>
             <li><a href="<?php echo base_url() ?>index.php/teacher/settings"><i class="fa fa-gear"></i>Settings</span></a></li>
             <?php } ?>
+            <li><a href="<?php echo base_url() ?>index.php/teacher/requestItem"><i class="fa fa-shopping-cart"></i>Request Items</span></a></li>
         </ul>
     </div>
 

@@ -16,7 +16,7 @@
     <?php endif; ?>
 
     <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="col-md-6 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
             <h2>Today's Schedule</h2>
@@ -27,30 +27,51 @@
               <table class="teacher_dashboard_today_schedule_table">
                 <tr>
                   <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>
-                  <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
-                  <th class="teacher_dashboard_today_schedule_break" rowspan="2" width="5%">Break</th>
-                  <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
-                  <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
-                  <th class="teacher_dashboard_today_schedule_break" rowspan="2" width="5%">Lunch</th>
-                  <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
-                  <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
+                  <td>Subject<br>Room</td>
                 </tr>
                 <tr>
-                  <td>Subject<br>Room</td>
-                  <td>Subject<br>Room</td>
-                  <td>Subject<br>Room</td>
-                  <td>Subject<br>Room</td>
-                  <td>Subject<br>Room</td>
+                  <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
                   <td>Subject<br>Room</td>
                 </tr>
+                <tr>
+                  <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
+                  <td>Subject<br>Room</td>
+                </tr>
+                <tr>
+                  <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
+                  <td>Subject<br>Room</td>
+                </tr>
+                <tr>
+                  <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
+                </tr>
+                <tr>
+                  <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
+                  <td>Subject<br>Room</td>
+                </tr>
+                <tr>
+                  <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
+                  <td>Subject<br>Room</td>
+                </tr>
+                <tr>
+                  <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
+                </tr>
+                <tr>
+                  <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>
+                  <td>Subject<br>Room</td>
+                </tr>
+                <tr>
+                  <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>
+                  <td>Subject<br>Room</td>
+                </tr>
+
               </table>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
+<!--    </div>-->
+<!--    <div class="row">-->
+      <div class="col-md-6 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
             <h2>Upcoming Event or Deadline</h2>
@@ -67,7 +88,7 @@
                   </a>
                   <div class="media-body">
                     <a class="title" href="#"><?php echo $event['title'] ?></a>
-                    <p><?php echo $event['description'] ?></p>
+                    <p><?php echo substr($event['description'],0,80) ?>...</p>
                     <div class="teacher_dashboard_deadline">
                       <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
                     </div>

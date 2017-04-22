@@ -54,7 +54,7 @@
                                             <a href="<?php echo base_url() ?>index.php/teacher/deleteEvent/<?php echo $encrypted ?>" class="btn-success btn set-right" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                             <a href="<?php echo base_url() ?>index.php/teacher/editEvent/<?php echo $encrypted ?>" class="btn-success btn set-right"><i class="fa fa-edit"></i> Edit</a>
                                     <?php } ?>
-                                            <p><?php echo $event['description'] ?></p>
+                                            <p><?php echo substr($event['description'],0,150) ?>...</p>
                                             <div class="teacher_dashboard_deadline">
                                                 <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $encrypted ?>">Read More</a>
                                             </div>

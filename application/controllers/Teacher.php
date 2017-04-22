@@ -8,6 +8,7 @@ class teacher extends CI_Controller {
     var $profilephotopath = 'assets/img/teacher/profile/';
     var $materialpath = 'assets/file/teacher/material/';
     var $formpath = 'assets/file/forms/';
+    var $eventimagepath = 'assets/img/texteditor/';
 
     function __construct() {
         parent::__construct();
@@ -1412,8 +1413,66 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['images'] = $this->Teacher_model->getAllEventImages();
         $data['content'] = 'teacher/add_event_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function addEventImage($id = null)
+    {
+        if (empty($_FILES['userfile']['name'])){
+            $this->session->set_flashdata('error', 'Image is required');
+            if($id == null){
+                redirect('teacher/addEvent');
+            }
+            redirect('teacher/editEvent/'.$id);
+        }
+        else{
+            $latestID = $this->Teacher_model->getEventImageLatestID();
+            $latestID = $latestID['eiid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'i'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            if ($_FILES['userfile']['error'] != 4) {
+                $config['upload_path'] = $this->eventimagepath;
+                $config['allowed_types'] = "jpeg|jpg|png";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $latestID;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('userfile')) {
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    if($id == null){
+                        redirect('teacher/addEvent');
+                    }
+                    redirect('teacher/editEvent/'.$id);
+                } else {
+                    if($data = $this->upload->data()){
+                        $filename = $data['orig_name'];
+                        $this->Teacher_model->addEventImage($latestID, $filename);
+                        $this->session->set_flashdata('success', 'New Event Image Added');
+                        if($id == null){
+                            redirect('teacher/addEvent');
+                        }
+                        redirect('teacher/editEvent/'.$id);
+                    }
+                }
+            }
+        }
+    }
+
+    public function deleteEventImage($id, $eid = null){
+        $id = $this->general->decryptParaID($id, 'eventimage');
+        if($this->Teacher_model->deleteEventImage($id)){
+            $this->session->set_flashdata('success', 'Event Image Deleted');
+        }
+        else{
+            $this->session->set_flashdata('error', 'Failed to Delete Event Image');
+        }
+        if($eid == null){
+            redirect('teacher/addEvent');
+        }
+        redirect('teacher/editEvent/'.$eid);
     }
     
     public function editEvent($id){
@@ -1438,6 +1497,7 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['event'] = $this->Teacher_model->getEvent($id);
+        $data['images'] = $this->Teacher_model->getAllEventImages();
         $data['content'] = 'teacher/edit_event_view';
         $this->load->view($this->template, $data);
     }
@@ -1466,6 +1526,19 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->session->userdata('id'));
         $data['content'] = 'teacher/event_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function eventDetail($id){
+        $id = $this->general->decryptParaID($id, 'event');
+        
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['event'] = $this->Teacher_model->getEvent($id);
+        $data['content'] = 'teacher/event_detail_view';
         $this->load->view($this->template, $data);
     }
 

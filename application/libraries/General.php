@@ -72,6 +72,11 @@ class General
             $value = substr($id,1) + 891;
             $id = $variable.$value;
         }
+        elseif($type == 'eventimage'){
+            $variable = ord('i');
+            $value = substr($id,1) + 912;
+            $id = $variable.$value;
+        }
         return $id;
     }
 
@@ -116,12 +121,17 @@ class General
             $id = substr($id, $variable) - 891;
             $id = 'c'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
+        elseif($type == 'eventimage'){
+            $variable = strlen(ord('i'));
+            $id = substr($id, $variable) - 912;
+            $id = 'i'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
         return $id;
     }
     
     function checkPrivilege($role, $privilege){
         $result = $this->ci->Privilege_model->checkPrivilege($role, $privilege);
-        return $result;
+        return $result['status'];
     }
 
 }
