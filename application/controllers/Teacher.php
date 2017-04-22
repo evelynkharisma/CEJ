@@ -365,6 +365,10 @@ class teacher extends CI_Controller {
 
     public function addTeacher()
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0004') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_rules('confirmpassword', 'confirm password', 'required|matches[password]');
         $this->form_validation->set_rules('firstname', 'firstname', 'required');
@@ -453,6 +457,10 @@ class teacher extends CI_Controller {
 
     public function editTeacher($id)
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0005') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $id = $this->general->decryptParaID($id, 'teacher');
         $this->form_validation->set_rules('firstname', 'firstname', 'required');
         $this->form_validation->set_rules('lastname', 'lastname', 'required');
@@ -545,6 +553,10 @@ class teacher extends CI_Controller {
     }
 
     public function deleteTeacher($id){
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0005') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $id = $this->general->decryptParaID($id, 'teacher');
         if($this->Teacher_model->deleteTeacher($id)){
             $this->session->set_flashdata('success', 'Teacher Deleted');
@@ -557,6 +569,10 @@ class teacher extends CI_Controller {
 
     public function addCourse()
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0013') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $this->form_validation->set_rules('coursename', 'Course Name', 'required');
         $this->form_validation->set_rules('coursedescription', 'Course Description', 'required');
         $this->form_validation->set_rules('courseresources', 'Course Resources', 'required');
@@ -601,6 +617,10 @@ class teacher extends CI_Controller {
 
     public function editCourse($fid)
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0014') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         if(substr($fid, 0 ,1) == 's'){
             $id = $this->general->decryptParaID(substr($fid, 1), 'courseassigned');
         }
@@ -684,6 +704,10 @@ class teacher extends CI_Controller {
     }
 
     public function deleteCourse($id){
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0014') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $id = $this->general->decryptParaID($id, 'course');
         if($this->Teacher_model->deleteCourse($id)){
             $this->session->set_flashdata('success', 'Course Deleted');
@@ -748,6 +772,10 @@ class teacher extends CI_Controller {
 
     public function editSemester($id)
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0014') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $id = $this->general->decryptParaID($id, 'courseassigned');
         $this->form_validation->set_rules('courseid', 'Course ID', 'required');
         $courseid = $this->input->post('courseid');
@@ -1346,6 +1374,10 @@ class teacher extends CI_Controller {
 
     public function payment()
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0001') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -1357,6 +1389,10 @@ class teacher extends CI_Controller {
 
     public function addEvent()
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0006') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
         $this->form_validation->set_rules('duedate', 'Date', 'required');
@@ -1381,6 +1417,10 @@ class teacher extends CI_Controller {
     }
     
     public function editEvent($id){
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0007') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $id = $this->general->decryptParaID($id, 'event');
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
@@ -1403,6 +1443,10 @@ class teacher extends CI_Controller {
     }
 
     public function deleteEvent($id){
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0007') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $id = $this->general->decryptParaID($id, 'event');
         if($this->Teacher_model->deleteEvent($id)){
             $this->session->set_flashdata('success', 'Event Deleted');
@@ -1439,6 +1483,10 @@ class teacher extends CI_Controller {
 
     public function addForm()
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0011') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
@@ -1484,6 +1532,10 @@ class teacher extends CI_Controller {
     }
 
     public function editForm($id){
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0012') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $id = $this->general->decryptParaID($id, 'form');
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
@@ -1526,6 +1578,10 @@ class teacher extends CI_Controller {
     }
 
     public function deleteForm($id){
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0012') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $id = $this->general->decryptParaID($id, 'form');
         if($this->Teacher_model->deleteForm($id)){
             $this->session->set_flashdata('success', 'Form Deleted');
@@ -1538,6 +1594,10 @@ class teacher extends CI_Controller {
 
     public function settings()
     {
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0009') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
@@ -1549,6 +1609,10 @@ class teacher extends CI_Controller {
     }
     
     public function editSetting($id){
+        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0010') != 1){
+            $this->session->set_flashdata('error', 'Access Denied');
+            redirect('teacher/home');
+        }
         $this->form_validation->set_rules('value', 'Value', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
