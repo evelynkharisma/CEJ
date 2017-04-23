@@ -8,6 +8,7 @@ class login extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('Teacher_model');
+		$this->load->model('Parent_model');
 	}
 
 	public function index()
@@ -56,19 +57,21 @@ class login extends CI_Controller {
 				}
 			}
 			else if($loginas == 'parent'){
-//				$user = $this->Parent_model->checkLogin($username, $password);
-//				if (!empty($user)) {
-//					$sessionData['id'] = $user['id'];
-//					$sessionData['email'] = $user['email'];
-//					$sessionData['full_name'] = $user['full_name'];
-//					$sessionData['level'] = $user['level'];
-//					$sessionData['is_login'] = TRUE;
-//
-//					$this->session->set_userdata($sessionData);
+				$user = $this->Parent_model->checkLogin($username, $password);
+				if (!empty($user)) {
+					$sessionData['id'] = $user['parentid'];
+					$sessionData['name'] = $user['firstname'].' '.$user['lastname'];
+					$sessionData['photo'] = $user['photo'];
+					$sessionData['lastlogin'] = $user['lastlogin'];
+					$sessionData['is_login'] = TRUE;
+
+					$this->Parent_model->changeLastLogin($user['parentid'], $user['currentlogin']);
+					$this->Parent_model->setCurrentLogin($user['parentid']);
+					$this->session->set_userdata($sessionData);
 //					$this->Parent_model->updateLastLogin($user['id']);
 
 				redirect('parents/home');
-//				}
+				}
 			}
 			else if($loginas == 'operation'){
 //				$user = $this->Operation_model->checkLogin($username, $password);
@@ -176,7 +179,7 @@ class login extends CI_Controller {
 					$userData = $this->Parent_model->getById($user['id']);
 
 					$this->load->library('email');
-					$this->email->from('kharismaeve@gmail.com', 'SMS');
+					$this->email->from('chelsylim@gmail.com', 'SMS');
 					$this->email->to($email);
 
 					$this->email->subject('Request New Password - SMS');

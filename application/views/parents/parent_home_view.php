@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div>
                         <div class="x_title">
@@ -65,31 +65,50 @@
                                 <table class="teacher_dashboard_today_schedule_table">
                                     <tr>
                                         <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_break" rowspan="2" width="5%">Break</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_break" rowspan="2" width="5%">Lunch</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
+                                        <td>Subject<br>Room</td>
                                     </tr>
                                     <tr>
-                                        <td>Subject<br>Room</td>
-                                        <td>Subject<br>Room</td>
-                                        <td>Subject<br>Room</td>
-                                        <td>Subject<br>Room</td>
-                                        <td>Subject<br>Room</td>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
                                         <td>Subject<br>Room</td>
                                     </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div>
                         <div class="x_title">
@@ -99,7 +118,7 @@
                                 </a>
                                 <div class="media-body parent_dashboard_child">
                                     <a class="title" href="#">Child 2</a>
-                                    <p><strong>Absent</strong> - Permission </p>
+                                    <p><strong>Absent</strong> - Sick </p>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -109,56 +128,78 @@
                                 <table class="teacher_dashboard_today_schedule_table">
                                     <tr>
                                         <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_break" rowspan="2" width="5%">Break</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_break" rowspan="2" width="5%">Lunch</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
+                                        <td>Subject<br>Room</td>
                                     </tr>
                                     <tr>
-                                        <td>Subject<br>Room</td>
-                                        <td>Subject<br>Room</td>
-                                        <td>Subject<br>Room</td>
-                                        <td>Subject<br>Room</td>
-                                        <td>Subject<br>Room</td>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
                                         <td>Subject<br>Room</td>
                                     </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>
+                                        <td>Subject<br>Room</td>
+                                    </tr>
+
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Highlight <small>News</small></h2>
+                        <h2>Upcoming Event or Deadline</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <div class="dashboard-widget-content">
-
-                            <ul class="list-unstyled timeline widget">
-                                <li>
-                                    <div class="block">
-                                        <div class="block_content">
-                                            <h2 class="title">
-                                                <a>Open House</a>
-                                            </h2>
-                                            <div class="byline">
-                                                <span>13 hours ago</span> by <a>Admin 1</a>
-                                            </div>
-                                            <p class="excerpt">Enjoy the open house on 26th November from 8AM to 5PM. Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and… <a class="pointer-mouse">Read&nbsp;More</a>
-                                            </p>
+                        <?php
+                        if($events){
+                            foreach($events as $event){ ?>
+                                <article class="media event">
+                                    <a class="pull-left date <?php echo isset($event['teacherid']) && $event['teacherid'] != '0' ? 'quizandassignment' : '' ?>">
+                                        <p class="month"><?php echo date('F', strtotime($event['date'])) ?></p>
+                                        <p class="day"><?php echo date('d', strtotime($event['date'])) ?></p>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#"><?php echo $event['title'] ?></a>
+                                        <p><?php echo substr($event['description'],0,80) ?>...</p>
+                                        <div class="teacher_dashboard_deadline">
+                                            <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/parents/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
                                         </div>
                                     </div>
-                                </li>
-                            </ul>
-                        </div>
+                                </article>
+                            <?php }}
+                        else {?>
+                            <tr>
+                                <td colspan="3"><?php echo 'no event found' ?></td>
+                            </tr>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

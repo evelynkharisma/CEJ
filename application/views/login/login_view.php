@@ -14,7 +14,7 @@
             </div>
         <?php endif; ?>
         <?php echo form_open('login/index'); ?>
-        <select name="loginas"">
+        <select name="loginas">
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
             <option value="parent">Parent</option>

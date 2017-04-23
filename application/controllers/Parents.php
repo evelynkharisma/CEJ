@@ -5,12 +5,19 @@ class parents extends CI_Controller {
 
     var $template = 'template';
 
+    function __construct() {
+        parent::__construct();
+        $this->load->model('Parent_model');
+    }
+
     public function home()
     {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
         $data['content'] = 'parents/parent_home_view';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->session->userdata('id'));
         $this->load->view($this->template, $data);
     }
     public function parent_attendance()
