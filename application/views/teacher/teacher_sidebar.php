@@ -42,6 +42,7 @@
                     <li><a href="<?php echo base_url() ?>index.php/teacher/allCourse">All Courses</a>
                     <li>
                         <?php
+                        if($courses){
                             foreach ($courses as $course){
                                 $grade = explode('-', $course['classroom']);
                                 $grade = $grade[0];
@@ -98,7 +99,7 @@
                                         $grade13[] = $course;
                                         break;
                                 }
-                            }
+                            }}
                         ?>
                         <?php
                             for($i=1; $i<14; $i++){

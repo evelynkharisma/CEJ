@@ -107,6 +107,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12 col-sm-12 col-xs-12 set-margin-top">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Assessment</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <canvas id="lineChart3"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-9">
@@ -318,6 +331,8 @@
 <script>
 
     var  months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    <?php if($homework){ ?>
     var submissiondate = [];
     var score = [];
 
@@ -354,6 +369,9 @@
         },
     });
 
+    <?php } ?>
+
+    <?php if($classwork){ ?>
     var submissiondate2 = [];
     var score2 = [];
 
@@ -384,5 +402,40 @@
             }]
         },
     });
+
+    <?php } ?>
+
+    <?php if($assessment){ ?>
+    var submissiondate3 = [];
+    var score3 = [];
+
+    <?php foreach ($assessment as $c){
+    ?>
+    var d = new Date("<?php echo $c['submissiondate']?>");
+    var format = d.getDate()+' '+months[d.getMonth()];
+    submissiondate3.push(format);
+    score3.push(<?php echo $c['score']?>);
+    <?php
+    }?>
+
+    var ct3 = document.getElementById("lineChart3");
+    var lineChart = new Chart(ct3, {
+        type: 'line',
+        data: {
+            labels: submissiondate3,
+            datasets: [{
+                label: "Score",
+                backgroundColor: "rgba(3, 88, 106, 0.3)",
+                borderColor: "rgba(3, 88, 106, 0.70)",
+                pointBorderColor: "rgba(3, 88, 106, 0.70)",
+                pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(151,187,205,1)",
+                pointBorderWidth: 1,
+                data: score3
+            }]
+        },
+    });
+    <?php } ?>
 
 </script>

@@ -58,6 +58,8 @@
                                     <option disabled selected="selected">Type</option>
                                     <option value="Assignment">Assignment</option>
                                     <option value="Quiz">Quiz</option>
+                                    <option value="Classwork">Classwork</option>
+                                    <option value="Homework">Homework</option>
                                 </select>
                             </div>
                         </div>
@@ -72,6 +74,7 @@
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
                                 <select name="existingfile" class="form-control">
                                     <option disabled selected="selected">Files</option>
+                                    <option value="None">No File (For classwork and homework)</option>
                                     <?php foreach ($files as $file){?>
                                         <option value="<?php echo $file['fileid']; ?>"><?php echo $file['filename']; ?></option>
                                     <?php } ?>

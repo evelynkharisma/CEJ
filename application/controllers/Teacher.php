@@ -1045,13 +1045,17 @@ class teacher extends CI_Controller {
                     $fileID = $this->input->post('existingfile');
                     $this->Teacher_model->addQnA($materialID, $id, $fileID);
                 }
-                $latestID = $this->Teacher_model->getEventLatestID();
-                $latestID = $latestID['eventid'];
-                $latestID = substr($latestID, 1);
-                $latestID = 'v'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-                $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
-                $teacherid = $teacherid['teacherid'];
-                $this->Teacher_model->addQnAEvent($latestID, $teacherid);
+
+                if($this->input->post('type') == 'Quiz' || $this->input->post('type') == 'Assignment'){
+                    $latestID = $this->Teacher_model->getEventLatestID();
+                    $latestID = $latestID['eventid'];
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'v'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $teacherid = $this->Teacher_model->getTeacherOfAssignID($id);
+                    $teacherid = $teacherid['teacherid'];
+                    $this->Teacher_model->addQnAEvent($latestID, $teacherid, $id);
+                }
+
 
                 $this->session->set_flashdata('success', 'New Material Added');
                 $eid = $this->general->encryptParaID($id, 'courseassigned');
@@ -1241,8 +1245,9 @@ class teacher extends CI_Controller {
             redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
 
-        $data['homework'] = $this->Teacher_model->getAllQnAByStudent($studentid, 'Quiz');
-        $data['classwork'] = $this->Teacher_model->getAllQnAByStudent($studentid, 'Assignment');
+        $data['homework'] = $this->Teacher_model->getAllQnAByStudent($studentid, 1);
+        $data['classwork'] = $this->Teacher_model->getAllQnAByStudent($studentid, 2);
+        $data['assessment'] = $this->Teacher_model->getAllQnAByStudent($studentid, 3);
         
         
         $data['title'] = 'SMS';

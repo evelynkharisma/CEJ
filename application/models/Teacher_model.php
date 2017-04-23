@@ -1137,13 +1137,14 @@ class Teacher_model extends CI_Model {
         return FALSE;
     }
 
-    function addQnAEvent($id, $tid){
+    function addQnAEvent($id, $tid, $sid){
         $data = array(
             'eventid' => $id,
             'title' => $this->input->post('coursename').' '.$this->input->post('type'),
             'description' => 'Submit before '.date('Y-m-d', strtotime($this->input->post('duedate') . ' +1 day')),
             'date' => $this->input->post('duedate'),
             'teacherid' => $tid,
+            'assignid' => $sid,
         );
         $this->db->insert($this->event_table, $data);
     }
@@ -1264,11 +1265,20 @@ class Teacher_model extends CI_Model {
     }
 
     function getAllQnAByStudent($studentid, $type){
+        if($type == 1){
+            $type_array = array('Homework');
+        }
+        elseif ($type == 2){
+            $type_array = array('Classwork');
+        }
+        else{
+            $type_array = array('Quiz','Assignment');
+        }
         $this->db->select('*');
         $this->db->join('assignmentandquiz', 'assignmentandquiz.anqid = assignmentandquizscore.anqid');
         $this->db->order_by('submissiondate', 'asc');
         $this->db->where('assignmentandquizscore.studentid', $studentid);
-        $this->db->where('assignmentandquiz.type', $type);
+        $this->db->where_in('assignmentandquiz.type', $type_array);
 
         $query = $this->db->get($this->qnascore_table);
 
