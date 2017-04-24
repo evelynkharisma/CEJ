@@ -9,9 +9,9 @@
 
         <div class="clearfix"></div>
 
-        <?php if ($this->session->flashdata('success')): ?>
+        <?php if ($this->nativesession->get('success')): ?>
             <div  class="alert alert-success">
-                <?php echo $this->session->flashdata('success'); ?>
+                <?php echo $this->nativesession->get('success');$this->nativesession->delete('success'); ?>
             </div>
         <?php endif; ?>
 
@@ -28,7 +28,7 @@
                                 <th>Name</th>
                                 <th>Value</th>
                                 <?php
-                                $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0010');
+                                $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0010');
                                 if($privilege == 1){
                                 ?>
                                 <th>Action</th>
@@ -43,7 +43,7 @@
                                         <?php echo form_open('teacher/editSetting/'.$s['settingid']); ?>
                                         <td><input class="form-control" name="value" value="<?php echo set_value('value', isset($s['value']) ? $s['value'] : ''); ?>"></td>
                                     <?php
-                                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0010');
+                                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0010');
                                     if($privilege == 1){
                                         ?>
                                         <td><button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button></td>

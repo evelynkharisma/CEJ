@@ -6,7 +6,7 @@
                 <h3>Events</h3>
             </div>
             <?php
-            $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0006');
+            $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0006');
             if($privilege == 1){
                 ?>
                 <a href="<?php echo base_url() ?>index.php/teacher/addEvent" class="btn btn-success set-right"><i class="fa fa-upload"></i> Upload</a>
@@ -15,15 +15,15 @@
 
         <div class="clearfix"></div>
 
-        <?php if ($this->session->flashdata('success')): ?>
+        <?php if ($this->nativesession->get('success')): ?>
             <div  class="alert alert-success">
-                <?php echo $this->session->flashdata('success'); ?>
+                <?php echo $this->nativesession->get('success');$this->nativesession->delete('success'); ?>
             </div>
         <?php endif; ?>
 
-        <?php if ($this->session->flashdata('error')): ?>
+        <?php if ($this->nativesession->get('error')): ?>
             <div  class="alert alert-error">
-                <?php echo $this->session->flashdata('error'); ?>
+                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
             </div>
         <?php endif; ?>
 
@@ -48,7 +48,7 @@
                                             ?>
                                             <a class="title" href="#"><?php echo $event['title'] ?></a>
                                     <?php
-                                        $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0007');
+                                        $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0007');
                                         if($privilege == 1){
                                     ?>
                                             <a href="<?php echo base_url() ?>index.php/teacher/deleteEvent/<?php echo $encrypted ?>" class="btn-success btn set-right" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>

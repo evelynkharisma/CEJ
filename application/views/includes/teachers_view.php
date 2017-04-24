@@ -26,7 +26,7 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <?php
-                                $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0005');
+                                $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0005');
                                 if($privilege == 1){
                                 ?>
                                 <th>Action</th>
@@ -48,7 +48,7 @@
                                         <td><?php echo $teacher['email'] ?></td>
                                         <td><?php echo $teacher['phone'] ?></td>
                                         <?php
-                                        $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0005');
+                                        $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0005');
                                         if($privilege != 1){
                                         ?>
                                         <td width="30%">
@@ -75,7 +75,7 @@
                                         <td><?php echo $teacher['email'] ?></td>
                                         <td><?php echo $teacher['phone'] ?></td>
                                         <?php
-                                        $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0005');
+                                        $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0005');
                                         if($privilege == 1){
                                             ?>
                                             <td width="30%">

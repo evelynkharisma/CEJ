@@ -13,7 +13,7 @@
             </div>
 
             <?php
-            $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0007');
+            $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0007');
             if($privilege == 1){
                 $encrypted = $this->general->encryptParaID($event['eventid'],'event');
                 ?>

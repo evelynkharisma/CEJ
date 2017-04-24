@@ -41,16 +41,23 @@ class login extends CI_Controller {
 			else if($loginas == 'teacher'){
 				$user = $this->Teacher_model->checkLogin($username, $password);
 				if (!empty($user)) {
-					$sessionData['id'] = $user['teacherid'];
-					$sessionData['name'] = $user['firstname'].' '.$user['lastname'];
-					$sessionData['photo'] = $user['photo'];
-					$sessionData['role'] = $user['role'];
-					$sessionData['lastlogin'] = $user['lastlogin'];
-					$sessionData['is_login'] = TRUE;
+					$this->nativesession->set( 'id', $user['teacherid'] );
+					$this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
+					$this->nativesession->set( 'photo', $user['photo'] );
+					$this->nativesession->set( 'role', $user['role'] );
+					$this->nativesession->set( 'lastlogin', $user['lastlogin'] );
+					$this->nativesession->set( 'is_login', 'TRUE' );
+					
+//					$sessionData['id'] = $user['teacherid'];
+//					$sessionData['name'] = $user['firstname'].' '.$user['lastname'];
+//					$sessionData['photo'] = $user['photo'];
+//					$sessionData['role'] = $user['role'];
+//					$sessionData['lastlogin'] = $user['lastlogin'];
+//					$sessionData['is_login'] = TRUE;
 
 					$this->Teacher_model->changeLastLogin($user['teacherid'], $user['currentlogin']);
 					$this->Teacher_model->setCurrentLogin($user['teacherid']);
-					$this->session->set_userdata($sessionData);
+//					$this->session->set_userdata($sessionData);
 //					$this->Teacher_model->updateLastLogin($user['id']);
 
 					redirect('teacher/home');
@@ -104,7 +111,7 @@ class login extends CI_Controller {
 //				}
 			}
 
-			$this->session->set_flashdata('error', 'Login Failed!, username and password combination are wrong');
+			$this->nativesession->set('error', 'Login Failed!, username and password combination are wrong');
 		}
 
 		$data['title'] = 'SMS';
@@ -138,13 +145,13 @@ class login extends CI_Controller {
 					$message .= 'Here is your New Password: '.$token;
 					$this->email->message($message);
 					$this->email->send();
-					$this->session->set_flashdata('success', 'Check your email for new password');
+					$this->nativesession->set('success', 'Check your email for new password');
 
 					$this->Student_model->resetPassword($userData['id'], $token);
 
 					redirect('login/loginAs?choice='.$loginas);
 				} else {
-					$this->session->set_flashdata('error', 'Email not registered');
+					$this->nativesession->set('error', 'Email not registered');
 					redirect('login/forgot_password?choice='.$loginas);
 				}
 			}
@@ -163,13 +170,13 @@ class login extends CI_Controller {
 					$message .= 'Here is your New Password: '.$token;
 					$this->email->message($message);
 					$this->email->send();
-					$this->session->set_flashdata('success', 'Check your email for new password');
+					$this->nativesession->set('success', 'Check your email for new password');
 
 					$this->Teacher_model->resetPassword($userData['id'], $token);
 
 					redirect('login/loginAs?choice='.$loginas);
 				} else {
-					$this->session->set_flashdata('error', 'Email not registered');
+					$this->nativesession->set('error', 'Email not registered');
 					redirect('login/forgot_password?choice='.$loginas);
 				}
 			}
@@ -188,13 +195,13 @@ class login extends CI_Controller {
 					$message .= 'Here is your New Password: '.$token;
 					$this->email->message($message);
 					$this->email->send();
-					$this->session->set_flashdata('success', 'Check your email for new password');
+					$this->nativesession->set('success', 'Check your email for new password');
 
 					$this->Parent_model->resetPassword($userData['id'], $token);
 
 					redirect('login/loginAs?choice='.$loginas);
 				} else {
-					$this->session->set_flashdata('error', 'Email not registered');
+					$this->nativesession->set('error', 'Email not registered');
 					redirect('login/forgot_password?choice='.$loginas);
 				}
 			}
@@ -213,13 +220,13 @@ class login extends CI_Controller {
 					$message .= 'Here is your New Password: '.$token;
 					$this->email->message($message);
 					$this->email->send();
-					$this->session->set_flashdata('success', 'Check your email for new password');
+					$this->nativesession->set('success', 'Check your email for new password');
 
 					$this->Operation_model->resetPassword($userData['id'], $token);
 
 					redirect('login/loginAs?choice='.$loginas);
 				} else {
-					$this->session->set_flashdata('error', 'Email not registered');
+					$this->nativesession->set('error', 'Email not registered');
 					redirect('login/forgot_password?choice='.$loginas);
 				}
 			}
@@ -238,13 +245,13 @@ class login extends CI_Controller {
 					$message .= 'Here is your New Password: '.$token;
 					$this->email->message($message);
 					$this->email->send();
-					$this->session->set_flashdata('success', 'Check your email for new password');
+					$this->nativesession->set('success', 'Check your email for new password');
 
 					$this->Admin_model->resetPassword($userData['id'], $token);
 
 					redirect('login/loginAs?choice='.$loginas);
 				} else {
-					$this->session->set_flashdata('error', 'Email not registered');
+					$this->nativesession->set('error', 'Email not registered');
 					redirect('login/forgot_password?choice='.$loginas);
 				}
 			}

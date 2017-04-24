@@ -12,7 +12,7 @@ class General
     }
 
     function isLogin() {
-        if ($this->ci->session->userdata('is_login') == TRUE) {
+        if ($this->ci->nativesession->get('is_login') == TRUE) {
             return TRUE;
         } else {
             return FALSE;
@@ -21,12 +21,12 @@ class General
 
     function TeacherLogin() {
         if ($this->isLogin() == TRUE) {
-            if ($this->ci->session->userdata('role') != 0 && $this->ci->session->userdata('role') != 1 && $this->ci->session->userdata('role') != 2) {
-                $this->ci->session->set_flashdata('error', 'Access Denied');
+            if ($this->ci->nativesession->get('role') != 0 && $this->ci->nativesession->get('role') != 1 && $this->ci->nativesession->get('role') != 2) {
+                $this->ci->nativesession->set('error', 'Access Denied');
                 redirect('');
             }
         } else {
-            $this->ci->session->set_flashdata('error', 'Access Denied');
+            $this->ci->nativesession->set('error', 'Access Denied');
             redirect('');
         }
     }
