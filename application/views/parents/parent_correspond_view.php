@@ -103,7 +103,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4 text-right">
-                                            <p class="date"> 8:02 PM 12 FEB 2014</p>
+                                            <p class="date parent_date"> 8:02 PM 12 FEB 2014</p>
                                         </div>
                                         <div class="col-md-12">
                                             <h4> Donec vitae leo at sem lobortis porttitor eu consequat risus. Mauris sed congue orci. Donec ultrices faucibus rutrum.</h4>

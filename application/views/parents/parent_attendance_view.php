@@ -17,14 +17,14 @@
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-check"></i></div>
                                 <div class="count">0</div>
-                                <h3 class="announcement_top_tile">Present</h3>
+                                <h3 class="message_top_tile">Present</h3>
                             </div>
                         </div>
                         <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <div class="tile-stats">
                                 <div class="icon"><i class="fa fa-clock-o"></i></div>
                                 <div class="count">0</div>
-                                <h3 class="message_top_tile">Late</h3>
+                                <h3 class="announcement_top_tile">Late</h3>
                             </div>
                         </div>
                         <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">

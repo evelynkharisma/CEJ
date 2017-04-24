@@ -148,4 +148,8 @@ class parents extends CI_Controller {
         $data['content'] = 'parents/payment_receipt_view';
         $this->load->view($this->template, $data);
     }
+    public function logout(){
+        $this->session->sess_destroy();
+        redirect('');
+    }
 }

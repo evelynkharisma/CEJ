@@ -7,11 +7,11 @@
 <!-- menu profile quick info -->
 <div class="profile clearfix">
     <div class="profile_pic">
-        <img src="<?php echo base_url() ?>assets/img/parents/chels.jpg" alt="..." class="img-circle profile_img">
+        <img src="<?php echo base_url() ?>assets/img/parents/profile/<?php echo $this->session->userdata('photo') ?>" alt="..." class="img-circle profile_img">
     </div>
     <div class="profile_info">
         <span>Welcome,</span>
-        <h2>Chelsy Lim</h2>
+        <h2><?php echo $this->session->userdata('name');?></h2>
     </div>
 </div>
 <!-- /menu profile quick info -->
@@ -33,15 +33,26 @@
 <!--            <li><a href="--><?php //echo base_url() ?><!--index.php/parents/child_attendance"><i class="fa fa-dashboard"></i> Performance </a></li>-->
             <li><a><i class="fa fa-file-text-o"></i> Report Card <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_reportcard_midterm">Mid Term Report</a></li>
-                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_reportcard_finalterm">Final Term Report</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_reportcard_midterm">Grade 12</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_reportcard_finalterm">Grade 11</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-book"></i> Course <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Mathematic</a></li>
-                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">English</a></li>
-                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Science</a></li>
+                    <li><a>Grade 12<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Mathematic</a></li>
+                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">English</a></li>
+                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Science</a></li>
+                        </ul>
+                    </li>
+                    <li><a>Grade 11<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Mathematic</a></li>
+                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">English</a></li>
+                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Science</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li><a><i class="fa fa-calendar"></i> Schedule <span class="fa fa-chevron-down"></span></a>
@@ -56,6 +67,7 @@
                     <li><a href="<?php echo base_url() ?>index.php/parents/payment_receipt">Payment Receipt</a></li>
                 </ul>
             </li>
+<!--            <li><a href="--><?php //echo base_url() ?><!--index.php/parents/eventList"><i class="fa fa-bell"></i> Events</a></li>-->
             <li><a href="<?php echo base_url() ?>index.php/parents/parent_download"><i class="fa fa-download"></i> Download</a></li>
             <li><a href="<?php echo base_url() ?>index.php/parents/parent_correspond"><i class="fa fa-envelope"></i> Correspond</a></li>
 

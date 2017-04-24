@@ -79,3 +79,6 @@
     color: red;
     font-weight:bold;
 }
+.parent_date{
+    background-color: transparent !important;
+}
