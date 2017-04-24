@@ -7,14 +7,14 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <?php if ($this->session->flashdata('error')): ?>
+        <?php if ($this->nativesession->get('error')): ?>
             <div  class="alert alert-error">
-                <?php echo $this->session->flashdata('error'); ?>
+                <?php echo $this->nativesession->get('error'); ?>
             </div>
         <?php endif; ?>
-        <?php if ($this->session->flashdata('success')): ?>
+        <?php if ($this->nativesession->get('success')): ?>
             <div  class="alert alert-success">
-                <?php echo $this->session->flashdata('success'); ?>
+                <?php echo $this->nativesession->get('success');$this->nativesession->delete('success'); ?>
             </div>
         <?php endif; ?>
         <?php if (validation_errors()): ?>

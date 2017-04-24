@@ -19,18 +19,18 @@ class teacher extends CI_Controller {
     public function home()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['events'] = $this->Teacher_model->getAllEvents($this->session->userdata('id'));
+        $data['events'] = $this->Teacher_model->getAllEvents($this->nativesession->get('id'));
         $data['content'] = 'teacher/teacher_home_view';
         $this->load->view($this->template, $data);
     }
 
     public function homeroom_attendance()
     {
-        $info = $this->Teacher_model->getClassByTeacherID($this->session->userdata('id'));
+        $info = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
         $classid = $info['classid'];
 
         $datebutton = $this->input->post('datebutton');
@@ -64,8 +64,8 @@ class teacher extends CI_Controller {
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['info_db'] = $info;
@@ -82,11 +82,11 @@ class teacher extends CI_Controller {
     public function homeroomStudent()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $info = $this->Teacher_model->getClassByTeacherID($this->session->userdata('id'));
+        $info = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
         $classid = $info['classid'];
         $data['info_db'] = $info;
         $data['students'] = $this->Teacher_model->getStudentsByClassID($classid);
@@ -118,7 +118,7 @@ class teacher extends CI_Controller {
                 
                 $this->Teacher_model->addHomeroomReport($latestID, $id, $term, $class[0]);
             }
-            $this->session->set_flashdata('success', 'Homeroom Report saved');
+            $this->nativesession->set('success', 'Homeroom Report saved');
             $eid = $this->general->encryptParaID($id, 'student');
             redirect('teacher/homeroomReport/'.$eid.'/'.$term);
         }
@@ -128,8 +128,8 @@ class teacher extends CI_Controller {
         $attendancepercentage = $present/$allattendance*100;
         
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $info = $this->Teacher_model->getClassByStudentID($id);
@@ -158,7 +158,7 @@ class teacher extends CI_Controller {
             if($result = $this->Teacher_model->checkHomeroomReport($id, $term, $class[0])){
                 $this->Teacher_model->editHomeroomReport2($result['homeroomid']);
             }
-            $this->session->set_flashdata('success', 'Homeroom Report saved');
+            $this->nativesession->set('success', 'Homeroom Report saved');
             $eid = $this->general->encryptParaID($id, 'student');
             redirect('teacher/homeroomReport2/'.$eid.'/'.$term);
         }
@@ -168,8 +168,8 @@ class teacher extends CI_Controller {
         $attendancepercentage = $present/$allattendance*100;
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $info = $this->Teacher_model->getClassByStudentID($id);
@@ -253,8 +253,8 @@ class teacher extends CI_Controller {
         $id = $this->general->decryptParaID($id, 'teacher');
         $data['de'] = $id;
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['day'] = $this->Teacher_model->getSetting('s0005');
@@ -309,7 +309,7 @@ class teacher extends CI_Controller {
 
                 if (!$this->upload->do_upload('photo')) {
 
-                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    $this->nativesession->set('error', $this->upload->display_errors());
                     redirect(current_url());
                 } else {
                     $data = $this->upload->data();
@@ -328,7 +328,7 @@ class teacher extends CI_Controller {
                     $filename = $data['orig_name'];
                     if ($this->Teacher_model->editProfilePhoto($teacherid, $filename)) {
                     } else {
-                        $this->session->set_flashdata('error', 'Upload Photo Failed, try again !');
+                        $this->nativesession->set('error', 'Upload Photo Failed, try again !');
                         redirect(current_url());
                     }
                 }
@@ -341,14 +341,14 @@ class teacher extends CI_Controller {
                 $availabletime = $availabletime.'|'.$workinghour[$i];
             }
             $this->Teacher_model->editProfile($teacherid, $availabletime);
-            $this->session->set_flashdata('success', 'Profile saved');
+            $this->nativesession->set('success', 'Profile saved');
             $eid = $this->general->encryptParaID($id, 'teacher');
             redirect('teacher/teacher_profile/'.$eid);
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['day'] = $this->Teacher_model->getSetting('s0005');
@@ -366,8 +366,8 @@ class teacher extends CI_Controller {
 
     public function addTeacher()
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0004') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0004') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $this->form_validation->set_rules('password', 'password', 'required');
@@ -410,7 +410,7 @@ class teacher extends CI_Controller {
 
                 if (!$this->upload->do_upload('photo')) {
 
-                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    $this->nativesession->set('error', $this->upload->display_errors());
                     redirect(current_url());
                 } else {
                     $data = $this->upload->data();
@@ -428,20 +428,20 @@ class teacher extends CI_Controller {
 
                     $filename = $data['orig_name'];
                     if ($this->Teacher_model->editProfilePhoto($teacherID, $filename)) {
-                        $this->session->set_flashdata('success', 'Photo Changed');
+                        $this->nativesession->set('success', 'Photo Changed');
                     } else {
-                        $this->session->set_flashdata('error', 'Upload Photo Failed, try again !');
+                        $this->nativesession->set('error', 'Upload Photo Failed, try again !');
                         redirect(current_url());
                     }
                 }
             }
-            $this->session->set_flashdata('success', 'New Teacher Added');
+            $this->nativesession->set('success', 'New Teacher Added');
             redirect('teacher/teacher_profile/'.$teacherID);
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['day'] = $this->Teacher_model->getSetting('s0005');
@@ -458,8 +458,8 @@ class teacher extends CI_Controller {
 
     public function editTeacher($id)
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0005') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0005') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $id = $this->general->decryptParaID($id, 'teacher');
@@ -499,7 +499,7 @@ class teacher extends CI_Controller {
 
                 if (!$this->upload->do_upload('photo')) {
 
-                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    $this->nativesession->set('error', $this->upload->display_errors());
                     redirect(current_url());
                 } else {
                     $data = $this->upload->data();
@@ -518,7 +518,7 @@ class teacher extends CI_Controller {
                     $filename = $data['orig_name'];
                     if ($this->Teacher_model->editProfilePhoto($teacherid, $filename)) {
                     } else {
-                        $this->session->set_flashdata('error', 'Upload Photo Failed, try again !');
+                        $this->nativesession->set('error', 'Upload Photo Failed, try again !');
                         redirect(current_url());
                     }
                 }
@@ -531,13 +531,13 @@ class teacher extends CI_Controller {
                 $availabletime = $availabletime.'|'.$workinghour[$i];
             }
             $this->Teacher_model->editProfile($teacherid, $availabletime);
-            $this->session->set_flashdata('success', 'Profile saved');
+            $this->nativesession->set('success', 'Profile saved');
             redirect('teacher/teacherView');
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['day'] = $this->Teacher_model->getSetting('s0005');
@@ -554,24 +554,24 @@ class teacher extends CI_Controller {
     }
 
     public function deleteTeacher($id){
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0005') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0005') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $id = $this->general->decryptParaID($id, 'teacher');
         if($this->Teacher_model->deleteTeacher($id)){
-            $this->session->set_flashdata('success', 'Teacher Deleted');
+            $this->nativesession->set('success', 'Teacher Deleted');
         }
         else{
-            $this->session->set_flashdata('error', 'Failed to Delete Teacher');
+            $this->nativesession->set('error', 'Failed to Delete Teacher');
         }
         redirect('teacher/teacherView');
     }
 
     public function addCourse()
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0013') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0013') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $this->form_validation->set_rules('coursename', 'Course Name', 'required');
@@ -603,13 +603,13 @@ class teacher extends CI_Controller {
                 }
             }
            
-            $this->session->set_flashdata('success', 'New Course Added');
+            $this->nativesession->set('success', 'New Course Added');
             redirect('teacher/courseView/'.$courseID);
         }
         
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_add_course_view';
@@ -618,8 +618,8 @@ class teacher extends CI_Controller {
 
     public function editCourse($fid)
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0014') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0014') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         if(substr($fid, 0 ,1) == 's'){
@@ -665,7 +665,7 @@ class teacher extends CI_Controller {
                 }
             }
 
-            $this->session->set_flashdata('success', 'Course saved');
+            $this->nativesession->set('success', 'Course saved');
             if(substr($fid, 0 ,1) == 's'){
                 $id = $this->general->encryptParaID($id, 'courseassigned');
                 redirect('teacher/courseView/'.$id);
@@ -678,8 +678,8 @@ class teacher extends CI_Controller {
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_edit_course_view';
@@ -695,8 +695,8 @@ class teacher extends CI_Controller {
     public function allCourse()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['info_dbs'] = $this->Teacher_model->getAllCourses();
@@ -705,16 +705,16 @@ class teacher extends CI_Controller {
     }
 
     public function deleteCourse($id){
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0014') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0014') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $id = $this->general->decryptParaID($id, 'course');
         if($this->Teacher_model->deleteCourse($id)){
-            $this->session->set_flashdata('success', 'Course Deleted');
+            $this->nativesession->set('success', 'Course Deleted');
         }
         else{
-            $this->session->set_flashdata('error', 'Failed to Delete Course');
+            $this->nativesession->set('error', 'Failed to Delete Course');
         }
         redirect('teacher/allCourse');
     }
@@ -723,8 +723,8 @@ class teacher extends CI_Controller {
     {
         $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -742,8 +742,8 @@ class teacher extends CI_Controller {
     {
         $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -773,8 +773,8 @@ class teacher extends CI_Controller {
 
     public function editSemester($id)
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0014') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0014') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $id = $this->general->decryptParaID($id, 'courseassigned');
@@ -810,14 +810,14 @@ class teacher extends CI_Controller {
                 }
             }
 
-            $this->session->set_flashdata('success', 'Course saved');
+            $this->nativesession->set('success', 'Course saved');
             $encryptid = $this->general->encryptParaID($id, 'courseassigned');
             redirect('teacher/courseSemester/'.$encryptid);
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/teacher_edit_semester_view';
@@ -832,7 +832,7 @@ class teacher extends CI_Controller {
 
 //    public function coursePlan(){
 //        $data['title'] = 'SMS';
-//        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
+//        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
 //        $data['sidebar'] = 'teacher/teacher_sidebar';
 //        $data['topnavigation'] = 'teacher/teacher_topnavigation';
 //        $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -867,14 +867,14 @@ class teacher extends CI_Controller {
                 }
             }
 
-            $this->session->set_flashdata('success', 'Implementation saved');
+            $this->nativesession->set('success', 'Implementation saved');
             $encryptid = $this->general->encryptParaID($id, 'courseassigned');
             redirect('teacher/courseImplementation/'.$encryptid);
         }
         
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -900,8 +900,8 @@ class teacher extends CI_Controller {
     public function courseMaterial($id){
         $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -918,7 +918,7 @@ class teacher extends CI_Controller {
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
             if ($this->input->post('existingfile')==null && empty($_FILES['userfile']['name'])){
-                $this->session->set_flashdata('error', 'Existing file or New file is required');
+                $this->nativesession->set('error', 'Existing file or New file is required');
                 redirect(current_url());
             }
             else{
@@ -934,7 +934,7 @@ class teacher extends CI_Controller {
                     $this->load->library('upload', $config);
 
                     if (!$this->upload->do_upload('userfile')) {
-                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        $this->nativesession->set('error', $this->upload->display_errors());
                         redirect(current_url());
                     } else {
                         $data = $this->upload->data();
@@ -948,7 +948,7 @@ class teacher extends CI_Controller {
 
                         $this->Teacher_model->addFile($fileID, $filename, $teacherid);
                         $newfile = true;
-                        $this->session->set_flashdata('success', 'File Uploaded');
+                        $this->nativesession->set('success', 'File Uploaded');
 
                     }
                 }
@@ -959,15 +959,15 @@ class teacher extends CI_Controller {
                     $fileID = $this->input->post('existingfile');
                     $this->Teacher_model->addMaterial($materialID, $id, $fileID);
                 }
-                $this->session->set_flashdata('success', 'New Material Added');
+                $this->nativesession->set('success', 'New Material Added');
                 $eid = $this->general->encryptParaID($id, 'courseassigned');
                 redirect('teacher/courseMaterial/'.$eid);
             }
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -983,8 +983,8 @@ class teacher extends CI_Controller {
     public function courseAssignmentQuiz($id){
         $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -1006,7 +1006,7 @@ class teacher extends CI_Controller {
             $teacherid = $teacherid['teacherid'];
 
             if ($this->input->post('existingfile')==null && empty($_FILES['userfile']['name'])){
-                $this->session->set_flashdata('error', 'Existing file or New file is required');
+                $this->nativesession->set('error', 'Existing file or New file is required');
                 redirect(current_url());
             }
             else{
@@ -1022,7 +1022,7 @@ class teacher extends CI_Controller {
                     $this->load->library('upload', $config);
 
                     if (!$this->upload->do_upload('userfile')) {
-                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        $this->nativesession->set('error', $this->upload->display_errors());
                         redirect(current_url());
                     } else {
                         $data = $this->upload->data();
@@ -1034,7 +1034,7 @@ class teacher extends CI_Controller {
 
                         $this->Teacher_model->addFile($fileID, $filename, $teacherid);
                         $newfile = true;
-                        $this->session->set_flashdata('success', 'File Uploaded');
+                        $this->nativesession->set('success', 'File Uploaded');
 
                     }
                 }
@@ -1057,15 +1057,15 @@ class teacher extends CI_Controller {
                 }
 
 
-                $this->session->set_flashdata('success', 'New Material Added');
+                $this->nativesession->set('success', 'New Material Added');
                 $eid = $this->general->encryptParaID($id, 'courseassigned');
                 redirect('teacher/courseAssignmentQuiz/'.$eid);
             }
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -1083,8 +1083,8 @@ class teacher extends CI_Controller {
         $qid = $this->general->decryptParaID($qid, 'anq');
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -1132,7 +1132,7 @@ class teacher extends CI_Controller {
             else{
                 $this->Teacher_model->addSubmission($nid);
             }
-            $this->session->set_flashdata('success', 'Score updated');
+            $this->nativesession->set('success', 'Score updated');
             $qid = $this->Teacher_model->checkSubmission($nid);
             $qid = $qid['anqid'];
 
@@ -1145,8 +1145,8 @@ class teacher extends CI_Controller {
     public function courseStudent($id){
         $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -1188,7 +1188,7 @@ class teacher extends CI_Controller {
                     $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
                     $this->Teacher_model->addMidReport($latestID, $assignid, $studentid, $class[0]);
                 }
-                $this->session->set_flashdata('success', 'Report saved');
+                $this->nativesession->set('success', 'Report saved');
             }
             redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
@@ -1202,7 +1202,7 @@ class teacher extends CI_Controller {
                 if($result = $this->Teacher_model->checkReport($assignid, $studentid, 1)){
                     $this->Teacher_model->editMidReport($result['reportid']);
                 }
-                $this->session->set_flashdata('success', 'Report saved');
+                $this->nativesession->set('success', 'Report saved');
             }
             redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
@@ -1226,7 +1226,7 @@ class teacher extends CI_Controller {
                     $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
                     $this->Teacher_model->addFinalReport($latestID, $assignid, $studentid, $class[0]);
                 }
-                $this->session->set_flashdata('success', 'Report saved');
+                $this->nativesession->set('success', 'Report saved');
             }
             redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
@@ -1240,7 +1240,7 @@ class teacher extends CI_Controller {
                 if($result = $this->Teacher_model->checkReport($assignid, $studentid, 2)){
                     $this->Teacher_model->editFinalReport($result['reportid']);
                 }
-                $this->session->set_flashdata('success', 'Report saved');
+                $this->nativesession->set('success', 'Report saved');
             }
             redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
@@ -1251,8 +1251,8 @@ class teacher extends CI_Controller {
         
         
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['top2navigation'] = 'teacher/teacher_top2navigation';
@@ -1275,8 +1275,8 @@ class teacher extends CI_Controller {
     public function classScheduleView()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/class_schedule_view';
@@ -1286,8 +1286,8 @@ class teacher extends CI_Controller {
     public function examScheduleView()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/exam_schedule_view';
@@ -1297,8 +1297,8 @@ class teacher extends CI_Controller {
     public function studentView()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/students_view';
@@ -1308,8 +1308,8 @@ class teacher extends CI_Controller {
     public function parentView()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/parents_view';
@@ -1319,8 +1319,8 @@ class teacher extends CI_Controller {
     public function teacherView()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $teachers = $this->Teacher_model->getAllTeacher();
@@ -1359,8 +1359,8 @@ class teacher extends CI_Controller {
     public function staffView()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/staff_view';
@@ -1370,8 +1370,8 @@ class teacher extends CI_Controller {
     public function libraryView()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/libraries_view';
@@ -1380,13 +1380,13 @@ class teacher extends CI_Controller {
 
     public function payment()
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0001') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0001') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/payments_view';
@@ -1395,8 +1395,8 @@ class teacher extends CI_Controller {
 
     public function addEvent()
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0006') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0006') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $this->form_validation->set_rules('title', 'Title', 'required');
@@ -1410,12 +1410,12 @@ class teacher extends CI_Controller {
             $latestID = 'v'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
             $this->Teacher_model->addEvent($latestID);
 
-            $this->session->set_flashdata('success', 'New Event Added');
+            $this->nativesession->set('success', 'New Event Added');
             redirect('teacher/eventList/');
         }
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['images'] = $this->Teacher_model->getAllEventImages();
@@ -1426,7 +1426,7 @@ class teacher extends CI_Controller {
     public function addEventImage($id = null)
     {
         if (empty($_FILES['userfile']['name'])){
-            $this->session->set_flashdata('error', 'Image is required');
+            $this->nativesession->set('error', 'Image is required');
             if($id == null){
                 redirect('teacher/addEvent');
             }
@@ -1446,7 +1446,7 @@ class teacher extends CI_Controller {
                 $this->load->library('upload', $config);
 
                 if (!$this->upload->do_upload('userfile')) {
-                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    $this->nativesession->set('error', $this->upload->display_errors());
                     if($id == null){
                         redirect('teacher/addEvent');
                     }
@@ -1455,7 +1455,7 @@ class teacher extends CI_Controller {
                     if($data = $this->upload->data()){
                         $filename = $data['orig_name'];
                         $this->Teacher_model->addEventImage($latestID, $filename);
-                        $this->session->set_flashdata('success', 'New Event Image Added');
+                        $this->nativesession->set('success', 'New Event Image Added');
                         if($id == null){
                             redirect('teacher/addEvent');
                         }
@@ -1469,10 +1469,10 @@ class teacher extends CI_Controller {
     public function deleteEventImage($id, $eid = null){
         $id = $this->general->decryptParaID($id, 'eventimage');
         if($this->Teacher_model->deleteEventImage($id)){
-            $this->session->set_flashdata('success', 'Event Image Deleted');
+            $this->nativesession->set('success', 'Event Image Deleted');
         }
         else{
-            $this->session->set_flashdata('error', 'Failed to Delete Event Image');
+            $this->nativesession->set('error', 'Failed to Delete Event Image');
         }
         if($eid == null){
             redirect('teacher/addEvent');
@@ -1481,8 +1481,8 @@ class teacher extends CI_Controller {
     }
     
     public function editEvent($id){
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0007') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0007') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $id = $this->general->decryptParaID($id, 'event');
@@ -1493,12 +1493,12 @@ class teacher extends CI_Controller {
         if ($this->form_validation->run() == TRUE) {
             $this->Teacher_model->editEvent($id);
 
-            $this->session->set_flashdata('success', 'Event Edited');
+            $this->nativesession->set('success', 'Event Edited');
             redirect('teacher/eventList/');
         }
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['event'] = $this->Teacher_model->getEvent($id);
@@ -1508,16 +1508,16 @@ class teacher extends CI_Controller {
     }
 
     public function deleteEvent($id){
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0007') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0007') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $id = $this->general->decryptParaID($id, 'event');
         if($this->Teacher_model->deleteEvent($id)){
-            $this->session->set_flashdata('success', 'Event Deleted');
+            $this->nativesession->set('success', 'Event Deleted');
         }
         else{
-            $this->session->set_flashdata('error', 'Failed to Delete Event');
+            $this->nativesession->set('error', 'Failed to Delete Event');
         }
         redirect('teacher/eventList');
     }
@@ -1525,11 +1525,11 @@ class teacher extends CI_Controller {
     public function eventList()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->session->userdata('id'));
+        $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->nativesession->get('id'));
         $data['content'] = 'teacher/event_view';
         $this->load->view($this->template, $data);
     }
@@ -1538,8 +1538,8 @@ class teacher extends CI_Controller {
         $id = $this->general->decryptParaID($id, 'event');
         
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['event'] = $this->Teacher_model->getEvent($id);
@@ -1550,8 +1550,8 @@ class teacher extends CI_Controller {
     public function forms()
     {
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['info_dbs'] = $this->Teacher_model->getAllForms();
@@ -1561,8 +1561,8 @@ class teacher extends CI_Controller {
 
     public function addForm()
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0011') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0011') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $this->form_validation->set_rules('title', 'Title', 'required');
@@ -1570,7 +1570,7 @@ class teacher extends CI_Controller {
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
             if (empty($_FILES['userfile']['name'])){
-                $this->session->set_flashdata('error', 'File is required');
+                $this->nativesession->set('error', 'File is required');
                 redirect(current_url());
             }
             else{
@@ -1587,7 +1587,7 @@ class teacher extends CI_Controller {
                     $this->load->library('upload', $config);
 
                     if (!$this->upload->do_upload('userfile')) {
-                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        $this->nativesession->set('error', $this->upload->display_errors());
                         redirect(current_url());
                     } else {
                         $data = $this->upload->data();
@@ -1595,14 +1595,14 @@ class teacher extends CI_Controller {
                         $this->Teacher_model->addForm($latestID, $filename);
                     }
                 }
-                $this->session->set_flashdata('success', 'New Form Added');
+                $this->nativesession->set('success', 'New Form Added');
                 redirect('teacher/forms/');
             }
         }
         
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/add_form_view';
@@ -1610,8 +1610,8 @@ class teacher extends CI_Controller {
     }
 
     public function editForm($id){
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0012') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0012') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $id = $this->general->decryptParaID($id, 'form');
@@ -1632,7 +1632,7 @@ class teacher extends CI_Controller {
                     $this->load->library('upload', $config);
 
                     if (!$this->upload->do_upload('userfile')) {
-                        $this->session->set_flashdata('error', $this->upload->display_errors());
+                        $this->nativesession->set('error', $this->upload->display_errors());
                         redirect(current_url());
                     } else {
                         $data = $this->upload->data();
@@ -1641,13 +1641,13 @@ class teacher extends CI_Controller {
                     }
                 }
             }
-            $this->session->set_flashdata('success', 'Form Edited');
+            $this->nativesession->set('success', 'Form Edited');
             redirect('teacher/forms/');
         }
 
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['form'] = $this->Teacher_model->getForm($id);
@@ -1656,29 +1656,29 @@ class teacher extends CI_Controller {
     }
 
     public function deleteForm($id){
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0012') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0012') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $id = $this->general->decryptParaID($id, 'form');
         if($this->Teacher_model->deleteForm($id)){
-            $this->session->set_flashdata('success', 'Form Deleted');
+            $this->nativesession->set('success', 'Form Deleted');
         }
         else{
-            $this->session->set_flashdata('error', 'Failed to Delete Form');
+            $this->nativesession->set('error', 'Failed to Delete Form');
         }
         redirect('teacher/forms');
     }
 
     public function settings()
     {
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0009') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0009') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $data['title'] = 'SMS';
-        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->session->userdata('id'));
-        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['info_dbs'] = $this->Teacher_model->getAllSettings();
@@ -1687,15 +1687,15 @@ class teacher extends CI_Controller {
     }
     
     public function editSetting($id){
-        if($this->general->checkPrivilege($this->session->userdata('role'), 'p0010') != 1){
-            $this->session->set_flashdata('error', 'Access Denied');
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0010') != 1){
+            $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
         $this->form_validation->set_rules('value', 'Value', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
                 $this->Teacher_model->editSetting($id);
-                $this->session->set_flashdata('success', 'Setting Edited');
+                $this->nativesession->set('success', 'Setting Edited');
                 redirect('teacher/settings/');
         }
     }
@@ -1718,9 +1718,9 @@ class teacher extends CI_Controller {
           $this->email->message('Your Message here..');
 
         if($this->email->send())
-            $this->session->set_flashdata("success","Email sent successfully.");
+            $this->nativesession->set("success","Email sent successfully.");
         else
-            $this->session->set_flashdata("error",$this->email->print_debugger());
+            $this->nativesession->set("error",$this->email->print_debugger());
         redirect('teacher/courseAssignmentQuiz/s0001');
 
         return TRUE;
@@ -1728,7 +1728,12 @@ class teacher extends CI_Controller {
     }
 
     public function logout(){
-        $this->session->sess_destroy();
+        $this->nativesession->delete('id');
+        $this->nativesession->delete('name');
+        $this->nativesession->delete('photo');
+        $this->nativesession->delete('role');
+        $this->nativesession->delete('lastlogin');
+        $this->nativesession->delete('is_login');
         redirect('');
     }
 }

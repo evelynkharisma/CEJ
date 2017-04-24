@@ -9,9 +9,9 @@
 
         <div class="clearfix"></div>
 
-        <?php if ($this->session->flashdata('error')): ?>
+        <?php if ($this->nativesession->get('error')): ?>
             <div  class="alert alert-error">
-                <?php echo $this->session->flashdata('error'); ?>
+                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
             </div>
         <?php endif; ?>
         <?php if (validation_errors()): ?>

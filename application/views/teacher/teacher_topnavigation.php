@@ -9,12 +9,12 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $this->session->userdata('photo') ?>" alt=""><?php echo $this->session->userdata('name') ?>
+                        <img src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $this->nativesession->get('photo') ?>" alt=""><?php echo $this->nativesession->get('name') ?>
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                         <?php
-                            $encrypted = $this->general->encryptParaID($this->session->userdata('id'),'teacher');
+                            $encrypted = $this->general->encryptParaID($this->nativesession->get('id'),'teacher');
                         ?>
                         <li><a href="<?php echo base_url() ?>index.php/teacher/teacher_profile/<?php echo $encrypted ?>"> Profile</a></li>
 <!--                        <li><a href="--><?php //echo base_url() ?><!--index.php/teacher/teacher_settings">Settings</a></li>-->

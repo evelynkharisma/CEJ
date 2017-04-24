@@ -8,7 +8,7 @@
 <div class="profile clearfix">
     <div class="profile_pic">
         <div class="teacher_sidebar_crop">
-            <img src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $this->session->userdata('photo') ?>" alt="..." class="img-circle teacher_sidebar_photo">
+            <img src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $this->nativesession->get('photo') ?>" alt="..." class="img-circle teacher_sidebar_photo">
         </div>
         </div>
     <div class="profile_info">
@@ -34,7 +34,7 @@
             <li><a><i class="fa fa-edit"></i> Courses <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <?php
-                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0013');
+                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0013');
                     if($privilege == 1){
                     ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Add Course</a>
@@ -123,7 +123,7 @@
             <li><a><i class="fa fa-table"></i> Schedule <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <?php
-                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0008');
+                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0008');
                     if($privilege == 1){
                     ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/createSchedule">Create Schedule</a></li>
@@ -135,7 +135,7 @@
             <li><a><i class="fa fa-address-book-o"></i> Directories <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <?php
-                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0004');
+                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0004');
                     if($privilege == 1){
                     ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addTeacher">Add Teacher</a></li>
@@ -148,7 +148,7 @@
                 </ul>
             </li>
             <?php
-                $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0001');
+                $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0001');
                 if($privilege == 1){
             ?>
             <li><a href="<?php echo base_url() ?>index.php/teacher/payment"><i class="fa fa-usd"></i>Payments</span></a></li>
@@ -156,7 +156,7 @@
             <li><a><i class="fa fa-bell"></i> Events <span class="badge bg-green"><?php echo $eventnotif ?></span> <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <?php
-                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0006');
+                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0006');
                     if($privilege == 1){
                     ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addEvent">Add Event</a></li>
@@ -166,7 +166,7 @@
             </li>
             <li><a href="<?php echo base_url() ?>index.php/teacher/forms"><i class="fa fa-sticky-note-o"></i>Forms</span></a></li>
             <?php
-            $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0009');
+            $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0009');
             if($privilege == 1){
             ?>
             <li><a href="<?php echo base_url() ?>index.php/teacher/settings"><i class="fa fa-gear"></i>Settings</span></a></li>

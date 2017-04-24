@@ -6,7 +6,7 @@
                 <h3>All Courses</h3>
             </div>
             <?php
-            $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0013');
+            $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0013');
             if($privilege == 1){
             ?>
                 <a href="<?php echo base_url() ?>index.php/teacher/addCourse" class="btn btn-success set-right"><i class="fa fa-plus"></i> Add Course</a>
@@ -15,9 +15,9 @@
 
         <div class="clearfix"></div>
 
-        <?php if ($this->session->flashdata('success')): ?>
+        <?php if ($this->nativesession->get('success')): ?>
             <div  class="alert alert-success">
-                <?php echo $this->session->flashdata('success'); ?>
+                <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
             </div>
         <?php endif; ?>
 
@@ -35,7 +35,7 @@
                                 <th>Description</th>
                                 <th>Resources</th>
                                 <?php
-                                $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0014');
+                                $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0014');
                                 if($privilege == 1){
                                 ?>
                                 <th>Action</th>
@@ -58,7 +58,7 @@
                                             ?>
                                         </td>
                                     <?php
-                                    $privilege = $this->general->checkPrivilege($this->session->userdata('role'), 'p0014');
+                                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0014');
                                     if($privilege == 1){
                                         ?>
                                         <td width="30%">
