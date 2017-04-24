@@ -16,8 +16,8 @@ class parents extends CI_Controller {
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
         $data['content'] = 'parents/parent_home_view';
-        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->session->userdata('id'),$this->session->userdata('lastlogin'));
-        $data['events'] = $this->Parent_model->getAllEvents($this->session->userdata('id'));
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $this->load->view($this->template, $data);
     }
     public function parent_attendance()

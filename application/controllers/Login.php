@@ -66,15 +66,15 @@ class login extends CI_Controller {
 			else if($loginas == 'parent'){
 				$user = $this->Parent_model->checkLogin($username, $password);
 				if (!empty($user)) {
-					$sessionData['id'] = $user['parentid'];
-					$sessionData['name'] = $user['firstname'].' '.$user['lastname'];
-					$sessionData['photo'] = $user['photo'];
-					$sessionData['lastlogin'] = $user['lastlogin'];
-					$sessionData['is_login'] = TRUE;
+					$this->nativesession->set( 'id', $user['parentid'] );
+					$this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
+					$this->nativesession->set( 'photo', $user['photo'] );
+//					$this->nativesession->set( 'role', $user['role'] );
+					$this->nativesession->set( 'lastlogin', $user['lastlogin'] );
+					$this->nativesession->set( 'is_login', 'TRUE' );
 
 					$this->Parent_model->changeLastLogin($user['parentid'], $user['currentlogin']);
 					$this->Parent_model->setCurrentLogin($user['parentid']);
-					$this->session->set_userdata($sessionData);
 //					$this->Parent_model->updateLastLogin($user['id']);
 
 				redirect('parents/home');
