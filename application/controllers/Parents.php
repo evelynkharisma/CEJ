@@ -149,7 +149,11 @@ class parents extends CI_Controller {
         $this->load->view($this->template, $data);
     }
     public function logout(){
-        $this->session->sess_destroy();
+        $this->nativesession->delete('id');
+        $this->nativesession->delete('name');
+        $this->nativesession->delete('photo');
+        $this->nativesession->delete('lastlogin');
+        $this->nativesession->delete('is_login');
         redirect('');
     }
 }
