@@ -164,7 +164,6 @@ class General
         for ($i = 0; $i < $length; ++$i) {
             $Code .= substr($chars, (((int) mt_rand(0, strlen($chars))) - 1), 1);
         }
-        $Code = crypt($this->security->xss_clean($Code),'$6$rounds=5000$simsthesisproject$');
         return strtoupper($Code);
     }
 

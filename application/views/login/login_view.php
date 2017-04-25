@@ -8,6 +8,11 @@
                 <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
             </div>
         <?php endif; ?>
+        <?php if ($this->nativesession->get('success')): ?>
+            <div  class="alert alert-error">
+                <?php echo $this->nativesession->get('success');$this->nativesession->delete('success'); ?>
+            </div>
+        <?php endif; ?>
         <?php if (validation_errors()): ?>
             <div  class="alert alert-error">
                 <?php echo validation_errors(); ?>

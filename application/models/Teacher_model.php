@@ -269,7 +269,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function getCourseDataByAssignID($id) {
+    function getAssignDataByQuizID($id) {
         $this->db->select('*');
         $this->db->join('course_assign', 'course_assign.assignid = assignmentandquiz.assignid');
         $this->db->where('assignmentandquiz.anqid', $id);
@@ -280,7 +280,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function getAssignDataByQuizID($id) {
+    function getCourseDataByAssignID($id) {
         $this->db->select('*');
         $this->db->join('course', 'course.courseid = course_assign.courseid');
         $this->db->where('course_assign.assignid', $id);
@@ -509,6 +509,24 @@ class Teacher_model extends CI_Model {
         if ($query->num_rows() == 1) {
             return $query->row_array();
         }
+    }
+
+    function getByEmail($email) {
+        $this->db->select('*');
+        $this->db->where('email', $email);
+        $query = $this->db->get($this->table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function resetPassword($id, $token){
+        $data = array(
+            'password' => crypt($this->security->xss_clean($token),'$6$rounds=5000$simsthesisproject$')
+        );
+        $this->db->where('teacherid', $id);
+        $this->db->update($this->table, $data);
     }
 
     function addFile($id, $filename, $tid){

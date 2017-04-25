@@ -171,9 +171,9 @@ class login extends CI_Controller {
 				}
 			}
 			else if($loginas == 'teacher'){
-				$user = $this->Teacher_model->getByEmail($email);
-				if (!empty($user)) {
-					$userData = $this->Teacher_model->getById($user['id']);
+				$userData = $this->Teacher_model->getByEmail($email);
+				if (!empty($userData)) {
+//					$userData = $this->Teacher_model->getById($user['id']);
 
 					$config = Array(
 						'protocol' => 'smtp',
@@ -186,11 +186,11 @@ class login extends CI_Controller {
 					$this->load->library('email', $config);
 					$this->email->set_newline('\r\n');
 					$this->email->from('healthybonefamily@gmail.com', 'SMS');
-					$this->email->to($email);
+					$this->email->to($userData['email']);
 					$this->email->subject('Request New Password - SMS');
 
 					$message = '';
-					$message .= 'You have sent request to reset password.<br/>';
+					$message .= 'You have sent request to reset password.\n';
 					$message .= 'Here is your New Password: ' . $token;
 					$this->email->message($message);
 

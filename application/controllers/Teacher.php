@@ -604,7 +604,8 @@ class teacher extends CI_Controller {
             }
            
             $this->nativesession->set('success', 'New Course Added');
-            redirect('teacher/courseView/'.$courseID);
+            $id = $this->general->encryptParaID($courseID, 'courseassigned');
+            redirect('teacher/courseView/'.$id);
         }
         
         $data['title'] = 'SMS';
