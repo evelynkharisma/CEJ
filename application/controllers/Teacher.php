@@ -1772,13 +1772,13 @@ class teacher extends CI_Controller {
 
         $this->load->library('email', $config);
         $this->email->set_newline('\r\n');
-        $this->email->from('healthybonefamily@gmail.com', 'your Name');
+        $this->email->from('healthybonefamily@gmail.com', 'SMS');
         $this->email->to($emaillist);
         $this->email->subject($info['coursename'].' '.$qnainfo['type'].' Notification');
-        $this->email->message('This is the notification for:\n\n
-        Course : '.$info['coursename'].'\n
-        Type : '.$qnainfo['type'].'\n
-        Due Date : '.$qnainfo['duedate'].'\n\n');
+        $this->email->message('This is the notification for:
+        Course : '.$info['coursename'].'
+        Type : '.$qnainfo['type'].'
+        Due Date : '.$qnainfo['duedate'].'');
 
         if($this->email->send())
             $this->nativesession->set("success","Email sent successfully.");
@@ -1813,13 +1813,13 @@ class teacher extends CI_Controller {
         
           $this->load->library('email', $config);
           $this->email->set_newline('\r\n');
-          $this->email->from('healthybonefamily@gmail.com', 'your Name');
+          $this->email->from('healthybonefamily@gmail.com', 'SMS');
           $this->email->to($student['email']);
             $this->email->subject($info['coursename'].' '.$qnainfo['type'].' Notification');
-            $this->email->message('This is the notification for:\n\n
-            Course : '.$info['coursename'].'\n
-            Type : '.$qnainfo['type'].'\n
-            Due Date : '.$qnainfo['duedate'].'\n\n');
+            $this->email->message('This is the notification for:
+            Course : '.$info['coursename'].'
+            Type : '.$qnainfo['type'].'
+            Due Date : '.$qnainfo['duedate'].'');
 
             if($this->email->send())
                 $this->nativesession->set("success","Email sent successfully.");

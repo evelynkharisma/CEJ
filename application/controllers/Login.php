@@ -190,7 +190,7 @@ class login extends CI_Controller {
 					$this->email->subject('Request New Password - SMS');
 
 					$message = '';
-					$message .= 'You have sent request to reset password.\n';
+					$message .= 'You have sent request to reset password. ';
 					$message .= 'Here is your New Password: ' . $token;
 					$this->email->message($message);
 
