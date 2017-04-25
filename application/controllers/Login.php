@@ -203,30 +203,8 @@ class login extends CI_Controller {
 						$this->nativesession->set("error", $this->email->print_debugger());
 						redirect('login/forgot_password');
 					}
-
-
+					
 					return TRUE;
-
-					$this->load->library('email');
-					$this->email->from('kharismaeve@gmail.com', 'SMS');
-					$this->email->to($email);
-
-					$this->email->subject('Request New Password - SMS');
-					$message = '';
-					$message .= 'You have sent request to reset password.<br/>';
-					$message .= 'Here is your New Password: '.$token;
-					$this->email->message($message);
-					if($this->Teacher_model->resetPassword($userData['teacherid'], $token)){
-						$this->email->send();
-						$this->nativesession->set('success', 'Check your email for new password');
-					}
-
-
-
-					redirect('login/loginAs?choice='.$loginas);
-				} else {
-					$this->nativesession->set('error', 'Email not registered');
-					redirect('login/forgot_password?choice='.$loginas);
 				}
 			}
 			else if($loginas == 'parent'){
