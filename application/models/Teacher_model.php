@@ -523,7 +523,7 @@ class Teacher_model extends CI_Model {
 
     function resetPassword($id, $token){
         $data = array(
-            'password' => crypt($this->security->xss_clean($token),'$6$rounds=5000$simsthesisproject$')
+            'password' => crypt($token,'$6$rounds=5000$simsthesisproject$')
         );
         $this->db->where('teacherid', $id);
         $this->db->update($this->table, $data);

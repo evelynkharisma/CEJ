@@ -216,10 +216,12 @@ class login extends CI_Controller {
 					$message .= 'You have sent request to reset password.<br/>';
 					$message .= 'Here is your New Password: '.$token;
 					$this->email->message($message);
-					$this->email->send();
-					$this->nativesession->set('success', 'Check your email for new password');
+					if($this->Teacher_model->resetPassword($userData['teacherid'], $token)){
+						$this->email->send();
+						$this->nativesession->set('success', 'Check your email for new password');
+					}
 
-					$this->Teacher_model->resetPassword($userData['id'], $token);
+
 
 					redirect('login/loginAs?choice='.$loginas);
 				} else {
