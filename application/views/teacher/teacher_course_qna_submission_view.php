@@ -25,7 +25,11 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><?php echo $qna['topic'] ?> <?php echo $qna['type'] ?> Submission</h2><a class="btn btn-danger set-right"><i class="fa fa-bell-o"></i> Notify All</a>
+                        <?php
+                            $notifencrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                            $notifqencrypted = $this->general->encryptParaID($qna['anqid'],'anq');
+                        ?>
+                        <h2><?php echo $qna['topic'] ?> <?php echo $qna['type'] ?> Submission</h2><a href="<?php echo base_url() ?>index.php/teacher/sendQnAEmailToAll/<?php echo $notifencrypted ?>/<?php echo $notifqencrypted ?>" class="btn btn-danger set-right"><i class="fa fa-bell-o"></i> Notify All</a>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -74,6 +78,7 @@
                                             <?php
                                                 $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
                                                 $qencrypted = $this->general->encryptParaID($s['anqscoreid'],'anqscore');
+                                                $sencrypted = $this->general->encryptParaID($s['studentid'],'student');
                                             ?>
                                             <?php echo form_open('teacher/courseSubmissionGrading/'.$encrypted.'/'.$qencrypted); ?>
                                             <input type="hidden" class="form-control set-margin-bottom" name="studentid" value="<?php echo $s['studentid']; ?>"/>
@@ -81,7 +86,7 @@
                                             <button type="submit" class="btn btn-success set-right"><i class="fa fa-check"></i></button>
                                             <input style="width:70%;" class="form-control" placeholder='Score' name="score" value="<?php echo set_value('score', isset($s['score']) ? $s['score'] : ''); ?>">
                                             <?php echo form_close(); ?>
-                                        <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/teacher/sendQnAEmail/<?php echo $sencrypted ?>/<?php echo $notifqencrypted ?>" class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
                                     </tr>
                                 <?php } }?>
                             </tbody>

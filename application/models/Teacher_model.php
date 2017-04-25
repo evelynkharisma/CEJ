@@ -20,6 +20,7 @@ class Teacher_model extends CI_Model {
     var $event_table = 'events';
     var $setting_table = 'settings';
     var $event_image_table = 'event_images';
+    var $schedule_course_table = 'schedule_course';
 
     function __construct() {
         parent::__construct();
@@ -186,6 +187,48 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getAllScheduleSetting(){
+        $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = schedule_course.teacherid');
+        $this->db->join('course', 'course.courseid = schedule_course.courseid');
+
+        $query = $this->db->get($this->schedule_course_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getScheduleSettingLatestID(){
+        $this->db->select('scid');
+        $this->db->order_by("scid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->schedule_course_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addScheduleSetting($id, $t, $c, $grade){
+        $data = array(
+            'scid' => $id,
+            'teacherid' => $t,
+            'courseid' => $c,
+            'grade' => $grade,
+        );
+        $this->db->insert($this->schedule_course_table, $data);
+    }
+
+    function deleteScheduleSetting($id){
+        $this->db->where('scid', $id);
+        $this->db->delete($this->schedule_course_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
     function deleteCourse($id){
         $this->db->where('courseid', $id);
         $this->db->delete($this->course_table);
@@ -227,6 +270,17 @@ class Teacher_model extends CI_Model {
     }
 
     function getCourseDataByAssignID($id) {
+        $this->db->select('*');
+        $this->db->join('course_assign', 'course_assign.assignid = assignmentandquiz.assignid');
+        $this->db->where('assignmentandquiz.anqid', $id);
+        $query = $this->db->get($this->qna_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getAssignDataByQuizID($id) {
         $this->db->select('*');
         $this->db->join('course', 'course.courseid = course_assign.courseid');
         $this->db->where('course_assign.assignid', $id);
@@ -350,6 +404,8 @@ class Teacher_model extends CI_Model {
         $this->db->where('implementationid', $id);
         $this->db->update($this->lesson_implementation_table, $data);
     }
+
+    
 
     function getAllCoursesByTeacher($id){
         $this->db->select('*');

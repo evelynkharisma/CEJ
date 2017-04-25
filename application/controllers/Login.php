@@ -143,7 +143,7 @@ class login extends CI_Controller {
 		if ($this->form_validation->run() == TRUE) {
 			$loginas = $this->input->post('loginas');
 			$email = $this->input->post('email');
-			$token = $this->general->generateRandomCode(50);
+			$token = $this->general->generateRandomCode();
 
 			if($loginas == 'student'){
 				$user = $this->Student_model->getByEmail($email);
@@ -174,6 +174,38 @@ class login extends CI_Controller {
 				$user = $this->Teacher_model->getByEmail($email);
 				if (!empty($user)) {
 					$userData = $this->Teacher_model->getById($user['id']);
+
+					$config = Array(
+						'protocol' => 'smtp',
+						'smtp_host' => 'ssl://smtp.googlemail.com',
+						'smtp_port' => 465,
+						'smtp_user' => 'healthybonefamily@gmail.com',
+						'smtp_pass' => 'healthybonefamilycb4',
+					);
+
+					$this->load->library('email', $config);
+					$this->email->set_newline('\r\n');
+					$this->email->from('healthybonefamily@gmail.com', 'SMS');
+					$this->email->to($email);
+					$this->email->subject('Request New Password - SMS');
+
+					$message = '';
+					$message .= 'You have sent request to reset password.<br/>';
+					$message .= 'Here is your New Password: ' . $token;
+					$this->email->message($message);
+
+					if ($this->email->send()){
+						$this->nativesession->set("success", "Email sent successfully.");
+						$this->Teacher_model->resetPassword($userData['id'], $token);
+						redirect('login/');
+					}
+					else {
+						$this->nativesession->set("error", $this->email->print_debugger());
+						redirect('login/forgot_password');
+					}
+
+
+					return TRUE;
 
 					$this->load->library('email');
 					$this->email->from('kharismaeve@gmail.com', 'SMS');

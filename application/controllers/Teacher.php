@@ -1272,6 +1272,51 @@ class teacher extends CI_Controller {
         print json_encode($data);
     }
 
+    public function createSchedule()
+    {
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['teachers'] = $this->Teacher_model->getAllTeacher();
+        $data['courses'] = $this->Teacher_model->getAllCourses();
+        $data['assign'] = $this->Teacher_model->getAllScheduleSetting();
+        $data['content'] = 'teacher/create_schedule_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addScheduleSetting(){
+        $this->form_validation->set_rules('teacher', 'Teacher', 'required');
+        $this->form_validation->set_rules('course', 'Course', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $tid = $this->input->post('teacher');
+            $cid = $this->input->post('course');
+            $gradeList = $this->input->post('grade');
+            $grade = implode("|", $gradeList);
+            $latestID = $this->Teacher_model->getScheduleSettingLatestID();
+            $latestID = $latestID['scid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 's'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            $this->Teacher_model->addScheduleSetting($latestID, $tid, $cid, $grade);
+            $this->nativesession->set('success', 'Schedule Assign saved');
+            redirect('teacher/createSchedule');
+        }
+    }
+
+    public function deleteScheduleSetting($id){
+        $id = $this->general->decryptParaID($id, 'schedulesetting');
+        if($this->Teacher_model->deleteScheduleSetting($id)){
+            $this->nativesession->set('success', 'Schedule Setting Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Schedule Setting');
+        }
+        redirect('teacher/createSchedule');
+    }
+
     public function classScheduleView()
     {
         $data['title'] = 'SMS';
@@ -1700,8 +1745,63 @@ class teacher extends CI_Controller {
         }
     }
 
-    public function sendEmail()
+    public function sendQnAEmailToAll($id, $qid){
+        $id = $this->general->decryptParaID($id, 'courseassigned');
+        $qid = $this->general->decryptParaID($qid, 'anq');
+
+        $info = $this->Teacher_model->getCourseDataByAssignID($id);
+        $qnainfo = $this->Teacher_model->getQnA($qid);
+        $students = $this->Teacher_model->getStudentsByClassID($info['classid']);
+        $emaillist = array();
+        foreach ($students as $student) {
+            if($found = $this->Teacher_model->checkNoSubmission($student['studentid'], $qid)){
+            }
+            else{
+                array_push($emaillist, $student['email']);
+            }
+        }
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'healthybonefamily@gmail.com',
+            'smtp_pass' => 'healthybonefamilycb4',
+        );
+
+        $this->load->library('email', $config);
+        $this->email->set_newline('\r\n');
+        $this->email->from('healthybonefamily@gmail.com', 'your Name');
+        $this->email->to($emaillist);
+        $this->email->subject($info['coursename'].' '.$qnainfo['type'].' Notification');
+        $this->email->message('This is the notification for:\n\n
+        Course : '.$info['coursename'].'\n
+        Type : '.$qnainfo['type'].'\n
+        Due Date : '.$qnainfo['duedate'].'\n\n');
+
+        if($this->email->send())
+            $this->nativesession->set("success","Email sent successfully.");
+        else
+            $this->nativesession->set("error",$this->email->print_debugger());
+
+        $eid = $this->general->encryptParaID($id, 'courseassigned');
+        $qid = $this->general->encryptParaID($qid, 'anq');
+        redirect('teacher/courseAssignmentQuizSubmission/'.$eid.'/'.$qid);
+
+        return TRUE;
+    }
+
+    public function sendQnAEmail($sid, $qid)
     {
+        $sid = $this->general->decryptParaID($sid, 'student');
+        $qid = $this->general->decryptParaID($qid, 'anq');
+
+
+        $qnainfo = $this->Teacher_model->getQnA($qid);
+        $assign = $this->Teacher_model->getAssignDataByQuizID($qid);
+        $info = $this->Teacher_model->getCourseDataByAssignID($assign['assignid']);
+        $student = $this->Teacher_model->getStudentDataByStudentID($sid);
+
         $config = Array(
             'protocol' => 'smtp',
             'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -1713,15 +1813,21 @@ class teacher extends CI_Controller {
           $this->load->library('email', $config);
           $this->email->set_newline('\r\n');
           $this->email->from('healthybonefamily@gmail.com', 'your Name');
-          $this->email->to('kharismaeve@yahoo.com');
-          $this->email->subject(' Your Subject here..');
-          $this->email->message('Your Message here..');
+          $this->email->to($student['email']);
+            $this->email->subject($info['coursename'].' '.$qnainfo['type'].' Notification');
+            $this->email->message('This is the notification for:\n\n
+            Course : '.$info['coursename'].'\n
+            Type : '.$qnainfo['type'].'\n
+            Due Date : '.$qnainfo['duedate'].'\n\n');
 
-        if($this->email->send())
-            $this->nativesession->set("success","Email sent successfully.");
-        else
-            $this->nativesession->set("error",$this->email->print_debugger());
-        redirect('teacher/courseAssignmentQuiz/s0001');
+            if($this->email->send())
+                $this->nativesession->set("success","Email sent successfully.");
+            else
+                $this->nativesession->set("error",$this->email->print_debugger());
+
+            $eid = $this->general->encryptParaID($assign['assignid'], 'courseassigned');
+            $qid = $this->general->encryptParaID($qid, 'anq');
+            redirect('teacher/courseAssignmentQuizSubmission/'.$eid.'/'.$qid);
 
         return TRUE;
 

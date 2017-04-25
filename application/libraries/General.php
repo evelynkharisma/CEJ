@@ -89,6 +89,11 @@ class General
             $value = substr($id,1) + 912;
             $id = $variable.$value;
         }
+        elseif($type == 'schedulesetting'){
+            $variable = ord('s');
+            $value = substr($id,1) + 987;
+            $id = $variable.$value;
+        }
         return $id;
     }
 
@@ -138,12 +143,29 @@ class General
             $id = substr($id, $variable) - 912;
             $id = 'i'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
+        elseif($type == 'schedulesetting'){
+            $variable = strlen(ord('s'));
+            $id = substr($id, $variable) - 987;
+            $id = 's'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
         return $id;
     }
     
     function checkPrivilege($role, $privilege){
         $result = $this->ci->Privilege_model->checkPrivilege($role, $privilege);
         return $result['status'];
+    }
+
+    function generateRandomCode(){
+        $length = 8;
+        $chars = '0123456789abcdefghjkmnoprstvwxyz';
+
+        $Code = '';
+        for ($i = 0; $i < $length; ++$i) {
+            $Code .= substr($chars, (((int) mt_rand(0, strlen($chars))) - 1), 1);
+        }
+        $Code = crypt($this->security->xss_clean($Code),'$6$rounds=5000$simsthesisproject$');
+        return strtoupper($Code);
     }
 
 }
