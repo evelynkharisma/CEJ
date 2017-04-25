@@ -30,7 +30,19 @@ class General
             redirect('');
         }
     }
-    
+
+    function StudentLogin() {
+        if ($this->isLogin() == TRUE) {
+            if ($this->ci->nativesession->get('role') != 0 && $this->ci->nativesession->get('role') != 1 && $this->ci->nativesession->get('role') != 2) {
+                $this->ci->nativesession->set('error', 'Access Denied');
+                redirect('');
+            }
+        } else {
+            $this->ci->nativesession->set('error', 'Access Denied');
+            redirect('');
+        }
+    }
+
     function encryptParaID($id, $type){
         if($type == 'teacher'){
             $variable = ord('t');

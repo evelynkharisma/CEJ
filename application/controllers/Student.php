@@ -4,6 +4,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class student extends CI_Controller {
 
     var $template = 'template';
+    var $profilephotopath = 'assets/img/teacher/profile/';
+    var $materialpath = 'assets/file/teacher/material/';
+    var $formpath = 'assets/file/forms/';
+    var $eventimagepath = 'assets/img/texteditor/';
+
+    function __construct() {
+        parent::__construct();
+//        $this->general->StudentLogin();
+        $this->load->model('Student_model');
+    }
 
     public function home()
     {
@@ -122,5 +132,15 @@ class student extends CI_Controller {
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_profile_edit_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function logout(){
+        $this->nativesession->delete('id');
+        $this->nativesession->delete('name');
+        $this->nativesession->delete('photo');
+        $this->nativesession->delete('role');
+        $this->nativesession->delete('lastlogin');
+        $this->nativesession->delete('is_login');
+        redirect('');
     }
 }
