@@ -51,7 +51,7 @@ class login extends CI_Controller {
 //					$this->Student_model->updateLastLogin($user['id']);
 
 				redirect('student/home');
-//				}
+				}
 			}
 			else if($loginas == 'teacher'){
 				$user = $this->Teacher_model->checkLogin($username, $password);
