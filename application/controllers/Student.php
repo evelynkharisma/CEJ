@@ -17,9 +17,13 @@ class student extends CI_Controller {
 
     public function home()
     {
-        $data['title'] = 'Student LMS';
+        $data['title'] = 'Student SMS';
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'),$this->nativesession->get('id'));
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
+//        $data['assignid'] = $this->Student_model->getStudentAssignid($this->nativesession->get('id'));
+        $data['events'] = $this->Student_model->getAllEvents($this->nativesession->get('id'), $this->nativesession->get('classid'));
         $data['content'] = 'student/student_home_view';
         $this->load->view($this->template, $data);
     }
@@ -28,7 +32,9 @@ class student extends CI_Controller {
     {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
+        $data['attendances'] = $this->Student_model->getAttendanceList($this->nativesession->get('classid'),$this->nativesession->get('id'));
         $data['content'] = 'student/learning_attendance_view';
         $this->load->view($this->template, $data);
     }
@@ -64,7 +70,9 @@ class student extends CI_Controller {
     {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
+        $data['submissions'] = $this->Student_model->getSubmission($this->nativesession->get('id'), $this->nativesession->get('classid'));
         $data['content'] = 'student/student_course_qna_view';
         $this->load->view($this->template, $data);
     }
@@ -73,6 +81,7 @@ class student extends CI_Controller {
     {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_course_material_view';
         $this->load->view($this->template, $data);
@@ -82,6 +91,7 @@ class student extends CI_Controller {
     {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_course_plan_view';
         $this->load->view($this->template, $data);
@@ -91,6 +101,7 @@ class student extends CI_Controller {
     {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_course_student_view';
         $this->load->view($this->template, $data);
@@ -100,6 +111,7 @@ class student extends CI_Controller {
     {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_course_view';
         $this->load->view($this->template, $data);
@@ -109,6 +121,7 @@ class student extends CI_Controller {
     {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_course_view';
         $this->load->view($this->template, $data);
@@ -119,16 +132,16 @@ class student extends CI_Controller {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
         $data['topnavigation'] = 'student/student_topnavigation';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['content'] = 'student/student_profile_view';
         $this->load->view($this->template, $data);
     }
-
-
 
     public function student_profile_edit()
     {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_profile_edit_view';
         $this->load->view($this->template, $data);

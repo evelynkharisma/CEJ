@@ -29,6 +29,7 @@ class login extends CI_Controller {
                 if (!empty($user)) {
                     $this->nativesession->set( 'id', $user['studentid'] );
                     $this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
+                    $this->nativesession->set( 'classid', $user['classid'] );
 //                    $this->nativesession->set( 'photo', $user['photo'] );
 //                    $this->nativesession->set( 'role', $user['role'] );
 //                    $this->nativesession->set( 'lastlogin', $user['lastlogin'] );
