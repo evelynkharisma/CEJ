@@ -18,28 +18,22 @@
                                 <div class="profile_img">
                                     <div class="teacher_profile_crop">
                                         <!-- Current avatar -->
-                                        <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="Avatar" title="Change the avatar">
+                                        <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="Avatar" title="Change the avatar">
                                     </div>
                                 </div>
                             </div>
-                           <div class="col-md-4 col-sm-6 col-xs-12">
-                                <h3>Janis Giovani Tan</h3>
+                           <div class="col-md-4 col-sm-6 col-xs-12"><br>
+                                <h3><?php echo ucfirst($student['firstname']).' '.ucfirst($student['lastname'])?></h3>
                                 <ul class="list-unstyled user_data">
-                                    <li><i class="fa fa-map-marker user-profile-icon"></i> Jakarta
                                     </li>
-
-                                    <li>
-                                        <i class="fa fa-briefcase user-profile-icon"></i> Computer Science
-                                    </li>
-
                                     <li class="m-top-xs">
-                                        <i class="fa fa-phone user-profile-icon"></i>
-                                        <a href="http://www.kimlabs.com/profile/" target="_blank"> 08382703093</a>
+                                        <i class="fa fa-calendar-o user-profile-icon"></i>
+                                        <a href="http://www.kimlabs.com/profile/" target="_blank"><?php echo $student['phone']?></a>
                                     </li>
 
                                     <li class="m-top-xs">
                                         <i class="fa fa-external-link user-profile-icon"></i>
-                                        <a href="http://www.kimlabs.com/profile/" target="_blank"> janisgtan@gmail.com</a>
+                                        <a href="http://www.kimlabs.com/profile/" target="_blank"> <?php echo $student['email']?></a>
                                     </li>
                                 </ul>
                                 <a href="<?php echo base_url() ?>index.php/student/student_profile_edit" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
@@ -55,25 +49,25 @@
                                 <div class="col-md-6">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Name</div>
-                                        <div class="teacher_profile_value">Janis Giovani Tan</div>
+                                        <div class="teacher_profile_value"><?php echo ucfirst($student['firstname']).' '.ucfirst($student['lastname'])?></div>
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Place of Birth</div>
-                                        <div class="teacher_profile_value">Tasikmalaya</div>
+                                        <div class="teacher_profile_value"><?php echo ucfirst($student['placeofbirth'])?></div>
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Religion</div>
-                                        <div class="teacher_profile_value">Christian</div>
+                                        <div class="teacher_profile_value"><?php echo ucfirst($student['religion'])?></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Date of Birth</div>
-                                        <div class="teacher_profile_value">9 June 1996</div>
+                                        <div class="teacher_profile_value"><?php echo date('d', strtotime($student['dateofbirth'])).' '.date('F', strtotime($student['dateofbirth'])).' '.date('Y', strtotime($student['dateofbirth']))?></div>
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Gender</div>
-                                        <div class="teacher_profile_value">Female</div>
+                                        <div class="teacher_profile_value"><?php echo ucfirst($student['gender'])?></div>
                                     </div>
                                 </div>
                             </div>
@@ -87,27 +81,23 @@
                             <div class="col-md-12">
                                 <div class="col-md-6">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Graduate</div>
-                                        <div class="teacher_profile_value">Bina Nusantara</div>
-                                    </div>
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Undergraduate</div>
-                                        <div class="teacher_profile_value">Bina Nusantara</div>
+                                        <div class="teacher_profile_label">Elementary School</div>
+                                        <div class="teacher_profile_value"><?php echo ucfirst($student['elementary'])?></div>
                                     </div>
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">High School</div>
-                                        <div class="teacher_profile_value">SMAN 1 Tasikmalaya</div>
+                                        <div class="teacher_profile_value"><?php echo ucfirst($student['seniorhigh'])?></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Junior High School</div>
-                                        <div class="teacher_profile_value">SMPN 1 Tasikmalaya</div>
+                                        <div class="teacher_profile_value"><?php echo ucfirst($student['juniorhigh'])?></div>
                                     </div>
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Elementary School</div>
-                                        <div class="teacher_profile_value">SDK Bina Bakti</div>
-                                    </div>
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">Graduate</div>-->
+<!--                                        <div class="teacher_profile_value">Bina Nusantara</div>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </div>

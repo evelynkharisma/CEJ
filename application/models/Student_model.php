@@ -2,8 +2,9 @@
 class Student_model extends CI_Model {
 
     var $table = 'student';
-//    var $course_table = 'course';
-//    var $course_assign_table = 'course_assign';
+    var $course_table = 'course';
+    var $course_assign_table = 'course_assign';
+    var $attendance_table = 'attendance';
 //    var $material_table = 'material';
 //    var $file_table = 'file';
 //    var $qna_table = 'assignmentandquiz';
@@ -13,13 +14,12 @@ class Student_model extends CI_Model {
 //    var $student_table = 'student';
 //    var $report_table = 'report';
 //    var $class_table = 'class';
-//    var $attendance_table = 'attendance';
 //    var $homeroom_table = 'homeroom';
 //    var $semester_table = 'semester';
 //    var $form_table = 'forms';
-//    var $event_table = 'events';
+    var $event_table = 'events';
 //    var $setting_table = 'settings';
-//    var $event_image_table = 'event_images';
+    var $event_image_table = 'event_images';
 
     function __construct() {
         parent::__construct();
@@ -180,10 +180,14 @@ class Student_model extends CI_Model {
         return FALSE;
     }
 
-    function getAllCourses(){
-        $this->db->select('*');
+    function getStudentCourses($classid, $studentid){
 
-        $query = $this->db->get($this->course_table);
+        $this->db->select('*');
+        $this->db->from('course course');
+        $this->db->join('course_assign course_assign', 'course.courseid=course_assign.courseid');
+        $this->db->where('course_assign.classid',$classid);
+
+        $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
@@ -698,7 +702,35 @@ class Student_model extends CI_Model {
           }
       }
 
-      function getAttendanceLatestID(){
+*/
+      function getAttendanceList($classid, $studentid){
+          $this->db->select('*');
+          $this->db->where('classid', $classid);
+          $this->db->where('studentid', $studentid);
+          $this->db->order_by('date', 'asc');
+
+          $query = $this->db->get($this->attendance_table);
+
+          if ($query->num_rows() > 0) {
+              return $query->result_array();
+          }
+      }
+
+      function getStudentAssignid($classid, $studentid) {
+          $this->db->select('assignid');
+          $this->db->from('student');
+          $this->db->from('course_assign');
+          $this->db->where('student.studentid', $studentid);
+          $this->db->where('course_assign.classid', $classid);
+
+          $query = $this->db->get();
+
+          if ($query->num_rows() > 0) {
+              return $query->result_array();
+          }
+      }
+
+/*      function getAttendanceLatestID(){
           $this->db->select('attendanceid');
           $this->db->order_by("attendanceid", "desc");
           $this->db->limit(1);
@@ -1023,21 +1055,53 @@ class Student_model extends CI_Model {
           }
           return FALSE;
       }
+*/
 
-      function getAllEvents($id){
-          $this->db->select('*');
-          $status_array = array($id,'0');
-          $this->db->where_in('teacherid', $status_array);
+      function getAllEvents($id, $classid){
+         /* $this->db->select('events.eventid as eventid, events.title as title, events.description as description, events.teacherid as teacherid, events.assignid as assignid, events.date as date');
+          $this->db->from('events');
+          $this->db->from('course_assign');
+          $this->db->where('course_assign.assignid=events.assignid');
+          $this->db->where('course_assign.classid', $classid);
+          $this->db->where('events.date >=' ,date('Y-m-d', now()));
+          $this->db->order_by('events. date', 'asc');
+          $query1 = $this->db->get_compiled_select();
+
+          $this->db->select('events.eventid as eventid, events.title as title, events.description as description, events.teacherid as teacherid, events.assignid as assignid, events.date as date');
+          $this->db->from('events');
+          $this->db->where('assignid=\'0\'');
+          $this->db->where('date >=' ,date('Y-m-d', now()));
+          $this->db->order_by('date', 'asc');
+          $query2 = $this->db->get_compiled_select();
+
+
+          $query = $this->db->query('('. $query1 . ') UNION ALL (' . $query2 .')' );
+          if ($query->num_rows() > 0) {
+              return $query->result_array();
+          }*/
+
+
+          $this->db->select('events.eventid as eventid, events.title as title, events.description as description, events.teacherid as teacherid, events.assignid as assignid, events.date as date');
+
+          $this->db->distinct();
+          $this->db->from('events');
+//          $this->db->from('student');
+          $this->db->join('course_assign','course_assign.assignid=events.assignid or events.assignid=\'0\'');
+          $this->db->join('student','student.classid=course_assign.classid');
+//          $this->db->where('course_assign.classid', $classid);
+          $this->db->where('student.studentid', $id);
+//          $this->db->where('student.classid', $classid);
           $this->db->where('date >=' ,date('Y-m-d', now()));
           $this->db->order_by('date', 'asc');
 
-          $query = $this->db->get($this->event_table);
+          $query = $this->db->get();
 
           if ($query->num_rows() > 0) {
               return $query->result_array();
           }
-      }
 
+      }
+/*
       function getAllEventsCount($id, $lastlogin){
           $this->db->select('*');
           $status_array = array($id,'0');
@@ -1153,19 +1217,22 @@ class Student_model extends CI_Model {
           $this->db->insert($this->event_table, $data);
       }
 
-      function getSubmission($id){
-          $this->db->select('*');
-          $this->db->join('student', 'student.studentid = assignmentandquizscore.studentid');
-          $this->db->order_by('submissiondate', 'desc');
-          $this->db->where('anqid', $id);
+*/
+      function getSubmission($id, $classid){
+//          $this->db->select('*');
+//          $this->db->join('student', 'student.studentid = assignmentandquizscore.studentid');
+//          $this->db->order_by('submissiondate', 'desc');
+//          $this->db->where('anqid', $id);
+//          $query = $this->db->get($this->qnascore_table);
 
-          $query = $this->db->get($this->qnascore_table);
+          $sql = 'SELECT * FROM assignmentandquizscore, assignmentandquiz WHERE assignmentandquizscore.anqid IN (SELECT anqid FROM assignmentandquiz WHERE assignid IN (SELECT course_assign.assignid FROM course_assign, student WHERE course_assign.classid=student.classid AND student.studentid=\''.$id.'\')) AND assignmentandquizscore.studentid=\''.$id.'\' AND assignmentandquiz.anqid=assignmentandquizscore.anqid';
 
+          $query = $this->db->query($sql);
           if ($query->num_rows() > 0) {
               return $query->result_array();
           }
       }
-
+/*
       function checkNoSubmission($sid, $qid){
           $this->db->select('*');
           $this->db->where('studentid', $sid);
