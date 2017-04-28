@@ -7,11 +7,11 @@
 <!-- menu profile quick info -->
 <div class="profile clearfix">
     <div class="profile_pic">
-        <img src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="..." class="img-circle profile_img">
+        <img src="<?php echo base_url() ?>assets/img/student/janis.jpg" alt="..." class="img-circle profile_img">
     </div>
     <div class="profile_info">
         <span>Welcome,</span>
-        <h2><?php echo ucfirst($student['firstname']).' '.ucfirst($student['lastname'])?></h2>
+        <h2>Janis Giovani</h2>
     </div>
 </div>
 <!-- /menu profile quick info -->

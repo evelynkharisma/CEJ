@@ -13,49 +13,82 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><?php echo date('d F Y', now())?></h2>
+                        <h2>23 January 2017</h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <table id="attendance" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Date</th>
+                                <th>Name</th>
                                 <th>Action</th>
                                 <th>Comment</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                if($attendances){
-                                    $i = 0;
-                                foreach($attendances as $attendance) { ?>
-                                    <tr>
-                                        <td><?php echo date('d', strtotime($attendance['date'])).' '.date('F', strtotime($attendance['date'])).' '.date('Y', strtotime($attendance['date'])) ?></td>
-                                        <td>
-                                            <div class="teacher_attendance_radio">
-                                                <input class="present" type="radio" id="present_<?php echo $attendance['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="p" <?php echo ($attendance['status']=='p')?'checked':'' ?>>
-                                                <label for="absent_<?php echo $attendance['studentid'] ?>">P</label>
+                            <tr>
+                                <td>Chelsy</td>
+                                <td>
+                                    <div class="teacher_attendance_radio">
+                                        <input class="present" type="radio" id="present" name="attendance" value="p" checked>
+                                        <label for="present">P</label>
 
-                                                <input class="absent" type="radio" id="absent_<?php echo $attendance['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="a" <?php echo ($attendance['status']=='a')?'checked':'' ?>>
-                                                <label for="absent_<?php echo $attendance['studentid'] ?>">A</label>
+                                        <input class="absent" type="radio" id="absent" name="attendance" value="a">
+                                        <label for="absent">A</label>
 
-                                                <input class="late" type="radio" id="late_<?php echo $attendance['studentid'] ?>" name="attendance[<?php echo $i ?>]" value="l" <?php echo ($attendance['status']=='l')?'checked':'' ?>>
-                                                <label for="absent_<?php echo $attendance['studentid'] ?>">L</label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                                <input type="text" class="form-control has-feedback-left"
-                                                       id="attendance_comment" value="<?php echo $attendance['description']?>" disabled>
-                                                <span class="fa fa-comment form-control-feedback left"
-                                                      aria-hidden="true"></span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php
-                                    $i++;}}
-                                ?>
+                                        <input class="late" type="radio" id="late" name="attendance" value="l">
+                                        <label for="late">L</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                        <input type="text" class="form-control has-feedback-left" id="attendance_comment" placeholder="Comment">
+                                        <span class="fa fa-comment form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Evelyn Kharisma</td>
+                                <td>
+                                    <div class="teacher_attendance_radio">
+                                        <input class="present" type="radio" id="present_eve" name="attendance_eve" value="p" checked>
+                                        <label for="present_eve">P</label>
+
+                                        <input class="absent" type="radio" id="absent_eve" name="attendance_eve" value="a">
+                                        <label for="absent_eve">A</label>
+
+                                        <input class="late" type="radio" id="late_eve" name="attendance_eve" value="l">
+                                        <label for="late_eve">L</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                        <input type="text" class="form-control has-feedback-left" id="attendance_comment" placeholder="Comment">
+                                        <span class="fa fa-comment form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Janis Giovani Tan</td>
+                                <td>
+                                    <div class="teacher_attendance_radio">
+                                        <input class="present" type="radio" id="present_jan" name="attendance_jan" value="p" checked>
+                                        <label for="present_jan">P</label>
+
+                                        <input class="absent" type="radio" id="absent_jan" name="attendance_jan" value="a">
+                                        <label for="absent_jan">A</label>
+
+                                        <input class="late" type="radio" id="late_jan" name="attendance_jan" value="l">
+                                        <label for="late_jan">L</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                        <input type="text" class="form-control has-feedback-left" id="attendance_comment" placeholder="Comment">
+                                        <span class="fa fa-comment form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

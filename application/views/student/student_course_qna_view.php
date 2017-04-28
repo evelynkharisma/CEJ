@@ -95,19 +95,24 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php
-                                if($submissions){
-                                foreach($submissions as $submission) { ?>
-                                    <tr>
-                                        <td><?php echo $submission['topic']?></td>
-                                        <td><?php echo $submission['type']?></td>
-                                        <td><?php echo date('d', strtotime($submission['uploaddate'])).' '.date('F', strtotime($submission['uploaddate'])).' '.date('Y', strtotime($submission['uploaddate']))?></td>
-                                        <td><?php echo date('d', strtotime($submission['duedate'])).' '.date('F', strtotime($submission['duedate'])).' '.date('Y', strtotime($submission['duedate']))?></td>
-                                        <td>
-                                        <a href="<?php echo base_url() ?>index.php/student/courseAssignmentQuizSubmission" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
-                                        </td>
-                                    </tr>
-                            <?php }}?>
+                            <tr>
+                                <td>Topic Session 1</td>
+                                <td>Assignment</td>
+                                <td>Tanggal Upload</td>
+                                <td>Tanggal Due</td>
+                                <td>
+                                    <a href="<?php echo base_url() ?>index.php/student/courseAssignmentQuizSubmission" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Topic Session 1</td>
+                                <td>Quiz</td>
+                                <td>Tanggal Upload</td>
+                                <td>Tanggal Due</td>
+                                <td>
+                                    <a href="<?php echo base_url() ?>index.php/student/courseAssignmentQuizSubmission" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
