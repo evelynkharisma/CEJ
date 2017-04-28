@@ -315,7 +315,7 @@ class Parent_model extends CI_Model {
         $this->db->select('*');
         $status_array = array($id,'0');
         $this->db->where_in('teacherid', $status_array);
-        $this->db->where('date >=' ,date('Y-m-d', $lastlogin));
+        $this->db->where('date >=' ,$lastlogin);
         $this->db->where('date >=' ,date('Y-m-d', now()));
         $this->db->order_by('date', 'desc');
 

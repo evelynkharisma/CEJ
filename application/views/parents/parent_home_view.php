@@ -171,7 +171,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Upcoming Event or Deadline</h2>
@@ -182,7 +182,7 @@
                         if($events){
                             foreach($events as $event){ ?>
                                 <article class="media event">
-                                    <a class="pull-left date <?php echo isset($event['teacherid']) && $event['teacherid'] != '0' ? 'quizandassignment' : '' ?>">
+                                    <a class="pull-left date <?php echo $event['assignid'] != '0' ? 'quizandassignment' : '' ?>">
                                         <p class="month"><?php echo date('F', strtotime($event['date'])) ?></p>
                                         <p class="day"><?php echo date('d', strtotime($event['date'])) ?></p>
                                     </a>
@@ -190,7 +190,7 @@
                                         <a class="title" href="#"><?php echo $event['title'] ?></a>
                                         <p><?php echo substr($event['description'],0,80) ?>...</p>
                                         <div class="teacher_dashboard_deadline">
-                                            <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/parents/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
+                                            <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
                                         </div>
                                     </div>
                                 </article>

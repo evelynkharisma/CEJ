@@ -7,11 +7,11 @@
 <!-- menu profile quick info -->
 <div class="profile clearfix">
     <div class="profile_pic">
-        <img src="<?php echo base_url() ?>assets/img/parents/profile/<?php echo $this->session->userdata('photo') ?>" alt="..." class="img-circle profile_img">
+        <img src="<?php echo base_url() ?>assets/img/parents/profile/<?php echo $this->nativesession->get('photo') ?>" alt="..." class="img-circle profile_img">
     </div>
     <div class="profile_info">
         <span>Welcome,</span>
-        <h2><?php echo $this->session->userdata('name');?></h2>
+        <h2><?php echo $this->nativesession->get('name') ?></h2>
     </div>
 </div>
 <!-- /menu profile quick info -->
