@@ -33,7 +33,7 @@
                     <div class="x_title">
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
+                     <iv class="x_content">
                             <?php
                             if($info_dbs){
                                 foreach($info_dbs as $event){ ?>
@@ -62,12 +62,8 @@
                                     </article>
                                 <?php }}
                             else {?>
-                                <tr>
-                                    <td colspan="3"><?php echo 'no event found' ?></td>
-                                </tr>
+                                    <?php echo 'no event found' ?>
                             <?php } ?>
-
-                        </table>
                     </div>
                 </div>
             </div>

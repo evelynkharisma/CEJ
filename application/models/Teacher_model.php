@@ -21,6 +21,10 @@ class Teacher_model extends CI_Model {
     var $setting_table = 'settings';
     var $event_image_table = 'event_images';
     var $schedule_course_table = 'schedule_course';
+    var $item_table = 'items';
+    var $item_request_table = 'item_request';
+    var $book_request_table = 'book_request';
+    var $fotocopy_request_table = 'fotocopy_request';
 
     function __construct() {
         parent::__construct();
@@ -210,12 +214,13 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function addScheduleSetting($id, $t, $c, $grade){
+    function addScheduleSetting($id, $t, $c, $grade, $f){
         $data = array(
             'scid' => $id,
             'teacherid' => $t,
             'courseid' => $c,
             'grade' => $grade,
+            'frequency' => $f
         );
         $this->db->insert($this->schedule_course_table, $data);
     }
@@ -811,6 +816,16 @@ class Teacher_model extends CI_Model {
         );
         $this->db->insert($this->attendance_table, $data);
     }
+
+    function getAllStudent(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->student_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
     
     function getAllTeacher(){
         $this->db->select('*');
@@ -1094,11 +1109,29 @@ class Teacher_model extends CI_Model {
         return FALSE;
     }
 
+    function getAllEventNoRestriction(){
+        $this->db->select('*');
+
+        $this->db->where('date >=' ,date('Y-m-d', now()));
+        
+        $this->db->order_by('date', 'asc');
+
+        $query = $this->db->get($this->event_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getAllEvents($id){
         $this->db->select('*');
-        $status_array = array($id,'0');
-        $this->db->where_in('teacherid', $status_array);
+//        $status_array = array($id,'0');
+        $where1 = "(teacherid='0' OR teacherid='1' OR teacherid='$id')";
+        $where2 = "(teacherid='3' AND participant LIKE '%$id%')";
+
         $this->db->where('date >=' ,date('Y-m-d', now()));
+        $this->db->where($where1);
+        $this->db->or_where($where2);
         $this->db->order_by('date', 'asc');
 
         $query = $this->db->get($this->event_table);
@@ -1110,10 +1143,16 @@ class Teacher_model extends CI_Model {
 
     function getAllEventsCount($id, $lastlogin){
         $this->db->select('*');
-        $status_array = array($id,'0');
-        $this->db->where_in('teacherid', $status_array);
+//        $status_array = array($id,'0','1');
+        $where1 = "(teacherid='0' OR teacherid='1' OR teacherid='$id')";
+        $where2 = "(teacherid='3' AND participant LIKE '%$id%')";
+
         $this->db->where('date >=' ,$lastlogin);
         $this->db->where('date >=' ,date('Y-m-d', now()));
+        $this->db->where($where1);
+        $this->db->or_where($where2);
+
+
         $this->db->order_by('date', 'desc');
 
         $query = $this->db->get($this->event_table);
@@ -1154,13 +1193,34 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function addEvent($id){
+    function addEvent($id, $p){
+        if($p == '0'){ //all participant
+            $tid = 0;
+            $sid = 0;
+            $p = 0;
+        }
+        elseif($p == '1'){
+            $tid = 1; //teacher participant only
+            $sid = 0;
+            $p = 1;
+        }
+        elseif($p == '2'){
+            $tid = 0;
+            $sid = 2; //student participant only
+            $p = 2;
+        }
+        else{
+            $tid = 3; //special participant only
+            $sid = 3; //special participant only
+        }
         $data = array(
             'eventid' => $id,
             'title' => $this->input->post('title'),
             'description' => $this->input->post('description'),
             'date' => $this->input->post('duedate'),
-            'teacherid' => 0,
+            'teacherid' => $tid,
+            'assignid' => $sid,
+            'participant' => $p
         );
         $this->db->insert($this->event_table, $data);
     }
@@ -1359,6 +1419,139 @@ class Teacher_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    function getAllItems(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->item_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllRequestedByTeacher($i, $t){
+        $this->db->select('*');
+        $this->db->where('itemid', $i);
+        $this->db->where('teacherid', $t);
+
+        $query = $this->db->get($this->item_request_table,1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editRequestedItem($id, $n){
+        $data = array(
+            'number' => $n
+        );
+        $this->db->where('itemid', $id);
+        $this->db->update($this->item_request_table, $data);
+    }
+
+    function getRequestLatestID(){
+        $this->db->select('requestid');
+        $this->db->order_by("requestid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->item_request_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addRequest($id, $iid, $tid, $n){
+        $data = array(
+            'requestid' => $id,
+            'itemid' => $iid,
+            'teacherid' => $tid,
+            'number' => $n,
+        );
+        $this->db->insert($this->item_request_table, $data);
+    }
+
+    function getAllBooksRequested($id){
+        $this->db->select('*');
+        $this->db->where('teacherid', $id);
+
+        $query = $this->db->get($this->book_request_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function editBookRequest($id){
+        $data = array(
+            'number' => $this->input->post('value'),
+        );
+        $this->db->where('brequestid', $id);
+        $this->db->update($this->book_request_table, $data);
+    }
+
+    function getBookRequestLatestID(){
+        $this->db->select('brequestid');
+        $this->db->order_by("brequestid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->book_request_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addBookRequest($id, $tid){
+        $data = array(
+            'brequestid' => $id,
+            'isbn' => $this->input->post('isbn'),
+            'name' => $this->input->post('name'),
+            'teacherid' => $tid,
+            'number' => $this->input->post('value'),
+        );
+        $this->db->insert($this->book_request_table, $data);
+    }
+
+    function getAllFotocopyRequested($id){
+        $this->db->select('*');
+        $this->db->where('teacherid', $id);
+
+        $query = $this->db->get($this->fotocopy_request_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function editFotocopyRequest($id){
+        $data = array(
+            'number' => $this->input->post('value'),
+        );
+        $this->db->where('frequestid', $id);
+        $this->db->update($this->fotocopy_request_table, $data);
+    }
+
+    function getFotocopyRequestLatestID(){
+        $this->db->select('frequestid');
+        $this->db->order_by("frequestid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->fotocopy_request_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addFotocopyRequest($id, $tid){
+        $data = array(
+            'frequestid' => $id,
+            'isbn' => $this->input->post('isbn'),
+            'name' => $this->input->post('name'),
+            'teacherid' => $tid,
+            'number' => $this->input->post('value'),
+        );
+        $this->db->insert($this->fotocopy_request_table, $data);
     }
 }
 

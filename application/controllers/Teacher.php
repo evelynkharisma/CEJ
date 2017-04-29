@@ -1290,18 +1290,20 @@ class teacher extends CI_Controller {
     public function addScheduleSetting(){
         $this->form_validation->set_rules('teacher', 'Teacher', 'required');
         $this->form_validation->set_rules('course', 'Course', 'required');
+        $this->form_validation->set_rules('frequency', 'Frequency', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
             $tid = $this->input->post('teacher');
             $cid = $this->input->post('course');
+            $frequency = $this->input->post('frequency');
             $gradeList = $this->input->post('grade');
             $grade = implode("|", $gradeList);
             $latestID = $this->Teacher_model->getScheduleSettingLatestID();
             $latestID = $latestID['scid'];
             $latestID = substr($latestID, 1);
             $latestID = 's'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-            $this->Teacher_model->addScheduleSetting($latestID, $tid, $cid, $grade);
+            $this->Teacher_model->addScheduleSetting($latestID, $tid, $cid, $grade, $frequency);
             $this->nativesession->set('success', 'Schedule Assign saved');
             redirect('teacher/createSchedule');
         }
@@ -1448,15 +1450,44 @@ class teacher extends CI_Controller {
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
         $this->form_validation->set_rules('duedate', 'Date', 'required');
+//        $this->form_validation->set_rules('participant[]', 'Participant', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
             $latestID = $this->Teacher_model->getEventLatestID();
             $latestID = $latestID['eventid'];
             $latestID = substr($latestID, 1);
             $latestID = 'v'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-            $this->Teacher_model->addEvent($latestID);
+            $participantList = $this->input->post('participant');
+            $participant = '';
+            for($i=0;$i<sizeof($participantList);$i++)
+            {
+                if($participantList[$i] == '0'){
+                    $this->Teacher_model->addEvent($latestID, 0);
+                    $notall = false;
+                    break;
+                }
+                elseif($participantList[$i] == '1'){
+                    $this->Teacher_model->addEvent($latestID, 1);
+                    $notall = false;
+                    break;
+                }
+                elseif($participantList[$i] == '3'){
+                    $this->Teacher_model->addEvent($latestID, 2);
+                    $notall = false;
+                    break;
+                }
+                else{
+                    $participant = $participant.'|'.$participantList[$i];
+                    $notall = true;
+                }
+            }
+            if($notall == true){
+                $this->Teacher_model->addEvent($latestID, $participant);
+                $this->nativesession->set('success', 'New Event Added '.$participant);
+                redirect('teacher/eventList/');
+            }
 
-            $this->nativesession->set('success', 'New Event Added');
+            $this->nativesession->set('success', 'New Event Added '.$participant);
             redirect('teacher/eventList/');
         }
         $data['title'] = 'SMS';
@@ -1464,6 +1495,8 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['teachers'] = $this->Teacher_model->getAllTeacher();
+        $data['students'] = $this->Teacher_model->getAllStudent();
         $data['images'] = $this->Teacher_model->getAllEventImages();
         $data['content'] = 'teacher/add_event_view';
         $this->load->view($this->template, $data);
@@ -1575,7 +1608,12 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->nativesession->get('id'));
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0007') == 1){
+            $data['info_dbs'] = $this->Teacher_model->getAllEventNoRestriction();
+        }
+        else{
+            $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->nativesession->get('id'));
+        }
         $data['content'] = 'teacher/event_view';
         $this->load->view($this->template, $data);
     }
@@ -1730,6 +1768,147 @@ class teacher extends CI_Controller {
         $data['info_dbs'] = $this->Teacher_model->getAllSettings();
         $data['content'] = 'teacher/teacher_settings_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function requestItem()
+    {
+        $id = $this->nativesession->get('id');
+
+//        $savebutton = $this->input->post('savebutton');
+//        if($savebutton == 'itemrequest'){
+//            $itemid = $this->input->post('itemid');
+//            $number = $this->input->post('value');
+//            for($i=0;$i<sizeof($itemid);$i++)
+//            {
+//                if($result = $this->Teacher_model->getAllRequestedByTeacher($itemid[$i], $id)){
+//                    $this->Teacher_model->editRequestedItem($result['itemid'], $number[$i]);
+//                }
+//                else{
+//                    $latestID = $this->Teacher_model->getRequestLatestID();
+//                    $latestID = $latestID['requestid'];
+//                    $latestID = substr($latestID, 1);
+//                    $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+//                    $this->Teacher_model->addRequest($latestID, $itemid[$i], $id, $number[$i]);
+//                }
+//            }
+//            $this->nativesession->set('success', 'Request Submitted');
+//            redirect('teacher/requestItem/');
+//        }
+
+        $itemlist = $this->Teacher_model->getAllItems();
+        $a = 0;
+        $j = 0;
+        foreach ($itemlist as $i){
+            if($found = $this->Teacher_model->getAllRequestedByTeacher($i['itemid'], $id)){
+                $request[$a]['itemid'] = $i['itemid'];
+                $request[$a]['name'] = $i['name'];
+                $request[$a]['value'] = $found['number'];
+                $a++;
+            }
+            else{
+                $items[$j]['itemid'] = $i['itemid'];
+                $items[$j]['name'] = $i['name'];
+                $j++;
+            }
+        }
+        if(isset($items)){
+            $data['items'] = $items;
+        }
+        if(isset($request)){
+            $data['request'] = $request;
+        }
+        $data['requestbook'] = $this->Teacher_model->getAllBooksRequested($id);
+        $data['requestfotocopy'] = $this->Teacher_model->getAllFotocopyRequested($id);
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/teacher_request_item_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addRequestItem()
+    {
+        $id = $this->nativesession->get('id');
+        
+        $itemid = $this->input->post('itemid');
+        $number = $this->input->post('value');
+        for($i=0;$i<sizeof($itemid);$i++)
+        {
+            if($result = $this->Teacher_model->getAllRequestedByTeacher($itemid[$i], $id)){
+                $this->Teacher_model->editRequestedItem($result['itemid'], $number[$i]);
+            }
+            else{
+                if($number[$i] != null || $number[$i] != 0){
+                    $latestID = $this->Teacher_model->getRequestLatestID();
+                    $latestID = $latestID['requestid'];
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $this->Teacher_model->addRequest($latestID, $itemid[$i], $id, $number[$i]);
+                }
+            }
+        }
+        $this->nativesession->set('success', 'Request Submitted');
+        redirect('teacher/requestItem/');
+    }
+
+    public function editBookRequest($id){
+            $this->Teacher_model->editBookRequest($id);
+            $this->nativesession->set('success', 'Book Request Edited');
+            redirect('teacher/requestItem/');
+    }
+
+    public function addBookRequest()
+    {
+        $id = $this->nativesession->get('id');
+        
+        $this->form_validation->set_rules('isbn', 'ISBN', 'required');
+        $this->form_validation->set_rules('name', 'Title', 'required');
+        $this->form_validation->set_rules('value', 'Number', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Teacher_model->getBookRequestLatestID();
+            $latestID = $latestID['brequestid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'b'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            
+            $this->Teacher_model->addBookRequest($latestID, $id);
+                
+            $this->nativesession->set('success', 'New Book Request Added');
+            redirect('teacher/requestItem/');
+        }else{
+            redirect('teacher/requestItem/');
+        }
+    }
+
+    public function editFotocopyRequest($id){
+        $this->Teacher_model->editFotocopyRequest($id);
+        $this->nativesession->set('success', 'Fotocopy Request Edited');
+        redirect('teacher/requestItem/');
+    }
+
+    public function addFotocopyRequest()
+    {
+        $id = $this->nativesession->get('id');
+
+        $this->form_validation->set_rules('isbn', 'ISBN', 'required');
+        $this->form_validation->set_rules('name', 'Title', 'required');
+        $this->form_validation->set_rules('value', 'Number', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Teacher_model->getFotocopyRequestLatestID();
+            $latestID = $latestID['frequestid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'f'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+
+            $this->Teacher_model->addFotocopyRequest($latestID, $id);
+
+            $this->nativesession->set('success', 'New Fotocopy Request Added');
+            redirect('teacher/requestItem/');
+        }else{
+            redirect('teacher/requestItem/');
+        }
     }
     
     public function editSetting($id){

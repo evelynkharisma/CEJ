@@ -40,9 +40,9 @@
                     <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Add Course</a>
                     <?php } ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/allCourse">All Courses</a>
+                    <?php if($courses){ ?>
                     <li>
                         <?php
-                        if($courses){
                             foreach ($courses as $course){
                                 $grade = explode('-', $course['classroom']);
                                 $grade = $grade[0];
@@ -99,7 +99,7 @@
                                         $grade13[] = $course;
                                         break;
                                 }
-                            }}
+                            }
                         ?>
                         <?php
                             for($i=1; $i<14; $i++){
@@ -117,7 +117,7 @@
                                 </ul>
                                 <?php endif; ?>
                         <?php  } ?>
-                    </li>
+                    </li> <?php } ?>
                 </ul>
             </li>
             <li><a><i class="fa fa-table"></i> Schedule <span class="fa fa-chevron-down"></span></a>

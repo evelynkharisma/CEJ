@@ -46,6 +46,35 @@
                                 <input name="duedate" id="duedate" class="date-picker form-control col-md-7 col-xs-12" type="text">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12 set-margin-top">Participant</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom set-margin-top">
+                                <select  data-placeholder="Participant" name="participant[]" class="chosen-select form-control set-margin-bottom set-margin-top" multiple tabindex="6">
+                                    <option value=""></option>
+                                    <option value="0">All School Member</option>
+                                    <optgroup label="Teacher">
+                                        <option value="1">All Teacher</option>
+                                        <?php if($teachers){
+                                            foreach ($teachers as $t){
+                                                ?>
+                                                <option value="<?php echo $t['teacherid'] ?>"><?php echo $t['firstname'] ?> <?php echo $t['lastname'] ?></option>
+                                        <?php
+                                            }
+                                        }?>
+                                    </optgroup>
+                                    <optgroup label="Student">
+                                        <option value="2">All Student</option>
+                                        <?php if($students){
+                                            foreach ($students as $s){
+                                                ?>
+                                                <option value="<?php echo $s['studentid'] ?>"><?php echo $s['firstname'] ?> <?php echo $s['lastname'] ?></option>
+                                                <?php
+                                            }
+                                        }?>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-success set-margin-top"><i class="fa fa-upload"></i> Upload</button>
                         <?php echo form_close(); ?>
                     </div>

@@ -63,6 +63,12 @@
                                 <?php } ?>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Frequency</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
+                                <input type="text" class="form-control set-margin-bottom set-margin-top" name="frequency" placeholder="Frequency"/>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-success set-margin-top"><i class="fa fa-plus"></i> Add</button>
 <!--                        <a id="loaddata" class="btn btn-success set-margin-top"><i class="fa fa-plus"></i> Add</a>-->
                         <?php echo form_close(); ?>
@@ -82,6 +88,7 @@
                                 <th>Teacher</th>
                                 <th>Course</th>
                                 <th>Grade</th>
+                                <th>Frequency</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -96,6 +103,7 @@
                                         </td>
                                         <td><?php echo $info_db['coursename'] ?></td>
                                         <td><?php echo $info_db['grade'] ?></td>
+                                        <td><?php echo $info_db['frequency'] ?></td>
                                         <td width="20%">
                                             <?php
                                             $encrypted = $this->general->encryptParaID($info_db['scid'],'schedulesetting');

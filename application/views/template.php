@@ -19,6 +19,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/fullcalendar.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/fullcalendar.print.css" media="print">
 
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/chosen.css">
+
 
     <!-- NProgress -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/nprogress.css">
@@ -95,6 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- jQuery -->
     <script src="<?php echo base_url() ?>assets/js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js" type="text/javascript"></script>
     <!-- Bootstrap -->
     <script src="<?php echo base_url() ?>assets/js/bootstrap.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/jquery.dataTables.min.js"></script>
@@ -120,6 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url() ?>assets/js/bootstrap-wysiwyg.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/jquery.hotkeys.js"></script>
     <script src="<?php echo base_url() ?>assets/js/prettify.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/chosen.jquery.js" type="text/javascript"></script>
 
 
     <!-- Datatables -->
@@ -198,6 +202,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
     </script>
     <script>
+        var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : { allow_single_deselect: true },
+            '.chosen-select-no-single' : { disable_search_threshold: 10 },
+            '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+            '.chosen-select-rtl'       : { rtl: true },
+            '.chosen-select-width'     : { width: '95%' }
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+        
         $('.toAdd').hide();
 
         var count = 0;
