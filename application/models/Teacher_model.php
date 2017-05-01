@@ -25,6 +25,7 @@ class Teacher_model extends CI_Model {
     var $item_request_table = 'item_request';
     var $book_request_table = 'book_request';
     var $fotocopy_request_table = 'fotocopy_request';
+    var $roles_table = 'roles';
 
     function __construct() {
         parent::__construct();
@@ -1583,6 +1584,24 @@ class Teacher_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    function getRoleCategory($c){
+        $this->db->select('*');
+        $this->db->where('category', $c);
+        $query = $this->db->get($this->roles_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function editRole($tid){
+        $data = array(
+            'role' => $this->input->post('role'),
+        );
+        $this->db->where('teacherid', $tid);
+        $this->db->update($this->table, $data);
     }
 }
 

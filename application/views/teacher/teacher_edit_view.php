@@ -41,7 +41,12 @@
                                     <i class="fa fa-user user-profile-icon"></i> ID: <?php echo $info_db['teacherid']; ?>
                                 </li>
                                 <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> Role: <?php echo ucwords($info_db['name']); ?>
+                                    <i class="fa fa-briefcase user-profile-icon"></i> Role: <select class="form-control set-margin-bottom" name="role">
+                                        <option selected value="<?php echo $info_db['name'] ?>"><?php echo ucwords($info_db['name']) ?></option>
+                                        <?php foreach ($rolechoice as $c){?>
+                                            <option value="<?php echo $c['roleid']; ?>"><?php echo ucwords($c['name']); ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </li>
                             </ul>
 

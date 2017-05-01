@@ -535,6 +535,7 @@ class teacher extends CI_Controller {
             {
                 $availabletime = $availabletime.'|'.$workinghour[$i];
             }
+            $this->Teacher_model->editRole($teacherid);
             $this->Teacher_model->editProfile($teacherid, $availabletime);
             $this->nativesession->set('success', 'Profile saved');
             redirect('teacher/teacherView');
@@ -553,6 +554,7 @@ class teacher extends CI_Controller {
         $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
         $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
         $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
+        $data['rolechoice'] = $this->Teacher_model->getRoleCategory(1);
         $data['content'] = 'teacher/teacher_edit_view';
         $data['info_db'] = $this->Teacher_model->getProfileDataByID($id);
         $this->load->view($this->template, $data);
