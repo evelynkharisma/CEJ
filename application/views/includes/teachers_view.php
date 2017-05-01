@@ -49,7 +49,7 @@
                                         <td><?php echo $teacher['phone'] ?></td>
                                         <?php
                                         $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0005');
-                                        if($privilege != 1){
+                                        if($privilege == 1){
                                         ?>
                                         <td width="30%">
                                             <?php

@@ -273,6 +273,11 @@ class teacher extends CI_Controller {
     public function profile_edit($id)
     {
         $id = $this->general->decryptParaID($id, 'teacher');
+        if($this->nativesession->get('id') != $id){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('teacher/home');
+        }
+
         $this->form_validation->set_rules('firstname', 'firstname', 'required');
         $this->form_validation->set_rules('lastname', 'lastname', 'required');
         $this->form_validation->set_rules('gender', 'gender', 'required');

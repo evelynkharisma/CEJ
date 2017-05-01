@@ -38,7 +38,10 @@
 
                             <ul class="list-unstyled user_data">
                                 <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> <?php echo $info_db['role']; ?>
+                                    <i class="fa fa-user user-profile-icon"></i> ID: <?php echo $info_db['teacherid']; ?>
+                                </li>
+                                <li>
+                                    <i class="fa fa-briefcase user-profile-icon"></i> Role: <?php echo ucwords($info_db['name']); ?>
                                 </li>
                             </ul>
 

@@ -67,6 +67,7 @@ class Teacher_model extends CI_Model {
 
     function getProfileDataByID($id) {
         $this->db->select('*');
+        $this->db->join('roles', 'roles.roleid = teacher.role');
         $this->db->where('teacherid', $id);
         $query = $this->db->get($this->table, 1);
 
