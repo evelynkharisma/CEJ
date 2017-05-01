@@ -10,7 +10,7 @@
         <div class="clearfix"></div>
         <?php if ($this->nativesession->get('error')): ?>
             <div  class="alert alert-error">
-                <?php echo $this->nativesession->get('error'); ?>
+                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
             </div>
         <?php endif; ?>
         <?php if ($this->nativesession->get('success')): ?>

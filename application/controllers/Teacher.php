@@ -1297,8 +1297,98 @@ class teacher extends CI_Controller {
             $tid = $this->input->post('teacher');
             $cid = $this->input->post('course');
             $frequency = $this->input->post('frequency');
+
+            $i = 0;
+            for($g=1; $g<14; $g++){
+                $thisgrade = $g;
+                if($thisgrade == '10'){
+                    $thisgrade = 'A';
+                }
+                elseif($thisgrade == '11'){
+                    $thisgrade = 'B';
+                }
+                elseif($thisgrade == '12'){
+                    $thisgrade = 'C';
+                }
+                elseif($thisgrade == '13'){
+                    $thisgrade = 'D';
+                }
+                $allschedule = $this->Teacher_model->getAllFrequencyForGrade($thisgrade);
+                
+                $totalperiod = 0;
+                if($allschedule){
+                    foreach ($allschedule as $s){
+                        $totalperiod = $totalperiod + $s['frequency'];
+                    }
+
+                    $addedperiod = $totalperiod + $frequency;
+
+                    $day = $this->Teacher_model->getSetting('s0005');
+                    $period = $this->Teacher_model->getSetting('s0006');
+                    $periodcount = $day['value']*$period['value'];
+
+
+                    if($addedperiod > $periodcount){
+                        $periodallowed[$i]['grade'] = $g;
+                        $periodallowed[$i]['count'] = $periodcount - $totalperiod;
+                        $i++;
+                    }
+                }
+            }
+
+            $message = '';
+            if(isset($periodallowed)) {
+                foreach ($periodallowed as $p) {
+                    $message .= 'Total period for grade ' . $p['grade'] . ' exceed limit, ' . $p['count'] . ' more period allowed</br>';
+                }
+            }
+
+            if(isset($periodallowed)){
+                $this->nativesession->set('error', $message);
+                redirect('teacher/createSchedule');
+            }
+
+            $workinghour = $this->Teacher_model->getWorkingHour($tid);
+            $workinghourList = explode('|', $workinghour['workinghour']);
+            $workinghourcount = 0;
+            foreach ($workinghourList as $w){
+                $workinghourcount = $workinghourcount + $w;
+            }
+
+            $teachingfrequency = $this->Teacher_model->getTeachingFrequency($tid);
+            $frequencycount = 0;
+            foreach ($teachingfrequency as $f){
+                $frequencycount = $frequencycount + $f['frequency'];
+            }
+            $addedfrequencycount = $frequencycount + $frequency;
+            $frequencyallowed = $workinghourcount - $frequencycount;
+
+            if($addedfrequencycount > $workinghourcount){
+                $this->nativesession->set('error', 'Teacher working hour not enough, '.$frequencyallowed.' more frequency allowed');
+                redirect('teacher/createSchedule');
+            }
+
             $gradeList = $this->input->post('grade');
-            $grade = implode("|", $gradeList);
+//            $grade = implode("|", $gradeList);
+            $grade = '';
+            for($i=0;$i<sizeof($gradeList);$i++)
+            {
+                $g = $gradeList[$i];
+                if($g == '10'){
+                    $g = 'A';
+                }
+                elseif($g == '11'){
+                    $g = 'B';
+                }
+                elseif($g == '12'){
+                    $g = 'C';
+                }
+                elseif($g == '13'){
+                    $g = 'D';
+                }
+                $grade = $grade.'|'.$g;
+            }
+            
             $latestID = $this->Teacher_model->getScheduleSettingLatestID();
             $latestID = $latestID['scid'];
             $latestID = substr($latestID, 1);

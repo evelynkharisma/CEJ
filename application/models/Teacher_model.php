@@ -1553,6 +1553,36 @@ class Teacher_model extends CI_Model {
         );
         $this->db->insert($this->fotocopy_request_table, $data);
     }
+    
+    function getWorkingHour($tid){
+        $this->db->select('workinghour');
+        $this->db->where('teacherid', $tid);
+        $query = $this->db->get($this->table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getTeachingFrequency($tid){
+        $this->db->select('frequency');
+        $this->db->where('teacherid', $tid);
+        $query = $this->db->get($this->schedule_course_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllFrequencyForGrade($grade){
+        $this->db->select('frequency');
+        $this->db->like('grade', $grade);
+        $query = $this->db->get($this->schedule_course_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
 }
 
 ?>
