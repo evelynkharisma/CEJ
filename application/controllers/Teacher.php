@@ -1410,6 +1410,40 @@ class teacher extends CI_Controller {
         redirect('teacher/createSchedule');
     }
 
+    public function generateSchedule()
+    {
+        $data['g1'] = $this->Teacher_model->getAllFrequencyForGrade(1);
+        $data['g2'] = $this->Teacher_model->getAllFrequencyForGrade(2);
+        $data['g3'] = $this->Teacher_model->getAllFrequencyForGrade(3);
+        $data['g4'] = $this->Teacher_model->getAllFrequencyForGrade(4);
+        $data['g5'] = $this->Teacher_model->getAllFrequencyForGrade(5);
+        $data['g6'] = $this->Teacher_model->getAllFrequencyForGrade(6);
+        $data['g7'] = $this->Teacher_model->getAllFrequencyForGrade(7);
+        $data['g8'] = $this->Teacher_model->getAllFrequencyForGrade(8);
+        $data['g9'] = $this->Teacher_model->getAllFrequencyForGrade(9);
+        $data['g10'] = $this->Teacher_model->getAllFrequencyForGrade('A');
+        $data['g11'] = $this->Teacher_model->getAllFrequencyForGrade('B');
+        $data['g12'] = $this->Teacher_model->getAllFrequencyForGrade('C');
+        $data['g13'] = $this->Teacher_model->getAllFrequencyForGrade('D');
+
+        $data['day'] = $this->Teacher_model->getSetting('s0005');
+        $data['period'] = $this->Teacher_model->getSetting('s0006');
+        $data['hour'] = $this->Teacher_model->getSetting('s0007');
+        $data['starttime'] = $this->Teacher_model->getSetting('s0008');
+        $data['breakstarttime'] = $this->Teacher_model->getSetting('s0009');
+        $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
+        $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
+        $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
+
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/generate_schedule_view';
+        $this->load->view($this->template, $data);
+    }
+
     public function classScheduleView()
     {
         $data['title'] = 'SMS';

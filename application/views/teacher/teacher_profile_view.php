@@ -183,7 +183,7 @@
                                         for($j=0; $j < $day['value']; $j++){
                                             $today = date('D',strtotime($today.'+1 day'));
                                             ?>
-                                            <td class="teacher_course_student_mid_td">
+                                            <td class="teacher_course_student_mid_td set-center">
                                                 <?php echo $today; ?>
                                             </td>
                                         <?php } ?>
