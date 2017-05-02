@@ -21,6 +21,9 @@
                     <div class="x_content">
                         <?php for($grade=1; $grade<14; $grade++){
                             if(isset(${'g'.$grade})){
+                        echo 'grade '.$grade;
+                        print_r(${'g'.$grade});
+                        echo "</br>";
                         ?>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="profile_title">
@@ -77,7 +80,7 @@
                                                     </td>
                                                     <?php for($j=0; $j < $day['value']; $j++){ ?>
                                                         <input type="hidden" name="workinghour[<?php echo $a ?>]" value="0" />
-                                                        <td class="set-center">a</div> </td>
+                                                        <td class="set-center"><?php echo ${'g'.$grade}[$i][$j]['teacherid'] ?> <?php echo ${'g'.$grade}[$i][$j]['courseid'] ?></div> </td>
                                                         <?php $a++; } ?>
                                                 </tr>
                                                 <?php

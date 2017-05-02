@@ -611,8 +611,8 @@ class teacher extends CI_Controller {
             }
            
             $this->nativesession->set('success', 'New Course Added');
-            $id = $this->general->encryptParaID($courseID, 'courseassigned');
-            redirect('teacher/courseView/'.$id);
+            $id = $this->general->encryptParaID($courseID, 'course');
+            redirect('teacher/courseView/c'.$id);
         }
         
         $data['title'] = 'SMS';
@@ -727,9 +727,15 @@ class teacher extends CI_Controller {
         redirect('teacher/allCourse');
     }
 
-    public function courseView($id)
+    public function courseView($fid)
     {
-        $id = $this->general->decryptParaID($id, 'courseassigned');
+        if(substr($fid, 0 ,1) == 's'){
+            $id = $this->general->decryptParaID(substr($fid, 1), 'courseassigned');
+        }
+        else{
+            $id = $this->general->decryptParaID(substr($fid, 1), 'course');
+        }
+
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
@@ -1288,7 +1294,7 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['teachers'] = $this->Teacher_model->getAllTeacher();
-        $data['courses'] = $this->Teacher_model->getAllCourses();
+        $data['coursesList'] = $this->Teacher_model->getAllCourses();
         $data['assign'] = $this->Teacher_model->getAllScheduleSetting();
         $data['content'] = 'teacher/create_schedule_view';
         $this->load->view($this->template, $data);
@@ -1419,19 +1425,109 @@ class teacher extends CI_Controller {
 
     public function generateSchedule()
     {
-        $data['g1'] = $this->Teacher_model->getAllFrequencyForGrade(1);
-        $data['g2'] = $this->Teacher_model->getAllFrequencyForGrade(2);
-        $data['g3'] = $this->Teacher_model->getAllFrequencyForGrade(3);
-        $data['g4'] = $this->Teacher_model->getAllFrequencyForGrade(4);
-        $data['g5'] = $this->Teacher_model->getAllFrequencyForGrade(5);
-        $data['g6'] = $this->Teacher_model->getAllFrequencyForGrade(6);
-        $data['g7'] = $this->Teacher_model->getAllFrequencyForGrade(7);
-        $data['g8'] = $this->Teacher_model->getAllFrequencyForGrade(8);
-        $data['g9'] = $this->Teacher_model->getAllFrequencyForGrade(9);
-        $data['g10'] = $this->Teacher_model->getAllFrequencyForGrade('A');
-        $data['g11'] = $this->Teacher_model->getAllFrequencyForGrade('B');
-        $data['g12'] = $this->Teacher_model->getAllFrequencyForGrade('C');
-        $data['g13'] = $this->Teacher_model->getAllFrequencyForGrade('D');
+        $day = $this->Teacher_model->getSetting('s0005');
+        $period = $this->Teacher_model->getSetting('s0006');
+
+        $done = false;
+        $retry = true;
+
+        while($done == false){
+            if($retry == true){
+                $grade1 = $this->Teacher_model->getAllCourseForGrade(1);
+                $grade2 = $this->Teacher_model->getAllCourseForGrade(2);
+                $grade3 = $this->Teacher_model->getAllCourseForGrade(3);
+                $grade4 = $this->Teacher_model->getAllCourseForGrade(4);
+                $grade5 = $this->Teacher_model->getAllCourseForGrade(5);
+                $grade6 = $this->Teacher_model->getAllCourseForGrade(6);
+                $grade7 = $this->Teacher_model->getAllCourseForGrade(7);
+                $grade8 = $this->Teacher_model->getAllCourseForGrade(8);
+                $grade9 = $this->Teacher_model->getAllCourseForGrade(9);
+                $grade10 = $this->Teacher_model->getAllCourseForGrade('A');
+                $grade11 = $this->Teacher_model->getAllCourseForGrade('B');
+                $grade12 = $this->Teacher_model->getAllCourseForGrade('C');
+                $grade13 = $this->Teacher_model->getAllCourseForGrade('D');
+
+                $table1 = null;
+                $table2 = null;
+                $table3 = null;
+                $table4 = null;
+                $table5 = null;
+                $table6 = null;
+                $table7 = null;
+                $table8 = null;
+                $table9 = null;
+                $table10 = null;
+                $table11 = null;
+                $table12 = null;
+                $table13 = null;
+
+                $retry = false;
+            }
+            else{
+                for($i=1; $i<14; $i++){
+                    if(isset(${'grade'.$i})){
+                        for($a=0; $a<$period['value']; $a++){
+                            for($b=0; $b<$day['value']; $b++){
+                                $size = count(${'grade'.$i});
+                                $rerandom = true;
+                                do{
+                                    $index = rand(0, $size-1);
+                                    if(isset(${'grade'.$i}[$index])){
+                                        $random['courseid'] = ${'grade'.$i}[$index]['courseid'];
+                                        $random['teacherid'] = ${'grade'.$i}[$index]['teacherid'];
+
+                                        $condition1 = true;
+                                        $condition2 = true;
+
+//                                        for($j=1; $j<$i; $j++){
+//                                            if(${'table'.$j}[$a][$b]['teacherid'] == $random['teacherid']){
+//                                                $condition1 = false;
+//                                                break;
+//                                            }
+//                                        }
+//
+//                                        for($c=0; $c<$a; $c++){
+//                                            if(${'table'.$i}[$c][$b]['courseid'] == $random['courseid']){
+//                                                $condition2 = false;
+//                                                break;
+//                                            }
+//                                        }
+
+//                                        if($condition1 == true && $condition2 == true){
+                                            ${'table'.$i}[$a][$b]['courseid'] = $random['courseid'];
+                                            ${'table'.$i}[$a][$b]['teacherid'] = $random['teacherid'];
+                                            ${'grade'.$i}[$index]['frequency'] = ${'grade'.$i}[$index]['frequency'] - 1;
+                                            if(${'grade'.$i}[$index]['frequency'] == 0){
+                                                unset(${'grade'.$i}[$index]);
+                                                ${'grade'.$i} = array_values(${'grade'.$i});
+                                            }
+                                            $rerandom = false;
+//                                        }
+                                    }
+                                }
+                                while($rerandom != false);
+                            }
+                        }
+                    }
+                }
+                $done = true;
+            }
+        }
+
+        $data['g1'] = $table1;
+        $data['g2'] = $table2;
+        $data['g3'] = $table3;
+        $data['g4'] = $table4;
+        $data['g5'] = $table5;
+        $data['g6'] = $table6;
+        $data['g7'] = $table7;
+        $data['g8'] = $table8;
+        $data['g9'] = $table9;
+        $data['g10'] = $table10;
+        $data['g11'] = $table11;
+        $data['g12'] = $table12;
+        $data['g13'] = $table13;
+
 
         $data['day'] = $this->Teacher_model->getSetting('s0005');
         $data['period'] = $this->Teacher_model->getSetting('s0006');

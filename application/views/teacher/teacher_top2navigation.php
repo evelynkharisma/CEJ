@@ -7,7 +7,7 @@
                     $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
                 ?>
                 <a href="<?php echo base_url() ?>index.php/teacher/courseSemester/<?php echo $encrypted ?>" class="btn btn-success">Semester Plan</a>
-                <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $encrypted ?>" class="btn btn-success">Lesson Plan</a>
+                <a href="<?php echo base_url() ?>index.php/teacher/courseView/s<?php echo $encrypted ?>" class="btn btn-success">Lesson Plan</a>
                 <a href="<?php echo base_url() ?>index.php/teacher/courseImplementation/<?php echo $encrypted ?>" class="btn btn-success">Lesson Implementation</a>
                 <a href="<?php echo base_url() ?>index.php/teacher/courseMaterial/<?php echo $encrypted ?>" class="btn btn-success">Shared Materials</a>
                 <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuiz/<?php echo $encrypted ?>" class="btn btn-success">Assignments and Quizzes</a>

@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/parent_style.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/operation_style.css">
 
-    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/tinymce/js/tinymce/tinymce.min.js"></script>
     <script>tinymce.init({
             selector:'#long-text',
             plugins: [

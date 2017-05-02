@@ -1586,6 +1586,16 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getAllCourseForGrade($grade){
+        $this->db->select('*');
+        $this->db->like('grade', $grade);
+        $query = $this->db->get($this->schedule_course_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getRoleCategory($c){
         $this->db->select('*');
         $this->db->where('category', $c);

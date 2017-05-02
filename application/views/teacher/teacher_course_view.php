@@ -2,12 +2,18 @@
 <div class="right_col" role="main">
     <div class="">
         <?php
-            $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+            if(isset($info_db['assignid'])){
+                $encrypted = 's'.$this->general->encryptParaID($info_db['assignid'],'courseassigned');
+            }
+            else{
+                $encrypted = 'c'.$this->general->encryptParaID($info_db['courseid'],'course');
+            }
+
         ?>
         <div class="page-title">
             <div class="title_left">
 <!--                <h3>--><?php //echo $info_db['coursename'] ?><!-- <a class="btn btn-success" href="--><?php //echo base_url() ?><!--index.php/teacher/editCourse/--><?php //echo isset($info_db['assignid']) && $info_db['assignid'] == null ? $info_db['assignid'] : $info_db['courseid'] ?><!--"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>-->
-                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success" href="<?php echo base_url() ?>index.php/teacher/editCourse/<?php echo 's'.$encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>
+                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success" href="<?php echo base_url() ?>index.php/teacher/editCourse/<?php echo $encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Course</a></h3>
             </div>
 
           

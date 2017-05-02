@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
-                                <textarea class="form-control set-margin-bottom" name="description" rows="3" placeholder="Description"></textarea>
+                                <textarea id="long-text" class="form-control set-margin-bottom" name="description" rows="3" placeholder="Description"></textarea>
                             </div>
                         </div>
                         <div class="form-group">

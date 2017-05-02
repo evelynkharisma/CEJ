@@ -111,7 +111,7 @@
                                             <?php
                                                 $encrypted = $this->general->encryptParaID($row['assignid'],'courseassigned');
                                             ?>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/courseView/<?php echo $encrypted ?>"><?php echo $row['classroom'] ?> <?php echo $row['coursename'] ?></a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/courseView/s<?php echo $encrypted ?>"><?php echo $row['classroom'] ?> <?php echo $row['coursename'] ?></a>
                                         </li>
                                     <?php } ?>
                                 </ul>

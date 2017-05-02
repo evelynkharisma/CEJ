@@ -46,8 +46,8 @@
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
                                 <select id="course" name="course" class="form-control">
                                     <option disabled selected="selected">Course</option>
-                                    <?php if($courses){
-                                        foreach ($courses as $c){?>
+                                    <?php if($coursesList){
+                                        foreach ($coursesList as $c){?>
                                             <option value="<?php echo $c['courseid']; ?>"><?php echo $c['coursename']; ?></option>
                                         <?php }} ?>
                                 </select>
