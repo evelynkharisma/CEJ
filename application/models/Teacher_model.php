@@ -1588,6 +1588,8 @@ class Teacher_model extends CI_Model {
 
     function getAllCourseForGrade($grade){
         $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = schedule_course.teacherid');
+        $this->db->join('course', 'course.courseid = schedule_course.courseid');
         $this->db->like('grade', $grade);
         $query = $this->db->get($this->schedule_course_table);
 

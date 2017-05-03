@@ -1468,44 +1468,84 @@ class teacher extends CI_Controller {
                     if(isset(${'grade'.$i})){
                         for($a=0; $a<$period['value']; $a++){
                             for($b=0; $b<$day['value']; $b++){
-                                $size = count(${'grade'.$i});
-                                $rerandom = true;
-                                do{
-                                    $index = rand(0, $size-1);
-                                    if(isset(${'grade'.$i}[$index])){
-                                        $random['courseid'] = ${'grade'.$i}[$index]['courseid'];
-                                        $random['teacherid'] = ${'grade'.$i}[$index]['teacherid'];
+                                $availablecourse = ${'grade'.$i};
+                                $availablecourseExist = false;
 
-                                        $condition1 = true;
-                                        $condition2 = true;
-
-//                                        for($j=1; $j<$i; $j++){
-//                                            if(${'table'.$j}[$a][$b]['teacherid'] == $random['teacherid']){
-//                                                $condition1 = false;
-//                                                break;
-//                                            }
-//                                        }
-//
-//                                        for($c=0; $c<$a; $c++){
-//                                            if(${'table'.$i}[$c][$b]['courseid'] == $random['courseid']){
-//                                                $condition2 = false;
-//                                                break;
-//                                            }
-//                                        }
-
-//                                        if($condition1 == true && $condition2 == true){
-                                            ${'table'.$i}[$a][$b]['courseid'] = $random['courseid'];
-                                            ${'table'.$i}[$a][$b]['teacherid'] = $random['teacherid'];
-                                            ${'grade'.$i}[$index]['frequency'] = ${'grade'.$i}[$index]['frequency'] - 1;
-                                            if(${'grade'.$i}[$index]['frequency'] == 0){
-                                                unset(${'grade'.$i}[$index]);
-                                                ${'grade'.$i} = array_values(${'grade'.$i});
-                                            }
-                                            $rerandom = false;
-//                                        }
+                                for($j=1; $j<$i; $j++){
+                                    $currentindex = 0;
+                                    foreach ($availablecourse as $available){
+                                        if(isset(${'table'.$j}[$a][$b]) && ${'table'.$j}[$a][$b]['teacherid'] == $available['teacherid']){
+                                            unset($availablecourse[$currentindex]);
+                                            $availablecourse = array_values($availablecourse);
+                                            $availablecourseExist = true;
+                                        }
+                                        $currentindex++;
                                     }
                                 }
-                                while($rerandom != false);
+
+                                for($c=0; $c<$a; $c++){
+                                    $currentindex = 0;
+                                    foreach ($availablecourse as $available){
+                                        if(isset(${'table'.$i}[$c][$b]) && ${'table'.$i}[$c][$b]['courseid'] == $available['courseid']){
+                                            unset($availablecourse[$currentindex]);
+                                            $availablecourse = array_values($availablecourse);
+                                            $availablecourseExist = true;
+                                        }
+                                        $currentindex++;
+                                    }
+                                }
+
+                                $allteacher = $this->Teacher_model->getAllTeacher();
+                                foreach ($allteacher as $t) {
+                                    $worktimestring = substr($t['workinghour'], 1, strlen($t['workinghour']));
+                                    $worktime = explode('|', $worktimestring);
+                                    if(isset($worktime[$a*$day['value']*$b]) && $worktime[$a*$day['value']*$b] == '0'){
+                                        $currentindex = 0;
+                                        foreach ($availablecourse as $available){
+                                            if($t['teacherid'] == $available['teacherid']){
+                                                unset($availablecourse[$currentindex]);
+                                                $availablecourse = array_values($availablecourse);
+                                                $availablecourseExist = true;
+                                            }
+                                            $currentindex++;
+                                        }
+                                    }
+                                }
+
+                                if(isset($availablecourse[0]) && $availablecourseExist == true){
+                                    $size = count($availablecourse);
+                                    $index = rand(0, $size-1);
+
+                                    ${'table'.$i}[$a][$b]['courseid'] = $availablecourse[$index]['courseid'];
+                                    ${'table'.$i}[$a][$b]['teacherid'] = $availablecourse[$index]['teacherid'];
+                                    ${'table'.$i}[$a][$b]['coursename'] = $availablecourse[$index]['coursename'];
+                                    ${'table'.$i}[$a][$b]['teachername'] = $availablecourse[$index]['firstname'].' '.$availablecourse[$index]['lastname'];
+
+                                    foreach (${'grade'.$i} as $initial){
+                                        if($initial['scid'] == $availablecourse[$index]['scid']){
+                                            $initial['frequency'] = $initial['frequency'] - 1;
+                                            if($initial['frequency'] == 0){
+                                                unset($initial);
+                                                ${'grade'.$i} = array_values(${'grade'.$i});
+                                            }
+                                        }
+                                    }
+                                }
+                                else{
+                                    $size = count(${'grade'.$i});
+                                    $index = rand(0, $size-1);
+
+                                    ${'table'.$i}[$a][$b]['courseid'] = ${'grade'.$i}[$index]['courseid'];
+                                    ${'table'.$i}[$a][$b]['teacherid'] = ${'grade'.$i}[$index]['teacherid'];
+                                    ${'table'.$i}[$a][$b]['coursename'] = ${'grade'.$i}[$index]['coursename'];
+                                    ${'table'.$i}[$a][$b]['teachername'] = ${'grade'.$i}[$index]['firstname'].' '.${'grade'.$i}[$index]['lastname'];
+                                    ${'table'.$i}[$a][$b]['conflict'] = 1;
+                                    ${'grade'.$i}[$index]['frequency'] = ${'grade'.$i}[$index]['frequency'] - 1;
+                                    if(${'grade'.$i}[$index]['frequency'] == 0){
+                                        unset(${'grade'.$i}[$index]);
+                                        ${'grade'.$i} = array_values(${'grade'.$i});
+                                    }
+                                }
                             }
                         }
                     }

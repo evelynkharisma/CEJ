@@ -21,9 +21,6 @@
                     <div class="x_content">
                         <?php for($grade=1; $grade<14; $grade++){
                             if(isset(${'g'.$grade})){
-                        echo 'grade '.$grade;
-                        print_r(${'g'.$grade});
-                        echo "</br>";
                         ?>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="profile_title">
@@ -34,7 +31,7 @@
                                 <div class="col-md-12">
                                     <table class="teacher_course_student_mid table-bordered">
                                         <tr>
-                                            <td class="teacher_course_student_mid_td">
+                                            <td width="10%" class="teacher_course_student_mid_td">
                                                 Period
                                             </td>
                                             <?php
@@ -42,7 +39,7 @@
                                             for($j=0; $j < $day['value']; $j++){
                                                 $today = date('D',strtotime($today.'+1 day'));
                                                 ?>
-                                                <td class="teacher_course_student_mid_td  set-center">
+                                                <td width="18%" class="teacher_course_student_mid_td  set-center">
                                                     <?php echo $today; ?>
                                                 </td>
                                             <?php } ?>
@@ -80,7 +77,7 @@
                                                     </td>
                                                     <?php for($j=0; $j < $day['value']; $j++){ ?>
                                                         <input type="hidden" name="workinghour[<?php echo $a ?>]" value="0" />
-                                                        <td class="set-center"><?php echo ${'g'.$grade}[$i][$j]['teacherid'] ?> <?php echo ${'g'.$grade}[$i][$j]['courseid'] ?></div> </td>
+                                                        <td style="color: #FFF; background-color: <?php echo (isset(${'g'.$grade}[$i][$j]['conflict']) && ${'g'.$grade}[$i][$j]['conflict'] == 1)?'red':'green' ?>" class="set-center"><?php echo ${'g'.$grade}[$i][$j]['teachername'] ?> <br/><?php echo ${'g'.$grade}[$i][$j]['coursename'] ?></div> </td>
                                                         <?php $a++; } ?>
                                                 </tr>
                                                 <?php
