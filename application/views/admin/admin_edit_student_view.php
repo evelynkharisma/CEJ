@@ -3,15 +3,20 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Edit User Profile</h3>
+                <h3>Edit Student Information</h3>
             </div>
         </div>
 
         <div class="clearfix"></div>
+        <?php if ($this->nativesession->get('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
+            </div>
+        <?php endif; ?>
         <?php
         $encrypted = $this->general->encryptParaID($student['studentid'],'student');
         ?>
-        <?php echo form_open_multipart("student/student_profile_edit/".$encrypted); ?>
+        <?php echo form_open_multipart("admin/editStudent/".$encrypted); ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -43,22 +48,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Password</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="password" class="form-control set-margin-bottom" name="password"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Confirm Password</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="password" class="form-control set-margin-bottom" name="confirmpassword"/>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">First Name</div>

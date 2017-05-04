@@ -33,12 +33,24 @@ class General
 
     function StudentLogin() {
         if ($this->isLogin() == TRUE) {
-            if ($this->ci->nativesession->get('role') != 0 && $this->ci->nativesession->get('role') != 1 && $this->ci->nativesession->get('role') != 2) {
+            if ($this->ci->nativesession->get('role') != 'r0004' && $this->ci->nativesession->get('role') != 'r0005') {
                 $this->ci->nativesession->set('error', 'Access Denied');
                 redirect('');
             }
         } else {
             $this->ci->nativesession->set('error', 'Access Denied');
+            redirect('');
+        }
+    }
+
+    function AdminLogin() {
+        if ($this->isLogin() == TRUE) {
+            if ($this->ci->nativesession->get('role') != 'r0005') {
+                $this->ci->nativesession->set('error', 'Access Denied');
+                redirect('');
+            }
+        } else {
+            $this->ci->nativesession->set('error', 'Access Denied admin');
             redirect('');
         }
     }
@@ -94,6 +106,16 @@ class General
             $value = substr($id,1) + 987;
             $id = $variable.$value;
         }
+        elseif($type == 'admin'){
+            $variable = ord('d');
+            $value = substr($id,1) + 876;
+            $id = $variable.$value;
+        }
+        elseif($type == 'parent'){
+            $variable = ord('p');
+            $value = substr($id,1) + 765;
+            $id = $variable.$value;
+        }
         return $id;
     }
 
@@ -147,6 +169,21 @@ class General
             $variable = strlen(ord('s'));
             $id = substr($id, $variable) - 987;
             $id = 's'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'admin'){
+            $variable = strlen(ord('d'));
+            $id = substr($id, $variable) - 876;
+            $id = 's'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'admin'){
+            $variable = strlen(ord('d'));
+            $id = substr($id, $variable) - 876;
+            $id = 's'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'parent'){
+            $variable = strlen(ord('d'));
+            $id = substr($id, $variable) - 765;
+            $id = 'p'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         return $id;
     }

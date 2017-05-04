@@ -10,6 +10,7 @@ class login extends CI_Controller {
 		$this->load->model('Teacher_model');
 		$this->load->model('Parent_model');
 		$this->load->model('Student_model');
+		$this->load->model('Admin_model');
 	}
 
 	public function index()
@@ -30,26 +31,11 @@ class login extends CI_Controller {
                     $this->nativesession->set( 'id', $user['studentid'] );
                     $this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
                     $this->nativesession->set( 'classid', $user['classid'] );
-//                    $this->nativesession->set( 'photo', $user['photo'] );
-//                    $this->nativesession->set( 'role', $user['role'] );
-//                    $this->nativesession->set( 'lastlogin', $user['lastlogin'] );
-//                    $this->nativesession->set( 'is_login', 'TRUE' );
+                    $this->nativesession->set( 'role', $user['role'] );
+                    $this->nativesession->set( 'is_login', 'TRUE' );
 
                     $this->Student_model->changeLastLogin($user['studentid'], $user['currentlogin']);
                     $this->Student_model->setCurrentLogin($user['studentid']);
-//					$this->session->set_userdata($sessionData);
-//					$this->Teacher_model->updateLastLogin($user['id']);
-
-//				$user = $this->Student_model->checkLogin($username, $password);
-//				if (!empty($user)) {
-//					$sessionData['id'] = $user['id'];
-//					$sessionData['email'] = $user['email'];
-//					$sessionData['full_name'] = $user['full_name'];
-//					$sessionData['level'] = $user['level'];
-//					$sessionData['is_login'] = TRUE;
-//
-//					$this->session->set_userdata($sessionData);
-//					$this->Student_model->updateLastLogin($user['id']);
 
 				redirect('student/home');
 				}
@@ -112,19 +98,18 @@ class login extends CI_Controller {
 //				}
 			}
 			else if($loginas == 'admin'){
-//				$user = $this->Admin_model->checkLogin($username, $password);
-//				if (!empty($user)) {
-//					$sessionData['id'] = $user['id'];
-//					$sessionData['email'] = $user['email'];
-//					$sessionData['full_name'] = $user['full_name'];
-//					$sessionData['level'] = $user['level'];
-//					$sessionData['is_login'] = TRUE;
-//
-//					$this->session->set_userdata($sessionData);
-//					$this->Admin_model->updateLastLogin($user['id']);
+                $user = $this->Admin_model->checkLogin($username, $password);
+                if (!empty($user)) {
+                    $this->nativesession->set( 'id', $user['adminid'] );
+                    $this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
+                    $this->nativesession->set( 'role', $user['role'] );
+                    $this->nativesession->set( 'is_login', 'TRUE' );
 
-				redirect('admin/home');
-//				}
+                    $this->Student_model->changeLastLogin($user['adminid'], $user['currentlogin']);
+                    $this->Student_model->setCurrentLogin($user['adminid']);
+
+                    redirect('admin/home');
+                }
 			}
 
 			$this->nativesession->set('error', 'Login Failed!, username and password combination are wrong');

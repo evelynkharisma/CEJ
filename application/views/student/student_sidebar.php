@@ -55,6 +55,8 @@
                     <li><a href="<?php echo base_url() ?>index.php/student/examScheduleView">Exam Schedule</a></li>
                 </ul>
             </li>
+            <li><a href="<?php echo base_url()?>index.php/library/home" target="_blank"><i class="fa fa-book"></i> Library <span class="fa"></span></a>
+            </li>
         </ul>
     </div>
 
