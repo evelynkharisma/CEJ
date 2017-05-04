@@ -26,6 +26,7 @@ class Teacher_model extends CI_Model {
     var $book_request_table = 'book_request';
     var $fotocopy_request_table = 'fotocopy_request';
     var $roles_table = 'roles';
+    var $schedule_table = 'schedule';
 
     function __construct() {
         parent::__construct();
@@ -1614,6 +1615,22 @@ class Teacher_model extends CI_Model {
         );
         $this->db->where('teacherid', $tid);
         $this->db->update($this->table, $data);
+    }
+
+    function getScheduleLatestID(){
+        $this->db->select('scheduleid');
+        $this->db->order_by("scheduleid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->schedule_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addSchedule($schedulearray){
+//        $data = array_push($data, $schedulearray);
+        $this->db->insert_batch($this->schedule_table, $schedulearray);
     }
 }
 

@@ -1587,6 +1587,44 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function selectSchedule()
+    {
+        $grade = $this->input->post('class');
+        $row = $this->input->post('row');
+        $colom = $this->input->post('colom');
+        $teacherid = $this->input->post('teacherid');
+        $courseid = $this->input->post('courseid');
+        $latestID = $this->Teacher_model->getScheduleLatestID();
+        $latestID = $latestID['scheduleid'];
+        for($i=0;$i<sizeof($teacherid);$i++)
+        {
+            $latestID = substr($latestID, 1);
+            $latestID = 't'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+
+            $schedule[$i] = array(
+                'scheduleid' => $latestID,
+                'classid' => $grade[$i],
+                'period' => $row[$i],
+                'day' => $colom[$i],
+                'teacherid' => $teacherid[$i],
+                'courseid' => $courseid[$i],
+            );
+        }
+        $this->Teacher_model->addSchedule($schedule);
+        redirect('teacher/editSchedule/');
+    }
+
+    public function editSchedule()
+    {
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/edit_schedule_view';
+        $this->load->view($this->template, $data);
+    }
+
     public function classScheduleView()
     {
         $data['title'] = 'SMS';
