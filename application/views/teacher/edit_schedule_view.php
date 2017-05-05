@@ -78,13 +78,13 @@
                                                         <?php echo $thisperiod; ?>
                                                     </td>
                                                     <?php for($j=0; $j < $day['value']; $j++){ ?>
-                                                        <td class="set-center drop" style="color: #FFF; background-color: <?php echo (isset(${'g'.$grade}[$i*$day['value']+$j]['conflict']) && ${'g'.$grade}[$i*$day['value']+$j]['conflict'] == 1)?'red':'green' ?>">
+                                                        <td class="set-center drop <?php echo (isset(${'g'.$grade}[$i*$day['value']+$j]['conflict']) && ${'g'.$grade}[$i*$day['value']+$j]['conflict'] == 1)?'conflicted':'not-conflicted' ?>" style="color: #FFF;">
                                                             <div class="item">
-<!--                                                                <input type="hidden" name="class[--><?php //echo $a ?><!--]" value="--><?php //echo $grade ?><!--" />-->
-<!--                                                                <input type="hidden" name="row[--><?php //echo $a ?><!--]" value="--><?php //echo $i ?><!--" />-->
-<!--                                                                <input type="hidden" name="colom[--><?php //echo $a ?><!--]" value="--><?php //echo $j ?><!--" />-->
-<!--                                                                <input type="hidden" name="teacherid[--><?php //echo $a ?><!--]" value="--><?php //echo ${'g'.$grade}[$i][$j]['teacherid'] ?><!--" />-->
-<!--                                                                <input type="hidden" name="courseid[--><?php //echo $a ?><!--]" value="--><?php //echo ${'g'.$grade}[$i][$j]['courseid'] ?><!--" />-->
+                                                                <input type="hidden" name="class[<?php echo $a ?>]" value="<?php echo $grade ?>" />
+                                                                <input type="hidden" name="row[<?php echo $a ?>]" value="<?php echo $i ?>" />
+                                                                <input type="hidden" name="colom[<?php echo $a ?>]" value="<?php echo $j ?>" />
+                                                                <input type="hidden" name="teacherid[<?php echo $a ?>]" value="<?php echo ${'g'.$grade}[$i*$day['value']+$j]['teacherid'] ?>" />
+                                                                <input type="hidden" name="courseid[<?php echo $a ?>]" value="<?php echo ${'g'.$grade}[$i*$day['value']+$j]['courseid'] ?>" />
                                                                 <?php echo ${'g'.$grade}[$i*$day['value']+$j]['firstname'] ?> <?php echo ${'g'.$grade}[$i*$day['value']+$j]['lastname'] ?><br/><?php echo ${'g'.$grade}[$i*$day['value']+$j]['coursename'] ?>
                                                             </div>
                                                         </td>
@@ -134,7 +134,10 @@
     $(function(){
         $('.item').draggable({
             revert:true,
-            proxy:'clone'
+            proxy:'clone',
+            onStartDrag:function(){
+                $(this).draggable('proxy').addClass('dragging');
+            },
         });
         $('.right td.drop').droppable({
             onDragEnter:function(){
