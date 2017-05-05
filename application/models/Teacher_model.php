@@ -1629,8 +1629,44 @@ class Teacher_model extends CI_Model {
     }
 
     function addSchedule($schedulearray){
-//        $data = array_push($data, $schedulearray);
         $this->db->insert_batch($this->schedule_table, $schedulearray);
+    }
+
+    function getAllScheduleForGrade($grade){
+        $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = schedule.teacherid');
+        $this->db->join('course', 'course.courseid = schedule.courseid');
+        $this->db->where('classid', $grade);
+        $this->db->order_by("scheduleid", "asc");
+        $query = $this->db->get($this->schedule_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getScheduleWithRowColom($r, $c, $not){
+        $this->db->select('*');
+        $this->db->where('period', $r);
+        $this->db->where('day', $c);
+        $this->db->where_not_in('scheduleid', $not);
+        $query = $this->db->get($this->schedule_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getScheduleWithDayOfGrade($c, $g, $not){
+        $this->db->select('*');
+        $this->db->where('classid', $g);
+        $this->db->where('day', $c);
+        $this->db->where_not_in('scheduleid',$not);
+        $query = $this->db->get($this->schedule_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
     }
 }
 

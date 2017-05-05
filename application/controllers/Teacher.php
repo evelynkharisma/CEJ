@@ -1616,6 +1616,90 @@ class teacher extends CI_Controller {
 
     public function editSchedule()
     {
+        $day = $this->Teacher_model->getSetting('s0005');
+        $period = $this->Teacher_model->getSetting('s0006');
+
+        $grade1 = $this->Teacher_model->getAllScheduleForGrade(1);
+        $grade2 = $this->Teacher_model->getAllScheduleForGrade(2);
+        $grade3 = $this->Teacher_model->getAllScheduleForGrade(3);
+        $grade4 = $this->Teacher_model->getAllScheduleForGrade(4);
+        $grade5 = $this->Teacher_model->getAllScheduleForGrade(5);
+        $grade6 = $this->Teacher_model->getAllScheduleForGrade(6);
+        $grade7 = $this->Teacher_model->getAllScheduleForGrade(7);
+        $grade8 = $this->Teacher_model->getAllScheduleForGrade(8);
+        $grade9 = $this->Teacher_model->getAllScheduleForGrade(9);
+        $grade10 = $this->Teacher_model->getAllScheduleForGrade(10);
+        $grade11 = $this->Teacher_model->getAllScheduleForGrade(11);
+        $grade12 = $this->Teacher_model->getAllScheduleForGrade(12);
+        $grade13 = $this->Teacher_model->getAllScheduleForGrade(13);
+
+        for($i=1; $i<14; $i++){
+            if(isset(${'grade'.$i})){
+                for($a=0; $a<$period['value']; $a++){
+                    for($b=0; $b<$day['value']; $b++){
+                        $conflict1 = false;
+                        $conflict2 = false;
+                        $conflict3 = false;
+
+                        if(isset(${'grade'.$i}[$a*$day['value']+$b])){
+                            $notthisid = ${'grade'.$i}[$a*$day['value']+$b]['scheduleid'];
+                            $thisteacherworkinghour = $this->Teacher_model->getWorkingHour(${'grade'.$i}[$a*$day['value']+$b]['teacherid']);
+                        }
+                        $othertablewithsamerowandcolom = $this->Teacher_model->getScheduleWithRowColom($a, $b, $notthisid);
+                        foreach ($othertablewithsamerowandcolom as $other){
+                            if(isset(${'grade'.$i}[$a*$day['value']+$b]) && ${'grade'.$i}[$a*$day['value']+$b]['teacherid'] == $other['teacherid']){
+                                $conflict1 = true;
+                            }
+                        }
+                        unset($othertablewithsamerowandcolom);
+
+                        $otherperiodsameday = $this->Teacher_model->getScheduleWithDayOfGrade($b, $i, $notthisid);
+                        foreach ($otherperiodsameday as $other){
+                            if(isset(${'grade'.$i}[$a*$day['value']+$b]) && ${'grade'.$i}[$a*$day['value']+$b]['courseid'] == $other['courseid']){
+                                $conflict2 = true;
+                            }
+                        }
+                        unset($otherperiodsameday);
+
+                        $worktimestring = substr($thisteacherworkinghour['workinghour'], 1, strlen($thisteacherworkinghour['workinghour']));
+                        $worktime = explode('|', $worktimestring);
+                        if(isset($worktime[$a*$day['value']*$b]) && $worktime[$a*$day['value']*$b] == '0'){
+                            $conflict3 = true;
+                        }
+
+                        
+                        if($conflict1 == true || $conflict2 == true || $conflict3 == true){
+                            ${'grade'.$i}[$a*$day['value']+$b]['conflict'] = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        $data['g1'] = $grade1;
+        $data['g2'] = $grade2;
+        $data['g3'] = $grade3;
+        $data['g4'] = $grade4;
+        $data['g5'] = $grade5;
+        $data['g6'] = $grade6;
+        $data['g7'] = $grade7;
+        $data['g8'] = $grade8;
+        $data['g9'] = $grade9;
+        $data['g10'] = $grade10;
+        $data['g11'] = $grade11;
+        $data['g12'] = $grade12;
+        $data['g13'] = $grade13;
+
+        
+        $data['day'] = $this->Teacher_model->getSetting('s0005');
+        $data['period'] = $this->Teacher_model->getSetting('s0006');
+        $data['hour'] = $this->Teacher_model->getSetting('s0007');
+        $data['starttime'] = $this->Teacher_model->getSetting('s0008');
+        $data['breakstarttime'] = $this->Teacher_model->getSetting('s0009');
+        $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
+        $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
+        $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
+
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
