@@ -77,6 +77,10 @@ class login extends CI_Controller {
 
 					$this->Parent_model->changeLastLogin($user['parentid'], $user['currentlogin']);
 					$this->Parent_model->setCurrentLogin($user['parentid']);
+					$childs = $this->Parent_model->getAllChildren($this->nativesession->get('id'));
+					foreach ($childs as $c){
+						$this->nativesession->set( 'current_child', $c['studentid'] );
+					}
 //					$this->Parent_model->updateLastLogin($user['id']);
 
 				redirect('parents/home');
