@@ -148,6 +148,14 @@ class parents extends CI_Controller {
         $data['content'] = 'parents/payment_receipt_view';
         $this->load->view($this->template, $data);
     }
+    public function choose_child($id)
+    {
+        $id = $this->general->decryptParaID($id, 'student');
+        $this->nativesession->set( 'current_child_id', $id);
+        $childs = $this->Parent_model->getChild($id);
+        $this->nativesession->set( 'current_child_name', $childs['firstname'].' '.$childs['lastname'] );
+        redirect($_SERVER['HTTP_REFERER']);
+    }
     public function logout(){
         $this->nativesession->delete('id');
         $this->nativesession->delete('name');

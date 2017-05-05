@@ -264,6 +264,31 @@ class Parent_model extends CI_Model {
         }
     }
 
+    function getFirstChild($id){
+        $this->db->select('*');
+        $this->db->join('student', 'student.studentid = parent_child.studentid');
+        $this->db->where('parent_child.parentid' ,$id);
+        $this->db->order_by("student.firstname", "asc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->child_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getChild($id){
+        $this->db->select('*');
+        $this->db->where('studentid' ,$id);
+        $this->db->limit(1);
+
+        $query = $this->db->get($this->student);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function getAllEvents($id){
         $this->db->select('*');
         $status_array = array($id,'0');
