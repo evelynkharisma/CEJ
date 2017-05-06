@@ -1,5 +1,5 @@
 <div class="navbar nav_title" style="border: 0;">
-    <a href="<?php echo base_url() ?>index.php/student/home" class="site_title"><i class="fa fa-scribd"></i> <span>SMS</span></a>
+    <a href="<?php echo base_url() ?>index.php/admin/home" class="site_title"><i class="fa fa-scribd"></i> <span>SMS</span></a>
 </div>
 
 <div class="clearfix"></div>
@@ -37,8 +37,10 @@
             </li>
             <li><a><i class="fa fa-id-card-o"></i> Privilege <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/student/classScheduleView">All Roles</a></li>
-                    <li><a href="<?php echo base_url() ?>index.php/student/examScheduleView">New Role</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/admin/allRoles">All Roles</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/admin/addRole">Add Role</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/admin/addAssignedPrivilege">Assign Privilege</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/admin/allAssignedPrivilege">Assigned Privilege</a></li>
                 </ul>
             </li>
             <li><a href="<?php echo base_url()?>index.php/library/home" target="_blank"><i class="fa fa-pencil-square-o "></i> Feedbacks <span class="fa"></span></a>
