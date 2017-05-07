@@ -45,132 +45,77 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div>
-                        <div class="x_title">
-                            <div class="media event">
-                                <a class="pull-left border-aero profile_thumb">
-                                    <i class="fa fa-user aero"></i>
-                                </a>
-                                <div class="media-body parent_dashboard_child">
-                                    <a class="title" href="#">Child 1</a>
-                                    <p><strong>Present</strong>  </p>
+            <?php
+            $childs = $this->Parent_model->getAllChildren($this->nativesession->get('id'));
+            foreach($childs as $child) {
+                ?>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div>
+                            <div class="x_title">
+                                <div class="media event">
+                                    <a class="pull-left border-aero profile_thumb">
+                                        <i class="fa fa-user aero"></i>
+                                    </a>
+                                    <div class="media-body parent_dashboard_child">
+                                        <a class="title" href="#"><?php echo $child['firstname']?> <?php echo $child['lastname']?></a>
+                                        <p><strong>Present</strong></p>
+                                    </div>
                                 </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <div class="teacher_dashboard_today_schedule_container">
-                                <table class="teacher_dashboard_today_schedule_table">
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
+                            <div class="x_content">
+                                <div class="teacher_dashboard_today_schedule_container">
+                                    <table class="teacher_dashboard_today_schedule_table">
+                                        <tr>
+                                            <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>
+                                            <td>Subject<br>Room</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
+                                            <td>Subject<br>Room</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
+                                            <td>Subject<br>Room</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
+                                            <td>Subject<br>Room</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="teacher_dashboard_today_schedule_break" colspan="2" width="5%">
+                                                <b>Break<b><br></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
+                                            <td>Subject<br>Room</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
+                                            <td>Subject<br>Room</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="teacher_dashboard_today_schedule_break" colspan="2" width="5%">
+                                                <b>Break<b><br></td>
+                                        </tr>
+                                        <tr>
+                                            <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>
+                                            <td>Subject<br>Room</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>
+                                            <td>Subject<br>Room</td>
+                                        </tr>
 
-                                </table>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div>
-                        <div class="x_title">
-                            <div class="media event">
-                                <a class="pull-left border-aero profile_thumb">
-                                    <i class="fa fa-user aero"></i>
-                                </a>
-                                <div class="media-body parent_dashboard_child">
-                                    <a class="title" href="#">Child 2</a>
-                                    <p><strong>Absent</strong> - Sick </p>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <div class="teacher_dashboard_today_schedule_container">
-                                <table class="teacher_dashboard_today_schedule_table">
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>
-                                        <td>Subject<br>Room</td>
-                                    </tr>
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <?php
+            }?>
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">

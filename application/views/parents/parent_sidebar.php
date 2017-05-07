@@ -23,7 +23,7 @@
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
         <ul class="nav side-menu">
-            <li class="parent_sidebar_child"><a><i class="fa fa-child"></i><?php $current_child = $this->nativesession->get('current_child_name'); if($current_child!=''){echo $current_child;} else{ echo "No Child";} ?> <span class="fa fa-chevron-down"></span></a>
+            <li class="parent_sidebar_child"><a><i class="fa fa-child"></i> <?php $current_child = $this->nativesession->get('current_child_name'); if($current_child!=''){echo $current_child;} else{ echo "No Child";} ?> <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <?php
                     $childs = $this->Parent_model->getAllChildren($this->nativesession->get('id'));

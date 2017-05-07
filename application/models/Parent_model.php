@@ -64,17 +64,40 @@ class Parent_model extends CI_Model {
                 'lastname' => $this->input->post('lastname'),
                 'gender' => $this->input->post('gender'),
                 'phone' => $this->input->post('phone'),
+                'phoneoverseas' => $this->input->post('phoneoverseas'),
+                'mobile' => $this->input->post('mobile'),
+                'mobileoverseas' => $this->input->post('mobileoverseas'),
                 'email' => $this->input->post('email'),
-                'address' => $this->input->post('address')
+                'address' => $this->input->post('address'),
+                'addressoverseas' => $this->input->post('addressoverseas'),
+                'passportno' => $this->input->post('passportno'),
+                'passportcountry' => $this->input->post('passportcountry'),
+                'passportexp' => $this->input->post('passportexp'),
+                'occupation' => $this->input->post('occupation'),
+                'companyname' => $this->input->post('companyname'),
+                'industry' => $this->input->post('industry'),
+                'phoneoffice' => $this->input->post('phoneoffice')
             );
         } else {
             $data = array(
+                'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
                 'firstname' => $this->input->post('firstname'),
                 'lastname' => $this->input->post('lastname'),
                 'gender' => $this->input->post('gender'),
                 'phone' => $this->input->post('phone'),
+                'phoneoverseas' => $this->input->post('phoneoverseas'),
+                'mobile' => $this->input->post('mobile'),
+                'mobileoverseas' => $this->input->post('mobileoverseas'),
                 'email' => $this->input->post('email'),
-                'address' => $this->input->post('address')
+                'address' => $this->input->post('address'),
+                'addressoverseas' => $this->input->post('addressoverseas'),
+                'passportno' => $this->input->post('passportno'),
+                'passportcountry' => $this->input->post('passportcountry'),
+                'passportexp' => $this->input->post('passportexp'),
+                'occupation' => $this->input->post('occupation'),
+                'companyname' => $this->input->post('companyname'),
+                'industry' => $this->input->post('industry'),
+                'phoneoffice' => $this->input->post('phoneoffice')
             );
         }
         $this->db->where('parentid', $id);
@@ -289,11 +312,10 @@ class Parent_model extends CI_Model {
         }
     }
 
-    function getAllEvents($id){
+    function getAllEvents(){
         $this->db->select('*');
-        $status_array = array($id,'0');
-        $this->db->where_in('teacherid', $status_array);
         $this->db->where('date >=' ,date('Y-m-d', now()));
+        $this->db->where('assignid','0');
         $this->db->order_by('date', 'asc');
 
         $query = $this->db->get($this->event_table);
@@ -306,7 +328,7 @@ class Parent_model extends CI_Model {
     function getAllEventsCount($id, $lastlogin){
         $this->db->select('*');
         $status_array = array($id,'0');
-        $this->db->where_in('teacherid', $status_array);
+        $this->db->where_in('assignid', $status_array);
         $this->db->where('date >=' ,$lastlogin);
         $this->db->where('date >=' ,date('Y-m-d', now()));
         $this->db->order_by('date', 'desc');
@@ -421,16 +443,6 @@ class Parent_model extends CI_Model {
         $this->db->order_by("anqscoreid", "desc");
         $this->db->limit(1);
         $query = $this->db->get($this->qnascore_table, 1);
-
-        if ($query->num_rows() == 1) {
-            return $query->row_array();
-        }
-    }
-
-    function getPrincipal() {
-        $this->db->select('*');
-        $this->db->where('role', 'r0002');
-        $query = $this->db->get($this->table, 1);
 
         if ($query->num_rows() == 1) {
             return $query->row_array();
