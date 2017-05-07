@@ -9,7 +9,7 @@ class Student_model extends CI_Model {
 //    var $file_table = 'file';
 //    var $qna_table = 'assignmentandquiz';
 //    var $qnascore_table = 'assignmentandquizscore';
-//    var $lesson_plan_table = 'lesson_plan';
+    var $lesson_plan_table = 'lesson_plan';
 //    var $lesson_implementation_table = 'lesson_implementation';
 //    var $student_table = 'student';
 //    var $report_table = 'report';
@@ -158,19 +158,49 @@ class Student_model extends CI_Model {
         return FALSE;
     }
 
-    function getStudentCourses($classid, $studentid){
+    function getStudentCourses($classid){
 
         $this->db->select('*');
         $this->db->from('course course');
-        $this->db->join('course_assign course_assign', 'course.courseid=course_assign.courseid');
-        $this->db->where('course_assign.classid',$classid);
+        $this->db->where('classid',$classid);
+        $this->db->where('course_assign.courseid=course.courseid');
 
-        $query = $this->db->get();
+        $query = $this->db->get($this->course_assign_table);
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
     }
+
+    function getCourseDataByID($id){
+        $this->db->select('*');
+        $this->db->where("courseid", $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->course_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getCoursePlanDataByID($id){
+        $sql = 'SELECT * FROM `lesson_plan` WHERE courseid=\''.$id.'\' ORDER BY lessoncount';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getCourseImplementationData($id, $class){
+        $sql = 'SELECT * FROM lesson_implementation WHERE assignid= (SELECT assignid FROM course_assign WHERE courseid=\''.$id.'\' AND classid=\''.$class.'\' ) ORDER BY implementationcount';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
 
     function getAttendanceList($classid, $studentid){
           $this->db->select('*');
@@ -201,7 +231,7 @@ class Student_model extends CI_Model {
             'elementary' => $this->input->post('elementary'),
             'juniorhigh' => $this->input->post('juniorhigh'),
             'seniorhigh' => $this->input->post('seniorhigh'),
-            'role' => 'r0004',
+//            'role' => 'r0004',
             'active' => '1'
         );
         $this->db->insert($this->table, $data);
