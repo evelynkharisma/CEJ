@@ -116,6 +116,16 @@ class General
             $value = substr($id,1) + 765;
             $id = $variable.$value;
         }
+        elseif($type == 'role'){
+            $variable = ord('r');
+            $value = substr($id,1) + 654;
+            $id = $variable.$value;
+        }
+        elseif($type == 'privilege_assigned'){
+            $variable = ord('a');
+            $value = substr($id,1) + 543;
+            $id = $variable.$value;
+        }
         return $id;
     }
 
@@ -173,17 +183,22 @@ class General
         elseif($type == 'admin'){
             $variable = strlen(ord('d'));
             $id = substr($id, $variable) - 876;
-            $id = 's'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
-        }
-        elseif($type == 'admin'){
-            $variable = strlen(ord('d'));
-            $id = substr($id, $variable) - 876;
-            $id = 's'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+            $id = 'd'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         elseif($type == 'parent'){
-            $variable = strlen(ord('d'));
+            $variable = strlen(ord('p'));
             $id = substr($id, $variable) - 765;
             $id = 'p'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'role'){
+            $variable = strlen(ord('r'));
+            $id = substr($id, $variable) - 654;
+            $id = 'r'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'privilege_assigned'){
+            $variable = strlen(ord('a'));
+            $id = substr($id, $variable) - 543;
+            $id = 'a'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         return $id;
     }

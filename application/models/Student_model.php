@@ -140,6 +140,10 @@ class Student_model extends CI_Model {
         );
         $this->db->where('studentid', $id);
         $this->db->update($this->table, $data);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     function deactivateStudent($id){
@@ -148,6 +152,10 @@ class Student_model extends CI_Model {
         );
         $this->db->where('studentid', $id);
         $this->db->update($this->table, $data);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     function getStudentCourses($classid, $studentid){
@@ -193,7 +201,7 @@ class Student_model extends CI_Model {
             'elementary' => $this->input->post('elementary'),
             'juniorhigh' => $this->input->post('juniorhigh'),
             'seniorhigh' => $this->input->post('seniorhigh'),
-            'role' => 'r0003',
+            'role' => 'r0004',
             'active' => '1'
         );
         $this->db->insert($this->table, $data);

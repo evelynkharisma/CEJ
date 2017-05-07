@@ -47,9 +47,9 @@ class admin extends CI_Controller {
         if($this->Student_model->deactivateStudent($id)){
             $this->nativesession->set('success', 'Student Deleted');
         }
-//        else{
-//            $this->nativesession->set('error', 'Failed to Delete Student');
-//        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Student');
+        }
         redirect('admin/allStudents');
     }
 
@@ -222,6 +222,21 @@ class admin extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function deleteParent($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0016') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($id, 'parent');
+        if($this->Admin_model->deactivateParent($id)){
+            $this->nativesession->set('success', 'Parent Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Parent');
+        }
+        redirect('admin/allParents');
+    }
+
     public function editParent($stid){
         if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0016') != 1){
             $this->nativesession->set('error', 'Access Denied');
@@ -373,6 +388,233 @@ class admin extends CI_Controller {
         $data['newparentid'] = $newsparentid;
         $data['content'] = 'admin/admin_add_parent_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function allRoles() {
+        $data['title'] = 'SIMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['roles'] = $this->Admin_model->getAllRoles();
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['content'] = 'admin/admin_all_roles_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteRole($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0023') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($id, 'role');
+        if($this->Admin_model->deleteRole($id)){
+            $this->nativesession->set('success', 'Role Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Role');
+        }
+        redirect('admin/allRoles');
+    }
+
+    public function editRole($stid){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0020') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($stid, 'role');
+
+        $this->form_validation->set_rules('rolename', 'rolename', 'required');
+        $this->form_validation->set_rules('rolecategory', 'rolecategory', 'required');
+
+        $roleid= $this->input->post('roleid');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $this->Admin_model->editRole($roleid);
+            $this->nativesession->set('success', 'Role saved');
+            $eid = $this->general->encryptParaID($id, 'role');
+            redirect('admin/editRole/'.$eid);
+        }
+
+        $data['title'] = 'SMS';
+        $data['role']  = $this->Admin_model->getRoleDataByID($id);
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['content'] = 'admin/admin_edit_role_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addRole(){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0019') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+
+        $lastroleid = $this->Admin_model->getRoleLatestID();
+        foreach ($lastroleid as $lastid) {
+            $value = $value = substr($lastid,1) + 1;
+        }
+
+        if($value < 10) {
+            $newroleid = 'r000'.$value;
+        } else if ($value>=10 and $value<100) {
+            $newroleid = 'r00'.$value;
+        } else if ($value>=100 and $value<1000) {
+            $newroleid = 'r0' . $value;
+        } else if ($value>=1000 and $value<10000) {
+            $newroleid = 'r' . $value;
+        }
+
+        $this->form_validation->set_rules('rolename', 'rolename', 'required');
+        $this->form_validation->set_rules('rolecategory', 'rolecategory', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $this->Admin_model->addRole($newroleid);
+
+            $this->nativesession->set('success', 'New Role Added');
+            $eid = $this->general->encryptParaID($newroleid, 'parent');
+            redirect('admin/editRole/'.$eid);
+        }
+
+        $data['title'] = 'School Administrator SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['newroleid'] = $newroleid;
+        $data['content'] = 'admin/admin_add_role_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function allAssignedPrivilege() {
+        $data['title'] = 'SIMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['assigned_roles'] = $this->Admin_model->getAssignedRole();
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['content'] = 'admin/admin_all_assigned_privilege_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function editAssignedPrivilege($stid){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0022') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($stid, 'role');
+
+        $this->form_validation->set_rules('roleassigned', 'roleassigned', 'required');
+        $privilege_assigned= $this->input->post('privileges');
+
+//
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $this->Admin_model->deleteAssignedPrivilegeOfRole($id);
+
+            for ($i=0; $i<sizeof($privilege_assigned); $i++) {
+
+                $lastestid = $this->Admin_model->getAssignedLatestID();
+                foreach ($lastestid as $lastid) {
+                    $value = $value = substr($lastid,1) + 1;
+                }
+
+                if($value < 10) {
+                    $newid = 'p000'.$value;
+                } else if ($value>=10 and $value<100) {
+                    $newid = 'p00'.$value;
+                } else if ($value>=100 and $value<1000) {
+                    $newid = 'p0' . $value;
+                } else if ($value>=1000 and $value<10000) {
+                    $newid = 'p' . $value;
+                }
+
+                $this->Admin_model->addAssignedPrivilege($newid ,$this->input->post('roleassigned'), $privilege_assigned[$i] );
+            }
+
+            $this->nativesession->set('success', 'Assigned Privilege saved');
+            $eid = $this->general->encryptParaID($id, 'role');
+            redirect('admin/editAssignedPrivilege/'.$eid);
+        }
+
+        $data['title'] = 'SMS';
+        $data['assigned_role']  = $id;
+        $data['privilege_assigned']  = $this->Admin_model->getAssignedPrivilegeDataByRole($id);
+        $data['privileges']  = $this->Admin_model->getAllPrivileges();
+        $data['roles']  = $this->Admin_model->getAllRoles();
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['content'] = 'admin/admin_edit_assigned_privilege_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addAssignedPrivilege(){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0022') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+
+        $this->form_validation->set_rules('roleassigned', 'roleassigned', 'required');
+        $privilege_assigned= $this->input->post('privileges');
+
+//
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $roleAssigned = $this->input->post('roleassigned');
+            for ($i=0; $i<sizeof($privilege_assigned); $i++) {
+
+                $lastestid = $this->Admin_model->getAssignedLatestID();
+                foreach ($lastestid as $lastid) {
+                    $value = $value = substr($lastid,1) + 1;
+                }
+
+                if($value < 10) {
+                    $newid = 'a000'.$value;
+                } else if ($value>=10 and $value<100) {
+                    $newid = 'a00'.$value;
+                } else if ($value>=100 and $value<1000) {
+                    $newid = 'a0' . $value;
+                } else if ($value>=1000 and $value<10000) {
+                    $newid = 'a' . $value;
+                }
+
+                $this->Admin_model->addAssignedPrivilege($newid ,$roleAssigned, $privilege_assigned[$i] );
+            }
+
+            $this->nativesession->set('success', 'Assigned Privilege saved');
+            $eid = $this->general->encryptParaID($roleAssigned, 'role');
+            redirect('admin/editAssignedPrivilege/'.$eid);
+        }
+
+        $data['title'] = 'SMS';
+//        $data['assigned_role']  = $id;
+//        $data['privilege_assigned']  = $this->Admin_model->getAssignedPrivilegeDataByRole($id);
+        $data['privileges']  = $this->Admin_model->getAllPrivileges();
+        $data['roles']  = $this->Admin_model->getNotAssignedRole();
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['content'] = 'admin/admin_add_assigned_privilege_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteAssignedPrivilege($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0024') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($id, 'role');
+        if($this->Admin_model->deleteAssignedPrivilegeOfRole($id)){
+            $this->nativesession->set('success', ' Assigned Privilege Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Assigned Privilege');
+        }
+        redirect('admin/allAssignedPrivilege');
     }
 //    public function student_profile($id)
 //    {
