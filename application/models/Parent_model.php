@@ -3,6 +3,8 @@ class Parent_model extends CI_Model {
 
     var $table = 'parents';
     var $event_table = 'events';
+    var $child_table = 'parent_child';
+    var $student = 'student';
 
     function __construct() {
         parent::__construct();
@@ -53,7 +55,7 @@ class Parent_model extends CI_Model {
         }
     }
 
-    function editProfile($id, $at) {
+    function editProfile($id) {
         if ($this->input->post('password')) {
             $data = array(
 //                'password' => hash('sha512', $this->input->post('password')),
@@ -62,39 +64,40 @@ class Parent_model extends CI_Model {
                 'lastname' => $this->input->post('lastname'),
                 'gender' => $this->input->post('gender'),
                 'phone' => $this->input->post('phone'),
+                'phoneoverseas' => $this->input->post('phoneoverseas'),
+                'mobile' => $this->input->post('mobile'),
+                'mobileoverseas' => $this->input->post('mobileoverseas'),
                 'email' => $this->input->post('email'),
                 'address' => $this->input->post('address'),
-//                'dateofbirth' => $this->input->post('dateofbirth'),
-//                'placeofbirth' => $this->input->post('placeofbirth'),
-//                'religion' => $this->input->post('religion'),
-//                'elementary' => $this->input->post('elementary'),
-//                'juniorhigh' => $this->input->post('juniorhigh'),
-//                'seniorhigh' => $this->input->post('seniorhigh'),
-//                'undergraduate' => $this->input->post('undergraduate'),
-//                'graduate' => $this->input->post('graduate'),
-//                'postgraduate' => $this->input->post('postgraduate'),
-//                'experience' => $this->input->post('experience'),
-//                'workinghour' => $at
+                'addressoverseas' => $this->input->post('addressoverseas'),
+                'passportno' => $this->input->post('passportno'),
+                'passportcountry' => $this->input->post('passportcountry'),
+                'passportexp' => $this->input->post('passportexp'),
+                'occupation' => $this->input->post('occupation'),
+                'companyname' => $this->input->post('companyname'),
+                'industry' => $this->input->post('industry'),
+                'phoneoffice' => $this->input->post('phoneoffice')
             );
         } else {
             $data = array(
+                'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
                 'firstname' => $this->input->post('firstname'),
                 'lastname' => $this->input->post('lastname'),
                 'gender' => $this->input->post('gender'),
                 'phone' => $this->input->post('phone'),
+                'phoneoverseas' => $this->input->post('phoneoverseas'),
+                'mobile' => $this->input->post('mobile'),
+                'mobileoverseas' => $this->input->post('mobileoverseas'),
                 'email' => $this->input->post('email'),
                 'address' => $this->input->post('address'),
-//                'dateofbirth' => $this->input->post('dateofbirth'),
-//                'placeofbirth' => $this->input->post('placeofbirth'),
-//                'religion' => $this->input->post('religion'),
-//                'elementary' => $this->input->post('elementary'),
-//                'juniorhigh' => $this->input->post('juniorhigh'),
-//                'seniorhigh' => $this->input->post('seniorhigh'),
-//                'undergraduate' => $this->input->post('undergraduate'),
-//                'graduate' => $this->input->post('graduate'),
-//                'postgraduate' => $this->input->post('postgraduate'),
-//                'experience' => $this->input->post('experience'),
-//                'workinghour' => $at
+                'addressoverseas' => $this->input->post('addressoverseas'),
+                'passportno' => $this->input->post('passportno'),
+                'passportcountry' => $this->input->post('passportcountry'),
+                'passportexp' => $this->input->post('passportexp'),
+                'occupation' => $this->input->post('occupation'),
+                'companyname' => $this->input->post('companyname'),
+                'industry' => $this->input->post('industry'),
+                'phoneoffice' => $this->input->post('phoneoffice')
             );
         }
         $this->db->where('parentid', $id);
@@ -112,7 +115,8 @@ class Parent_model extends CI_Model {
         return TRUE;
     }
 
-    function getLatestID(){
+    function getLatestID()
+    {
         $this->db->select('parentid');
         $this->db->order_by("parentid", "desc");
         $this->db->limit(1);
@@ -121,33 +125,6 @@ class Parent_model extends CI_Model {
         if ($query->num_rows() == 1) {
             return $query->row_array();
         }
-    }
-
-    function addParent($id, $at){
-        $data = array(
-            'parentid' => $id,
-//            'password' => hash('sha512', $this->input->post('password')),
-            'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
-            'firstname' => $this->input->post('firstname'),
-            'lastname' => $this->input->post('lastname'),
-            'gender' => $this->input->post('gender'),
-            'phone' => $this->input->post('phone'),
-            'email' => $this->input->post('email'),
-            'address' => $this->input->post('address'),
-//            'dateofbirth' => $this->input->post('dateofbirth'),
-//            'placeofbirth' => $this->input->post('placeofbirth'),
-//            'religion' => $this->input->post('religion'),
-//            'elementary' => $this->input->post('elementary'),
-//            'juniorhigh' => $this->input->post('juniorhigh'),
-//            'seniorhigh' => $this->input->post('seniorhigh'),
-//            'undergraduate' => $this->input->post('undergraduate'),
-//            'graduate' => $this->input->post('graduate'),
-//            'postgraduate' => $this->input->post('postgraduate'),
-//            'experience' => $this->input->post('experience'),
-//            'role' => 'r0001',
-//            'workinghour' => $at
-        );
-        $this->db->insert($this->table, $data);
     }
 
     function deleteParent($id){
@@ -297,11 +274,48 @@ class Parent_model extends CI_Model {
         return FALSE;
     }
 
-    function getAllEvents($id){
+    function getAllChildren($id){
         $this->db->select('*');
-        $status_array = array($id,'0');
-        $this->db->where_in('teacherid', $status_array);
+        $this->db->join('student', 'student.studentid = parent_child.studentid');
+        $this->db->where('parent_child.parentid' ,$id);
+        $this->db->order_by('student.firstname', 'asc');
+
+        $query = $this->db->get($this->child_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getFirstChild($id){
+        $this->db->select('*');
+        $this->db->join('student', 'student.studentid = parent_child.studentid');
+        $this->db->where('parent_child.parentid' ,$id);
+        $this->db->order_by("student.firstname", "asc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->child_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getChild($id){
+        $this->db->select('*');
+        $this->db->where('studentid' ,$id);
+        $this->db->limit(1);
+
+        $query = $this->db->get($this->student);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getAllEvents(){
+        $this->db->select('*');
         $this->db->where('date >=' ,date('Y-m-d', now()));
+        $this->db->where('assignid','0');
         $this->db->order_by('date', 'asc');
 
         $query = $this->db->get($this->event_table);
@@ -314,7 +328,7 @@ class Parent_model extends CI_Model {
     function getAllEventsCount($id, $lastlogin){
         $this->db->select('*');
         $status_array = array($id,'0');
-        $this->db->where_in('teacherid', $status_array);
+        $this->db->where_in('assignid', $status_array);
         $this->db->where('date >=' ,$lastlogin);
         $this->db->where('date >=' ,date('Y-m-d', now()));
         $this->db->order_by('date', 'desc');
@@ -429,16 +443,6 @@ class Parent_model extends CI_Model {
         $this->db->order_by("anqscoreid", "desc");
         $this->db->limit(1);
         $query = $this->db->get($this->qnascore_table, 1);
-
-        if ($query->num_rows() == 1) {
-            return $query->row_array();
-        }
-    }
-
-    function getPrincipal() {
-        $this->db->select('*');
-        $this->db->where('role', 'r0002');
-        $query = $this->db->get($this->table, 1);
 
         if ($query->num_rows() == 1) {
             return $query->row_array();
