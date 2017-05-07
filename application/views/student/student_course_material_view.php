@@ -1,13 +1,14 @@
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
+        <?php
+        $encrypted = $this->general->encryptParaID($course['courseid'],'course');
+        ?>
         <div class="page-title">
             <div class="title_left">
-                <h3>Course Name</h3>
+                <h3><a href="<?php echo base_url() ?>index.php/student/courseView/<?php echo $encrypted ?>"><?php echo $course['coursename']?></a></h3>
+
             </div>
-
-
-        </div>
 
         <div class="clearfix"></div>
 
@@ -15,9 +16,9 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <a href="<?php echo base_url() ?>index.php/student/coursePlan" class="btn btn-success">Lesson Plan</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseImplementation" class="btn btn-success">Lesson Implementation</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseMaterial" class="btn btn-success">Shared Materials</a>
+                        <a href="<?php echo base_url() ?>index.php/student/coursePlan<?php echo $encrypted ?>" class="btn btn-success">Lesson Plan</a>
+                        <a href="<?php echo base_url() ?>index.php/student/courseImplementation<?php echo $encrypted ?>" class="btn btn-success">Lesson Implementation</a>
+                        <a href="<?php echo base_url() ?>index.php/student/courseMaterial<?php echo $encrypted ?>" class="btn btn-success">Shared Materials</a>
                         <a href="<?php echo base_url() ?>index.php/student/courseAssignmentQuiz" class="btn btn-success">Assignments and Quizzes</a>
                         <a href="<?php echo base_url() ?>index.php/student/courseStudent" class="btn btn-success">Students</a>
                     </div>

@@ -23,54 +23,14 @@
                                     <ul style="line-height: 2.4vw">
                                         <?php
                                         if($courses){
-                                        foreach($courses as $course){ ?>
-                                            <li><a href="<?php echo base_url() ?>index.php/student/courseView"><h4><?php echo $course['coursename'];?></h4></a></li>
+                                        foreach($courses as $course){
+                                            $course_encrypted = $this->general->encryptParaID($course['courseid'],'course');
+                                            ?>
+                                            <li><a href="<?php echo base_url() ?>index.php/student/courseView/<?php echo $course_encrypted?>"><h4><?php echo $course['coursename'];?></h4></a></li>
                                         <?php }}?>
                                     </ul>
                                 </div>
                             </article>
-
-                            <!--                            <table class="teacher_dashboard_today_schedule_table">-->
-                            <!--                                <tr>-->
-                            <!--                                    <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>-->
-                            <!--                                    <td>Subject<br>Room</td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>-->
-                            <!--                                    <td>Subject<br>Room</td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>-->
-                            <!--                                    <td>Subject<br>Room</td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>-->
-                            <!--                                    <td>Subject<br>Room</td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>-->
-                            <!--                                    <td>Subject<br>Room</td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>-->
-                            <!--                                    <td>Subject<br>Room</td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <td class="teacher_dashboard_today_schedule_break" colspan="2"  width="5%"><b>Break<b><br></td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>-->
-                            <!--                                    <td>Subject<br>Room</td>-->
-                            <!--                                </tr>-->
-                            <!--                                <tr>-->
-                            <!--                                    <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>-->
-                            <!--                                    <td>Subject<br>Room</td>-->
-                            <!--                                </tr>-->
-                            <!---->
-                            <!--                            </table>-->
                         </div>
                     </div>
                 </div>

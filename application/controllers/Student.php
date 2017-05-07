@@ -11,14 +11,14 @@ class student extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->general->StudentLogin();
+//        $this->general->StudentLogin();
         $this->load->model('Student_model');
     }
 
     public function home()
     {
         $data['title'] = 'Student SMS';
-        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'),$this->nativesession->get('id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
         $data['sidebar'] = 'student/student_sidebar';
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
@@ -37,6 +37,58 @@ class student extends CI_Controller {
         $data['content'] = 'student/learning_attendance_view';
         $this->load->view($this->template, $data);
     }
+
+    public function courseView($id)
+    {
+        $id = $this->general->decryptParaID($id, 'course');
+        $data['title'] = 'Student LMS';
+        $data['sidebar'] = 'student/student_sidebar';
+        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'student/student_topnavigation';
+        $data['content'] = 'student/student_course_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function coursePlan($id)
+    {
+        $id = $this->general->decryptParaID($id, 'course');
+        $data['title'] = 'Student LMS';
+        $data['sidebar'] = 'student/student_sidebar';
+        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['course_plan'] = $this->Student_model->getCoursePlanDataByID($id);
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'student/student_topnavigation';
+        $data['content'] = 'student/student_course_plan_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function courseImplementation($id)
+    {
+        $id = $this->general->decryptParaID($id, 'course');
+        $data['title'] = 'Student LMS';
+        $data['sidebar'] = 'student/student_sidebar';
+        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['course_implementation'] = $this->Student_model->getCourseImplementationData($id, $this->nativesession->get('classid'));
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'student/student_topnavigation';
+        $data['content'] = 'student/student_course_implementation_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function courseMaterial($id)
+    {
+        $id = $this->general->decryptParaID($id, 'course');
+        $data['title'] = 'Student LMS';
+        $data['sidebar'] = 'student/student_sidebar';
+        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'student/student_topnavigation';
+        $data['content'] = 'student/student_course_material_view';
+        $this->load->view($this->template, $data);
+    }
+
+
 
     public function learning_report()
     {
@@ -78,25 +130,7 @@ class student extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function courseMaterial()
-    {
-        $data['title'] = 'Student LMS';
-        $data['sidebar'] = 'student/student_sidebar';
-        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
-        $data['topnavigation'] = 'student/student_topnavigation';
-        $data['content'] = 'student/student_course_material_view';
-        $this->load->view($this->template, $data);
-    }
 
-    public function coursePlan()
-    {
-        $data['title'] = 'Student LMS';
-        $data['sidebar'] = 'student/student_sidebar';
-        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
-        $data['topnavigation'] = 'student/student_topnavigation';
-        $data['content'] = 'student/student_course_plan_view';
-        $this->load->view($this->template, $data);
-    }
 
     public function courseStudent()
     {
@@ -108,25 +142,7 @@ class student extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function courseView()
-    {
-        $data['title'] = 'Student LMS';
-        $data['sidebar'] = 'student/student_sidebar';
-        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
-        $data['topnavigation'] = 'student/student_topnavigation';
-        $data['content'] = 'student/student_course_view';
-        $this->load->view($this->template, $data);
-    }
 
-    public function courseImplementation()
-    {
-        $data['title'] = 'Student LMS';
-        $data['sidebar'] = 'student/student_sidebar';
-        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
-        $data['topnavigation'] = 'student/student_topnavigation';
-        $data['content'] = 'student/student_course_view';
-        $this->load->view($this->template, $data);
-    }
 
     public function student_profile($id)
     {
@@ -220,7 +236,7 @@ class student extends CI_Controller {
         $this->nativesession->delete('id');
         $this->nativesession->delete('name');
         $this->nativesession->delete('photo');
-        $this->nativesession->delete('role');
+//        $this->nativesession->delete('role');
         $this->nativesession->delete('lastlogin');
         $this->nativesession->delete('is_login');
         redirect('');
