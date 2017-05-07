@@ -25,22 +25,30 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <div class="col-md-3 col-sm-3 col-xs-3 profile_left">
-                            <div class="profile_img">
-                                <div class="teacher_profile_crop">
-                                    <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view teacher_profile_img" src="http://placehold.it/220x220" alt="Avatar" title="Change the avatar">
+                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                            <div class="col-md-5 col-sm-12 col-xs-12 profile_left">
+                                <div class="profile_img">
+                                    <div class="teacher_profile_crop">
+                                        <!-- Current avatar -->
+                                        <img class="img-responsive avatar-view teacher_profile_img" src="http://placehold.it/220x220" alt="Avatar" title="Change the avatar">
+                                    </div>
                                 </div>
+                                <input class="btn btn-success set-margin-bottom set-margin-top" type="file" name="photo" />
                             </div>
-                            <input class="btn btn-success set-margin-bottom set-margin-top" type="file" name="photo" />
 
-                            <ul class="list-unstyled user_data">
-                                <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> Role
-                                    <input type="text" class="form-control set-margin-bottom" name="role" value="Teacher" readonly/>
-                                </li>
-                            </ul>
-                            <br />
+                            <div class="col-md-7 col-sm-12 col-xs-12">
+                                <ul class="list-unstyled user_data">
+                                    <li>
+                                        <select class="form-control set-margin-bottom" name="role">
+                                            <option selected value="">Role</option>
+                                            <?php foreach ($rolechoice as $c){?>
+                                                <option value="<?php echo $c['roleid']; ?>"><?php echo ucwords($c['name']); ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
 
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -53,22 +61,22 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Password</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="password" class="form-control set-margin-bottom" name="password"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Confirm Password</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="password" class="form-control set-margin-bottom" name="confirmpassword"/>
-                                        </div>
-                                    </div>
-                                </div>
+<!--                                <div class="col-md-6 col-sm-6 col-xs-12">-->
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">Password</div>-->
+<!--                                        <div class="teacher_profile_value">-->
+<!--                                            <input type="password" class="form-control set-margin-bottom" name="password"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6 col-sm-6 col-xs-12">-->
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">Confirm Password</div>-->
+<!--                                        <div class="teacher_profile_value">-->
+<!--                                            <input type="password" class="form-control set-margin-bottom" name="confirmpassword"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">First Name</div>

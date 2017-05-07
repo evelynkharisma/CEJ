@@ -375,8 +375,8 @@ class teacher extends CI_Controller {
             $this->nativesession->set('error', 'Access Denied');
             redirect('teacher/home');
         }
-        $this->form_validation->set_rules('password', 'password', 'required');
-        $this->form_validation->set_rules('confirmpassword', 'confirm password', 'required|matches[password]');
+//        $this->form_validation->set_rules('password', 'password', 'required');
+//        $this->form_validation->set_rules('confirmpassword', 'confirm password', 'required|matches[password]');
         $this->form_validation->set_rules('firstname', 'firstname', 'required');
         $this->form_validation->set_rules('lastname', 'lastname', 'required');
         $this->form_validation->set_rules('gender', 'gender', 'required');
@@ -457,6 +457,7 @@ class teacher extends CI_Controller {
         $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
         $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
         $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
+        $data['rolechoice'] = $this->Teacher_model->getRoleCategory(1);
         $data['content'] = 'teacher/teacher_add_teacher_view';
         $this->load->view($this->template, $data);
     }
@@ -1589,6 +1590,8 @@ class teacher extends CI_Controller {
 
     public function selectSchedule()
     {
+        $this->Teacher_model->deleteAllSchedule();
+        
         $grade = $this->input->post('class');
         $row = $this->input->post('row');
         $colom = $this->input->post('colom');
@@ -1707,6 +1710,11 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/edit_schedule_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function saveSchedule()
+    {
+        
     }
 
     public function classScheduleView()

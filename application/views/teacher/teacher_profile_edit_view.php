@@ -27,23 +27,30 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <div class="col-md-12 col-sm-12 col-xs-12 profile_left">
-                            <div class="profile_img">
-                                <div class="teacher_profile_crop">
-                                    <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $info_db['photo'] ?>" alt="Avatar" title="Change the avatar">
+                        <div class="col-md-12 col-sm-12 col-xs-12 ">
+                            <div class="col-md-5 col-sm-12 col-xs-12 profile_left">
+                                <div class="profile_img">
+                                    <div class="teacher_profile_crop">
+                                        <!-- Current avatar -->
+                                        <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $info_db['photo'] ?>" alt="Avatar" title="Change the avatar">
+                                    </div>
                                 </div>
+                                <input class="btn btn-success set-margin-bottom set-margin-top" type="file" name="photo" />
                             </div>
-                            <input class="btn btn-success set-margin-bottom set-margin-top" type="file" name="photo" />
 
-                            <ul class="list-unstyled user_data">
-                                <li>
-                                    <i class="fa fa-user user-profile-icon"></i> ID: <?php echo $info_db['teacherid']; ?>
-                                </li>
-                                <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> Role: <?php echo ucwords($info_db['name']); ?>
-                                </li>
-                            </ul>
+                            <div class="col-md-7 col-sm-12 col-xs-12">
+                                <h3><?php echo $info_db['firstname'].' '.$info_db['lastname'] ?> </h3>
+
+                                <ul class="list-unstyled user_data">
+                                    <li>
+                                        ID&emsp;&emsp;: <?php echo $info_db['teacherid']; ?>
+                                    </li>
+                                    <li>
+                                        Role&emsp;: <?php echo ucwords($info_db['name']); ?>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="clearfix"></div>
 
                             <button type="submit" class="btn btn-success set-right"><i class="fa fa-save m-right-xs"></i> Save Changes</button>
                             <br />

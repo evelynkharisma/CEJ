@@ -219,6 +219,53 @@ class General
         return strtoupper($Code);
     }
 
+//    function checkConflict($grc){
+//        $position = explode('-', $grc);
+//        $class = $position[0];
+//        $row= $position[1];
+//        $colom = $position[2];
+//
+//        $day = $this->Teacher_model->getSetting('s0005');
+//
+//        $conflict1 = false;
+//        $conflict2 = false;
+//        $conflict3 = false;
+//
+//        $checkthis = $this->Teacher_model->getScheduleID($class, $row, $colom);
+//        $notthisid = $checkthis['scheduleid'];
+//        $thisteacherworkinghour = $this->Teacher_model->getWorkingHour($checkthis['teacherid']);
+//
+//        $othertablewithsamerowandcolom = $this->Teacher_model->getScheduleWithRowColom($row, $colom, $notthisid);
+//        foreach ($othertablewithsamerowandcolom as $other){
+//            if($checkthis['teacherid'] == $other['teacherid']){
+//                $conflict1 = true;
+//            }
+//        }
+//        unset($othertablewithsamerowandcolom);
+//
+//        $otherperiodsameday = $this->Teacher_model->getScheduleWithDayOfGrade($colom, $class, $notthisid);
+//        foreach ($otherperiodsameday as $other){
+//            if($checkthis['courseid'] == $other['courseid']){
+//                $conflict2 = true;
+//            }
+//        }
+//        unset($otherperiodsameday);
+//
+//        $worktimestring = substr($thisteacherworkinghour['workinghour'], 1, strlen($thisteacherworkinghour['workinghour']));
+//        $worktime = explode('|', $worktimestring);
+//        if($worktime[$row*$day['value']*$colom] == '0'){
+//            $conflict3 = true;
+//        }
+//
+//
+//        if($conflict1 == true || $conflict2 == true || $conflict3 == true){
+//            return 1;
+//        }
+//        else{
+//            return 0;
+//        }
+//    }
+
 }
 
 ?>

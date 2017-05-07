@@ -149,10 +149,15 @@ class Teacher_model extends CI_Model {
     }
 
     function addTeacher($id, $at){
+        $date_array = explode("-",$this->input->post('dateofbirth'));
+        $day = $date_array[2];
+        $month = $date_array[1];
+        $year = $date_array[0];
+        $pass = 'SMS'.$day.''.$month.''.$year;
         $data = array(
             'teacherid' => $id,
 //            'password' => hash('sha512', $this->input->post('password')),
-            'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
+            'password' => crypt($pass,'$6$rounds=5000$simsthesisproject$'),
             'firstname' => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
             'gender' => $this->input->post('gender'),
@@ -1667,6 +1672,22 @@ class Teacher_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    function getScheduleID($c, $r, $c){
+        $this->db->select('*');
+        $this->db->where('classid', $c);
+        $this->db->where('period', $r);
+        $this->db->where('day', $c);
+        $query = $this->db->get($this->schedule_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function deleteAllSchedule(){
+        $this->db->empty_table($this->schedule_table);
     }
 }
 

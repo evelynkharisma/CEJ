@@ -18,10 +18,11 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                    <?php echo form_open_multipart('teacher/saveSchedule/'); ?>
+                    <?php
+                    $attributes = array('id' => 'checkform');
+                    echo form_open_multipart('teacher/selectSchedule/', $attributes); ?>
                     <div class="x_content">
                         <?php
-                        $a = 0;
                         for($grade=1; $grade<12; $grade++){
                             if(isset(${'g'.$grade})){
                         ?>
@@ -78,17 +79,17 @@
                                                         <?php echo $thisperiod; ?>
                                                     </td>
                                                     <?php for($j=0; $j < $day['value']; $j++){ ?>
-                                                        <td class="set-center drop <?php echo (isset(${'g'.$grade}[$i*$day['value']+$j]['conflict']) && ${'g'.$grade}[$i*$day['value']+$j]['conflict'] == 1)?'conflicted':'not-conflicted' ?>" style="color: #FFF;">
-                                                            <div class="item">
-                                                                <input type="hidden" name="class[<?php echo $a ?>]" value="<?php echo $grade ?>" />
-                                                                <input type="hidden" name="row[<?php echo $a ?>]" value="<?php echo $i ?>" />
-                                                                <input type="hidden" name="colom[<?php echo $a ?>]" value="<?php echo $j ?>" />
-                                                                <input type="hidden" name="teacherid[<?php echo $a ?>]" value="<?php echo ${'g'.$grade}[$i*$day['value']+$j]['teacherid'] ?>" />
-                                                                <input type="hidden" name="courseid[<?php echo $a ?>]" value="<?php echo ${'g'.$grade}[$i*$day['value']+$j]['courseid'] ?>" />
+                                                        <td id="cell-<?php echo $grade ?>-<?php echo $i ?>-<?php echo $j ?>" class="assigned set-center drop <?php echo (isset(${'g'.$grade}[$i*$day['value']+$j]['conflict']) && ${'g'.$grade}[$i*$day['value']+$j]['conflict'] == 1)?'conflicted':'not-conflicted' ?>" style="color: #FFF;">
+                                                            <div class="item" id="item-<?php echo $grade ?>-<?php echo $i ?>-<?php echo $j ?>">
+                                                                <input type="hidden" name="class[]" value="<?php echo $grade ?>" />
+                                                                <input type="hidden" name="row[]" value="<?php echo $i ?>" />
+                                                                <input type="hidden" name="colom[]" value="<?php echo $j ?>" />
+                                                                <input type="hidden" name="teacherid[]" value="<?php echo ${'g'.$grade}[$i*$day['value']+$j]['teacherid'] ?>" />
+                                                                <input type="hidden" name="courseid[]" value="<?php echo ${'g'.$grade}[$i*$day['value']+$j]['courseid'] ?>" />
                                                                 <?php echo ${'g'.$grade}[$i*$day['value']+$j]['firstname'] ?> <?php echo ${'g'.$grade}[$i*$day['value']+$j]['lastname'] ?><br/><?php echo ${'g'.$grade}[$i*$day['value']+$j]['coursename'] ?>
                                                             </div>
                                                         </td>
-                                                        <?php $a++; } ?>
+                                                        <?php } ?>
                                                 </tr>
                                                 <?php
                                                 $thisperiod = date('H:i', strtotime($thisperiod) + 60*60);
@@ -104,7 +105,7 @@
                             </div>
                     <?php }} ?>
                     </div>
-                    <button type="submit" class="btn btn-success set-margin-top set-right"><i class="fa fa-save"></i> Save Schedule</button>
+                    <button type="submit" name="savebutton" value="save" class="btn btn-success set-margin-top set-right"><i class="fa fa-save"></i> Save Schedule</button>
                     <?php echo form_close(); ?>
                 </div>
             </div>
@@ -134,34 +135,57 @@
     $(function(){
         $('.item').draggable({
             revert:true,
-            proxy:'clone',
-            onStartDrag:function(){
-                $(this).draggable('proxy').addClass('dragging');
-            },
+//            proxy:'clone',
+//            onStartDrag:function(){
+//                $(this).addClass('dragging');
+//            },
         });
         $('.right td.drop').droppable({
-            onDragEnter:function(){
-                $(this).addClass('over');
-            },
-            onDragLeave:function(){
-                $(this).removeClass('over');
-            },
             onDrop:function(e,source){
-                $(this).removeClass('over');
+
                 if ($(this).children('div').length > 0 ){
                     $(this).children('div').swapWith($(source));
-                } else {
-                    if($(source).hasClass('assigned')){
-                        $(this).append(source);
-                    }
-                    else{
-                        var c = $(source).clone().addClass('assigned');
-                        $(this).empty().append(c);
-                        c.draggable({
-                            revert:true
-                        });
-                    }
                 }
+
+                document.getElementById("checkform").submit();
+
+//                var t = this.id;
+//                t = t.substring(5, t.length);
+//                var s = source.id;
+//                s = s.substring(5, s.length);
+//                document.getElementById("item-"+s).setAttribute("id", "item-"+t);
+//                document.getElementById("item-"+t).setAttribute("id", "item-"+s);
+
+//                $.ajax({
+//                    url:'general/checkConflict',
+//                    type: 'post',
+//                    data: { "target": t},
+//                    success: function(response) {
+//                        if (response == 1) {
+//                            if($('#cell'+t).hasClass('conflicted')){
+//                            }
+//                            else{
+//                                $('#cell'+t).removeClass('not-conflicted')
+//                                $('#cell'+t).addClass('conflicted')
+//                            }
+//                        } else {
+//                            if($('#cell'+t).hasClass('not-conflicted')){
+//                            }
+//                            else{
+//                                $('#cell'+t).removeClass('conflicted')
+//                                $('#cell'+t).addClass('not-conflicted')
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+
+
+//                var cellIndex  = this.cellIndex + 1;
+//
+//                var rowIndex = this.parentNode.rowIndex + 1;
+//
+//                alert("cell: " + source + " / row: " + rowIndex );
             }
         });
     });
