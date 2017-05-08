@@ -45,43 +45,55 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                        <div class="col-md-6 col-sm-3 col-xs-12 profile_left">
                             <div class="profile_img">
                                 <div class="teacher_profile_crop">
                                     <!-- Current avatar -->
                                     <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo'] ?>" alt="Avatar" title="Change the avatar">
                                 </div>
+                                <h3><?php echo $student['firstname'].' '.$student['lastname'] ?></h3>
                             </div>
 
                         </div>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-
-                            <div class="col-md-12">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Name</div>
-                                        <div class="teacher_profile_value"><?php echo $student['firstname'].' '.$student['lastname'] ?></div>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Assessment</h2>
+                                        <div class="clearfix"></div>
                                     </div>
-                                </div>
-                                <div class="col-md-6  col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Phone</div>
-                                        <div class="teacher_profile_value"><?php echo $student['phone'] ?></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6  col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Email</div>
-                                        <div class="teacher_profile_value"><?php echo $student['email'] ?></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Address</div>
-                                        <div class="teacher_profile_value"><?php echo $student['address'] ?></div>
+                                    <div class="x_content">
+                                        <canvas id="lineChart3"></canvas>
                                     </div>
                                 </div>
                             </div>
+
+<!--                            <div class="col-md-12">-->
+<!--                                <div class="col-md-6 col-sm-6 col-xs-12">-->
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">Name</div>-->
+<!--                                        <div class="teacher_profile_value">--><?php //echo $student['firstname'].' '.$student['lastname'] ?><!--</div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6  col-sm-6 col-xs-12">-->
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">Phone</div>-->
+<!--                                        <div class="teacher_profile_value">--><?php //echo $student['phone'] ?><!--</div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6  col-sm-6 col-xs-12">-->
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">Email</div>-->
+<!--                                        <div class="teacher_profile_value">--><?php //echo $student['email'] ?><!--</div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6 col-sm-6 col-xs-12">-->
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">Address</div>-->
+<!--                                        <div class="teacher_profile_value">--><?php //echo $student['address'] ?><!--</div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12 set-margin-top">
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -107,19 +119,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 col-sm-12 col-xs-12 set-margin-top">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="x_panel">
-                                    <div class="x_title">
-                                        <h2>Assessment</h2>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="x_content">
-                                        <canvas id="lineChart3"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="col-md-12 col-sm-12 col-xs-12 set-margin-top">-->
+<!--                            <div class="col-md-12 col-sm-12 col-xs-12">-->
+<!--                                <div class="x_panel">-->
+<!--                                    <div class="x_title">-->
+<!--                                        <h2>Assessment</h2>-->
+<!--                                        <div class="clearfix"></div>-->
+<!--                                    </div>-->
+<!--                                    <div class="x_content">-->
+<!--                                        <canvas id="lineChart3"></canvas>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-9">

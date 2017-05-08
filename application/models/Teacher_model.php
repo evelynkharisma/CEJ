@@ -1407,7 +1407,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function getAllQnAByStudent($studentid, $type){
+    function getAllQnAByStudent($studentid, $assignid, $type){
         if($type == 1){
             $type_array = array('Homework');
         }
@@ -1421,6 +1421,7 @@ class Teacher_model extends CI_Model {
         $this->db->join('assignmentandquiz', 'assignmentandquiz.anqid = assignmentandquizscore.anqid');
         $this->db->order_by('submissiondate', 'asc');
         $this->db->where('assignmentandquizscore.studentid', $studentid);
+        $this->db->where('assignmentandquiz.assignid', $assignid);
         $this->db->where_in('assignmentandquiz.type', $type_array);
 
         $query = $this->db->get($this->qnascore_table);

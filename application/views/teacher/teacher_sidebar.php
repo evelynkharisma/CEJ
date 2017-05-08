@@ -127,6 +127,7 @@
                     if($privilege == 1){
                     ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/createSchedule">Create Schedule</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/editSchedule">Edit Schedule</a></li>
                     <?php } ?>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/classScheduleView">Class Schedule</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/examScheduleView">Exam Schedule</a></li>

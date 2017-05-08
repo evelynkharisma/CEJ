@@ -6,9 +6,10 @@
         ?>
         <div class="page-title">
             <div class="title_left">
-                <h3><?php echo $info_db['coursename'] ?> <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/teacher/editSemester/<?php echo $encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Semester Plan</a></h3>
+                <h3><?php echo $info_db['coursename'] ?></h3>
             </div>
         </div>
+
 
         <div class="clearfix"></div>
 
@@ -24,7 +25,7 @@
                     <div class="x_title">
                         <h2>Semester Plan</h2>
                         <a href="<?php echo base_url() ?>index.php/teacher/printPreviewSemester/<?php echo $encrypted ?>" target="_blank" class="btn btn-success set-right"><i class="fa fa-eye"></i> Print Preview</a>
-                        
+                        <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/teacher/editSemester/<?php echo $encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Semester Plan</a>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">

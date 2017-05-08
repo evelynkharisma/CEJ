@@ -1260,9 +1260,9 @@ class teacher extends CI_Controller {
             redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
 
-        $data['homework'] = $this->Teacher_model->getAllQnAByStudent($studentid, 1);
-        $data['classwork'] = $this->Teacher_model->getAllQnAByStudent($studentid, 2);
-        $data['assessment'] = $this->Teacher_model->getAllQnAByStudent($studentid, 3);
+        $data['homework'] = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 1);
+        $data['classwork'] = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 2);
+        $data['assessment'] = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 3);
         
         
         $data['title'] = 'SMS';
@@ -1276,15 +1276,6 @@ class teacher extends CI_Controller {
         $data['report'] = $this->Teacher_model->getReportDataBy($assignid, $studentid);
         $data['content'] = 'teacher/teacher_course_student_performance_view';
         $this->load->view($this->template, $data);
-    }
-
-    public function performancedata($studentid){
-        $homework = $this->Teacher_model->getAllQnAByStudent($studentid, 'Quiz');
-        $data = array();
-        foreach ($homework as $row) {
-            $data[] = $row;
-        }
-        print json_encode($data);
     }
 
     public function createSchedule()
