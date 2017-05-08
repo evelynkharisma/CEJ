@@ -7,7 +7,9 @@
 <!-- menu profile quick info -->
 <div class="profile clearfix">
     <div class="profile_pic">
-        <img src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="..." class="img-circle profile_img">
+        <div class="teacher_sidebar_crop">
+            <img src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="..."  class="img-circle teacher_sidebar_photo">
+        </div>
     </div>
     <div class="profile_info">
         <span>Welcome,</span>
@@ -28,24 +30,53 @@
                     <li><a href="<?php echo base_url() ?>index.php/student/learning_attendance">Attendance</a></li>
                     <li><a>Report<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                                <li><a href="<?php echo base_url() ?>index.php/student/learning_report">Mid Term Report</a>
-                                </li>
-                                <li><a href="<?php echo base_url() ?>index.php/student/learning_report">Final Term Report</a>
-                                </li>
+                            <?php
+                            if($grades) {
+                            foreach ($grades as $grade) {
+                                $grade_only = $token = strtok($grade['classroom'], "-");
+                                ?>
+                                <li><a href="<?php echo base_url() ?>index.php/student/learningReport/1/<?php echo $grade_only?>">Grade <?php echo $grade_only; ?></a>
+                            <?php
+                            }
+                            }?>
+                            </li>
                         </ul>
                     </li>
                 </ul>
             </li>
             <li><a><i class="fa fa-edit"></i> Courses <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="#level1_1">Grade 10</a>
-                    <li><a>Grade 11<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="<?php echo base_url() ?>index.php/student/courseView">Course 1</a></li>
-                            <li><a href="<?php echo base_url() ?>index.php/student/courseView">Course 2</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#level1_2">Grade 12</a>
+                    <?php
+                    if($grades) {
+                    foreach($grades as $grade) {
+                        $grade_only = $token = strtok($grade['classroom'], "-");
+                    ?>
+                        <li><a href="#level1_1">Grade <?php echo $grade_only;
+                                if ($studentGradeCourses) {
+                            ?>
+                                    <span class="fa fa-chevron-down"></span>
+                              <?php
+                                }?></a>
+                            <?php
+                            if($studentGradeCourses) {?>
+                                <ul class="nav child_menu">
+                                <?php
+                                foreach ($studentGradeCourses as $studentGradeCourse) {
+                                    if($studentGradeCourse['classroom']==$grade['classroom']) {
+                                        $course_encrypted = $this->general->encryptParaID($studentGradeCourse['courseid'],'course');
+                                        ?>
+                                    <li><a href="<?php echo base_url() ?>index.php/student/courseView/<?php echo $course_encrypted?>"><?php echo $studentGradeCourse['classroom'].' '.$studentGradeCourse['coursename']?></a></li>
+                                <?php
+                                    }
+                                }?>
+                                </ul>
+                                <?php
+                            }
+                            ?>
+
+                    <?php
+                    }}
+                    ?>
                     </li>
                 </ul>
             </li>

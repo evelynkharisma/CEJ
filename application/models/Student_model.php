@@ -6,12 +6,12 @@ class Student_model extends CI_Model {
     var $course_assign_table = 'course_assign';
     var $attendance_table = 'attendance';
 //    var $material_table = 'material';
-//    var $file_table = 'file';
-//    var $qna_table = 'assignmentandquiz';
-//    var $qnascore_table = 'assignmentandquizscore';
+    var $file_table = 'file';
+    var $qna_table = 'assignmentandquiz';
+    var $qnascore_table = 'assignmentandquizscore';
     var $lesson_plan_table = 'lesson_plan';
 //    var $lesson_implementation_table = 'lesson_implementation';
-//    var $student_table = 'student';
+    var $student_table = 'student';
 //    var $report_table = 'report';
 //    var $class_table = 'class';
 //    var $homeroom_table = 'homeroom';
@@ -200,6 +200,207 @@ class Student_model extends CI_Model {
             return $query->result_array();
         }
     }
+
+    function getSharedMaterialsByCourseID($courseid, $class){
+        $sql = 'SELECT material.materialid, material.assignid, material.topic, material.type, material.date, material.fileid, file.filename, file.teacherid FROM material, file WHERE assignid=(SELECT assignid FROM `course_assign` WHERE classid=\''.$class.'\' AND courseid=\''.$courseid.'\') AND file.fileid=material.fileid ORDER BY date ASC';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAssignmentAndQuizesByCourseID($courseid, $class){
+        $sql = 'SELECT * FROM assignmentandquiz, file WHERE assignid=(SELECT assignid FROM `course_assign`WHERE classid=\''.$class.'\' AND courseid=\''.$courseid.'\') AND (type=\'Assignment\' OR type=\'QUIZ\') AND duedate>now()  AND file.fileid=assignmentandquiz.fileid ORDER BY duedate ASC';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllStudentByCourseID($classid){
+        $sql = 'SELECT * FROM student WHERE classid=\''.$classid.'\'';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAssignIDByANQID($id) {
+        $this->db->select('assignid');
+        $this->db->where("anqid", $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->qna_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getAssignmentAndQuizDataByANQID($id) {
+        $this->db->select('*');
+        $this->db->where("anqid", $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->qna_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getCourseDataByAssignID($id) {
+        $this->db->select('*');
+        $this->db->join('course', 'course.courseid = course_assign.courseid');
+        $this->db->where('course_assign.assignid', $id);
+        $query = $this->db->get($this->course_assign_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getQnALatestID(){
+        $this->db->select('anqid');
+        $this->db->order_by("anqid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->qna_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getFileLatestID(){
+        $this->db->select('fileid');
+        $this->db->order_by("fileid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->file_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addFile($id, $filename, $tid){
+        $data = array(
+            'fileid' => $id,
+            'filename' => $filename,
+            'teacherid' => $tid,
+            'date' => date('Y-m-d', now()),
+        );
+        $this->db->insert($this->file_table, $data);
+    }
+
+    function getTeacherByAssignID($id) {
+        $this->db->select('teacherid');
+        $this->db->where('assignid', $id);
+        $query = $this->db->get($this->course_assign_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function checkSubmission($anqid, $studentid){
+        $this->db->select('*');
+        $this->db->where('anqid', $anqid);
+        $this->db->where('studentid', $studentid);
+        $query = $this->db->get($this->qnascore_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editSubmission($anqid, $studentid, $fileid){
+        $data = array(
+            'file' => $fileid,
+        );
+        $this->db->where('anqid', $anqid);
+        $this->db->where('studentid', $studentid);
+        $this->db->update($this->qnascore_table, $data);
+    }
+
+    function addSubmission($nid, $fileID){
+        $data = array(
+            'anqscoreid' => $nid,
+            'studentid' => $this->input->post('studentid'),
+            'anqid' => $this->input->post('anqid'),
+            'submissiondate' => date('Y-m-d', now()),
+            'file' => $fileID
+        );
+        $this->db->insert($this->qnascore_table, $data);
+    }
+
+    function getSubmissionLatestID(){
+        $this->db->select('anqscoreid');
+        $this->db->order_by("anqscoreid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->qnascore_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getAllClassesByStudentID($id) {
+        $sql = 'SELECT previous_class.classid, class.classroom, course_assign.courseid, course_assign.assignid, course_assign.classid, course.coursename, course.coursedescription, course.courseresources FROM previous_class, class, course_assign, course WHERE previous_class.studentid=\''.$id.'\' AND class.classid=previous_class.classid AND course_assign.classid=class.classid AND course.courseid=course_assign.courseid ORDER BY previous_class.periode';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllGradeByStudentID($id) {
+        $sql = 'SELECT class.classroom FROM `previous_class`, class WHERE studentid=\''.$id.'\' AND class.classid=previous_class.classid';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getTotalAttendance($id){
+        $this->db->select('*');
+        $this->db->where('studentid', $id);
+
+        $query = $this->db->get($this->attendance_table);
+
+        return $query->num_rows();
+    }
+
+    function getTotalPresentByStudent($id){
+        $this->db->select('*');
+        $this->db->where('studentid', $id);
+        $this->db->where('status', 'p');
+
+        $query = $this->db->get($this->attendance_table);
+
+        return $query->num_rows();
+    }
+
+    function getStudentReport($studentid,$term,$grade){
+        $sql = 'SELECT report.*, homeroom.*, class.classroom, course.coursename, teacher.firstname as teacherfirstname, teacher.lastname as teacherlastname, course.courseid FROM report, student, class, teacher, homeroom, course, course_assign WHERE report.studentid=\''.$studentid.'\' AND student.studentid=report.studentid AND homeroom.studentid=report.studentid AND student.classid=class.classid AND teacher.teacherid=class.teacherid AND report.term=\''.$term.'\' AND homeroom.term=report.term AND report.class=\''.$grade.'\' AND homeroom.class=report.class AND course.courseid=course_assign.courseid AND course_assign.assignid=report.assignid';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getStudentCourseOnGrade($studentid,$grade){
+        $sql = 'SELECT course.*, course_assign.classid, teacher.firstname as teacherfirstname, teacher.lastname as teacherlastname, course.courseid FROM previous_class , course, course_assign, class, teacher WHERE previous_class.studentid=\''.$studentid.'\' AND previous_class.classid=course_assign.classid AND course_assign.courseid=course.courseid AND class.classroom LIKE \''.$grade.'%\' AND class.classid=previous_class.classid AND teacher.teacherid=course_assign.teacherid';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+
 
 
     function getAttendanceList($classid, $studentid){
