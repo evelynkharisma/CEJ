@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Generated Schedule (Reload for other schedule)</h3>
+                <h3>Generated Schedule</h3>
             </div>
         </div>
 

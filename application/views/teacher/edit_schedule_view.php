@@ -23,7 +23,7 @@
                     echo form_open_multipart('teacher/selectSchedule/', $attributes); ?>
                     <div class="x_content">
                         <?php
-                        for($grade=1; $grade<12; $grade++){
+                        for($grade=1; $grade<14; $grade++){
                             if(isset(${'g'.$grade})){
                         ?>
                             <div class="col-md-12 col-sm-12 col-xs-12">

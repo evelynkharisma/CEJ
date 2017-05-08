@@ -1590,31 +1590,61 @@ class teacher extends CI_Controller {
 
     public function selectSchedule()
     {
-        $this->Teacher_model->deleteAllSchedule();
-        
-        $grade = $this->input->post('class');
-        $row = $this->input->post('row');
-        $colom = $this->input->post('colom');
-        $teacherid = $this->input->post('teacherid');
-        $courseid = $this->input->post('courseid');
-        $latestID = $this->Teacher_model->getScheduleLatestID();
-        $latestID = $latestID['scheduleid'];
-        for($i=0;$i<sizeof($teacherid);$i++)
-        {
-            $latestID = substr($latestID, 1);
-            $latestID = 't'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+        $savebutton = $this->input->post('savebutton');
+        if($savebutton == 'save'){
+            $this->Teacher_model->deleteAllScheduleApplied();
 
-            $schedule[$i] = array(
-                'scheduleid' => $latestID,
-                'classid' => $grade[$i],
-                'period' => $row[$i],
-                'day' => $colom[$i],
-                'teacherid' => $teacherid[$i],
-                'courseid' => $courseid[$i],
-            );
+            $grade = $this->input->post('class');
+            $row = $this->input->post('row');
+            $colom = $this->input->post('colom');
+            $teacherid = $this->input->post('teacherid');
+            $courseid = $this->input->post('courseid');
+            $latestID = $this->Teacher_model->getScheduleAppliedLatestID();
+            $latestID = $latestID['scheduleid'];
+            for($i=0;$i<sizeof($teacherid);$i++)
+            {
+                $latestID = substr($latestID, 1);
+                $latestID = 'j'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+
+                $schedule[$i] = array(
+                    'scheduleid' => $latestID,
+                    'classid' => $grade[$i],
+                    'period' => $row[$i],
+                    'day' => $colom[$i],
+                    'teacherid' => $teacherid[$i],
+                    'courseid' => $courseid[$i],
+                );
+            }
+            $this->Teacher_model->addScheduleApplied($schedule);
+            redirect('teacher/classScheduleView/');
         }
-        $this->Teacher_model->addSchedule($schedule);
-        redirect('teacher/editSchedule/');
+        else{
+            $this->Teacher_model->deleteAllSchedule();
+
+            $grade = $this->input->post('class');
+            $row = $this->input->post('row');
+            $colom = $this->input->post('colom');
+            $teacherid = $this->input->post('teacherid');
+            $courseid = $this->input->post('courseid');
+            $latestID = $this->Teacher_model->getScheduleLatestID();
+            $latestID = $latestID['scheduleid'];
+            for($i=0;$i<sizeof($teacherid);$i++)
+            {
+                $latestID = substr($latestID, 1);
+                $latestID = 'j'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+
+                $schedule[$i] = array(
+                    'scheduleid' => $latestID,
+                    'classid' => $grade[$i],
+                    'period' => $row[$i],
+                    'day' => $colom[$i],
+                    'teacherid' => $teacherid[$i],
+                    'courseid' => $courseid[$i],
+                );
+            }
+            $this->Teacher_model->addSchedule($schedule);
+            redirect('teacher/editSchedule/');
+        }
     }
 
     public function editSchedule()
@@ -1710,11 +1740,6 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'teacher/edit_schedule_view';
         $this->load->view($this->template, $data);
-    }
-
-    public function saveSchedule()
-    {
-        
     }
 
     public function classScheduleView()

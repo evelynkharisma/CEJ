@@ -27,6 +27,7 @@ class Teacher_model extends CI_Model {
     var $fotocopy_request_table = 'fotocopy_request';
     var $roles_table = 'roles';
     var $schedule_table = 'schedule';
+    var $schedule_applied_table = 'schedule_applied';
 
     function __construct() {
         parent::__construct();
@@ -1688,6 +1689,25 @@ class Teacher_model extends CI_Model {
 
     function deleteAllSchedule(){
         $this->db->empty_table($this->schedule_table);
+    }
+
+    function getScheduleAppliedLatestID(){
+        $this->db->select('scheduleid');
+        $this->db->order_by("scheduleid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->schedule_applied_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addScheduleApplied($schedulearray){
+        $this->db->insert_batch($this->schedule_applied_table, $schedulearray);
+    }
+
+    function deleteAllScheduleApplied(){
+        $this->db->empty_table($this->schedule_applied_table);
     }
 }
 
