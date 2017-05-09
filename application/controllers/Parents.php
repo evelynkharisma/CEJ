@@ -274,7 +274,35 @@ class parents extends CI_Controller {
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
 
+        $data['from'] = 'Parents';
         $data['content'] = 'includes/report_view';
+        $this->load->view($this->template, $data);
+    }
+    public function learningReport2($term,$grade)
+    {
+        $allattendance = $this->Student_model->getTotalAttendance($this->nativesession->get('current_child_id'));
+        $present = $this->Student_model->getTotalPresentByStudent($this->nativesession->get('current_child_id'));
+        $attendancepercentage = $present/$allattendance*100;
+
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+
+        $data['reportGrade']  = $grade;
+        $data['reportTerm']  = $term;
+        $data['attendance'] = $attendancepercentage;
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['report']  = $this->Student_model->getStudentReport($this->nativesession->get('current_child_id'),$term,$grade);
+        $data['studentCoursesOnGrade']  = $this->Student_model->getStudentCourseOnGrade($this->nativesession->get('current_child_id'),$grade);
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $data['from'] = 'Parents';
+        $data['content'] = 'includes/report2_view';
         $this->load->view($this->template, $data);
     }
     public function courseView($id)
@@ -291,7 +319,8 @@ class parents extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
         $data['course_plan'] = $this->Student_model->getCoursePlanDataByID($id);
-
+        
+        $data['from'] = 'parents';
         $data['content'] = 'includes/course_view';
         $this->load->view($this->template, $data);
     }

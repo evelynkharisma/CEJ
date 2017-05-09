@@ -33,10 +33,10 @@
                         <?php
                         //                            $encrypted = $this->general->encryptParaID($info_db['studentid'],'student');
                         ?>
-                        <a href="<?php echo base_url() ?>index.php/student/learningReport2/4/<?php echo $reportGrade?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Term 4</a>
-                        <a href="<?php echo base_url() ?>index.php/student/learningReport/3/<?php echo $reportGrade?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Term 3</a>
-                        <a href="<?php echo base_url() ?>index.php/student/learningReport2/2/<?php echo $reportGrade?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Term 2</a>
-                        <a href="<?php echo base_url() ?>index.php/student/learningReport/1/<?php echo $reportGrade?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Term 1</a>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/learningReport2/4/<?php echo $reportGrade?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Term 4</a>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/learningReport/3/<?php echo $reportGrade?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Term 3</a>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/learningReport2/2/<?php echo $reportGrade?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Term 2</a>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/learningReport/1/<?php echo $reportGrade?>" class="btn btn-success set-right"><i class="fa fa-eye"></i> Term 1</a>
 
 
                         <div class="clearfix"></div>
@@ -45,7 +45,7 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <table class="teacher_course_student_mid table-bordered">
-                                    <?php echo form_open('student/learningReport/'.$reportTerm.'/'.$reportGrade); ?>
+                                    <?php echo form_open('<?php echo $from ?>/learningReport/'.$reportTerm.'/'.$reportGrade); ?>
                                     <tr>
                                         <td width="50%" class="teacher_course_student_mid_td">FORM CLASS</td>
                                         <td class="teacher_course_student_mid_td set-center">1</td>

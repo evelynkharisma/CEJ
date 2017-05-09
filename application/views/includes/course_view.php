@@ -6,7 +6,7 @@
         ?>
         <div class="page-title">
             <div class="title_left">
-                <h3><a href="<?php echo base_url() ?>index.php/student/courseView/<?php echo $encrypted ?>"><?php echo $course['coursename']?></a></h3>
+                <h3><a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/courseView/<?php echo $encrypted ?>"><?php echo $course['coursename']?></a></h3>
             </div>
         </div>
 
@@ -16,11 +16,14 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <a href="<?php echo base_url() ?>index.php/student/courseView/<?php echo $encrypted ?>" class="btn btn-success">Lesson Plan</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseImplementation/<?php echo $encrypted ?>" class="btn btn-success">Lesson Implementation</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseMaterial/<?php echo $encrypted ?>" class="btn btn-success">Shared Materials</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseAssignmentQuiz/<?php echo $encrypted ?>" class="btn btn-success">Assignments and Quizzes</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseStudent/<?php echo $encrypted ?>" class="btn btn-success">Students</a>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/courseView/<?php echo $encrypted ?>" class="btn btn-success">Lesson Plan</a>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/courseImplementation/<?php echo $encrypted ?>" class="btn btn-success">Lesson Implementation</a>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/courseMaterial/<?php echo $encrypted ?>" class="btn btn-success">Shared Materials</a>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/courseAssignmentQuiz/<?php echo $encrypted ?>" class="btn btn-success">Assignments and Quizzes</a>
+                        <?php if($from != 'parents'){?>
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/courseStudent/<?php echo $encrypted ?>" class="btn btn-success">Students</a>
+                        <?php }?>
+
                     </div>
                 </div>
             </div>
