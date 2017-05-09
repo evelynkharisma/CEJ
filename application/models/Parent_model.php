@@ -5,6 +5,7 @@ class Parent_model extends CI_Model {
     var $event_table = 'events';
     var $child_table = 'parent_child';
     var $student = 'student';
+    var $form_table = 'forms';
 
     function __construct() {
         parent::__construct();

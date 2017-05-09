@@ -56,7 +56,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Password</div>
+                                        <div class="teacher_profile_label">New Password</div>
                                         <div class="teacher_profile_value">
                                             <input type="password" class="form-control set-margin-bottom" name="password"/>
                                         </div>

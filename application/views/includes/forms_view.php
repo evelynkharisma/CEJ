@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Forms</h3>
+                <h3>Download</h3>
             </div>
             <?php
             $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0011');

@@ -38,25 +38,51 @@
 <!--            <li><a href="--><?php //echo base_url() ?><!--index.php/parents/child_attendance"><i class="fa fa-dashboard"></i> Performance </a></li>-->
             <li><a><i class="fa fa-file-text-o"></i> Report Card <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_reportcard_midterm">Grade 12</a></li>
-                    <li><a href="<?php echo base_url() ?>index.php/parents/parent_reportcard_finalterm">Grade 11</a></li>
+                    <?php
+                    if($grades) {
+                    foreach ($grades as $grade) {
+                    $grade_only = $token = strtok($grade['classroom'], "-");
+                    ?>
+                    <li><a href="<?php echo base_url() ?>index.php/parents/learningReport/1/<?php echo $grade_only?>">Grade <?php echo $grade_only; ?></a>
+                        <?php
+                        }
+                        }?>
+                    </li>
                 </ul>
             </li>
             <li><a><i class="fa fa-book"></i> Course <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a>Grade 12<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Mathematic</a></li>
-                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">English</a></li>
-                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Science</a></li>
-                        </ul>
-                    </li>
-                    <li><a>Grade 11<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Mathematic</a></li>
-                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">English</a></li>
-                            <li><a href="<?php echo base_url() ?>index.php/parents/parent_course">Science</a></li>
-                        </ul>
+                    <?php
+                    if($grades) {
+                    foreach($grades as $grade) {
+                    $grade_only = $token = strtok($grade['classroom'], "-");
+                    ?>
+                    <li><a href="#level1_1">Grade <?php echo $grade_only;
+                            if ($studentGradeCourses) {
+                                ?>
+                                <span class="fa fa-chevron-down"></span>
+                                <?php
+                            }?></a>
+                        <?php
+                        if($studentGradeCourses) {?>
+                            <ul class="nav child_menu">
+                                <?php
+                                foreach ($studentGradeCourses as $studentGradeCourse) {
+                                    if($studentGradeCourse['classroom']==$grade['classroom']) {
+                                        $course_encrypted = $this->general->encryptParaID($studentGradeCourse['courseid'],'course');
+                                        ?>
+                                        <li><a href="<?php echo base_url() ?>index.php/parents/courseView/<?php echo $course_encrypted?>"><?php echo $studentGradeCourse['classroom'].' '.$studentGradeCourse['coursename']?></a></li>
+                                        <?php
+                                    }
+                                }?>
+                            </ul>
+                            <?php
+                        }
+                        ?>
+
+                        <?php
+                        }}
+                        ?>
                     </li>
                 </ul>
             </li>
@@ -73,7 +99,7 @@
                 </ul>
             </li>
 <!--            <li><a href="--><?php //echo base_url() ?><!--index.php/parents/eventList"><i class="fa fa-bell"></i> Events</a></li>-->
-            <li><a href="<?php echo base_url() ?>index.php/parents/parent_download"><i class="fa fa-download"></i> Download</a></li>
+            <li><a href="<?php echo base_url() ?>index.php/parents/forms"><i class="fa fa-download"></i> Download</a></li>
             <li><a href="<?php echo base_url() ?>index.php/parents/parent_correspond"><i class="fa fa-envelope"></i> Correspond</a></li>
 
 

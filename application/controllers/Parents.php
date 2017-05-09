@@ -8,6 +8,7 @@ class parents extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('Parent_model');
+        $this->load->model('Student_model');
     }
 
     public function home()
@@ -18,6 +19,16 @@ class parents extends CI_Controller {
         $data['content'] = 'parents/parent_home_view';
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+                
         $this->load->view($this->template, $data);
     }
 
@@ -200,14 +211,14 @@ class parents extends CI_Controller {
         $data['parent'] = $this->Parent_model->getProfileDataByID($id);
         $this->load->view($this->template, $data);
     }
-    public function parent_download()
-    {
-        $data['title'] = 'SMS';
-        $data['sidebar'] = 'parents/parent_sidebar';
-        $data['topnavigation'] = 'parents/parent_topnavigation';
-        $data['content'] = 'parents/parent_download_view';
-        $this->load->view($this->template, $data);
-    }
+//    public function parent_download()
+//    {
+//        $data['title'] = 'SMS';
+//        $data['sidebar'] = 'parents/parent_sidebar';
+//        $data['topnavigation'] = 'parents/parent_topnavigation';
+//        $data['content'] = 'parents/parent_download_view';
+//        $this->load->view($this->template, $data);
+//    }
     public function parent_correspond()
     {
         $data['title'] = 'SMS';
@@ -239,6 +250,59 @@ class parents extends CI_Controller {
         $childs = $this->Parent_model->getChild($id);
         $this->nativesession->set( 'current_child_name', $childs['firstname'].' '.$childs['lastname'] );
         redirect($_SERVER['HTTP_REFERER']);
+    }
+    public function learningReport($term,$grade)
+    {
+        $allattendance = $this->Student_model->getTotalAttendance($this->nativesession->get('current_child_id'));
+        $present = $this->Student_model->getTotalPresentByStudent($this->nativesession->get('current_child_id'));
+        $attendancepercentage = $present/$allattendance*100;
+
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+
+        $data['reportGrade']  = $grade;
+        $data['reportTerm']  = $term;
+        $data['attendance'] = $attendancepercentage;
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['report']  = $this->Student_model->getStudentReport($this->nativesession->get('current_child_id'),$term,$grade);
+        $data['studentCoursesOnGrade']  = $this->Student_model->getStudentCourseOnGrade($this->nativesession->get('current_child_id'),$grade);
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $data['content'] = 'includes/report_view';
+        $this->load->view($this->template, $data);
+    }
+    public function courseView($id)
+    {
+        $id = $this->general->decryptParaID($id, 'course');
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['course_plan'] = $this->Student_model->getCoursePlanDataByID($id);
+
+        $data['content'] = 'includes/course_view';
+        $this->load->view($this->template, $data);
+    }
+    public function forms()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['info_dbs'] = $this->Parent_model->getAllForms();
+        $data['content'] = 'includes/forms_view';
+        $this->load->view($this->template, $data);
     }
     public function logout(){
         $this->nativesession->delete('id');
