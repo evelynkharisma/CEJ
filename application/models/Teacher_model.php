@@ -28,6 +28,8 @@ class Teacher_model extends CI_Model {
     var $roles_table = 'roles';
     var $schedule_table = 'schedule';
     var $schedule_applied_table = 'schedule_applied';
+    var $schedule_exam_table = 'schedule_exam';
+    var $schedule_exam_applied_table = 'schedule_exam_applied';
 
     function __construct() {
         parent::__construct();
@@ -1709,6 +1711,72 @@ class Teacher_model extends CI_Model {
 
     function deleteAllScheduleApplied(){
         $this->db->empty_table($this->schedule_applied_table);
+    }
+
+    function getExamScheduleOfCourse($c){
+        $this->db->select('*');
+        $this->db->where('courseid', $c);
+        $query = $this->db->get($this->schedule_exam_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addExamSchedule($schedulearray){
+        $this->db->insert_batch($this->schedule_exam_table, $schedulearray);
+    }
+
+    function deleteExamSchedule(){
+        $this->db->empty_table($this->schedule_exam_table);
+    }
+
+    function getExamSchedule(){
+        $order = "CAST(classid AS UNSIGNED), classid";
+
+        $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = schedule_exam.teacherid');
+        $this->db->join('course', 'course.courseid = schedule_exam.courseid');
+        $this->db->order_by($order);
+        $this->db->order_by("count", "asc");
+        $query = $this->db->get($this->schedule_exam_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getExamInvigilatorAvailable($not){
+        $this->db->select('*');
+        $this->db->where_not_in('teacherid',$not);
+        $query = $this->db->get($this->table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function addExamScheduleApplied($schedulearray){
+        $this->db->insert_batch($this->schedule_exam_applied_table, $schedulearray);
+    }
+
+    function deleteAllExamScheduleApplied(){
+        $this->db->empty_table($this->schedule_exam_applied_table);
+    }
+
+    function getExamScheduleApplied(){
+        $order = "CAST(classid AS UNSIGNED), classid";
+
+        $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = schedule_exam_applied.teacherid');
+        $this->db->join('course', 'course.courseid = schedule_exam_applied.courseid');
+        $this->db->order_by($order);
+        $this->db->order_by("count", "asc");
+        $query = $this->db->get($this->schedule_exam_applied_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
     }
 }
 

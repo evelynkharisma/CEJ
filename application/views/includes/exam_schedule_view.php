@@ -5,6 +5,7 @@
             <div class="title_left">
                 <h3>Exam Schedule</h3>
             </div>
+            <a href="<?php echo base_url() ?>index.php/teacher/generateExam" class="btn btn-success set-right"><i class="fa fa-braille"></i> Generate</a>
         </div>
 
         <div class="clearfix"></div>
@@ -12,33 +13,48 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
-                    <div class="x_title">
-                        <h2>Mid Term</h2>
-                        <div class="clearfix"></div>
-                    </div>
                     <div class="x_content">
-                        <table class="teacher_course_implementation">
-                            <thead>
-                            <tr>
-                                <th width="20%">Subject</th>
-                                <th width="10%">Grade</th>
-                                <th width="15%">Date</th>
-                                <th width="30%">Materials</th>
-                                <th width="15%">Invigilator</th>
-                                <th width="10%">Seating Arrangement</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>English</td>
-                                <td>12</td>
-                                <td>12 February 2016</td>
-                                <td>Lesson 1,2,4,6</td>
-                                <td>Evelyn Kharisma</td>
-                                <td><a href="" class="btn btn-success"><i class="fa fa-eye"></i> View</a> </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <?php
+                        if($schedule){
+                            $currentclass = 0;
+                            for ($s=0; $s<sizeof($schedule); $s++){
+                                if($schedule[$s]['classid'] != $currentclass){
+                                    $currentclass = $schedule[$s]['classid'];
+                                    ?>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="profile_title">
+                                        <div class="col-md-12">
+                                            <h2>Grade <?php echo $schedule[$s]['classid'] ?></h2>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                    <table class="teacher_course_student_mid table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <td class="teacher_course_student_mid_td set-center" width="25%">Subject</td>
+                                        <td class="teacher_course_student_mid_td set-center" width="25%">Date</td>
+                                        <td class="teacher_course_student_mid_td set-center" width="25%">Invigilator</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                }
+                                ?>
+                                <tr>
+                                    <td style="border-bottom: <?php echo (isset($schedule[$s]['count']) && $schedule[$s]['count']%2 == 0)?'solid 2px black':'' ?> "><?php echo $schedule[$s]['coursename'] ?></td>
+                                    <td style="border-bottom: <?php echo (isset($schedule[$s]['count']) && $schedule[$s]['count']%2 == 0)?'solid 2px black':'' ?> "><?php echo $schedule[$s]['date'] ?></td>
+                                    <td style="border-bottom: <?php echo (isset($schedule[$s]['count']) && $schedule[$s]['count']%2 == 0)?'solid 2px black':'' ?> "><?php echo $schedule[$s]['firstname'] ?> <?php echo $schedule[$s]['lastname'] ?></td>
+                                </tr>
+                                <?php
+                                if(!isset($schedule[$s+1]['classid']) || $schedule[$s+1]['classid'] != $currentclass){
+//
+                                    ?>
+                                    </tbody>
+                                    </table>
+                                    </div>
+                                    </div>
+                                <?php } ?>
+                            <?php }} ?>
                     </div>
                 </div>
             </div>

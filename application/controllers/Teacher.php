@@ -1746,6 +1746,7 @@ class teacher extends CI_Controller {
 
     public function examScheduleView()
     {
+        $data['schedule'] = $this->Teacher_model->getExamScheduleApplied();
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
@@ -1753,6 +1754,105 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/exam_schedule_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function generateExam()
+    {
+        $this->Teacher_model->deleteExamSchedule();
+        for($g = 0; $g<14; $g++){
+            $thisgrade = $g;
+            if($thisgrade == '10'){
+                $thisgrade = 'A';
+            }
+            elseif($thisgrade == '11'){
+                $thisgrade = 'B';
+            }
+            elseif($thisgrade == '12'){
+                $thisgrade = 'C';
+            }
+            elseif($thisgrade == '13'){
+                $thisgrade = 'D';
+            }
+
+            ${"class" . $g} = array('');
+            ${"courses" . $g} = $this->Teacher_model->getAllCourseForGrade($thisgrade);
+
+            if(isset(${"courses" . $g})){
+                $orderlist = range(1,sizeof(${"courses" . $g}));
+                $schedule = array('');
+                $scheduleindex = 0;
+                foreach (${"courses" . $g} as $c){
+                    $size = count(${"courses" . $g});
+                    $index = rand(0, $size-1);
+
+                    if($result = $this->Teacher_model->getExamScheduleOfCourse(${"courses" . $g}[$index]['courseid'])){
+                        ${"courses" . $g}[$index]['count'] = $result['count'];
+                        $delindex = array_search($result['count'], $orderlist);
+                        unset($orderlist[$delindex]);
+                        $orderlist = array_values($orderlist);
+                    }
+                    else{
+                        ${"courses" . $g}[$index]['count'] = $orderlist[0];
+                        unset($orderlist[0]);
+                        $orderlist = array_values($orderlist);
+                    }
+                    $usedteacher = array('');
+                    array_push($usedteacher, ${"courses" . $g}[$index]['teacherid']);
+                    $allteacheravailable = $this->Teacher_model->getExamInvigilatorAvailable($usedteacher);
+                    $sizeT = count($allteacheravailable);
+                    $indexT = rand(0, $sizeT-1);
+                    $schedule[$scheduleindex] = array(
+                        'classid' => $g,
+                        'teacherid' => $allteacheravailable[$indexT]['teacherid'],
+                        'courseid' => ${"courses" . $g}[$index]['courseid'],
+                        'count' => ${"courses" . $g}[$index]['count'],
+                        'date' => date('Y-m-d', now()),
+                    );
+                    $scheduleindex++;
+
+                    unset(${"courses" . $g}[$index]);
+                    ${"courses" . $g} = array_values(${"courses" . $g});
+                }
+                array_push(${"class" . $g}, $schedule);
+                $this->Teacher_model->addExamSchedule($schedule);
+                unset($schedule);
+            }
+        }
+        
+        $data['schedule'] = $this->Teacher_model->getExamSchedule();
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/generate_exam_schedule_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function saveExamSchedule(){
+        $this->Teacher_model->deleteAllExamScheduleApplied();
+
+        $classid = $this->input->post('classid');
+        $teacherid = $this->input->post('teacherid');
+        $courseid = $this->input->post('courseid');
+        $count = $this->input->post('count');
+
+        $startdate = $this->input->post('date');
+        for($i=0;$i<sizeof($classid);$i++)
+        {
+            $schedule[$i] = array(
+                'classid' => $classid[$i],
+                'teacherid' => $teacherid[$i],
+                'courseid' => $courseid[$i],
+                'count' => $count[$i],
+                'date' => $startdate,
+            );
+            if($count[$i]%2 == 0){
+                $startdate = date('Y-m-d', strtotime($startdate. ' +1 weekdays'));
+            }
+        }
+        $this->Teacher_model->addExamScheduleApplied($schedule);
+        redirect('teacher/examScheduleView/');
     }
 
     public function studentView()
