@@ -1678,11 +1678,11 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function getScheduleID($c, $r, $c){
+    function getScheduleID($c, $r, $d){
         $this->db->select('*');
         $this->db->where('classid', $c);
         $this->db->where('period', $r);
-        $this->db->where('day', $c);
+        $this->db->where('day', $d);
         $query = $this->db->get($this->schedule_table, 1);
 
         if ($query->num_rows() == 1) {
