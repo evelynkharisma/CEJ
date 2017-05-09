@@ -12,7 +12,7 @@ class Student_model extends CI_Model {
     var $lesson_plan_table = 'lesson_plan';
 //    var $lesson_implementation_table = 'lesson_implementation';
     var $student_table = 'student';
-//    var $report_table = 'report';
+    var $report_table = 'report';
 //    var $class_table = 'class';
 //    var $homeroom_table = 'homeroom';
 //    var $semester_table = 'semester';
@@ -172,11 +172,12 @@ class Student_model extends CI_Model {
         }
     }
 
-    function getCourseDataByID($id){
+    function getCourseDataByID($id, $classid){
         $this->db->select('*');
-        $this->db->where("courseid", $id);
-        $this->db->limit(1);
-        $query = $this->db->get($this->course_table, 1);
+        $this->db->join('course', 'course.courseid = course_assign.courseid');
+        $this->db->where('course.courseid', $id);
+        $this->db->where('course_assign.classid', $classid);
+        $query = $this->db->get($this->course_assign_table, 1);
 
         if ($query->num_rows() == 1) {
             return $query->row_array();
@@ -400,6 +401,52 @@ class Student_model extends CI_Model {
         }
     }
 
+    function getAllQnAByStudent($studentid, $type){
+        if($type == 1){
+            $type_array = array('Homework');
+        }
+        elseif ($type == 2){
+            $type_array = array('Classwork');
+        }
+        else{
+            $type_array = array('Quiz','Assignment');
+        }
+        $this->db->select('*');
+        $this->db->join('assignmentandquiz', 'assignmentandquiz.anqid = assignmentandquizscore.anqid');
+        $this->db->order_by('submissiondate', 'asc');
+        $this->db->where('assignmentandquizscore.studentid', $studentid);
+        $this->db->where_in('assignmentandquiz.type', $type_array);
+
+        $query = $this->db->get($this->qnascore_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getReportDataBy($assignid, $studentid) {
+        $this->db->select('*');
+        $this->db->where('assignid', $assignid);
+        $this->db->where('studentid', $studentid);
+        $this->db->order_by('term', 'asc');
+
+        $query = $this->db->get($this->report_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getClassByStudentID($id){
+        $this->db->select('*');
+        $this->db->join('class', 'class.classid = student.classid');
+        $this->db->where('studentid', $id);
+        $query = $this->db->get($this->student_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
 
 
 

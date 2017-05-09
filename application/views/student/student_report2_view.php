@@ -58,62 +58,75 @@
                                     </tr>
                                     <tr>
                                         <td colspan="6">
-                                            <textarea name="comment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'><?php echo $report[0]['comment'] ?></textarea>
+                                            <textarea readonly name="comment" style="resize: none" class="form-control set-margin-bottom" rows="3" placeholder='Comments'><?php echo $report[0]['comment'] ?></textarea>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="6">
-                                            <button type="submit" class="btn btn-success set-right"><i class="fa fa-edit"></i> Edit</button>
-                                        </td>
-                                    </tr>
+
                                 </table>
                                 <?php echo form_close(); ?>
                                 <?php
-                                $i = 0;
-                                /*if($coursesList){
-                                    foreach ($coursesList as $course){
-                                        if ( ! isset($reports[$i]['coursename'])) {
-                                            $reports[$i]['coursename'] = '';
+                                $j = 0;
+                                if($studentCoursesOnGrade){
+                                    foreach ($studentCoursesOnGrade as $studentCourseOnGrade){
+                                        $found = 0;
+                                        for($i=0; $i<sizeof($report); $i++) {
+                                            if($report[$i]['courseid']==$studentCourseOnGrade['courseid']) {
+                                                ?>
+                                                <table class="teacher_course_student_mid table-bordered">
+                                                    <tr>
+                                                        <td width="60%"
+                                                            class="teacher_course_student_mid_td">SUBJECT: <?php echo strtoupper($report[$i]['coursename']) ?></td>
+                                                        <td class="teacher_course_student_mid_td set-center">EXAM MARK</td>
+                                                        <td class="teacher_course_student_mid_td set-center">COURSE GRADE</td>
+                                                    </tr>
+                                                    <td class="teacher_course_student_mid_td">TEACHER: <?php echo strtoupper($report[$i]['teacherfirstname']) ?> <?php echo strtoupper($report[$i]['teacherlastname']) ?></td>
+                                                    <td class=" set-center"><?php echo $report[$i]['mark'] ?></td>
+                                                    <td class=" set-center"><?php echo $report[$i]['grade'] ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <textarea readonly style="resize: none"
+                                                                      class="form-control set-margin-bottom"
+                                                                      rows="3"
+                                                                      placeholder='Comments'><?php echo $report[$i]['comment'] ?></textarea>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <?php
+                                                $i=sizeof($report);
+                                                $found = 1;
+                                            }
                                         }
-                                        if ($course['coursename'] != $reports[$i]['coursename']) {
-                                            */?><!--
-                                            <div class="col-md-12 set-margin-top set-margin-bottom">
-                                               <span class="alert alert-error">
-                                                   <?php /*echo $course['coursename'] */?> report is not yet submitted by <?php /*echo $course['firstname'] */?> <?php /*echo $course['lastname'] */?>
-                                               </span>
-                                                <a href="<?php /*echo base_url() */?>index.php/teacher/sendEmail" class="btn btn-danger set-margin-left"><i class="fa fa-bell-o"></i> Request Report</a>
-                                            </div>
-                                            <?php
-/*                                        }
-                                        else{
-                                            */?>
+
+                                        if($found==0) {
+                                            ?>
                                             <table class="teacher_course_student_mid table-bordered">
                                                 <tr>
                                                     <td width="60%"
-                                                        class="teacher_course_student_mid_td">SUBJECT: <?php /*echo strtoupper($reports[$i]['coursename']) */?></td>
+                                                        class="teacher_course_student_mid_td">SUBJECT: <?php echo strtoupper($studentCourseOnGrade['coursename']) ?></td>
                                                     <td class="teacher_course_student_mid_td set-center">EXAM MARK</td>
                                                     <td class="teacher_course_student_mid_td set-center">COURSE GRADE</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="teacher_course_student_mid_td">TEACHER: <?php /*echo strtoupper($reports[$i]['firstname']) */?> <?php /*echo strtoupper($reports[$i]['lastname']) */?></td>
-                                                    <td class=" set-center"><?php /*echo $reports[$i]['mark'] */?></td>
-                                                    <td class=" set-center"><?php /*echo $reports[$i]['grade'] */?></td>
+                                                <td class="teacher_course_student_mid_td">TEACHER: <?php echo strtoupper($studentCourseOnGrade['teacherfirstname']).' '.strtoupper($studentCourseOnGrade['teacherlastname'])?></td>
+                                                <td class=" set-center"></td>
+                                                <td class=" set-center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="6">
-                                                                <textarea readonly style="resize: none"
-                                                                          class="form-control set-margin-bottom"
-                                                                          rows="3"
-                                                                          placeholder='Comments'><?php /*echo $reports[$i]['comment'] */?></textarea>
+                                                            <textarea readonly style="resize: none"
+                                                                      class="form-control set-margin-bottom"
+                                                                      rows="3"
+                                                                      placeholder='Comments'></textarea>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            --><?php
-/*                                            $i++;
+                                            <?php
                                         }
+
+                                        $j++;
+
                                     }
-                                }*/
-                                ?>
+                                }?>
                             </div>
                         </div>
                     </div>

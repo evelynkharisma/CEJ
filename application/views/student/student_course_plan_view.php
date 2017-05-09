@@ -2,6 +2,7 @@
 <div class="right_col" role="main">
     <div class="">
         <?php
+        $encrypted_assignid = $this->general->encryptParaID($course['assignid'],'courseassigned');
         $encrypted = $this->general->encryptParaID($course['courseid'],'course');
         ?>
         <div class="page-title">
@@ -22,7 +23,9 @@
                         <a href="<?php echo base_url() ?>index.php/student/courseImplementation/<?php echo $encrypted ?>" class="btn btn-success">Lesson Implementation</a>
                         <a href="<?php echo base_url() ?>index.php/student/courseMaterial/<?php echo $encrypted ?>" class="btn btn-success">Shared Materials</a>
                         <a href="<?php echo base_url() ?>index.php/student/courseAssignmentQuiz/<?php echo $encrypted ?>" class="btn btn-success">Assignments and Quizzes</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseStudent" class="btn btn-success">Students</a>
+                        <a href="<?php echo base_url() ?>index.php/student/courseStudent/<?php echo $encrypted ?>" class="btn btn-success">Students</a>
+                        <a href="<?php echo base_url() ?>index.php/student/coursePerformance/<?php echo $encrypted_assignid ?>" class="btn btn-success">My Performance</a>
+
                     </div>
                 </div>
             </div>

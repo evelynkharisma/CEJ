@@ -43,7 +43,7 @@
                     </div>
                     <div class="x_content">
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <table class="teacher_course_student_mid table-bordered">
                                     <?php echo form_open('student/learningReport/'.$reportTerm.'/'.$reportGrade); ?>
                                     <tr>

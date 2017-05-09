@@ -52,7 +52,7 @@ class student extends CI_Controller {
         $data['sidebar'] = 'student/student_sidebar';
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
-        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['course_plan'] = $this->Student_model->getCoursePlanDataByID($id);
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
@@ -67,7 +67,7 @@ class student extends CI_Controller {
         $data['sidebar'] = 'student/student_sidebar';
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
-        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['course_plan'] = $this->Student_model->getCoursePlanDataByID($id);
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
@@ -82,7 +82,7 @@ class student extends CI_Controller {
         $data['sidebar'] = 'student/student_sidebar';
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
-        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['course_implementation'] = $this->Student_model->getCourseImplementationData($id, $this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
@@ -98,7 +98,7 @@ class student extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['materials'] = $this->Student_model->getSharedMaterialsByCourseID($id, $this->nativesession->get('classid'));
-        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_course_material_view';
@@ -113,7 +113,7 @@ class student extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['qnas'] = $this->Student_model->getAssignmentAndQuizesByCourseID($id, $this->nativesession->get('classid'));
-        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['submissions'] = $this->Student_model->getSubmission($this->nativesession->get('id'), $this->nativesession->get('classid'));
@@ -129,7 +129,7 @@ class student extends CI_Controller {
         $data['sidebar'] = 'student/student_sidebar';
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
-        $data['course'] = $this->Student_model->getCourseDataByID($id);
+        $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['courseStudents'] = $this->Student_model->getAllStudentByCourseID($this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
@@ -286,6 +286,45 @@ class student extends CI_Controller {
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_report2_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function coursePerformance($assignid){
+        $assignid = $this->general->decryptParaID($assignid, 'courseassigned');
+        $studentid = $this->general->decryptParaID($this->nativesession->get('id'), 'student');
+        $eid = $this->general->encryptParaID($assignid, 'courseassigned');
+        $esid = $this->general->encryptParaID($studentid, 'student');
+
+        $class = $this->Student_model->getClassByStudentID($this->nativesession->get('id'));
+        $class = explode('-', $class['classroom']);
+
+        $data['homework'] = $this->Student_model->getAllQnAByStudent($this->nativesession->get('id'), 1);
+        $data['classwork'] = $this->Student_model->getAllQnAByStudent($this->nativesession->get('id'), 2);
+        $data['assessment'] = $this->Student_model->getAllQnAByStudent($this->nativesession->get('id'), 3);
+
+
+        $data['title'] = 'Student LMS';
+        $data['sidebar'] = 'student/student_sidebar';
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
+
+        $data['course'] = $this->Student_model->getCourseDataByAssignID($assignid);
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'student/student_topnavigation';
+        $data['content'] = 'student/student_course_material_view';
+
+//        $data['student'] = $this->Teacher_model->getStudentDataByStudentID($this->nativesession->get('id'));
+        $data['report'] = $this->Student_model->getReportDataBy($assignid, $this->nativesession->get('id'));
+        $data['content'] = 'student/student_course_performance_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function performancedata($studentid){
+        $homework = $this->Teacher_model->getAllQnAByStudent($studentid, 'Quiz');
+        $data = array();
+        foreach ($homework as $row) {
+            $data[] = $row;
+        }
+        print json_encode($data);
     }
 
 
