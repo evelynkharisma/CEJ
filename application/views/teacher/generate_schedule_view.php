@@ -22,13 +22,13 @@
                     <div class="x_content">
                         <?php
                         $a = 0;
-                        for($grade=1; $grade<14; $grade++){
-                            if(isset(${'g'.$grade})){
+                        for($grade=1; $grade<sizeof($schedule[1])+1; $grade++){
+                            if(isset($schedule[$grade])){
                         ?>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="profile_title">
                                     <div class="col-md-12">
-                                        <h2>Grade <?php echo $grade ?></h2>
+                                        <h2>Class <?php echo $schedule[$grade][0][0]['classroom'] ?></h2>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -78,12 +78,12 @@
                                                         <?php echo $thisperiod; ?>
                                                     </td>
                                                     <?php for($j=0; $j < $day['value']; $j++){ ?>
-                                                        <input type="hidden" name="class[<?php echo $a ?>]" value="<?php echo $grade ?>" />
+                                                        <input type="hidden" name="class[<?php echo $a ?>]" value="<?php echo $schedule[$grade][$i][$j]['classid'] ?>" />
                                                         <input type="hidden" name="row[<?php echo $a ?>]" value="<?php echo $i ?>" />
                                                         <input type="hidden" name="colom[<?php echo $a ?>]" value="<?php echo $j ?>" />
-                                                        <input type="hidden" name="teacherid[<?php echo $a ?>]" value="<?php echo ${'g'.$grade}[$i][$j]['teacherid'] ?>" />
-                                                        <input type="hidden" name="courseid[<?php echo $a ?>]" value="<?php echo ${'g'.$grade}[$i][$j]['courseid'] ?>" />
-                                                        <td style="color: #FFF; background-color: <?php echo (isset(${'g'.$grade}[$i][$j]['conflict']) && ${'g'.$grade}[$i][$j]['conflict'] == 1)?'red':'green' ?>" class="set-center"><div><?php echo ${'g'.$grade}[$i][$j]['teachername'] ?> <br/><?php echo ${'g'.$grade}[$i][$j]['coursename'] ?></div> </td>
+                                                        <input type="hidden" name="teacherid[<?php echo $a ?>]" value="<?php echo $schedule[$grade][$i][$j]['teacherid'] ?>" />
+                                                        <input type="hidden" name="courseid[<?php echo $a ?>]" value="<?php echo $schedule[$grade][$i][$j]['courseid'] ?>" />
+                                                        <td style="color: #FFF; background-color: <?php echo (isset($schedule[$grade][$i][$j]['conflict']) && $schedule[$grade][$i][$j]['conflict'] == 1)?'red':'green' ?>" class="set-center"><div><?php echo $schedule[$grade][$i][$j]['teachername'] ?> <br/><?php echo $schedule[$grade][$i][$j]['coursename'] ?></div> </td>
                                                         <?php $a++; } ?>
                                                 </tr>
                                                 <?php

@@ -109,9 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- jQuery custom content scroller -->
     <script src="<?php echo base_url() ?>assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/jquery.easypiechart.min.js"></script>
-    <!-- FullCalendar -->
-    <script src="<?php echo base_url() ?>assets/js/moment.min.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/fullcalendar.min.js"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="<?php echo base_url() ?>assets/js/custom.min.js"></script>
 
@@ -169,35 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $(this.el).find('.percent').text(Math.round(percent));
                 }
             });
-
-            var date = new Date(),
-                d = date.getDate(),
-                m = date.getMonth(),
-                y = date.getFullYear(),
-                started,
-                categoryClass;
-
-            var events_array = [
-                {
-                    title: 'English',
-                    start: new Date(y, m, d, 10, 30),
-                    tip: ' Grade 12-C (Room 301)'
-                }
-            ];
-
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,agendaWeek,agendaDay'
-                },
-                selectable: true,
-                events: events_array,
-                eventRender: function(event, element) {
-                    element.attr('title', event.tip);
-                }
-            });
-
+            
             TableManageButtons.init();
 
             $('.scrollbar-inner').scrollbar();

@@ -115,7 +115,10 @@
                                                <span class="alert alert-error">
                                                    <?php echo $course['coursename'] ?> report is not yet submitted by <?php echo $course['firstname'] ?> <?php echo $course['lastname'] ?>
                                                </span>
-                                                <a href="<?php echo base_url() ?>index.php/teacher/sendEmail" class="btn btn-danger set-margin-left"><i class="fa fa-bell-o"></i> Request Report</a>
+                                                <?php
+                                                    $sencrypted = $this->general->encryptParaID($course['assignid'],'courseassigned');
+                                                ?>
+                                                <a href="<?php echo base_url() ?>index.php/teacher/sendEmailReport/<?php echo $sencrypted ?>" class="btn btn-danger set-margin-left"><i class="fa fa-bell-o"></i> Request Report</a>
                                             </div>
                                 <?php
                                             }

@@ -25,3 +25,43 @@
 <!-- /page content -->
 
 
+<!-- FullCalendar -->
+<script src="<?php echo base_url() ?>assets/js/moment.min.js"></script>
+<script src="<?php echo base_url() ?>assets/js/fullcalendar.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+
+        var date = new Date(),
+            d = date.getDate(),
+            m = date.getMonth(),
+            y = date.getFullYear(),
+            started,
+            categoryClass;
+
+        var events_array = [
+            {
+                title:"New Event",
+                start: '10:00', // a start time (10am in this example)
+                end: '14:00', // an end time (6pm in this example)
+                tip: 'this repeating',
+                dow: [ 1, 4 ] // Repeat monday and thursday
+            }
+        ];
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            selectable: true,
+            events: events_array,
+            eventRender: function(event, element) {
+                element.attr('title', event.tip);
+            }
+        });
+    });
+</script>
+
+

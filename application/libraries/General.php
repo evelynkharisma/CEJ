@@ -218,6 +218,10 @@ class General
         }
         return strtoupper($Code);
     }
+    
+    function getClassroom($id){
+        return $this->ci->Teacher_model->getClassByClassid($id);
+    }
 
 }
 

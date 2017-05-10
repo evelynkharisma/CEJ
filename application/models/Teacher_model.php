@@ -424,11 +424,12 @@ class Teacher_model extends CI_Model {
     
 
     function getAllCoursesByTeacher($id){
-        $this->db->select('*');
+        $this->db->select('course_assign.*, class.classroom, course.coursename');
+
         $this->db->join('class', 'class.classid = course_assign.classid');
         $this->db->join('course', 'course.courseid = course_assign.courseid');
         $this->db->like('course_assign.teacherid', $id);
-        $this->db->order_by('classroom', 'asc');
+        $this->db->order_by('class.classroom', 'asc');
 
         $query = $this->db->get($this->course_assign_table);
 
@@ -758,6 +759,16 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getClassByClassid($id){
+        $this->db->select('*');
+        $this->db->where('classid', $id);
+        $query = $this->db->get($this->class_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function getStudentsAttendanceByClassID($classid, $date){
         $this->db->select('*');
         $this->db->join('attendance', 'attendance.studentid = student.studentid');
@@ -900,6 +911,19 @@ class Teacher_model extends CI_Model {
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
+        }
+    }
+
+    function getStudentCourseByAssignID($sid){
+        $this->db->select('*');
+        $this->db->join('course', 'course.courseid = course_assign.courseid');
+        $this->db->join('teacher', 'teacher.teacherid = course_assign.teacherid');
+        $this->db->where('course_assign.assignid', $sid);
+
+        $query = $this->db->get($this->course_assign_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
         }
     }
 
@@ -1764,6 +1788,16 @@ class Teacher_model extends CI_Model {
         $this->db->empty_table($this->schedule_exam_applied_table);
     }
 
+    function getExamScheduleAppliedOfCourse($c){
+        $this->db->select('*');
+        $this->db->where('courseid', $c);
+        $query = $this->db->get($this->schedule_exam_applied_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function getExamScheduleApplied(){
         $order = "CAST(classid AS UNSIGNED), classid";
 
@@ -1776,6 +1810,43 @@ class Teacher_model extends CI_Model {
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
+        }
+    }
+    
+    function getAllClasses(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->class_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAssignLatestID(){
+        $this->db->select('assignid');
+        $this->db->order_by("assignid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->course_assign_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addAssignCourses($schedulearray){
+        $this->db->insert($this->course_assign_table, $schedulearray);
+    }
+
+    function checkAssignCourse($clid, $tid, $cid) {
+        $this->db->select('*');
+        $this->db->where('classid', $clid);
+        $this->db->where('teacherid', $tid);
+        $this->db->where('courseid', $cid);
+        $query = $this->db->get($this->course_assign_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
         }
     }
 }

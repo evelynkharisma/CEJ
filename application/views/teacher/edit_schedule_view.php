@@ -23,13 +23,15 @@
                     echo form_open_multipart('teacher/selectSchedule/', $attributes); ?>
                     <div class="x_content">
                         <?php
-                        for($grade=1; $grade<14; $grade++){
-                            if(isset(${'g'.$grade})){
+                        for($grade=1; $grade<sizeof($schedule)+1; $grade++){
+                            if(isset($schedule[$grade])){
+                                $classid = $schedule[$grade][0]['classid'];
+                                $classroom = $this->general->getClassroom($classid);
                         ?>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="profile_title">
                                     <div class="col-md-12">
-                                        <h2>Grade <?php echo $grade ?></h2>
+                                        <h2>Grade <?php echo $classroom['classroom'] ?></h2>
                                     </div>
                                 </div>
                                 <div class="col-md-12 right">
@@ -79,14 +81,14 @@
                                                         <?php echo $thisperiod; ?>
                                                     </td>
                                                     <?php for($j=0; $j < $day['value']; $j++){ ?>
-                                                        <td id="cell-<?php echo $grade ?>-<?php echo $i ?>-<?php echo $j ?>" class="assigned set-center drop <?php echo (isset(${'g'.$grade}[$i*$day['value']+$j]['conflict']) && ${'g'.$grade}[$i*$day['value']+$j]['conflict'] == 1)?'conflicted':'not-conflicted' ?>" style="color: #FFF;">
+                                                        <td id="cell-<?php echo $grade ?>-<?php echo $i ?>-<?php echo $j ?>" class="assigned set-center drop <?php echo (isset($schedule[$grade][$i*$day['value']+$j]['conflict']) && $schedule[$grade][$i*$day['value']+$j]['conflict'] == 1)?'conflicted':'not-conflicted' ?>" style="color: #FFF;">
                                                             <div class="item" id="item-<?php echo $grade ?>-<?php echo $i ?>-<?php echo $j ?>">
-                                                                <input type="hidden" name="class[]" value="<?php echo $grade ?>" />
+                                                                <input type="hidden" name="class[]" value="<?php echo $schedule[$grade][$i*$day['value']+$j]['classid'] ?>" />
                                                                 <input type="hidden" name="row[]" value="<?php echo $i ?>" />
                                                                 <input type="hidden" name="colom[]" value="<?php echo $j ?>" />
-                                                                <input type="hidden" name="teacherid[]" value="<?php echo ${'g'.$grade}[$i*$day['value']+$j]['teacherid'] ?>" />
-                                                                <input type="hidden" name="courseid[]" value="<?php echo ${'g'.$grade}[$i*$day['value']+$j]['courseid'] ?>" />
-                                                                <?php echo ${'g'.$grade}[$i*$day['value']+$j]['firstname'] ?> <?php echo ${'g'.$grade}[$i*$day['value']+$j]['lastname'] ?><br/><?php echo ${'g'.$grade}[$i*$day['value']+$j]['coursename'] ?>
+                                                                <input type="hidden" name="teacherid[]" value="<?php echo $schedule[$grade][$i*$day['value']+$j]['teacherid'] ?>" />
+                                                                <input type="hidden" name="courseid[]" value="<?php echo $schedule[$grade][$i*$day['value']+$j]['courseid'] ?>" />
+                                                                <?php echo $schedule[$grade][$i*$day['value']+$j]['firstname'] ?> <?php echo $schedule[$grade][$i*$day['value']+$j]['lastname'] ?><br/><?php echo $schedule[$grade][$i*$day['value']+$j]['coursename'] ?>
                                                             </div>
                                                         </td>
                                                         <?php } ?>

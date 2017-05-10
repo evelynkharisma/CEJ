@@ -31,22 +31,21 @@
                     <li><a href="<?php echo base_url() ?>index.php/teacher/homeroomStudent">Students</a></li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-edit"></i> Courses <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-book"></i> Courses <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <?php
                     $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0013');
                     if($privilege == 1){
                     ?>
-                    <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Add Course</a>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/addCourse">Add Course</a></li>
                     <?php } ?>
-                    <li><a href="<?php echo base_url() ?>index.php/teacher/allCourse">All Courses</a>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/allCourse">All Courses</a></li>
                     <?php if($courses){ ?>
-                    <li>
                         <?php
                             foreach ($courses as $course){
-                                $grade = explode('-', $course['classroom']);
-                                $grade = $grade[0];
-                                switch ($grade){
+                                $grade = explode('_', $course['classroom']);
+//                                $grade = $grade[0];
+                                switch ($grade[0]){
                                     case 1:
                                         $grade1[] = $course;
                                         break;
@@ -68,7 +67,7 @@
                                         break;
 
                                     case 6:
-                                        $grade61[] = $course;
+                                        $grade6[] = $course;
                                         break;
 
                                     case 7:
@@ -103,7 +102,8 @@
                         ?>
                         <?php
                             for($i=1; $i<14; $i++){
-                                if (isset(${'grade'.$i}) && ${'grade'.$i} != null): ?>
+                                if (isset(${'grade'.$i}) && ${'grade'.$i} != null):  ?>
+                                <li>
                                 <a>Grade <?php echo $i; ?><span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <?php foreach (${'grade'.$i} as $row){?>
@@ -116,8 +116,9 @@
                                     <?php } ?>
                                 </ul>
                                 <?php endif; ?>
+                            </li>
                         <?php  } ?>
-                    </li> <?php } ?>
+                     <?php } ?>
                 </ul>
             </li>
             <li><a><i class="fa fa-table"></i> Schedule <span class="fa fa-chevron-down"></span></a>
@@ -165,7 +166,7 @@
                     <li><a href="<?php echo base_url() ?>index.php/teacher/eventList">Events List</a></li>
                 </ul>
             </li>
-            <li><a href="<?php echo base_url() ?>index.php/teacher/forms"><i class="fa fa-sticky-note-o"></i>Forms</span></a></li>
+            <li><a href="<?php echo base_url() ?>index.php/teacher/forms"><i class="fa fa-download"></i>Download</span></a></li>
             <?php
             $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0009');
             if($privilege == 1){

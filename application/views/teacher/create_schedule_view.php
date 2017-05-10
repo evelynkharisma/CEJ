@@ -54,14 +54,26 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Grade</label>
-                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
-                                <?php
-                                 for($i=0; $i<13; $i++){
-                                ?>
-                                <input class="grade" type='checkbox' name='grade[]' value='<?php echo $i+1 ?>' id="check_<?php echo $i ?>" checked/><label style="width: auto; height: auto; padding: 10px; color: white; margin-right: 10px" for="check_<?php echo $i ?>"><?php echo $i+1 ?></label>
-                                <?php } ?>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Class</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom set-margin-top">
+                                <select  data-placeholder="Class" name="grade[]" class="chosen-select form-control set-margin-bottom set-margin-top" multiple tabindex="6">
+                                    <option value=""></option>
+                                    <?php if($classes){
+                                        foreach ($classes as $t){
+                                            ?>
+                                            <option value="<?php echo $t['classid'] ?>"><?php echo $t['classroom'] ?></option>
+                                            <?php
+                                        }
+                                    }?>
+                                </select>
                             </div>
+<!--                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">-->
+<!--                                --><?php
+//                                 for($i=0; $i<13; $i++){
+//                                ?>
+<!--                                <input class="grade" type='checkbox' name='grade[]' value='--><?php //echo $i+1 ?><!--' id="check_--><?php //echo $i ?><!--" checked/><label style="width: auto; height: auto; padding: 10px; color: white; margin-right: 10px" for="check_--><?php //echo $i ?><!--">--><?php //echo $i+1 ?><!--</label>-->
+<!--                                --><?php //} ?>
+<!--                            </div>-->
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Frequency</label>

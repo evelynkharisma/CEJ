@@ -31,7 +31,7 @@
                     <div class="x_content">
                         <?php
                         if($schedule){
-                            $currentclass = 0;
+                            $currentclass = '0';
                             for ($s=0; $s<sizeof($schedule); $s++){
                                 if($schedule[$s]['classid'] != $currentclass){
                                     $currentclass = $schedule[$s]['classid'];
@@ -39,7 +39,7 @@
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="profile_title">
                                             <div class="col-md-12">
-                                                <h2>Grade <?php echo $schedule[$s]['classid'] ?></h2>
+                                                <h2>Class <?php echo $schedule[$s]['classid'] ?></h2>
                                             </div>
                                         </div>
                                         <div class="col-md-12">

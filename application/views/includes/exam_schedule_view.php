@@ -16,7 +16,7 @@
                     <div class="x_content">
                         <?php
                         if($schedule){
-                            $currentclass = 0;
+                            $currentclass = '';
                             for ($s=0; $s<sizeof($schedule); $s++){
                                 if($schedule[$s]['classid'] != $currentclass){
                                     $currentclass = $schedule[$s]['classid'];

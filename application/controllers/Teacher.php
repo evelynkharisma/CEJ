@@ -1288,6 +1288,7 @@ class teacher extends CI_Controller {
         $data['teachers'] = $this->Teacher_model->getAllTeacher();
         $data['coursesList'] = $this->Teacher_model->getAllCourses();
         $data['assign'] = $this->Teacher_model->getAllScheduleSetting();
+        $data['classes'] = $this->Teacher_model->getAllClasses();
         $data['content'] = 'teacher/create_schedule_view';
         $this->load->view($this->template, $data);
     }
@@ -1304,20 +1305,23 @@ class teacher extends CI_Controller {
             $frequency = $this->input->post('frequency');
 
             $i = 0;
-            for($g=1; $g<14; $g++){
-                $thisgrade = $g;
-                if($thisgrade == '10'){
-                    $thisgrade = 'A';
-                }
-                elseif($thisgrade == '11'){
-                    $thisgrade = 'B';
-                }
-                elseif($thisgrade == '12'){
-                    $thisgrade = 'C';
-                }
-                elseif($thisgrade == '13'){
-                    $thisgrade = 'D';
-                }
+//            for($g=1; $g<14; $g++){
+            $gradeList = $this->input->post('grade');
+            for($i=0;$i<sizeof($gradeList);$i++)
+            {
+                $thisgrade = $gradeList[$i];
+//                if($thisgrade == '10'){
+//                    $thisgrade = 'A';
+//                }
+//                elseif($thisgrade == '11'){
+//                    $thisgrade = 'B';
+//                }
+//                elseif($thisgrade == '12'){
+//                    $thisgrade = 'C';
+//                }
+//                elseif($thisgrade == '13'){
+//                    $thisgrade = 'D';
+//                }
                 $allschedule = $this->Teacher_model->getAllFrequencyForGrade($thisgrade);
                 
                 $totalperiod = 0;
@@ -1334,7 +1338,8 @@ class teacher extends CI_Controller {
 
 
                     if($addedperiod > $periodcount){
-                        $periodallowed[$i]['grade'] = $g;
+                        $classname = $this->Teacher_model->getClassByClassid($gradeList[$i]);
+                        $periodallowed[$i]['grade'] = $classname['classroom'];
                         $periodallowed[$i]['count'] = $periodcount - $totalperiod;
                         $i++;
                     }
@@ -1379,18 +1384,18 @@ class teacher extends CI_Controller {
             for($i=0;$i<sizeof($gradeList);$i++)
             {
                 $g = $gradeList[$i];
-                if($g == '10'){
-                    $g = 'A';
-                }
-                elseif($g == '11'){
-                    $g = 'B';
-                }
-                elseif($g == '12'){
-                    $g = 'C';
-                }
-                elseif($g == '13'){
-                    $g = 'D';
-                }
+//                if($g == '10'){
+//                    $g = 'A';
+//                }
+//                elseif($g == '11'){
+//                    $g = 'B';
+//                }
+//                elseif($g == '12'){
+//                    $g = 'C';
+//                }
+//                elseif($g == '13'){
+//                    $g = 'D';
+//                }
                 $grade = $grade.'|'.$g;
             }
             
@@ -1420,50 +1425,62 @@ class teacher extends CI_Controller {
         $day = $this->Teacher_model->getSetting('s0005');
         $period = $this->Teacher_model->getSetting('s0006');
 
-        $done = false;
-        $retry = true;
+        $allclass = $this->Teacher_model->getAllClasses();
+        $tablecount = 1;
+        foreach ($allclass as $class) {
+            ${"table" . $tablecount} = array('');
+            ${"grade" . $class['classroom']} = $this->Teacher_model->getAllCourseForGrade($class['classid']);
+            $tablecount++;
+        }
 
-        while($done == false){
-            if($retry == true){
-                $grade1 = $this->Teacher_model->getAllCourseForGrade(1);
-                $grade2 = $this->Teacher_model->getAllCourseForGrade(2);
-                $grade3 = $this->Teacher_model->getAllCourseForGrade(3);
-                $grade4 = $this->Teacher_model->getAllCourseForGrade(4);
-                $grade5 = $this->Teacher_model->getAllCourseForGrade(5);
-                $grade6 = $this->Teacher_model->getAllCourseForGrade(6);
-                $grade7 = $this->Teacher_model->getAllCourseForGrade(7);
-                $grade8 = $this->Teacher_model->getAllCourseForGrade(8);
-                $grade9 = $this->Teacher_model->getAllCourseForGrade(9);
-                $grade10 = $this->Teacher_model->getAllCourseForGrade('A');
-                $grade11 = $this->Teacher_model->getAllCourseForGrade('B');
-                $grade12 = $this->Teacher_model->getAllCourseForGrade('C');
-                $grade13 = $this->Teacher_model->getAllCourseForGrade('D');
+        $schedule = array('');
 
-                $table1 = null;
-                $table2 = null;
-                $table3 = null;
-                $table4 = null;
-                $table5 = null;
-                $table6 = null;
-                $table7 = null;
-                $table8 = null;
-                $table9 = null;
-                $table10 = null;
-                $table11 = null;
-                $table12 = null;
-                $table13 = null;
+//        $done = false;
+//        $retry = true;
 
-                $retry = false;
-            }
-            else{
-                for($i=1; $i<14; $i++){
-                    if(isset(${'grade'.$i})){
+//        while($done == false){
+//            if($retry == true){
+//                $grade1 = $this->Teacher_model->getAllCourseForGrade(1);
+//                $grade2 = $this->Teacher_model->getAllCourseForGrade(2);
+//                $grade3 = $this->Teacher_model->getAllCourseForGrade(3);
+//                $grade4 = $this->Teacher_model->getAllCourseForGrade(4);
+//                $grade5 = $this->Teacher_model->getAllCourseForGrade(5);
+//                $grade6 = $this->Teacher_model->getAllCourseForGrade(6);
+//                $grade7 = $this->Teacher_model->getAllCourseForGrade(7);
+//                $grade8 = $this->Teacher_model->getAllCourseForGrade(8);
+//                $grade9 = $this->Teacher_model->getAllCourseForGrade(9);
+//                $grade10 = $this->Teacher_model->getAllCourseForGrade('A');
+//                $grade11 = $this->Teacher_model->getAllCourseForGrade('B');
+//                $grade12 = $this->Teacher_model->getAllCourseForGrade('C');
+//                $grade13 = $this->Teacher_model->getAllCourseForGrade('D');
+//
+//                $table1 = null;
+//                $table2 = null;
+//                $table3 = null;
+//                $table4 = null;
+//                $table5 = null;
+//                $table6 = null;
+//                $table7 = null;
+//                $table8 = null;
+//                $table9 = null;
+//                $table10 = null;
+//                $table11 = null;
+//                $table12 = null;
+//                $table13 = null;
+//
+//                $retry = false;
+//            }
+//            else{
+                $currentTable = 1;
+                for($i=1; $i<sizeof($allclass)+1; $i++){
+                    if(isset(${'grade'.$allclass[$i-1]['classroom']})){
                         for($a=0; $a<$period['value']; $a++){
                             for($b=0; $b<$day['value']; $b++){
-                                $availablecourse = ${'grade'.$i};
+                                unset($availablecourse);
+                                $availablecourse = ${'grade'.$allclass[$i-1]['classroom']};
                                 $availablecourseExist = false;
 
-                                for($j=1; $j<$i; $j++){
+                                for($j=1; $j<$currentTable; $j++){
                                     $currentindex = 0;
                                     foreach ($availablecourse as $available){
                                         if(isset(${'table'.$j}[$a][$b]) && ${'table'.$j}[$a][$b]['teacherid'] == $available['teacherid']){
@@ -1508,57 +1525,55 @@ class teacher extends CI_Controller {
                                     $size = count($availablecourse);
                                     $index = rand(0, $size-1);
 
+                                    ${'table'.$i}[$a][$b]['classid'] = $allclass[$i-1]['classid'];
+                                    ${'table'.$i}[$a][$b]['classroom'] = $allclass[$i-1]['classroom'];
                                     ${'table'.$i}[$a][$b]['courseid'] = $availablecourse[$index]['courseid'];
                                     ${'table'.$i}[$a][$b]['teacherid'] = $availablecourse[$index]['teacherid'];
                                     ${'table'.$i}[$a][$b]['coursename'] = $availablecourse[$index]['coursename'];
                                     ${'table'.$i}[$a][$b]['teachername'] = $availablecourse[$index]['firstname'].' '.$availablecourse[$index]['lastname'];
 
-                                    foreach (${'grade'.$i} as $initial){
+                                    $initialcounter = 0;
+                                    foreach (${'grade'.$allclass[$i-1]['classroom']} as $initial){
                                         if($initial['scid'] == $availablecourse[$index]['scid']){
-                                            $initial['frequency'] = $initial['frequency'] - 1;
+                                            ${'grade'.$allclass[$i-1]['classroom']}[$initialcounter]['frequency'] = ${'grade'.$allclass[$i-1]['classroom']}[$initialcounter]['frequency'] - 1;
                                             if($initial['frequency'] == 0){
-                                                unset($initial);
-                                                ${'grade'.$i} = array_values(${'grade'.$i});
+//                                                $this->nativesession->set('success', print_r($initial));
+                                                unset(${'grade'.$allclass[$i-1]['classroom']}[$initialcounter]);
+                                                ${'grade'.$allclass[$i-1]['classroom']} = array_values(${'grade'.$allclass[$i-1]['classroom']});
                                             }
                                         }
+                                        $initialcounter++;
                                     }
                                 }
                                 else{
-                                    $size = count(${'grade'.$i});
+                                    $size = count(${'grade'.$allclass[$i-1]['classroom']});
                                     $index = rand(0, $size-1);
 
-                                    ${'table'.$i}[$a][$b]['courseid'] = ${'grade'.$i}[$index]['courseid'];
-                                    ${'table'.$i}[$a][$b]['teacherid'] = ${'grade'.$i}[$index]['teacherid'];
-                                    ${'table'.$i}[$a][$b]['coursename'] = ${'grade'.$i}[$index]['coursename'];
-                                    ${'table'.$i}[$a][$b]['teachername'] = ${'grade'.$i}[$index]['firstname'].' '.${'grade'.$i}[$index]['lastname'];
+                                    ${'table'.$i}[$a][$b]['classid'] = $allclass[$i-1]['classid'];
+                                    ${'table'.$i}[$a][$b]['classroom'] = $allclass[$i-1]['classroom'];
+                                    ${'table'.$i}[$a][$b]['courseid'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['courseid'];
+                                    ${'table'.$i}[$a][$b]['teacherid'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['teacherid'];
+                                    ${'table'.$i}[$a][$b]['coursename'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['coursename'];
+                                    ${'table'.$i}[$a][$b]['teachername'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['firstname'].' '.${'grade'.$allclass[$i-1]['classroom']}[$index]['lastname'];
                                     ${'table'.$i}[$a][$b]['conflict'] = 1;
-                                    ${'grade'.$i}[$index]['frequency'] = ${'grade'.$i}[$index]['frequency'] - 1;
-                                    if(${'grade'.$i}[$index]['frequency'] == 0){
-                                        unset(${'grade'.$i}[$index]);
-                                        ${'grade'.$i} = array_values(${'grade'.$i});
+                                    ${'grade'.$allclass[$i-1]['classroom']}[$index]['frequency'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['frequency'] - 1;
+                                    if(${'grade'.$allclass[$i-1]['classroom']}[$index]['frequency'] == 0){
+                                        unset(${'grade'.$allclass[$i-1]['classroom']}[$index]);
+                                        ${'grade'.$allclass[$i-1]['classroom']} = array_values(${'grade'.$allclass[$i-1]['classroom']});
                                     }
                                 }
                             }
                         }
+                        array_push($schedule, ${'table'.$i});
+                        $currentTable++;
                     }
                 }
-                $done = true;
-            }
-        }
+//                $done = true;
+//            }
+//        }
 
-        $data['g1'] = $table1;
-        $data['g2'] = $table2;
-        $data['g3'] = $table3;
-        $data['g4'] = $table4;
-        $data['g5'] = $table5;
-        $data['g6'] = $table6;
-        $data['g7'] = $table7;
-        $data['g8'] = $table8;
-        $data['g9'] = $table9;
-        $data['g10'] = $table10;
-        $data['g11'] = $table11;
-        $data['g12'] = $table12;
-        $data['g13'] = $table13;
+//        $data['allclasses'] = $allclass;
+        $data['schedule'] = $schedule;
 
 
         $data['day'] = $this->Teacher_model->getSetting('s0005');
@@ -1592,10 +1607,15 @@ class teacher extends CI_Controller {
             $courseid = $this->input->post('courseid');
             $latestID = $this->Teacher_model->getScheduleAppliedLatestID();
             $latestID = $latestID['scheduleid'];
+            $latestSID = $this->Teacher_model->getAssignLatestID();
+            $latestSID = $latestSID['assignid'];
             for($i=0;$i<sizeof($teacherid);$i++)
             {
                 $latestID = substr($latestID, 1);
                 $latestID = 'j'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+
+                $latestSID = substr($latestSID, 1);
+                $latestSID = 's'.str_pad((int) $latestSID+1, 4, "0", STR_PAD_LEFT);
 
                 $schedule[$i] = array(
                     'scheduleid' => $latestID,
@@ -1605,6 +1625,18 @@ class teacher extends CI_Controller {
                     'teacherid' => $teacherid[$i],
                     'courseid' => $courseid[$i],
                 );
+
+                if($result = $this->Teacher_model->checkAssignCourse($grade[$i], $teacherid[$i], $courseid[$i])){
+                }
+                else{
+                    $assign = array(
+                        'assignid' => $latestSID,
+                        'teacherid' => $teacherid[$i],
+                        'courseid' => $courseid[$i],
+                        'classid' => $grade[$i],
+                    );
+                    $this->Teacher_model->addAssignCourses($assign);
+                }
             }
             $this->Teacher_model->addScheduleApplied($schedule);
             redirect('teacher/classScheduleView/');
@@ -1643,43 +1675,37 @@ class teacher extends CI_Controller {
         $day = $this->Teacher_model->getSetting('s0005');
         $period = $this->Teacher_model->getSetting('s0006');
 
-        $grade1 = $this->Teacher_model->getAllScheduleForGrade(1);
-        $grade2 = $this->Teacher_model->getAllScheduleForGrade(2);
-        $grade3 = $this->Teacher_model->getAllScheduleForGrade(3);
-        $grade4 = $this->Teacher_model->getAllScheduleForGrade(4);
-        $grade5 = $this->Teacher_model->getAllScheduleForGrade(5);
-        $grade6 = $this->Teacher_model->getAllScheduleForGrade(6);
-        $grade7 = $this->Teacher_model->getAllScheduleForGrade(7);
-        $grade8 = $this->Teacher_model->getAllScheduleForGrade(8);
-        $grade9 = $this->Teacher_model->getAllScheduleForGrade(9);
-        $grade10 = $this->Teacher_model->getAllScheduleForGrade(10);
-        $grade11 = $this->Teacher_model->getAllScheduleForGrade(11);
-        $grade12 = $this->Teacher_model->getAllScheduleForGrade(12);
-        $grade13 = $this->Teacher_model->getAllScheduleForGrade(13);
+        $allclass = $this->Teacher_model->getAllClasses();
+        foreach ($allclass as $class) {
+            ${"grade" . $class['classid']} = $this->Teacher_model->getAllScheduleForGrade($class['classid']);
+        }
+        
+        $schedule = array('');
 
-        for($i=1; $i<14; $i++){
-            if(isset(${'grade'.$i})){
+        for($i=1; $i<sizeof($allclass)+1; $i++){
+            if(isset(${'grade'.$allclass[$i-1]['classid']})){
                 for($a=0; $a<$period['value']; $a++){
                     for($b=0; $b<$day['value']; $b++){
+                        $currentgrade = ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['classid'];
                         $conflict1 = false;
                         $conflict2 = false;
                         $conflict3 = false;
 
-                        if(isset(${'grade'.$i}[$a*$day['value']+$b])){
-                            $notthisid = ${'grade'.$i}[$a*$day['value']+$b]['scheduleid'];
-                            $thisteacherworkinghour = $this->Teacher_model->getWorkingHour(${'grade'.$i}[$a*$day['value']+$b]['teacherid']);
+                        if(isset(${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b])){
+                            $notthisid = ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['scheduleid'];
+                            $thisteacherworkinghour = $this->Teacher_model->getWorkingHour(${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['teacherid']);
                         }
                         $othertablewithsamerowandcolom = $this->Teacher_model->getScheduleWithRowColom($a, $b, $notthisid);
                         foreach ($othertablewithsamerowandcolom as $other){
-                            if(isset(${'grade'.$i}[$a*$day['value']+$b]) && ${'grade'.$i}[$a*$day['value']+$b]['teacherid'] == $other['teacherid']){
+                            if(isset(${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]) && ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['teacherid'] == $other['teacherid']){
                                 $conflict1 = true;
                             }
                         }
                         unset($othertablewithsamerowandcolom);
 
-                        $otherperiodsameday = $this->Teacher_model->getScheduleWithDayOfGrade($b, $i, $notthisid);
+                        $otherperiodsameday = $this->Teacher_model->getScheduleWithDayOfGrade($b, $currentgrade, $notthisid);
                         foreach ($otherperiodsameday as $other){
-                            if(isset(${'grade'.$i}[$a*$day['value']+$b]) && ${'grade'.$i}[$a*$day['value']+$b]['courseid'] == $other['courseid']){
+                            if(isset(${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]) && ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['courseid'] == $other['courseid']){
                                 $conflict2 = true;
                             }
                         }
@@ -1690,29 +1716,17 @@ class teacher extends CI_Controller {
                         if(isset($worktime[$a*$day['value']*$b]) && $worktime[$a*$day['value']*$b] == '0'){
                             $conflict3 = true;
                         }
-
                         
                         if($conflict1 == true || $conflict2 == true || $conflict3 == true){
-                            ${'grade'.$i}[$a*$day['value']+$b]['conflict'] = 1;
+                            ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['conflict'] = 1;
                         }
                     }
                 }
+                array_push($schedule, ${'grade'.$allclass[$i-1]['classid']});
             }
         }
 
-        $data['g1'] = $grade1;
-        $data['g2'] = $grade2;
-        $data['g3'] = $grade3;
-        $data['g4'] = $grade4;
-        $data['g5'] = $grade5;
-        $data['g6'] = $grade6;
-        $data['g7'] = $grade7;
-        $data['g8'] = $grade8;
-        $data['g9'] = $grade9;
-        $data['g10'] = $grade10;
-        $data['g11'] = $grade11;
-        $data['g12'] = $grade12;
-        $data['g13'] = $grade13;
+        $data['schedule'] = $schedule;
 
         
         $data['day'] = $this->Teacher_model->getSetting('s0005');
@@ -1759,59 +1773,70 @@ class teacher extends CI_Controller {
     public function generateExam()
     {
         $this->Teacher_model->deleteExamSchedule();
-        for($g = 0; $g<14; $g++){
-            $thisgrade = $g;
-            if($thisgrade == '10'){
-                $thisgrade = 'A';
-            }
-            elseif($thisgrade == '11'){
-                $thisgrade = 'B';
-            }
-            elseif($thisgrade == '12'){
-                $thisgrade = 'C';
-            }
-            elseif($thisgrade == '13'){
-                $thisgrade = 'D';
-            }
 
-            ${"class" . $g} = array('');
-            ${"courses" . $g} = $this->Teacher_model->getAllCourseForGrade($thisgrade);
+        $allclass = $this->Teacher_model->getAllClasses();
+        $tablecount = 1;
+        foreach ($allclass as $class) {
+            ${"class" . $tablecount} = array('');
+            ${"courses" . $class['classroom']} = $this->Teacher_model->getAllCourseForGrade($class['classid']);
+            $tablecount++;
+        }
 
-            if(isset(${"courses" . $g})){
-                $orderlist = range(1,sizeof(${"courses" . $g}));
+        for($g=1; $g<sizeof($allclass)+1; $g++){
+            if(isset(${'courses'.$allclass[$g-1]['classroom']})){
+//        for($g = 0; $g<14; $g++){
+//            $thisgrade = $g;
+//            if($thisgrade == '10'){
+//                $thisgrade = 'A';
+//            }
+//            elseif($thisgrade == '11'){
+//                $thisgrade = 'B';
+//            }
+//            elseif($thisgrade == '12'){
+//                $thisgrade = 'C';
+//            }
+//            elseif($thisgrade == '13'){
+//                $thisgrade = 'D';
+//            }
+//
+//            ${"class" . $g} = array('');
+//            ${"courses" . $g} = $this->Teacher_model->getAllCourseForGrade($thisgrade);
+
+//            if(isset(${"courses" . $g})){
+                $orderlist = range(1,sizeof(${"courses" . $allclass[$g-1]['classroom']}));
                 $schedule = array('');
                 $scheduleindex = 0;
-                foreach (${"courses" . $g} as $c){
-                    $size = count(${"courses" . $g});
+                foreach (${"courses" . $allclass[$g-1]['classroom']} as $c){
+                    $size = count(${"courses" . $allclass[$g-1]['classroom']});
                     $index = rand(0, $size-1);
 
-                    if($result = $this->Teacher_model->getExamScheduleOfCourse(${"courses" . $g}[$index]['courseid'])){
-                        ${"courses" . $g}[$index]['count'] = $result['count'];
+                    if($result = $this->Teacher_model->getExamScheduleOfCourse(${"courses" . $allclass[$g-1]['classroom']}[$index]['courseid'])){
+                        ${"courses" . $allclass[$g-1]['classroom']}[$index]['count'] = $result['count'];
                         $delindex = array_search($result['count'], $orderlist);
                         unset($orderlist[$delindex]);
                         $orderlist = array_values($orderlist);
                     }
                     else{
-                        ${"courses" . $g}[$index]['count'] = $orderlist[0];
+                        ${"courses" . $allclass[$g-1]['classroom']}[$index]['count'] = $orderlist[0];
                         unset($orderlist[0]);
                         $orderlist = array_values($orderlist);
                     }
                     $usedteacher = array('');
-                    array_push($usedteacher, ${"courses" . $g}[$index]['teacherid']);
+                    array_push($usedteacher, ${"courses" . $allclass[$g-1]['classroom']}[$index]['teacherid']);
                     $allteacheravailable = $this->Teacher_model->getExamInvigilatorAvailable($usedteacher);
                     $sizeT = count($allteacheravailable);
                     $indexT = rand(0, $sizeT-1);
                     $schedule[$scheduleindex] = array(
-                        'classid' => $g,
+                        'classid' => $allclass[$g-1]['classid'],
                         'teacherid' => $allteacheravailable[$indexT]['teacherid'],
-                        'courseid' => ${"courses" . $g}[$index]['courseid'],
-                        'count' => ${"courses" . $g}[$index]['count'],
+                        'courseid' => ${"courses" . $allclass[$g-1]['classroom']}[$index]['courseid'],
+                        'count' => ${"courses" . $allclass[$g-1]['classroom']}[$index]['count'],
                         'date' => date('Y-m-d', now()),
                     );
                     $scheduleindex++;
 
-                    unset(${"courses" . $g}[$index]);
-                    ${"courses" . $g} = array_values(${"courses" . $g});
+                    unset(${"courses" . $allclass[$g-1]['classroom']}[$index]);
+                    ${"courses" . $allclass[$g-1]['classroom']} = array_values(${"courses" . $allclass[$g-1]['classroom']});
                 }
                 array_push(${"class" . $g}, $schedule);
                 $this->Teacher_model->addExamSchedule($schedule);
@@ -1840,15 +1865,30 @@ class teacher extends CI_Controller {
         $startdate = $this->input->post('date');
         for($i=0;$i<sizeof($classid);$i++)
         {
-            $schedule[$i] = array(
-                'classid' => $classid[$i],
-                'teacherid' => $teacherid[$i],
-                'courseid' => $courseid[$i],
-                'count' => $count[$i],
-                'date' => $startdate,
-            );
-            if($count[$i]%2 == 0){
-                $startdate = date('Y-m-d', strtotime($startdate. ' +1 weekdays'));
+            if($result = $this->Teacher_model->getExamScheduleAppliedOfCourse($courseid[$i])){
+                $schedule[$i] = array(
+                    'classid' => $classid[$i],
+                    'teacherid' => $teacherid[$i],
+                    'courseid' => $courseid[$i],
+                    'count' => $count[$i],
+                    'date' => $result['date'],
+                );
+            }
+            else{
+                $schedule[$i] = array(
+                    'classid' => $classid[$i],
+                    'teacherid' => $teacherid[$i],
+                    'courseid' => $courseid[$i],
+                    'count' => $count[$i],
+                    'date' => $startdate,
+                );
+                if($count[$i]%2 == 0){
+                    $startdate = date('Y-m-d', strtotime($startdate. ' +1 weekdays'));
+                }
+            }
+            if(isset($classid[$i+1]) && $classid[$i] != $classid[$i+1]){
+                $this->Teacher_model->addExamScheduleApplied($schedule);
+                unset($schedule);
             }
         }
         $this->Teacher_model->addExamScheduleApplied($schedule);
@@ -2521,6 +2561,39 @@ class teacher extends CI_Controller {
             $eid = $this->general->encryptParaID($assign['assignid'], 'courseassigned');
             $qid = $this->general->encryptParaID($qid, 'anq');
             redirect('teacher/courseAssignmentQuizSubmission/'.$eid.'/'.$qid);
+
+        return TRUE;
+
+    }
+
+    public function sendEmailReport($sid)
+    {
+        $sid = $this->general->decryptParaID($sid, 'assignid');
+
+        $reportdata = $this->Teacher_model->getStudentCourseByAssignID($sid);
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.googlemail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'healthybonefamily@gmail.com',
+            'smtp_pass' => 'healthybonefamilycb4',
+        );
+
+        $this->load->library('email', $config);
+        $this->email->set_newline('\r\n');
+        $this->email->from('healthybonefamily@gmail.com', 'SMS');
+        $this->email->to($reportdata['email']);
+        $this->email->subject('Report Submission - Notification');
+        $this->email->message('This is the notification for submitting report of:
+            Course : '.$reportdata['coursename']);
+
+        if($this->email->send())
+            $this->nativesession->set("success","Email sent successfully.");
+        else
+            $this->nativesession->set("error",$this->email->print_debugger());
+
+        redirect($_SERVER['HTTP_REFERER']);
 
         return TRUE;
 
