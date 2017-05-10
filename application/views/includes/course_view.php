@@ -3,6 +3,7 @@
     <div class="">
         <?php
         $encrypted = $this->general->encryptParaID($course['courseid'],'course');
+        $encrypted_assignid = $this->general->encryptParaID($course['assignid'],'courseassigned');
         ?>
         <div class="page-title">
             <div class="title_left">
@@ -23,7 +24,7 @@
                         <?php if($from != 'parents'){?>
                         <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/courseStudent/<?php echo $encrypted ?>" class="btn btn-success">Students</a>
                         <?php }?>
-
+                        <a href="<?php echo base_url() ?>index.php/<?php echo $from ?>/coursePerformance/<?php echo $encrypted_assignid ?>" class="btn btn-success">Performance</a>
                     </div>
                 </div>
             </div>
