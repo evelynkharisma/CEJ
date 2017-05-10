@@ -5,32 +5,80 @@ class Library extends CI_Controller {
 
     var $template = 'template_library';
 
+    function __construct() {
+        parent::__construct();
+        $this->load->model('Teacher_model');
+        $this->load->model('Student_model');
+        $this->load->model('Admin_model');
+    }
 
     public function index()
     {
+        $this->form_validation->set_rules('loginas', 'loginas', 'required');
         $this->form_validation->set_rules('username', 'username', 'required|alpha_numeric');
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
+            $loginas = $this->input->post('loginas');
             $username = $this->input->post('username');
             $password = $this->input->post('password');
 
-            $user = $this->Teacher_model->checkLogin($username, $password);
+            if($loginas == 'student'){
+                $user = $this->Student_model->checkLogin($username, $password);
                 if (!empty($user)) {
-                    $sessionData['id'] = $user['teacherid'];
-                    $sessionData['photo'] = $user['photo'];
-                    $sessionData['role'] = $user['role'];
-                    $sessionData['lastlogin'] = $user['lastlogin'];
-                    $sessionData['is_login'] = TRUE;
-
-                    $this->session->set_userdata($sessionData);
-//					$this->Teacher_model->updateLastLogin($user['id']);
-
-                    redirect('teacher/home');
+                    $this->nativesession->set( 'id', $user['studentid'] );
+                    $this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
+                    $this->nativesession->set( 'classid', $user['classid'] );
+                    $this->nativesession->set( 'is_login', 'TRUE' );
+                    $this->nativesession->set( 'loginas', 'student' );
+                    redirect('library/home');
                 }
+            }
+            else if($loginas == 'teacher'){
+                $user = $this->Teacher_model->checkLogin($username, $password);
+                if (!empty($user)) {
+                    $this->nativesession->set( 'id', $user['teacherid'] );
+                    $this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
+                    $this->nativesession->set( 'photo', $user['photo'] );
+                    $this->nativesession->set( 'role', $user['role'] );
+                    $this->nativesession->set( 'lastlogin', $user['lastlogin'] );
+                    $this->nativesession->set( 'is_login', 'TRUE' );
+                    $this->nativesession->set( 'loginas', 'teacher' );;
+                    redirect('library/home');
+                }
+            }
+            else if($loginas == 'operation'){
+//				$user = $this->Operation_model->checkLogin($username, $password);
+//				if (!empty($user)) {
+//					$sessionData['id'] = $user['id'];
+//					$sessionData['email'] = $user['email'];
+//					$sessionData['full_name'] = $user['full_name'];
+//					$sessionData['level'] = $user['level'];
+//					$sessionData['is_login'] = TRUE;
+//
+//					$this->session->set_userdata($sessionData);
+//					$this->Operation_model->updateLastLogin($user['id']);
 
-            $this->session->set_flashdata('error', 'Login Failed!, username and password combination are wrong');
+                redirect('library/home');
+//				}
+            }
+            else if($loginas == 'admin'){
+                $user = $this->Admin_model->checkLogin($username, $password);
+                if (!empty($user)) {
+                    $this->nativesession->set( 'id', $user['adminid'] );
+                    $this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
+                    $this->nativesession->set( 'role', $user['role'] );
+                    $this->nativesession->set( 'is_login', 'TRUE' );
+                    $this->nativesession->set( 'loginas', 'admin' );
+                    $this->nativesession->set( 'loginas', 'admin' );
+                    redirect('library/home');
+                }
+            } else {
+                $this->nativesession->set( 'is_login', 'FALSE' );
+            }
+
+            $this->nativesession->set('error', 'Login Failed!, username and password combination are wrong');
         }
 
         $data['title'] = 'SMS';
@@ -40,7 +88,24 @@ class Library extends CI_Controller {
 
     public function home()
     {
+        if ($this->nativesession->get('is_login')){
+            if($this->nativesession->get('loginas')=='student'){
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+            }
+            else  if($this->nativesession->get('loginas')=='teacher'){
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+            }
+            else  if($this->nativesession->get('loginas')=='operation'){
+
+            }
+            else  if($this->nativesession->get('loginas')=='admin'){
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+            }
+        } else {
+            echo "not login";
+        }
         $data['title'] = 'Library LMS';
+
         $data['topnavigation'] = 'library/library_topnavigation';
         $data['content'] = 'library/library_home_view';
         $this->load->view($this->template, $data);
@@ -202,5 +267,15 @@ class Library extends CI_Controller {
         $data['topnavigation'] = 'library/library_topnavigation';
         $data['content'] = 'library/library_profile_edit_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function logout(){
+        $this->nativesession->delete('id');
+        $this->nativesession->delete('name');
+        $this->nativesession->delete('photo');
+        $this->nativesession->delete('role');
+        $this->nativesession->delete('lastlogin');
+        $this->nativesession->delete('is_login');
+        redirect('library/home');
     }
 }
