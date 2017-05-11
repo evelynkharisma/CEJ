@@ -18,6 +18,19 @@ class teacher extends CI_Controller {
 
     public function home()
     {
+        $today = date('l', now());
+        $today = date('N', strtotime($today))-1;
+
+        $data['day'] = $this->Teacher_model->getSetting('s0005');
+        $data['period'] = $this->Teacher_model->getSetting('s0006');
+        $data['hour'] = $this->Teacher_model->getSetting('s0007');
+        $data['starttime'] = $this->Teacher_model->getSetting('s0008');
+        $data['breakstarttime'] = $this->Teacher_model->getSetting('s0009');
+        $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
+        $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
+        $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
+
+        $data['schedule'] = $this->Teacher_model->getAllScheduleOfTeacherOfDay($this->nativesession->get('id'), $today);
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
@@ -1749,6 +1762,39 @@ class teacher extends CI_Controller {
 
     public function classScheduleView()
     {
+        $timeinterval = array();
+        $period = $this->Teacher_model->getSetting('s0006');
+        $hour = $this->Teacher_model->getSetting('s0007');
+        $starttime = $this->Teacher_model->getSetting('s0008');
+        $breakstarttime = $this->Teacher_model->getSetting('s0009');
+        $breaktime = $this->Teacher_model->getSetting('s0011');
+        $lunchstarttime = $this->Teacher_model->getSetting('s0010');
+        $lunchtime = $this->Teacher_model->getSetting('s0012');
+
+        $thisperiod = $starttime['value'];
+        $break = false;
+        $lunch = false;
+        for($i=0; $i < $period['value'];){
+            if($break == false && $thisperiod >= date('H:i', strtotime($breakstarttime['value']))){
+                $thisperiod; //break
+                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$breaktime['value']);
+                $break = true;
+            }
+            elseif ($lunch == false && $thisperiod >= date('H:i', strtotime($lunchstarttime['value']))){
+                $thisperiod; //lunch
+                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$lunchtime['value']);
+                $lunch = true;
+            }
+            else{
+                array_push($timeinterval, $thisperiod);
+                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$hour['value']);
+                $i++;
+            }
+        }
+
+        $data['hour'] = $hour;
+        $data['time'] = $timeinterval;
+        $data['schedule'] = $this->Teacher_model->getAllScheduleOfTeacher($this->nativesession->get('id'));
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));

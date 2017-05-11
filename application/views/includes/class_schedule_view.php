@@ -39,15 +39,44 @@
             started,
             categoryClass;
 
-        var events_array = [
-            {
-                title:"New Event",
-                start: '10:00', // a start time (10am in this example)
-                end: '14:00', // an end time (6pm in this example)
-                tip: 'this repeating',
-                dow: [ 1, 4 ] // Repeat monday and thursday
-            }
-        ];
+//        var timeinterval = [];
+        var events_array = [];
+
+        <?php
+        foreach ($schedule as $s){ ?>
+            var timeinterval = '<?php echo $time[$s["period"]] ?>';
+            <?php $endtime = date('H:i', strtotime($time[$s["period"]]) + 60*$hour['value']); ?>
+            var timeinterval2 = '<?php echo $endtime ?>';
+            events_array.push({
+                title:"<?php echo $s['coursename'] ?>",
+                start: timeinterval,
+                end: timeinterval2,
+                <?php if($s['day']+1 == 1){?>
+                    dow: [ 1 ],
+                <?php } elseif ($s['day']+1 == 2){?>
+                    dow: [ 2 ],
+                <?php } elseif ($s['day']+1 == 3){ ?>
+                    dow: [ 3 ],
+                <?php } elseif ($s['day']+1 == 4){ ?>
+                    dow: [ 4 ],
+                <?php } elseif ($s['day']+1 == 5){ ?>
+                    dow: [ 5 ],
+                <?php } elseif ($s['day']+1 == 6){ ?>
+                    dow: [ 6 ],
+                <?php } ?>
+                tip: '<?php echo $time[$s["period"]] ?> - <?php echo $endtime ?> <?php echo $s['coursename'] ?>',
+            });
+        <?php } ?>
+
+//        var events_array = [
+//            {
+//                title:"New Event",
+//                start: '10:00', // a start time (10am in this example)
+//                end: '14:00', // an end time (6pm in this example)
+//                tip: 'this repeating',
+//                dow: [ 1, 4 ] // Repeat monday and thursday
+//            }
+//        ];
 
         $('#calendar').fullCalendar({
             header: {

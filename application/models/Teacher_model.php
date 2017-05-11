@@ -1678,6 +1678,32 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getAllScheduleOfTeacher($tid){
+        $this->db->select('*');
+//        $this->db->join('teacher', 'teacher.teacherid = schedule.teacherid');
+        $this->db->join('course', 'course.courseid = schedule.courseid');
+        $this->db->where('schedule.teacherid', $tid);
+        $query = $this->db->get($this->schedule_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllScheduleOfTeacherOfDay($tid, $d){
+        $this->db->select('*');
+        $this->db->join('class', 'class.classid = schedule.classid');
+        $this->db->join('course', 'course.courseid = schedule.courseid');
+        $this->db->where('schedule.teacherid', $tid);
+        $this->db->where('schedule.day', $d);
+        $this->db->order_by('schedule.period', 'asc');
+        $query = $this->db->get($this->schedule_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getScheduleWithRowColom($r, $c, $not){
         $this->db->select('*');
         $this->db->where('period', $r);

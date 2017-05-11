@@ -87,7 +87,7 @@
                                                         <?php $a++; } ?>
                                                 </tr>
                                                 <?php
-                                                $thisperiod = date('H:i', strtotime($thisperiod) + 60*60);
+                                                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$hour['value']);
                                                 $i++;
                                             }
                                         } ?>
