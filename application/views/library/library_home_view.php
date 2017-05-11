@@ -27,8 +27,8 @@
                 <div class="col-xs-3 w3l-our-advantages-grd-left">
                     <i class="fa fa-search"></i>
                 </div>
-                <div class="col-xs-9 w3l-our-advantages-grd-right">
-                    <h4>Search Collection</h4>
+                <div class="col-xs-9">
+                    <h4><a class="library-home-service" href="<?php echo base_url() ?>index.php/library/searchCollection">Search Collection</a></h4>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -36,8 +36,8 @@
                 <div class="col-xs-3 w3l-our-advantages-grd-left">
                     <i class="material-icons">gavel</i>
                 </div>
-                <div class="col-xs-9 w3l-our-advantages-grd-right">
-                    <h4>Circulation</h4>
+                <div class="col-xs-9">
+                    <h4><a class="library-home-service" href="<?php echo base_url() ?>index.php/library/circulation">Circulation</a></h4>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -45,8 +45,8 @@
                 <div class="col-xs-3 w3l-our-advantages-grd-left">
                     <i class="material-icons">record_voice_over</i></button>
                 </div>
-                <div class="col-xs-9 w3l-our-advantages-grd-right">
-                    <h4>Current Awareness</h4>
+                <div class="col-xs-9">
+                    <h4><a class="library-home-service" href="<?php echo base_url() ?>index.php/library/currentAwareness">Current Awareness</a></h4>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -54,8 +54,8 @@
                 <div class="col-xs-3 w3l-our-advantages-grd-left">
                     <i class="material-icons">cloud_upload</i>
                 </div>
-                <div class="col-xs-9 w3l-our-advantages-grd-right">
-                    <h4>Request Materials</h4>
+                <div class="col-xs-9">
+                    <h4><a class="library-home-service" href="<?php echo base_url() ?>index.php/library/requestMaterials">Request Materials</a></h4>
 <!--                    <p>Vel illum qui dolorem eum fugiat quo voluptas-->
 <!--                        nulla pariatur eum iure reprehenderit.</p>-->
 <!--                    <a href="single.html" data-toggle="modal" data-target="#myModal1" >More details<span class="glyphicon glyphicon glyphicon-arrow-right" aria-hidden="true"></span></a>-->
@@ -66,11 +66,8 @@
                 <div class="col-xs-3 w3l-our-advantages-grd-left">
                     <i class="fa fa-book" aria-hidden="true"></i>
                 </div>
-                <div class="col-xs-9 w3l-our-advantages-grd-right">
-                    <h4>Lost And Found</h4>
-<!--                    <p>Vel illum qui dolorem eum fugiat quo voluptas-->
-<!--                        nulla pariatur eum iure reprehenderit.</p>-->
-<!--                    <a href="single.html" data-toggle="modal" data-target="#myModal1" >More details<span class="glyphicon glyphicon glyphicon-arrow-right" aria-hidden="true"></span></a>-->
+                <div class="col-xs-9">
+                    <h4><a class="library-home-service" href="<?php echo base_url() ?>index.php/library/lostAndFound">Lost And Found</a></h4>
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -78,8 +75,8 @@
                 <div class="col-xs-3 w3l-our-advantages-grd-left">
                     <i class="material-icons">dvr</i>
                 </div>
-                <div class="col-xs-9 w3l-our-advantages-grd-right">
-                    <h4>Facilities</h4>
+                <div class="col-xs-9">
+                    <h4><a class="library-home-service" href="">Facilities</a></h4>
 <!--                    <p>Vel illum qui dolorem eum fugiat quo voluptas-->
 <!--                        nulla pariatur eum iure reprehenderit.</p>-->
 <!--                    <a href="single.html" data-toggle="modal" data-target="#myModal1" >More details<span class="glyphicon glyphicon glyphicon-arrow-right" aria-hidden="true"></span></a>-->
@@ -98,59 +95,39 @@
 <div class="gallery" id="facilities">
     <div class="container">
         <h5 class="title-w3">what’s New on Library & Knowledge Center</h5>
-        <ul class="list-group wow fadeInUp animated" data-wow-delay=".5s">
-            <li class="list-group-item">
-                <a href="#" data-toggle="modal" data-target="#myModalNews1" >Service Hour during Christmas & New Year Holidays</a>
-                <div class="modal fade" id="myModalNews1" tabindex="-1" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4>Educative</h4>
-                                <img src="<?php echo base_url() ?>assets/img/library/middle.jpg" alt=" " class="img-responsive">
-                                <h5>Lorem ipsum dolor sit amet</h5>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, rds which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+        <div class="col-md-1"></div>
+        <div class="col-md-10" style=" margin: auto;">
+            <ul class="list-group wow fadeInUp animated" data-wow-delay=".5s">
+                <?php
+                if($news){
+                    $i = 0;
+                    foreach($news as $new){
+                ?>
+                        <li class="list-group-item"">
+                            <a href="#" data-toggle="modal" data-target="#myModalNews<?php echo $i?>" ><?php echo ucwords($new['title'])?></a>
+                            <div class="modal fade" id="myModalNews<?php echo $i?>" tabindex="-1" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4><?php echo ucwords($new['title'])?></h4>
+
+    <!--                                        <h5>Lorem ipsum dolor sit amet</h5>-->
+                                            <p><?php echo ucwords($new['content'])?></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <a href="#" data-toggle="modal" data-target="#myModalNews2" >Library & Knowledge Center On Exam Period</a>
-                <div class="modal fade" id="myModalNews2" tabindex="-1" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4>Educative</h4>
-                                <img src="<?php echo base_url() ?>assets/img/library/middle.jpg" alt=" " class="img-responsive">
-                                <h5>Lorem ipsum dolor sit amet</h5>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, rds which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <a href="#" data-toggle="modal" data-target="#myModalNews3" >Library & Knowledge Center On Exam Period</a>
-                <div class="modal fade" id="myModalNews3" tabindex="-1" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4>Educative</h4>
-                                <img src="<?php echo base_url() ?>assets/img/library/middle.jpg" alt=" " class="img-responsive">
-                                <h5>Lorem ipsum dolor sit amet</h5>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, rds which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
+                        </li>
+                <?php
+
+                        $i++;
+                    }
+                }
+                ?>
+            </ul>
+        </div>
 
     </div>
 </div>
@@ -163,101 +140,47 @@
     <div class="container">
         <h5 class="title-w3">useful links</h5>
             <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Online Database</a>
-                        </h4>
-                    </div>
-                    <div id="collapse1" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            <ul style="margin-left: 20px">
-                                <li><a href="https://www.brainpop.com/">BrainPOP -  Database for K-12 Students</a></li>
-                                <li><a href="https://www.pebblego.com/">Pebble Go -  Database for K-3 Students</a></li>
-                                <li><a href="www.questia.com/OnlineLibrary">Questia -  Database for year 10 -12 Students</a></li>
-                            </ul>
+                <?php
+                if($useful_link_categories) {
+                    $i =0;
+                    foreach ($useful_link_categories as $useful_link_category) {
+                ?>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i?>"><?php echo $useful_link_category['name']?></a>
+                                </h4>
+                            </div>
+                            <div id="collapse<?php echo $i?>" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul style="margin-left: 20px">
+                                        <?php
+                                        if($useful_links) {
+                                            foreach ($useful_links as $useful_link) {
+                                                if($useful_link['category'] == $useful_link_category['category']) {
+                                                    ?>
+                                                    <li>
+                                                        <a href="<?php echo $useful_link['link'] ?>" target="_blank"><?php echo $useful_link['name'] ?></a>
+                                                    </li>
+                                                    <?php
+
+                                                }
+                                            }
+
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Free eBook Collections</a>
-                        </h4>
-                    </div>
-                    <div id="collapse2" class="panel-collapse collapse">
-                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Useful Links</a>
-                        </h4>
-                    </div>
-                    <div id="collapse3" class="panel-collapse collapse">
-                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Research Assistance</a>
-                        </h4>
-                    </div>
-                    <div id="collapse4" class="panel-collapse collapse">
-                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">Library Service</a>
-                        </h4>
-                    </div>
-                    <div id="collapse5" class="panel-collapse collapse">
-                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                    </div>
-                </div>
+                <?php
+                        $i++;
+                    }
+
+                }
+                ?>
             </div>
-
-            <!--<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
-            <ul id="myTab" class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">Online Database</a></li>
-                <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Free Ebook Collections</a></li>
-                <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Research Assistance</a></li>
-                <li role="presentation"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile">Useful Links</a></li>
-
-            </ul>
-            <div id="myTabContent" class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledby="home-tab">
-
-                    <ul>
-                        <li>Coffee</li>
-                        <li>Tea</li>
-                        <li>Milk</li>
-                    </ul>
-
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
-                    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="dropdown1" aria-labelledby="dropdown1-tab">
-                    <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="dropdown2" aria-labelledby="dropdown2-tab">
-                    <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
-                </div>
-            </div>
-        </div>-->
+        </div>
     </div>
 </div>
 <!-------------------------------------------  END OF USEFUL LINKS  ----------------------------------->
@@ -266,7 +189,7 @@
 
 
 <!-------------------------------------------  QUOTE ----------------------------------->
-<div class="signup" id="quote">
+<!--<div class="signup" id="quote">
     <div class="container">
         <div class="head-top-w3ls"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
         <h5 class="title-w3">Explore and Learn.</h5>
@@ -275,7 +198,7 @@
             <b>Norman Cousins</b>
         </p>
     </div>
-</div>
+</div>-->
 <!-- Footer -->
 
 <div class="copyright-wthree">

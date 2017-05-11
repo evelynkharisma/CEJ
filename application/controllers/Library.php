@@ -10,6 +10,7 @@ class Library extends CI_Controller {
         $this->load->model('Teacher_model');
         $this->load->model('Student_model');
         $this->load->model('Admin_model');
+        $this->load->model('Library_model');
     }
 
     public function index()
@@ -102,22 +103,25 @@ class Library extends CI_Controller {
                 $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
             }
         } else {
-            echo "not login";
+
         }
         $data['title'] = 'Library LMS';
-
+        $data['services'] = $this->Library_model->getAllServices();
+        $data['news'] = $this->Library_model->getRecentNews();
+        $data['useful_link_categories'] = $this->Library_model->getUsefulLinkCategory();
+        $data['useful_links'] = $this->Library_model->getAllUsefulLink();
         $data['topnavigation'] = 'library/library_topnavigation';
         $data['content'] = 'library/library_home_view';
         $this->load->view($this->template, $data);
     }
 
     public function collection()
-    {
-        $data['title'] = 'Library LMS';
-        $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'library/library_collection_view';
-        $this->load->view($this->template, $data);
-    }
+{
+    $data['title'] = 'Library LMS';
+    $data['topnavigation'] = 'library/library_topnavigation';
+    $data['content'] = 'library/library_collection_view';
+    $this->load->view($this->template, $data);
+}
 
     public function about()
     {
@@ -168,86 +172,61 @@ class Library extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-    public function learning_report()
+    public function searchCollection()
     {
         $data['title'] = 'Library LMS';
-        //$data['sidebar'] = 'library/library_sidebar';
+        $data['service'] = $this->Library_model->getServiceByID('p0001');
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'library/learning_report_view';
+        $data['content'] = 'library/library_service_view';
         $this->load->view($this->template, $data);
     }
 
-    public function classScheduleView()
-    {
-        $data['title'] = 'SMS';
-        //$data['sidebar'] = 'library/library_sidebar';
-        $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'includes/class_schedule_view';
-        $this->load->view($this->template, $data);
-    }
-
-    public function examScheduleView()
-    {
-        $data['title'] = 'SMS';
-        //$data['sidebar'] = 'library/library_sidebar';
-        $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'includes/exam_schedule_view';
-        $this->load->view($this->template, $data);
-    }
-
-    public function courseAssignmentQuiz()
+    public function circulation()
     {
         $data['title'] = 'Library LMS';
-        //$data['sidebar'] = 'library/library_sidebar';
+        $data['service'] = $this->Library_model->getServiceByID('p0002');
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'library/library_course_qna_view';
+        $data['content'] = 'library/library_service_view';
         $this->load->view($this->template, $data);
     }
 
-    public function courseMaterial()
+    public function currentAwareness()
     {
         $data['title'] = 'Library LMS';
-        //$data['sidebar'] = 'library/library_sidebar';
+        $data['service'] = $this->Library_model->getServiceByID('p0003');
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'library/library_course_material_view';
+        $data['content'] = 'library/library_service_view';
         $this->load->view($this->template, $data);
     }
 
-    public function coursePlan()
+    public function requestMaterials()
     {
         $data['title'] = 'Library LMS';
-        //$data['sidebar'] = 'library/library_sidebar';
+        $data['service'] = $this->Library_model->getServiceByID('p0004');
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'library/library_course_plan_view';
+        $data['content'] = 'library/library_service_view';
         $this->load->view($this->template, $data);
     }
 
-    public function courseLibrary()
+    public function lostAndFound()
     {
         $data['title'] = 'Library LMS';
-        //$data['sidebar'] = 'library/library_sidebar';
+        $data['service'] = $this->Library_model->getServiceByID('p0005');
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'library/library_course_library_view';
+        $data['content'] = 'library/library_service_view';
         $this->load->view($this->template, $data);
     }
 
-    public function courseView()
+    public function facilities()
     {
         $data['title'] = 'Library LMS';
-        //$data['sidebar'] = 'library/library_sidebar';
+        $data['service'] = $this->Library_model->getServiceByID('p0005');
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'library/library_course_view';
+        $data['content'] = 'library/library_service_view';
         $this->load->view($this->template, $data);
     }
 
-    public function courseImplementation()
-    {
-        $data['title'] = 'Library LMS';
-        //$data['sidebar'] = 'library/library_sidebar';
-        $data['topnavigation'] = 'library/library_topnavigation';
-        $data['content'] = 'library/library_course_view';
-        $this->load->view($this->template, $data);
-    }
+
 
     public function library_profile()
     {

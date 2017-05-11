@@ -1887,7 +1887,7 @@ li.twt {
         min-height: 349px;
     }
 }
-@media(max-width:1080px){
+@media(max-width:1200px){
     .navbar-default .navbar-nav > li > a {
         font-size: 17px!important;
     }
@@ -3437,4 +3437,13 @@ li.twt {
     height: 31px;
     color: white;
     background: url("../img/login/login-button.png");
+}
+
+.library-home-service {
+    font-size: 18px;
+    color: #1ca0de;
+    margin: 0 0 8px;
+    text-transform: capitalize;
+    line-height: 64px;
+    display: block;
 }
