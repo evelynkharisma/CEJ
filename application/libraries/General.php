@@ -126,6 +126,11 @@ class General
             $value = substr($id,1) + 543;
             $id = $variable.$value;
         }
+        elseif($type == 'class'){
+            $variable = ord('k');
+            $value = substr($id,1) + 432;
+            $id = $variable.$value;
+        }
         return $id;
     }
 
@@ -199,6 +204,11 @@ class General
             $variable = strlen(ord('a'));
             $id = substr($id, $variable) - 543;
             $id = 'a'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'class'){
+            $variable = strlen(ord('k'));
+            $id = substr($id, $variable) - 432;
+            $id = 'k'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         return $id;
     }

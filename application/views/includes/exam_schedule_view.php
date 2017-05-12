@@ -33,6 +33,7 @@
                                     <tr>
                                         <td class="teacher_course_student_mid_td set-center" width="25%">Subject</td>
                                         <td class="teacher_course_student_mid_td set-center" width="25%">Date</td>
+                                        <td class="teacher_course_student_mid_td set-center" width="25%">Time</td>
                                         <td class="teacher_course_student_mid_td set-center" width="25%">Invigilator</td>
                                     </tr>
                                     </thead>
@@ -43,6 +44,13 @@
                                 <tr>
                                     <td style="border-bottom: <?php echo (isset($schedule[$s]['count']) && $schedule[$s]['count']%2 == 0)?'solid 2px black':'' ?> "><?php echo $schedule[$s]['coursename'] ?></td>
                                     <td style="border-bottom: <?php echo (isset($schedule[$s]['count']) && $schedule[$s]['count']%2 == 0)?'solid 2px black':'' ?> "><?php echo $schedule[$s]['date'] ?></td>
+                                    <td style="border-bottom: <?php echo (isset($schedule[$s]['count']) && $schedule[$s]['count']%2 == 0)?'solid 2px black':'' ?> ">
+                                        <?php if($schedule[$s]['count']%2==1){
+                                            echo $time[0].' - '.$time[1];
+                                        }else{
+                                            echo $time[2].' - '.$time[3];
+                                        } ?>
+                                    </td>
                                     <td style="border-bottom: <?php echo (isset($schedule[$s]['count']) && $schedule[$s]['count']%2 == 0)?'solid 2px black':'' ?> "><?php echo $schedule[$s]['firstname'] ?> <?php echo $schedule[$s]['lastname'] ?></td>
                                 </tr>
                                 <?php

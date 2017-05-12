@@ -147,6 +147,7 @@
                     <li><a href="<?php echo base_url() ?>index.php/teacher/parentView">Parents</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/staffView">Staff</a></li>
                     <li><a href="<?php echo base_url() ?>index.php/teacher/libraryView">Libraries</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/teacher/classesView">Classes</a></li>
                 </ul>
             </li>
             <?php

@@ -696,10 +696,10 @@ class Teacher_model extends CI_Model {
         $this->db->update($this->report_table, $data);
     }
 
-    function editMidReport($id){
+    function editMidReport($id, $grade){
         $data = array(
             'mark' => $this->input->post('mark'),
-            'grade' => $this->input->post('grade'),
+            'grade' => $grade,
             'comment' => $this->input->post('comment'),
         );
         $this->db->where('reportid', $id);
@@ -739,10 +739,10 @@ class Teacher_model extends CI_Model {
         $this->db->update($this->report_table, $data);
     }
 
-    function editFinalReport($id){
+    function editFinalReport($id, $grade){
         $data = array(
             'mark' => $this->input->post('fmark'),
-            'grade' => $this->input->post('fgrade'),
+            'grade' => $grade,
             'comment' => $this->input->post('fcomment'),
         );
         $this->db->where('reportid', $id);
@@ -761,6 +761,17 @@ class Teacher_model extends CI_Model {
 
     function getClassByClassid($id){
         $this->db->select('*');
+        $this->db->where('classid', $id);
+        $query = $this->db->get($this->class_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getClassByClassidWithTeacher($id){
+        $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = class.teacherid');
         $this->db->where('classid', $id);
         $query = $this->db->get($this->class_table, 1);
 
@@ -1415,6 +1426,30 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getAllSchedulingSettings(){
+        $this->db->select('*');
+        $type_array = array('s0005', 's0006', 's0007', 's0008', 's0009', 's0010', 's0011', 's0012', 's0013');
+        $this->db->where_in('settingid', $type_array);
+
+        $query = $this->db->get($this->setting_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllGradingSettings(){
+        $this->db->select('*');
+        $type_array = array('s0001', 's0002', 's0003', 's0004', 's0014', 's0015', 's0016', 's0017', 's0018', 's0019', 's0020', 's0021', 's0022', 's0023', 's0024', 's0025');
+        $this->db->where_in('settingid', $type_array);
+
+        $query = $this->db->get($this->setting_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function editSetting($id){
         $data = array(
             'value' => $this->input->post('value'),
@@ -1849,6 +1884,17 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getAllClassesWithTeacher(){
+        $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = class.teacherid');
+
+        $query = $this->db->get($this->class_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getAssignLatestID(){
         $this->db->select('assignid');
         $this->db->order_by("assignid", "desc");
@@ -1874,6 +1920,36 @@ class Teacher_model extends CI_Model {
         if ($query->num_rows() == 1) {
             return $query->row_array();
         }
+    }
+
+    function getClassLatestID(){
+        $this->db->select('classid');
+        $this->db->order_by("classid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->class_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addClass($id){
+        $data = array(
+            'classid' => $id,
+            'classroom' => $this->input->post('class'),
+            'teacherid' => $this->input->post('teacher'),
+            'periode' =>  date('Y-m-d', now()),
+        );
+        $this->db->insert($this->class_table, $data);
+    }
+
+    function editClass($id){
+        $data = array(
+            'classroom' => $this->input->post('class'),
+            'teacherid' => $this->input->post('teacher')
+        );
+        $this->db->where('classid', $id);
+        $this->db->update($this->class_table, $data);
     }
 }
 

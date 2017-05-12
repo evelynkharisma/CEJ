@@ -1195,6 +1195,44 @@ class teacher extends CI_Controller {
         $class = $this->Teacher_model->getClassByStudentID($studentid);
         $class = explode('-', $class['classroom']);
 
+        $a = $this->Teacher_model->getSetting('s0014');
+        $amin = $this->Teacher_model->getSetting('s0015');
+        $b = $this->Teacher_model->getSetting('s0016');
+        $bplus = $this->Teacher_model->getSetting('s0017');
+        $bmin = $this->Teacher_model->getSetting('s0018');
+        $c = $this->Teacher_model->getSetting('s0019');
+        $cplus = $this->Teacher_model->getSetting('s0020');
+        $d = $this->Teacher_model->getSetting('s0021');
+
+        $homeworkevaluation = $this->Teacher_model->getSetting('s0022');
+        $classworkevaluation = $this->Teacher_model->getSetting('s0023');
+        $assessmentevaluation = $this->Teacher_model->getSetting('s0024');
+        $examevaluation = $this->Teacher_model->getSetting('s0025');
+
+        $homework = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 1);
+        $homeworkscore = 0;
+        foreach ($homework as $h){
+            $homeworkscore = $homeworkscore + $h['score'];
+        }
+        $homeworkscore = $homeworkscore/sizeof($homework);
+        $homeworkscore = $homeworkscore * $homeworkevaluation['value'] / 100;
+
+        $classwork = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 2);
+        $classworkscore = 0;
+        foreach ($classwork as $h){
+            $classworkscore = $classworkscore + $h['score'];
+        }
+        $classworkscore = $classworkscore/sizeof($classwork);
+        $classworkscore = $classworkscore * $classworkevaluation['value'] / 100;
+
+        $assessment = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 3);
+        $assessmentscore = 0;
+        foreach ($assessment as $h){
+            $assessmentscore = $assessmentscore + $h['score'];
+        }
+        $assessmentscore = $assessmentscore/sizeof($assessment);
+        $assessmentscore = $assessmentscore * $assessmentevaluation['value'] / 100;
+
         $savebutton = $this->input->post('savebutton');
         if($savebutton == 'term1'){
             $this->form_validation->set_rules('op1', 'Mid Term Is self-motivated', 'required');
@@ -1222,15 +1260,44 @@ class teacher extends CI_Controller {
         }
         else if($savebutton == 'term2'){
             $this->form_validation->set_rules('mark', 'Mid Term Exam Mark', 'required');
-            $this->form_validation->set_rules('grade', 'Mid Term Course Grade', 'required');
+//            $this->form_validation->set_rules('grade', 'Mid Term Course Grade', 'required');
             $this->form_validation->set_rules('comment', 'Mid Term Comment', 'required');
             $this->form_validation->set_error_delimiters('', '<br/>');
 
             if ($this->form_validation->run() == TRUE) {
                 if($result = $this->Teacher_model->checkReport($assignid, $studentid, 1)){
-                    $this->Teacher_model->editMidReport($result['reportid']);
+                    $examscore = $this->input->post('mark') * $examevaluation['value'] / 100;
+                    $totalscore = $homeworkscore + $classworkscore + $assessmentscore + $examscore;
+                    if($totalscore >= $a['value']){
+                        $grade = 'A';
+                    }
+                    elseif($totalscore >= $amin['value'] && $totalscore < $a['value']){
+                        $grade = 'A-';
+                    }
+                    elseif($totalscore >= $bplus['value'] && $totalscore < $amin['value']){
+                        $grade = 'B+';
+                    }
+                    elseif($totalscore >= $b['value'] && $totalscore < $bplus['value']){
+                        $grade = 'B';
+                    }
+                    elseif($totalscore >= $bmin['value'] && $totalscore < $b['value']){
+                        $grade = 'B-';
+                    }
+                    elseif($totalscore >= $cplus['value'] && $totalscore < $bmin['value']){
+                        $grade = 'C+';
+                    }
+                    elseif($totalscore >= $c['value'] && $totalscore < $cplus['value']){
+                        $grade = 'C';
+                    }
+                    elseif($totalscore >= $d['value'] && $totalscore < $c['value']){
+                        $grade = 'D';
+                    }
+                    elseif($totalscore < $d['value']){
+                        $grade = 'E';
+                    }
+                    $this->Teacher_model->editMidReport($result['reportid'], $grade);
+                    $this->nativesession->set('success', 'Report saved');
                 }
-                $this->nativesession->set('success', 'Report saved');
             }
             redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
@@ -1260,15 +1327,44 @@ class teacher extends CI_Controller {
         }
         else if($savebutton == 'term4'){
             $this->form_validation->set_rules('mark', 'Mid Term Exam Mark', 'required');
-            $this->form_validation->set_rules('grade', 'Mid Term Course Grade', 'required');
+//            $this->form_validation->set_rules('grade', 'Mid Term Course Grade', 'required');
             $this->form_validation->set_rules('comment', 'Mid Term Comment', 'required');
             $this->form_validation->set_error_delimiters('', '<br/>');
 
             if ($this->form_validation->run() == TRUE) {
                 if($result = $this->Teacher_model->checkReport($assignid, $studentid, 2)){
-                    $this->Teacher_model->editFinalReport($result['reportid']);
+                    $examscore = $this->input->post('fmark') * $examevaluation['value'] / 100;
+                    $totalscore = $homeworkscore + $classworkscore + $assessmentscore + $examscore;
+                    if($totalscore >= $a['value']){
+                        $grade = 'A';
+                    }
+                    elseif($totalscore >= $amin['value'] && $totalscore < $a['value']){
+                        $grade = 'A-';
+                    }
+                    elseif($totalscore >= $bplus['value'] && $totalscore < $amin['value']){
+                        $grade = 'B+';
+                    }
+                    elseif($totalscore >= $b['value'] && $totalscore < $bplus['value']){
+                        $grade = 'B';
+                    }
+                    elseif($totalscore >= $bmin['value'] && $totalscore < $b['value']){
+                        $grade = 'B-';
+                    }
+                    elseif($totalscore >= $cplus['value'] && $totalscore < $bmin['value']){
+                        $grade = 'C+';
+                    }
+                    elseif($totalscore >= $c['value'] && $totalscore < $cplus['value']){
+                        $grade = 'C';
+                    }
+                    elseif($totalscore >= $d['value'] && $totalscore < $c['value']){
+                        $grade = 'D';
+                    }
+                    elseif($totalscore < $d['value']){
+                        $grade = 'E';
+                    }
+                    $this->Teacher_model->editFinalReport($result['reportid'], $grade);
+                    $this->nativesession->set('success', ''.$totalscore.' '.$homeworkscore.' '.''.$classworkscore.' '.$assessmentscore.' '.$examscore.'');
                 }
-                $this->nativesession->set('success', 'Report saved');
             }
             redirect('teacher/courseStudentPerformance/'.$eid.'/'.$esid);
         }
@@ -1806,6 +1902,20 @@ class teacher extends CI_Controller {
 
     public function examScheduleView()
     {
+        $period = array();
+        $starttime = $this->Teacher_model->getSetting('s0008');
+        $thisperiod = $starttime['value'];
+        array_push($period, $thisperiod);
+        $examtime = $this->Teacher_model->getSetting('s0013');
+        $thisperiod = date('H:i', strtotime($thisperiod) + 60*$examtime['value']);
+        array_push($period, $thisperiod);
+        $breaktime = $this->Teacher_model->getSetting('s0011');
+        $thisperiod = date('H:i', strtotime($thisperiod) + 60*$breaktime['value']);
+        array_push($period, $thisperiod);
+        $thisperiod = date('H:i', strtotime($thisperiod) + 60*$examtime['value']);
+        array_push($period, $thisperiod);
+
+        $data['time'] = $period;
         $data['schedule'] = $this->Teacher_model->getExamScheduleApplied();
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
@@ -2022,6 +2132,74 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/libraries_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function classesView()
+    {
+        $data['classes'] = $this->Teacher_model->getAllClassesWithTeacher();
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'includes/classes_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addClass()
+    {
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0025') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('teacher/home');
+        }
+        $this->form_validation->set_rules('class', 'Classroom', 'required');
+        $this->form_validation->set_rules('teacher', 'Homeroom Teacher', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Teacher_model->getClassLatestID();
+            $latestID = $latestID['classid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'k'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            $this->Teacher_model->addClass($latestID);
+                
+            $this->nativesession->set('success', 'Class Added');
+            redirect('teacher/classesView/');
+        }
+
+        $data['teacher'] = $this->Teacher_model->getAllTeacher();
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/add_class_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function editClass($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0026') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('teacher/home');
+        }
+        $id = $this->general->decryptParaID($id, 'class');
+        $this->form_validation->set_rules('class', 'Classroom', 'required');
+        $this->form_validation->set_rules('teacher', 'Homeroom Teacher', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Teacher_model->editClass($id);
+            $this->nativesession->set('success', 'Class Added');
+            redirect('teacher/classesView/');
+        }
+
+        $data['class'] = $this->Teacher_model->getClassByClassidWithTeacher($id);
+        $data['teacher'] = $this->Teacher_model->getAllTeacher();
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/edit_class_view';
         $this->load->view($this->template, $data);
     }
 
@@ -2364,7 +2542,8 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['info_dbs'] = $this->Teacher_model->getAllSettings();
+        $data['scheduling'] = $this->Teacher_model->getAllSchedulingSettings();
+        $data['grading'] = $this->Teacher_model->getAllGradingSettings();
         $data['content'] = 'teacher/teacher_settings_view';
         $this->load->view($this->template, $data);
     }

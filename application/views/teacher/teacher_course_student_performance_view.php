@@ -221,7 +221,7 @@
                                     <tr>
                                         <td width="50%" class="teacher_course_student_mid_td"></td>
                                         <td class="set-center"><input type="text" class="form-control set-margin-bottom" name="mark" value="<?php echo set_value('mark', isset($report[0]['mark']) ? $report[0]['mark'] : ''); ?>"/></td>
-                                        <td class="set-center"><input type="text" class="form-control set-margin-bottom" name="grade" value="<?php echo set_value('grade', isset($report[0]['grade']) ? $report[0]['grade'] : ''); ?>"/></td>
+                                        <td class="set-center"><input readonly type="text" class="form-control set-margin-bottom" name="grade" value="<?php echo set_value('grade', isset($report[0]['grade']) ? $report[0]['grade'] : ''); ?>"/></td>
                                     </tr>
                                     <tr>
                                         <td colspan="6">
@@ -321,7 +321,7 @@
                                     <tr>
                                         <td width="50%" class="teacher_course_student_mid_td"></td>
                                         <td class="set-center"><input type="text" class="form-control set-margin-bottom" name="fmark" value="<?php echo set_value('fmark', isset($report[1]['mark']) ? $report[1]['mark'] : ''); ?>"/></td>
-                                        <td class="set-center"><input type="text" class="form-control set-margin-bottom" name="fgrade" value="<?php echo set_value('fgrade', isset($report[1]['grade']) ? $report[1]['grade'] : ''); ?>"/></td>
+                                        <td class="set-center"><input readonly type="text" class="form-control set-margin-bottom" name="fgrade" value="<?php echo set_value('fgrade', isset($report[1]['grade']) ? $report[1]['grade'] : ''); ?>"/></td>
                                     </tr>
                                     <tr>
                                         <td colspan="6">
