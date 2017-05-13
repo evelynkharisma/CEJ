@@ -14,6 +14,7 @@ class teacher extends CI_Controller {
         parent::__construct();
         $this->general->TeacherLogin();
         $this->load->model('Teacher_model');
+        $this->load->model('Student_model');
     }
 
     public function home()
@@ -1600,6 +1601,7 @@ class teacher extends CI_Controller {
                                             unset($availablecourse[$currentindex]);
                                             $availablecourse = array_values($availablecourse);
                                             $availablecourseExist = true;
+                                            break;
                                         }
                                         $currentindex++;
                                     }
@@ -1612,6 +1614,7 @@ class teacher extends CI_Controller {
                                             unset($availablecourse[$currentindex]);
                                             $availablecourse = array_values($availablecourse);
                                             $availablecourseExist = true;
+                                            break;
                                         }
                                         $currentindex++;
                                     }
@@ -1628,6 +1631,7 @@ class teacher extends CI_Controller {
                                                 unset($availablecourse[$currentindex]);
                                                 $availablecourse = array_values($availablecourse);
                                                 $availablecourseExist = true;
+                                                break;
                                             }
                                             $currentindex++;
                                         }
@@ -2057,12 +2061,189 @@ class teacher extends CI_Controller {
 
     public function studentView()
     {
+        $data['students'] = $this->Student_model->getAllStudent();
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['content'] = 'includes/students_view';
+        $data['content'] = 'teacher/teacher_all_students_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteStudent($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0018') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('teacher/home');
+        }
+        $id = $this->general->decryptParaID($id, 'student');
+        if($this->Student_model->deactivateStudent($id)){
+            $this->nativesession->set('success', 'Student Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Student');
+        }
+        redirect('teacher/studentView');
+    }
+
+    public function editStudent($stid){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0003') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('teacher/home');
+        }
+        $id = $this->general->decryptParaID($stid, 'student');
+        $this->form_validation->set_rules('firstname', 'firstname', 'required');
+        $this->form_validation->set_rules('lastname', 'lastname', 'required');
+        $this->form_validation->set_rules('gender', 'gender', 'required');
+        $this->form_validation->set_rules('phone', 'phone', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('address', 'address', 'required');
+        $this->form_validation->set_rules('dateofbirth', 'date of birth', 'required');
+        $this->form_validation->set_rules('placeofbirth', 'place of birth', 'required');
+        $this->form_validation->set_rules('religion', 'religion', 'required');
+        $this->form_validation->set_rules('elementary', 'elementary', 'required');
+        $this->form_validation->set_rules('juniorhigh', 'junior high', 'required');
+        $this->form_validation->set_rules('seniorhigh', 'senior high', 'required');
+        $studentid = $this->input->post('studentid');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            if ($_FILES['photo']['error'] != 4) {
+                $config['upload_path'] = $this->profilestudentphotopath;
+                $config['allowed_types'] = "jpg|jpeg|png|JPG|JPEG|PNG";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $studentid;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('photo')) {
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect(current_url());
+                } else {
+                    $data = $this->upload->data();
+                    $config_image = array(
+                        'image_library' => 'gd2',
+                        'source_image' => $this->profilestudentphotopath.'/'.$data['orig_name'],
+                        'new_image' => $this->profilestudentphotopath.'/'.$data['orig_name'],
+                        'width' => 1240,
+                        'maintain_ratio' => TRUE,
+                        'rotate_by_exif' => TRUE,
+//                'strip_exif' => TRUE,
+                    );
+                    $this->load->library('image_lib', $config_image);
+                    $this->image_lib->resize();
+
+                    $filename = $data['orig_name'];
+                    if ($this->Student_model->editProfilePhoto($studentid, $filename)) {
+                    } else {
+                        $this->nativesession->set('error', 'Upload Photo Failed, try again !');
+                        redirect(current_url());
+                    }
+                }
+            }
+
+            $this->Student_model->editProfile($studentid);
+            $this->nativesession->set('success', 'Profile saved');
+            $eid = $this->general->encryptParaID($id, 'student');
+            redirect('teacher/studentView/');
+        }
+
+        $data['student']  = $this->Student_model->getProfileDataByID($id);
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['content'] = 'teacher/teacher_edit_student_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addStudent(){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0002') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('teacher/home');
+        }
+
+        $laststudentdid = $this->Student_model->getLatestID();
+        foreach ($laststudentdid as $lastid) {
+            $value = $value = substr($lastid,1) + 1;
+        }
+
+        if($value < 10) {
+            $newstudentid= 'm000'.$value;
+        } else if ($value>=10 and $value<100) {
+            $newstudentid= 'm00'.$value;
+        } else if ($value>=100 and $value<1000) {
+            $newstudentid = 'm0' . $value;
+        } else if ($value>=1000 and $value<10000) {
+            $newstudentid = 'm' . $value;
+        }
+
+        $this->form_validation->set_rules('firstname', 'firstname', 'required');
+        $this->form_validation->set_rules('lastname', 'lastname', 'required');
+        $this->form_validation->set_rules('gender', 'gender', 'required');
+        $this->form_validation->set_rules('phone', 'phone', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('address', 'address', 'required');
+        $this->form_validation->set_rules('dateofbirth', 'date of birth', 'required');
+        $this->form_validation->set_rules('placeofbirth', 'place of birth', 'required');
+        $this->form_validation->set_rules('religion', 'religion', 'required');
+        $this->form_validation->set_rules('elementary', 'elementary', 'required');
+        $this->form_validation->set_rules('juniorhigh', 'junior high', 'required');
+        $this->form_validation->set_rules('seniorhigh', 'senior high', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $this->Student_model->addStudent($newstudentid);
+            if ($_FILES['photo']['error'] != 4) {
+                $config['upload_path'] = $this->profilestudentphotopath;
+                $config['allowed_types'] = "jpg|jpeg|png|JPG|JPEG|PNG";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $newstudentid;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('photo')) {
+
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect(current_url());
+                } else {
+                    $data = $this->upload->data();
+                    $config_image = array(
+                        'image_library' => 'gd2',
+                        'source_image' => $this->profilestudentphotopath.'/'.$data['orig_name'],
+                        'new_image' => $this->profilestudentphotopath.'/'.$data['orig_name'],
+                        'width' => 1240,
+                        'maintain_ratio' => TRUE,
+                        'rotate_by_exif' => TRUE,
+//                'strip_exif' => TRUE,
+                    );
+                    $this->load->library('image_lib', $config_image);
+                    $this->image_lib->resize();
+
+                    $filename = $data['orig_name'];
+                    if ($this->Student_model->editProfilePhoto($newstudentid, $filename)) {
+                        $this->nativesession->set('success', 'Photo Changed');
+                    } else {
+                        $this->nativesession->set('error', 'Upload Photo Failed, try again !');
+                        redirect(current_url());
+                    }
+                }
+            }
+            $this->nativesession->set('success', 'New Student Added');
+            $eid = $this->general->encryptParaID($newstudentid, 'student');
+            redirect('teacher/editStudent/'.$eid);
+        }
+
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $data['newstudentid'] = $newstudentid;
+        $data['content'] = 'teacher/teacher_add_student_view';
         $this->load->view($this->template, $data);
     }
 
