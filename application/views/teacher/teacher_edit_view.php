@@ -46,7 +46,7 @@
                                     </li>
                                     <li>
                                         <select class="form-control set-margin-bottom" name="role">
-                                            <option selected value="<?php echo $info_db['name'] ?>"><?php echo 'Role: '.ucwords($info_db['name']) ?></option>
+                                            <option selected value="<?php echo $info_db['roleid'] ?>"><?php echo 'Role: '.ucwords($info_db['name']) ?></option>
                                             <?php foreach ($rolechoice as $c){?>
                                                 <option value="<?php echo $c['roleid']; ?>"><?php echo 'Role: '.ucwords($c['name']); ?></option>
                                             <?php } ?>

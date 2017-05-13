@@ -114,6 +114,7 @@
                                         <div class="teacher_profile_label">Gender</div>
                                         <div class="teacher_profile_value">
                                             <select class="form-control set-margin-bottom" name="gender">
+                                                <option selected value="<?php if(isset($_POST['gender'])) {echo htmlentities ($_POST['gender']); }?>"><?php if(isset($_POST['gender'])) {echo htmlentities ($_POST['gender']); }?></option>
                                                 <option value="Female">Female</option>
                                                 <option value="Male">Male</option>
                                             </select>
@@ -126,6 +127,7 @@
                                         <div class="teacher_profile_label">Religion</div>
                                         <div class="teacher_profile_value">
                                             <select class="form-control set-margin-bottom" name="religion">
+                                                <option selected value="<?php if(isset($_POST['religion'])) {echo htmlentities ($_POST['religion']); }?>"><?php if(isset($_POST['religion'])) {echo htmlentities ($_POST['religion']); }?></option>
                                                 <option value='Buddhist' >Buddhist</option>
                                                 <option value='Christian' >Christian</option>
                                                 <option value='Hindu' >Hindu</option>
@@ -155,7 +157,7 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Address</div>
                                         <div class="teacher_profile_value">
-                                            <textarea class="form-control set-margin-bottom" name="address"><?php echo isset($info_db['address']) ? $info_db['address'] : ''; ?></textarea>
+                                            <textarea class="form-control set-margin-bottom" name="address"><?php if(isset($_POST['address'])) {echo htmlentities ($_POST['address']); }?></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +174,7 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Working Experiences</div>
                                         <div class="teacher_profile_value">
-                                            <textarea class="form-control" name="experience"><?php echo isset($info_db['experience']) ? $info_db['experience'] : ''; ?></textarea>
+                                            <textarea class="form-control" name="experience"><?php if(isset($_POST['experience'])) {echo htmlentities ($_POST['experience']); }?></textarea>
                                         </div>
                                     </div>
                                 </div>

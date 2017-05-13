@@ -1,5 +1,15 @@
 <!-- page content -->
 <div class="right_col" role="main">
+    <?php if ($this->nativesession->get('error')): ?>
+        <div  class="alert alert-error">
+            <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
+        </div>
+    <?php endif; ?>
+    <?php if (validation_errors()): ?>
+        <div  class="alert alert-error">
+            <?php echo validation_errors(); ?>
+        </div>
+    <?php endif; ?>
     <div class="">
         <div class="page-title">
             <?php echo form_open('teacher/addCourse'); ?>
@@ -9,16 +19,6 @@
         </div>
 
         <div class="clearfix"></div>
-        <?php if ($this->nativesession->get('error')): ?>
-            <div  class="alert alert-error">
-                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
-            </div>
-        <?php endif; ?>
-        <?php if (validation_errors()): ?>
-            <div  class="alert alert-error">
-                <?php echo validation_errors(); ?>
-            </div>
-        <?php endif; ?>
         
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -28,10 +28,10 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <textarea class="form-control set-margin-bottom" name="coursedescription" rows="3" placeholder="Course Description"></textarea>
+                        <textarea class="form-control set-margin-bottom" name="coursedescription" rows="3" placeholder="Course Description"><?php if(isset($_POST['coursedescription'])) {echo htmlentities ($_POST['coursedescription']); }?></textarea>
                         <br><br>
                         Resources:
-                        <textarea class="form-control set-margin-bottom set-margin-top" name="courseresources" rows="3" placeholder="Course Resources (Separate resource using | )"></textarea>
+                        <textarea class="form-control set-margin-bottom set-margin-top" name="courseresources" rows="3" placeholder="Course Resources (Separate resource using | )"><?php if(isset($_POST['courseresources'])) {echo htmlentities ($_POST['courseresources']); }?></textarea>
                     </div>
                 </div>
             </div>

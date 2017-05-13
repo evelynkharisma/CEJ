@@ -1516,6 +1516,10 @@ class teacher extends CI_Controller {
             $this->nativesession->set('success', 'Schedule Assign saved');
             redirect('teacher/createSchedule');
         }
+        else{
+            $this->nativesession->set('error', 'All field required');
+            redirect('teacher/createSchedule');
+        }
     }
 
     public function deleteScheduleSetting($id){
@@ -1617,7 +1621,7 @@ class teacher extends CI_Controller {
                                 foreach ($allteacher as $t) {
                                     $worktimestring = substr($t['workinghour'], 1, strlen($t['workinghour']));
                                     $worktime = explode('|', $worktimestring);
-                                    if(isset($worktime[$a*$day['value']*$b]) && $worktime[$a*$day['value']*$b] == '0'){
+                                    if(isset($worktime[$a*$day['value']+$b]) && $worktime[$a*$day['value']+$b] == '0'){
                                         $currentindex = 0;
                                         foreach ($availablecourse as $available){
                                             if($t['teacherid'] == $available['teacherid']){
@@ -1822,7 +1826,7 @@ class teacher extends CI_Controller {
 
                         $worktimestring = substr($thisteacherworkinghour['workinghour'], 1, strlen($thisteacherworkinghour['workinghour']));
                         $worktime = explode('|', $worktimestring);
-                        if(isset($worktime[$a*$day['value']*$b]) && $worktime[$a*$day['value']*$b] == '0'){
+                        if(isset($worktime[$a*$day['value']+$b]) && $worktime[$a*$day['value']+$b] == '0'){
                             $conflict3 = true;
                         }
                         
@@ -2080,7 +2084,7 @@ class teacher extends CI_Controller {
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $teachers = $this->Teacher_model->getAllTeacher();
+        $teachers = $this->Teacher_model->getAllTeacherIncludeInactive();
         $i = 0;
         $j = 0;
         foreach ($teachers as $teacher) {
@@ -2093,6 +2097,7 @@ class teacher extends CI_Controller {
                 $twh[$i]['email'] = $teacher['email'];
                 $twh[$i]['address'] = $teacher['address'];
                 $twh[$i]['classroom'] = $found['classroom'];
+                $twh[$i]['active'] = $found['active'];
                 $i++;
             }
             else{
@@ -2103,6 +2108,7 @@ class teacher extends CI_Controller {
                 $th[$j]['phone'] = $teacher['phone'];
                 $th[$j]['email'] = $teacher['email'];
                 $th[$j]['address'] = $teacher['address'];
+                $th[$j]['active'] = $teacher['active'];
                 $j++;
             }
         }

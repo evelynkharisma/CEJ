@@ -25,6 +25,7 @@
                                 <th>Address</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th>Status</th>
                                 <?php
                                 $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0005');
                                 if($privilege == 1){
@@ -47,6 +48,7 @@
                                         <td><?php echo $teacher['address'] ?></td>
                                         <td><?php echo $teacher['email'] ?></td>
                                         <td><?php echo $teacher['phone'] ?></td>
+                                        <td><?php echo (isset($teacher['active']) && $teacher['active'] == 1) ? 'Active' : 'Inactive' ?></td>
                                         <?php
                                         $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0005');
                                         if($privilege == 1){
@@ -74,6 +76,7 @@
                                         <td><?php echo $teacher['address'] ?></td>
                                         <td><?php echo $teacher['email'] ?></td>
                                         <td><?php echo $teacher['phone'] ?></td>
+                                        <td><?php echo (isset($teacher['active']) && $teacher['active'] == 1) ? 'Active' : 'Inactive' ?></td>
                                         <?php
                                         $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0005');
                                         if($privilege == 1){

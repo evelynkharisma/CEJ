@@ -44,7 +44,8 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Topic</label>
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
                                 <select name="topic" class="form-control">
-                                    <option disabled selected="selected">Topic</option>
+<!--                                    <option disabled selected="selected">Topic</option>-->
+                                    <option selected value="<?php if(isset($_POST['topic'])) {echo htmlentities ($_POST['topic']); }?>"><?php if(isset($_POST['topic'])) {echo htmlentities ($_POST['topic']); }else{echo 'Topic';}?></option>
                                     <?php foreach ($lessons as $lesson){?>
                                         <option value="<?php echo $lesson['activities']; ?>"><?php echo $lesson['activities']; ?></option>
                                     <?php } ?>
@@ -55,7 +56,8 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Type</label>
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
                                 <select name="type" class="form-control">
-                                    <option disabled selected="selected">Type</option>
+<!--                                    <option disabled selected="selected">Type</option>-->
+                                    <option selected value="<?php if(isset($_POST['type'])) {echo htmlentities ($_POST['type']); }?>"><?php if(isset($_POST['type'])) {echo htmlentities ($_POST['type']); }else{echo 'Type';}?></option>
                                     <option value="Assignment">Assignment</option>
                                     <option value="Quiz">Quiz</option>
                                     <option value="Classwork">Classwork</option>
@@ -73,7 +75,8 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Existing File</label>
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
                                 <select name="existingfile" class="form-control">
-                                    <option disabled selected="selected">Files</option>
+<!--                                    <option disabled selected="selected">Files</option>-->
+                                    <option selected value="<?php if(isset($_POST['existingfile'])) {echo htmlentities ($_POST['existingfile']); }?>"><?php if(isset($_POST['existingfile'])) {echo htmlentities ($_POST['existingfile']); }else{echo 'File';}?></option>
                                     <option value="None">No File (For classwork and homework)</option>
                                     <?php foreach ($files as $file){?>
                                         <option value="<?php echo $file['fileid']; ?>"><?php echo $file['filename']; ?></option>

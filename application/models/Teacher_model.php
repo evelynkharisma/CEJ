@@ -178,22 +178,32 @@ class Teacher_model extends CI_Model {
             'postgraduate' => $this->input->post('postgraduate'),
             'experience' => $this->input->post('experience'),
             'role' => 'r0001',
-            'workinghour' => $at
+            'workinghour' => $at,
+            'active' => 1,
         );
         $this->db->insert($this->table, $data);
     }
 
     function deleteTeacher($id){
+        $data = array(
+            'active' => 0,
+        );
+
         $this->db->where('teacherid', $id);
-        $this->db->delete($this->table);
-        if ($this->db->affected_rows() == 1) {
-            return TRUE;
-        }
-        return FALSE;
+        $this->db->update($this->table, $data);
+
+        return TRUE;
+//        $this->db->where('teacherid', $id);
+//        $this->db->delete($this->table);
+//        if ($this->db->affected_rows() == 1) {
+//            return TRUE;
+//        }
+//        return FALSE;
     }
 
     function getAllCourses(){
         $this->db->select('*');
+        $this->db->order_by('coursename', 'asc');
 
         $query = $this->db->get($this->course_table);
 
@@ -861,6 +871,18 @@ class Teacher_model extends CI_Model {
     }
     
     function getAllTeacher(){
+        $this->db->select('*');
+        $this->db->where('active', 1);
+        $this->db->order_by('firstname', 'asc');
+
+        $query = $this->db->get($this->table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllTeacherIncludeInactive(){
         $this->db->select('*');
 
         $query = $this->db->get($this->table);
@@ -1876,6 +1898,7 @@ class Teacher_model extends CI_Model {
     
     function getAllClasses(){
         $this->db->select('*');
+//        $this->db->order_by('classroom', 'asc');
 
         $query = $this->db->get($this->class_table);
 
