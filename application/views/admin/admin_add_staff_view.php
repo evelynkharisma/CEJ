@@ -3,11 +3,12 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Edit Parent Information</h3>
+                <h3>Edit Staff Information</h3>
             </div>
         </div>
 
         <div class="clearfix"></div>
+
         <?php if ($this->nativesession->get('error')): ?>
             <div  class="alert alert-error">
                 <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
@@ -23,34 +24,35 @@
                 <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
             </div>
         <?php endif; ?>
-        <?php
-        $encrypted = $this->general->encryptParaID($parent['parentid'],'parent');
-        ?>
-        <?php echo form_open_multipart("admin/editParent/".$encrypted);?>
+        <?php echo form_open_multipart("admin/addStaff/"); ?>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <div class="col-md-12 col-sm-12 col-xs-12 profile_left">
+                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                             <div class="col-md-5 col-sm-12 col-xs-12 profile_left">
                                 <div class="profile_img">
                                     <div class="teacher_profile_crop">
                                         <!-- Current avatar -->
-                                        <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/parents/profile/<?php echo $parent['photo']?>" alt="Avatar" title="Change the avatar">
+                                        <img class="img-responsive avatar-view teacher_profile_img" src="http://placehold.it/220x220" alt="Avatar" title="Change the avatar">
                                     </div>
                                 </div>
                                 <input class="btn btn-success set-margin-bottom set-margin-top" type="file" name="photo" />
                             </div>
 
                             <div class="col-md-7 col-sm-12 col-xs-12">
-                                <h3><?php echo $parent['firstname'].' '.$parent['lastname'] ?> </h3>
-
                                 <ul class="list-unstyled user_data">
+
                                     <li>
-                                        ID&emsp;&emsp;: <?php echo $parent['parentid']; ?>
-                                    </li>
-                                    <li>
-                                        Role : Parent
+                                        <select class="form-control set-margin-bottom" name="role">
+                                            <?php foreach ($roles as $c){
+                                                if($c['category']==3) {?>
+                                                    <option value="<?php echo $c['roleid']; ?>">
+                                                        <?php echo 'Role: '.ucwords($c['name']); ?>
+                                                    </option>
+                                                <?php }}?>
+                                                <option value="operator">Role: Operator</option>
+                                        </select>
                                     </li>
                                 </ul>
                             </div>
@@ -60,7 +62,6 @@
                             <br />
 
                         </div>
-                        <input type="hidden" class="form-control set-margin-bottom" name="parentid" value="<?php echo $parent['parentid']; ?>"/>
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-12">
@@ -88,7 +89,7 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">First Name</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="firstname" value="<?php echo set_value('firstname', isset($parent['firstname']) ? $parent['firstname'] : ''); ?>"/>
+                                            <input type="text" class="form-control set-margin-bottom" name="firstname" value="<?php echo set_value('firstname', isset($info_db['firstname']) ? $info_db['firstname'] : ''); ?>"/>
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +97,23 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Last Name</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="lastname" value="<?php echo set_value('lastname', isset($parent['lastname']) ? $parent['lastname'] : ''); ?>"/>
+                                            <input type="text" class="form-control set-margin-bottom" name="lastname" value="<?php echo set_value('lastname', isset($info_db['lastname']) ? $info_db['lastname'] : ''); ?>"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Place of Birth</div>
+                                        <div class="teacher_profile_value">
+                                            <input type="text" class="form-control set-margin-bottom" name="placeofbirth" value="<?php echo set_value('placeofbirth', isset($info_db['placeofbirth']) ? $info_db['placeofbirth'] : ''); ?>"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Date of Birth</div>
+                                        <div class="teacher_profile_value">
+                                            <input type="text" class="form-control set-margin-bottom" id="pick-date" name="dateofbirth" value="<?php echo set_value('dateofbirth', isset($info_db['dateofbirth']) ? date('Y-m-d', strtotime($info_db['dateofbirth'])) : ''); ?>"/>
                                         </div>
                                     </div>
                                 </div>
@@ -105,60 +122,34 @@
                                         <div class="teacher_profile_label">Gender</div>
                                         <div class="teacher_profile_value">
                                             <select class="form-control set-margin-bottom" name="gender">
-                                                <option value='Female' <?php echo (($parent['gender']=='Female') ? 'selected' : '') ?>>Female</option>
-                                                <option value='Male' <?php echo (($parent['gender']=='Male') ? 'selected' : '') ?>>Male</option>
+
+                                               <option value='Female' >Female</option>
+                                               <option value='Male' >Male</option>
+
                                             </select>
+                                            <!--                                            <input type="text" class="form-control set-margin-bottom" name="gender" value="--><?php //echo set_value('gender', isset($info_db['gender']) ? $info_db['gender'] : ''); ?><!--"/>-->
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Religion</div>
+                                        <div class="teacher_profile_value">
+                                            <select class="form-control set-margin-bottom" name="religion">
+                                                <option value='Buddhist' >Buddhist</option>
+                                                <option value='Christian' >Christian</option>
+                                                <option value='Hindu' >Hindu</option>
+                                                <option value='Muslim' >Muslim</option>
+                                            </select>
+                                            <!--                                            <input type="text" class="form-control set-margin-bottom" name="religion" value="--><?php //echo set_value('religion', isset($info_db['religion']) ? $info_db['religion'] : ''); ?><!--"/>-->
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Phone</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="phone" value="<?php echo set_value('phone', isset($parent['phone']) ? $parent['phone'] : ''); ?>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Phone Overseas</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="phoneoverseas" value="<?php echo set_value('phoneoverseas', isset($parent['phoneoverseas']) ? $parent['phoneoverseas'] : ''); ?>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Mobile</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="mobile" value="<?php echo set_value('mobile', isset($parent['mobile']) ? $parent['mobile'] : ''); ?>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Mobile Overseas</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="mobileoverseas" value="<?php echo set_value('mobile', isset($parent['mobileoverseas']) ? $parent['mobileoverseas'] : ''); ?>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Indonesia Home Address</div>
-                                        <div class="teacher_profile_value">
-                                            <textarea class="form-control set-margin-bottom" name="address"><?php echo isset($parent['address']) ? $parent['address'] : ''; ?></textarea>
-                                            <!--                                            <textarea class="form-control set-margin-bottom" name="address">--><?php //echo isset($parent['address']) ? $parent['address'] : ''; ?><!--</textarea>-->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Home Address Overseas</div>
-                                        <div class="teacher_profile_value">
-                                            <textarea class="form-control set-margin-bottom" name="	addressoverseas"><?php echo isset($parent['addressoverseas']) ? $parent['addressoverseas'] : ''; ?></textarea>
-<!--                                            <textarea class="form-control set-margin-bottom" name="addressoverseas">--><?php //if(isset($_POST['addressoverseas'])) {echo htmlentities ($_POST['addressoverseas']); }?><!--</textarea>-->
+                                            <input type="text" class="form-control set-margin-bottom" name="phone" value="<?php echo set_value('phone', isset($info_db['phone']) ? $info_db['phone'] : ''); ?>"/>
                                         </div>
                                     </div>
                                 </div>
@@ -166,31 +157,16 @@
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Email</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="email" value="<?php echo set_value('email', isset($parent['email']) ? $parent['email'] : ''); ?>"/>
+                                            <input type="text" class="form-control set-margin-bottom" name="email" value="<?php echo set_value('email', isset($info_db['email']) ? $info_db['email'] : ''); ?>"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Passport No.</div>
+                                        <div class="teacher_profile_label">Address</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="passportno" value="<?php echo set_value('passportno', isset($parent['passportno']) ? $parent['passportno'] : ''); ?>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Passport Country</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="passportcountry" value="<?php echo set_value('passportcountry', isset($parent['passportcountry']) ? $parent['passportcountry'] : ''); ?>"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Passport Expiry Date</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" id="pick-date" name="passportexp" value="<?php echo set_value('passportexp', isset($parent['passportexp']) ? date('Y-m-d', strtotime($parent['passportexp'])) : ''); ?>"/>
+                                            <textarea class="form-control set-margin-bottom" name="address"><?php if(isset($_POST['address'])) {echo htmlentities ($_POST['address']); }?></textarea>
+<!--                                            <textarea class="form-control set-margin-bottom" name="address">--><?php //echo isset($info_db['address']) ? $info_db['address'] : ''; ?><!--</textarea>-->
                                         </div>
                                     </div>
                                 </div>
@@ -199,39 +175,64 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">
                                 <div class="col-md-12">
-                                    <h2>Employement Information</h2>
+                                    <h2>Academic Information</h2>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Occupation</div>
+                                        <div class="teacher_profile_label">Working Experiences</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="occupation" value="<?php echo set_value('occupation', isset($parent['occupation']) ? $parent['occupation'] : ''); ?>"/>
+                                            <textarea class="form-control set-margin-bottom" name="experience"><?php if(isset($_POST['experience'])) {echo htmlentities ($_POST['experience']); }?></textarea>
+<!--                                            <textarea class="form-control" name="experience">--><?php //echo isset($info_db['experience']) ? $info_db['experience'] : ''; ?><!--</textarea>-->
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Company Name</div>
+                                        <div class="teacher_profile_label">Post Graduate</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="companyname" value="<?php echo set_value('companyname', isset($parent['companyname']) ? $parent['companyname'] : ''); ?>"/>
+                                            <input type="text" class="form-control" name="postgraduate" value="<?php echo set_value('postgraduate', isset($info_db['postgraduate']) ? $info_db['postgraduate'] : ''); ?>"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Industry</div>
+                                        <div class="teacher_profile_label">Graduate</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="industry" value="<?php echo set_value('industry', isset($parent['industry']) ? $parent['industry'] : ''); ?>"/>
+                                            <input type="text" class="form-control" name="graduate" value="<?php echo set_value('graduate', isset($info_db['graduate']) ? $info_db['graduate'] : ''); ?>"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Phone (Office)</div>
+                                        <div class="teacher_profile_label">Undergraduate</div>
                                         <div class="teacher_profile_value">
-                                            <input type="text" class="form-control set-margin-bottom" name="phoneoffice" value="<?php echo set_value('phoneoffice', isset($parent['phoneoffice']) ? $parent['phoneoffice'] : ''); ?>"/>
+                                            <input type="text" class="form-control" name="undergraduate" value="<?php echo set_value('undergraduate', isset($info_db['undergraduate']) ? $info_db['undergraduate'] : ''); ?>"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Senior High School</div>
+                                        <div class="teacher_profile_value">
+                                            <input type="text" class="form-control" name="seniorhigh" value="<?php echo set_value('seniorhigh', isset($info_db['seniorhigh']) ? $info_db['seniorhigh'] : ''); ?>"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Junior High School</div>
+                                        <div class="teacher_profile_value">
+                                            <input type="text" class="form-control" name="juniorhigh" value="<?php echo set_value('juniorhigh', isset($info_db['juniorhigh']) ? $info_db['juniorhigh'] : ''); ?>"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="teacher_profile_group">
+                                        <div class="teacher_profile_label">Elementary School</div>
+                                        <div class="teacher_profile_value">
+                                            <input type="text" class="form-control" name="elementary" value="<?php echo set_value('elementary', isset($info_db['elementary']) ? $info_db['elementary'] : ''); ?>"/>
                                         </div>
                                     </div>
                                 </div>
