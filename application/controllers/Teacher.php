@@ -691,7 +691,7 @@ class teacher extends CI_Controller {
             $this->nativesession->set('success', 'Course saved');
             if(substr($fid, 0 ,1) == 's'){
                 $id = $this->general->encryptParaID($id, 'courseassigned');
-                redirect('teacher/courseView/'.$id);
+                redirect('teacher/courseView/s'.$id);
             }
             else{
                 $id = $this->general->encryptParaID($id, 'course');
