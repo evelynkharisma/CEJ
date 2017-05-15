@@ -15,6 +15,12 @@
             </div>
         <?php endif; ?>
 
+        <?php if ($this->nativesession->get('error')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (!empty($top2navigation)): ?>
             <?php $this->load->view($top2navigation); ?>
         <?php else: ?>
@@ -56,7 +62,12 @@
                                             <td><?php echo $s['firstname'] ?> <?php echo $s['lastname'] ?></td>
                                             <td><?php echo $s['submissiondate'] ?></td>
                                             <td>
-                                                <?php echo form_open('teacher/courseSubmissionGrading/'.$info_db['assignid'].'/'.$s['anqscoreid']); ?>
+                                                <?php
+                                                $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                                                $qencrypted = $this->general->encryptParaID($s['anqscoreid'],'anqscore');
+                                                $sencrypted = $this->general->encryptParaID($s['studentid'],'student');
+                                                ?>
+                                                <?php echo form_open('teacher/courseSubmissionGrading/'.$encrypted.'/'.$qencrypted); ?>
                                                     <button type="submit" class="btn btn-success set-right"><i class="fa fa-check"></i></button>
                                                     <input style="width:70%;" class="form-control" placeholder='Score' name="score" value="<?php echo set_value('score', isset($s['score']) ? $s['score'] : ''); ?>">
                                                 <?php echo form_close(); ?>

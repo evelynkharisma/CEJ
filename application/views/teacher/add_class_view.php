@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Classroom</label>
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
-                                <input type="text" class="form-control set-margin-bottom set-margin-top" name="class" placeholder="ex: 1_A"/>
+                                <input type="text" class="form-control set-margin-bottom set-margin-top" name="class" placeholder="ex: 1_A" value="<?php echo set_value('class', isset($class['class']) ? $class['class'] : ''); ?>"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -38,6 +38,12 @@
                                         <option value="<?php echo $t['teacherid']; ?>"><?php echo $t['firstname']; ?> <?php echo $t['lastname']; ?></option>
                                     <?php } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Capacity</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
+                                <input type="text" class="form-control set-margin-bottom set-margin-top" name="capacity" placeholder="Capacity" value="<?php echo set_value('capacity', isset($class['capacity']) ? $class['capacity'] : '30'); ?>"/>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success set-margin-top"><i class="fa fa-plus"></i> Add Class</button>

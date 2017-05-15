@@ -1962,6 +1962,7 @@ class Teacher_model extends CI_Model {
             'classroom' => $this->input->post('class'),
             'teacherid' => $this->input->post('teacher'),
             'periode' =>  date('Y-m-d', now()),
+            'capacity' =>  $this->input->post('capacity'),
         );
         $this->db->insert($this->class_table, $data);
     }
@@ -1969,7 +1970,8 @@ class Teacher_model extends CI_Model {
     function editClass($id){
         $data = array(
             'classroom' => $this->input->post('class'),
-            'teacherid' => $this->input->post('teacher')
+            'teacherid' => $this->input->post('teacher'),
+            'capacity' =>  $this->input->post('capacity'),
         );
         $this->db->where('classid', $id);
         $this->db->update($this->class_table, $data);

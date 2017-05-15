@@ -43,6 +43,12 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Capacity</label>
+                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
+                                <input type="text" class="form-control set-margin-bottom set-margin-top" name="capacity" placeholder="Capacity" value="<?php echo set_value('capacity', isset($class['capacity']) ? $class['capacity'] : '30'); ?>"/>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-success set-margin-top"><i class="fa fa-edit"></i> Edit Class</button>
                         <?php echo form_close(); ?>
                     </div>
