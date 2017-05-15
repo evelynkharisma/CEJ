@@ -156,6 +156,67 @@
                     <?php } ?>
                 </ul>
             </li>
+            <li><a><i class="fa fa-table"></i> Schedule <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <?php
+                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0008');
+                    if($privilege == 1){
+                        ?>
+                        <li><a href="<?php echo base_url() ?>index.php/admin/createSchedule">Create Schedule</a></li>
+                        <li><a href="<?php echo base_url() ?>index.php/admin/editSchedule">Edit Schedule</a></li>
+                    <?php } ?>
+                    <li><a>Class Schedule <span class="fa fa-chevron-down"></a>
+                        <?php if($classes){
+                            ?>
+                            <ul class="nav child_menu">
+                                <?php
+                                foreach ($classes as $class) {
+                                    ?>
+
+                                    <li>
+                                        <?php
+                                        $encrypted = $this->general->encryptParaID($class['classid'],'class');
+                                        ?>
+                                        <a href="<?php echo base_url() ?>index.php/admin/classScheduleView/<?php echo $encrypted ?>">Grade <?php echo $class['classroom'] ?></a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        <?php } ?>
+                    </li>
+                    <li><a>Teacher Schedule <span class="fa fa-chevron-down"></a>
+                        <?php if($allteacher){
+                            ?>
+                            <ul class="nav child_menu">
+                                <?php
+                        foreach ($allteacher as $teacher) {
+                            ?>
+
+                                <li>
+                                    <?php
+                                    $encrypted = $this->general->encryptParaID($teacher['teacherid'],'teacher');
+                                    ?>
+                                    <a href="<?php echo base_url() ?>index.php/admin/teacherClassScheduleView/<?php echo $encrypted ?>"><?php echo $teacher['firstname'] ?></a>
+                                </li>
+                        <?php } ?>
+                            </ul>
+                        <?php } ?>
+                    </li>
+                    <li><a href="<?php echo base_url() ?>index.php/admin/examScheduleView">Exam Schedule</a></li>
+                </ul>
+            </li>
+            <li><a href="<?php echo base_url() ?>index.php/admin/classesView"><i class="fa fa-table"></i> Classes </a></li>
+            <li><a href="<?php echo base_url() ?>index.php/admin/payment"><i class="fa fa-usd"></i>Payments</span></a></li>
+            <li><a><i class="fa fa-bell"></i> Events <span class="badge bg-green"><?php echo $eventnotif ?></span> <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <?php
+                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0006');
+                    if($privilege == 1){
+                        ?>
+                        <li><a href="<?php echo base_url() ?>index.php/admin/addEvent">Add Event</a></li>
+                    <?php } ?>
+                    <li><a href="<?php echo base_url() ?>index.php/admin/eventList">Events List</a></li>
+                </ul>
+            </li>
            <!-- <li><a><i class="fa fa-home"></i> Student <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <li><a href="<?php /*echo base_url() */?>index.php/admin/studentView">Students</a></li>

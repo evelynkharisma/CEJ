@@ -56,7 +56,14 @@
                                             <td><?php echo $s['firstname'] ?> <?php echo $s['lastname'] ?></td>
                                             <td><?php echo $s['submissiondate'] ?></td>
                                             <td>
+                                                <?php
+                                                $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
+                                                $qencrypted = $this->general->encryptParaID($s['anqscoreid'],'anqscore');
+                                                $sencrypted = $this->general->encryptParaID($s['studentid'],'student');
+                                                ?>
                                                 <?php echo form_open('admin/courseSubmissionGrading/'.$info_db['assignid'].'/'.$s['anqscoreid']); ?>
+                                                    <input type="hidden" class="form-control set-margin-bottom" name="studentid" value="<?php echo $s['studentid']; ?>"/>
+                                                    <input type="hidden" class="form-control set-margin-bottom" name="qnaid" value="<?php echo $qna['anqid']; ?>"/>
                                                     <button type="submit" class="btn btn-success set-right"><i class="fa fa-check"></i></button>
                                                     <input style="width:70%;" class="form-control" placeholder='Score' name="score" value="<?php echo set_value('score', isset($s['score']) ? $s['score'] : ''); ?>">
                                                 <?php echo form_close(); ?>

@@ -109,9 +109,10 @@ class login extends CI_Controller {
                     $this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
                     $this->nativesession->set( 'role', $user['role'] );
                     $this->nativesession->set( 'is_login', 'TRUE' );
+                    $this->nativesession->set( 'lastlogin', $user['lastlogin'] );
 
-                    $this->Student_model->changeLastLogin($user['adminid'], $user['currentlogin']);
-                    $this->Student_model->setCurrentLogin($user['adminid']);
+                    $this->Admin_model->changeLastLogin($user['adminid'], $user['currentlogin']);
+                    $this->Admin_model->setCurrentLogin($user['adminid']);
 
                     redirect('admin/home');
                 }
