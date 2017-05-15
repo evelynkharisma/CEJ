@@ -130,7 +130,7 @@ class student extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
-        $data['courseStudents'] = $this->Student_model->getAllStudentByCourseID($this->nativesession->get('classid'));
+        $data['courseStudents'] = $this->Student_model->getAllStudentByClassID($this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_course_student_view';

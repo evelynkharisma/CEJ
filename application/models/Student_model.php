@@ -220,7 +220,7 @@ class Student_model extends CI_Model {
         }
     }
 
-    function getAllStudentByCourseID($classid){
+    function getAllStudentByClassID($classid){
         $sql = 'SELECT * FROM student WHERE classid=\''.$classid.'\'';
 
         $query = $this->db->query($sql);
@@ -448,8 +448,6 @@ class Student_model extends CI_Model {
         }
     }
 
-
-
     function getAttendanceList($classid, $studentid){
           $this->db->select('*');
           $this->db->where('classid', $classid);
@@ -500,8 +498,9 @@ class Student_model extends CI_Model {
       }
 
     function getAllStudent(){
-        $this->db->select('*');
-        $this->db->where('active', '1');
+        $this->db->select('student.*');
+        $this->db->select('class.classroom');
+        $this->db->join('class class', 'class.classid=student.classid');
 
         $query = $this->db->get($this->table);
 

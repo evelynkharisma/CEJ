@@ -71,8 +71,10 @@ class Admin_model extends CI_Model {
     }
 
     function getProfileDataByID($id) {
-        $this->db->select('*');
+        $this->db->select('admin.*, roles.name');
+        $this->db->from('roles');
         $this->db->where('adminid', $id);
+        $this->db->where('roles.roleid=admin.role');
         $query = $this->db->get($this->table, 1);
 
         if ($query->num_rows() == 1) {
@@ -80,7 +82,20 @@ class Admin_model extends CI_Model {
         }
     }
 
-    function editProfile($id, $at) {
+    function getLatestID()
+    {
+        $this->db->select('adminid');
+        $this->db->order_by("adminid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+//    function editProfile($id, $at) {
+    function editProfile($id) {
         if ($this->input->post('password')) {
             $data = array(
 //                'password' => hash('sha512', $this->input->post('password')),
@@ -101,7 +116,7 @@ class Admin_model extends CI_Model {
                 'graduate' => $this->input->post('graduate'),
                 'postgraduate' => $this->input->post('postgraduate'),
                 'experience' => $this->input->post('experience'),
-                'workinghour' => $at
+//                'workinghour' => $at
             );
         } else {
             $data = array(
@@ -121,11 +136,48 @@ class Admin_model extends CI_Model {
                 'graduate' => $this->input->post('graduate'),
                 'postgraduate' => $this->input->post('postgraduate'),
                 'experience' => $this->input->post('experience'),
-                'workinghour' => $at
+//                'workinghour' => $at
             );
         }
         $this->db->where('adminid', $id);
         $this->db->update($this->table, $data);
+    }
+
+    function editProfilePhoto($id, $filename) {
+        $data = array(
+            'photo' => $filename,
+        );
+
+        $this->db->where('adminid', $id);
+        $this->db->update($this->table, $data);
+
+        return TRUE;
+    }
+
+    function addParent($id){
+        $data = array(
+            'parentid' => $id,
+//            'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
+            'firstname' => $this->input->post('firstname'),
+            'lastname' => $this->input->post('lastname'),
+            'gender' => $this->input->post('gender'),
+            'phone' => $this->input->post('phone'),
+            'phoneoverseas' => $this->input->post('phoneoverseas'),
+            'mobile' => $this->input->post('mobile'),
+            'mobileoverseas' => $this->input->post('mobileoverseas'),
+            'address' => $this->input->post('address'),
+            'addressoverseas' => $this->input->post('addressoverseas'),
+            'email' => $this->input->post('email'),
+            'passportno' => $this->input->post('passportno'),
+            'passportcountry' => $this->input->post('passportcountry'),
+            'passportexp' => $this->input->post('passportexp'),
+            'occupation' => $this->input->post('occupation'),
+            'companyname' => $this->input->post('companyname'),
+            'industry' => $this->input->post('industry'),
+            'phoneoffice' => $this->input->post('phoneoffice'),
+            'active' => '1'
+    );
+        $this->db->insert($this->parents_table, $data);
     }
 
     function getAllParents(){
@@ -172,6 +224,18 @@ class Admin_model extends CI_Model {
             return TRUE;
         }
         return FALSE;
+    }
+
+    function getAllParentsChild() {
+        $this->db->select('student.firstname, student.lastname, parent_child.*');
+        $this->db->from('student');
+        $this->db->where('student.studentid=parent_child.studentid');
+
+        $query = $this->db->get($this->parents_child_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
     }
 
     function getAllRoles(){
@@ -231,6 +295,18 @@ class Admin_model extends CI_Model {
             'category' => $this->input->post('rolecategory'),
         );
         $this->db->insert($this->roles_table, $data);
+    }
+
+    function getRoleCategoryByRoleID($id) {
+        $this->db->select('category');
+        $this->db->where('roleid', $id);
+
+//        $this->db->limit(1);
+        $query = $this->db->get($this->roles_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        }
     }
 
     function getAllPrivileges(){
@@ -318,6 +394,110 @@ class Admin_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    function getAllAdministrator(){
+        $this->db->select('roles.name, admin.*');
+        $this->db->from('roles');
+        $this->db->where('roles.roleid=admin.role');
+
+
+        $query = $this->db->get($this->table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function deleteAdmin($id) {
+        $this->db->where('adminid', $id);
+        $this->db->delete($this->table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    function addAdmin($id){
+        $data = array(
+            'adminid' => $id,
+//            'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
+            'firstname' => $this->input->post('firstname'),
+            'lastname' => $this->input->post('lastname'),
+            'gender' => $this->input->post('gender'),
+            'phone' => $this->input->post('phone'),
+            'address' => $this->input->post('address'),
+            'email' => $this->input->post('email'),
+            'dateofbirth' => $this->input->post('dateofbirth'),
+            'placeofbirth' => $this->input->post('placeofbirth'),
+            'religion' => $this->input->post('religion'),
+            'elementary' => $this->input->post('elementary'),
+            'juniorhigh' => $this->input->post('juniorhigh'),
+            'seniorhigh' => $this->input->post('seniorhigh'),
+            'undergraduate' => $this->input->post('undergraduate'),
+            'postgraduate' => $this->input->post('postgraduate'),
+            'experience' => $this->input->post('experience'),
+            'role' => $this->input->post('role'),
+
+
+//            'active' => '1'
+        );
+        $this->db->insert($this->table, $data);
+    }
+
+    function getAllClass()
+    {
+        $this->db->select('*');
+
+        $query = $this->db->get($this->class_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllCourses() {
+
+        $this->db->select('course_assign.*, class.classroom, course.coursename');
+
+        $this->db->join('class', 'class.classid = course_assign.classid');
+        $this->db->join('course', 'course.courseid = course_assign.courseid');
+        $this->db->order_by('class.classroom', 'asc');
+
+        $query = $this->db->get($this->course_assign_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function setClassOfStudent($studentid,$classid) {
+        $data = array(
+            'classid    ' => $classid,
+        );
+
+        $this->db->where('studentid', $studentid);
+        $this->db->update($this->student_table, $data);
+
+        return TRUE;
+    }
+
+    function getAllEventsCount($id, $lastlogin){
+        $this->db->select('*');
+//        $status_array = array($id,'0','1');
+        $where1 = "(participant='0' OR participant='4' OR participant LIKE '%$id%')";
+
+        $this->db->where('date >=' ,$lastlogin);
+        $this->db->where('date >=' ,date('Y-m-d', now()));
+        $this->db->where($where1);
+//        $this->db->or_where($where2);
+
+
+        $this->db->order_by('date', 'desc');
+
+        $query = $this->db->get($this->event_table);
+
+        return $query->num_rows();
     }
 
 }
