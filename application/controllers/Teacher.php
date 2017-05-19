@@ -1009,6 +1009,16 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function deleteMaterial($id, $eid){
+        if($this->Teacher_model->deleteMaterial($id)){
+            $this->nativesession->set('success', 'Material Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Material');
+        }
+        redirect('teacher/courseMaterial/'.$eid);
+    }
+
     public function courseAssignmentQuiz($id){
         $id = $this->general->decryptParaID($id, 'courseassigned');
         $data['title'] = 'SMS';
@@ -1105,6 +1115,18 @@ class teacher extends CI_Controller {
         $data['files'] = $this->Teacher_model->getFilesByAssignID($id);
         $data['content'] = 'teacher/teacher_course_qna_add_view';
         $this->load->view($this->template, $data);
+    }
+
+    public function deleteQnA($id, $qid){
+        $qid = $this->general->decryptParaID($qid, 'anq');
+        if($this->Teacher_model->deleteQnA($qid)){
+            $this->Teacher_model->deleteQnAScore($qid);
+            $this->nativesession->set('success', 'Quiz or Assignment Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Quiz or Assignment');
+        }
+        redirect('teacher/courseAssignmentQuiz/'.$id);
     }
 
     public function courseAssignmentQuizSubmission($id, $qid){
@@ -2390,6 +2412,21 @@ class teacher extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function deleteClass($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0026') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('teacher/home');
+        }
+        $id = $this->general->decryptParaID($id, 'class');
+        if($this->Teacher_model->deleteClass($id)){
+            $this->nativesession->set('success', 'Class Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Class');
+        }
+        redirect('teacher/classesView');
+    }
+
     public function payment()
     {
         if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0001') != 1){
@@ -2847,9 +2884,29 @@ class teacher extends CI_Controller {
         }
     }
 
+    public function deleteBookRequest($id){
+        if($this->Teacher_model->deleteBookRequest($id)){
+            $this->nativesession->set('success', 'Book Request Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Book Request');
+        }
+        redirect('teacher/requestItem/');
+    }
+
     public function editFotocopyRequest($id){
         $this->Teacher_model->editFotocopyRequest($id);
         $this->nativesession->set('success', 'Fotocopy Request Edited');
+        redirect('teacher/requestItem/');
+    }
+
+    public function deleteFotocopyRequest($id){
+        if($this->Teacher_model->deleteFotocopyRequest($id)){
+            $this->nativesession->set('success', 'Fotocopy Request Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Fotocopy Request');
+        }
         redirect('teacher/requestItem/');
     }
 

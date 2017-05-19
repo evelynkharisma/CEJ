@@ -116,6 +116,7 @@
                                             <a download href="<?php echo base_url() ?>assets/file/teacher/material/<?php echo $qna['filename'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
                                             <a href="<?php echo base_url() ?>index.php/teacher/courseAssignmentQuizSubmission/<?php echo $encrypted ?>/<?php echo $qencrypted ?>" class="btn btn-yellow"><i class="fa fa-child"></i> Submission</a>
                                             <a href="<?php echo base_url() ?>index.php/teacher/sendQnAEmailToAll/<?php echo $encrypted ?>/<?php echo $qencrypted ?>" class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteQnA/<?php echo $encrypted ?>/<?php echo $qencrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
                                     </tr>
                                 <?php } }?>

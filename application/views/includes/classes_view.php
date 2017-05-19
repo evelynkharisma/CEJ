@@ -15,6 +15,18 @@
 
         <div class="clearfix"></div>
 
+        <?php if ($this->nativesession->get('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->nativesession->get('success');$this->nativesession->delete('success'); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($this->nativesession->get('error')): ?>
+            <div  class="alert alert-error">
+                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
+            </div>
+        <?php endif; ?>
+
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -52,6 +64,7 @@
                                             $encrypted = $this->general->encryptParaID($c['classid'],'class');
                                             ?>
                                                 <a href="<?php echo base_url() ?>index.php/teacher/editClass/<?php echo $encrypted ?>" class="btn-success btn"><i class="fa fa-edit"></i> Edit</a>
+                                                <a href="<?php echo base_url() ?>index.php/teacher/deleteClass/<?php echo $encrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
                                         <?php } ?>
                                     </tr>

@@ -578,6 +578,15 @@ class Teacher_model extends CI_Model {
         $this->db->insert($this->material_table, $data);
     }
 
+    function deleteMaterial($id){
+        $this->db->where('materialid', $id);
+        $this->db->delete($this->material_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
     function getQnAByAssignID($assignid){
         $this->db->select('*');
         $this->db->join('file', 'file.fileid = assignmentandquiz.fileid');
@@ -613,6 +622,24 @@ class Teacher_model extends CI_Model {
             'fileid' => $fid,
         );
         $this->db->insert($this->qna_table, $data);
+    }
+
+    function deleteQnA($id){
+        $this->db->where('anqid', $id);
+        $this->db->delete($this->qna_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    function deleteQnAScore($id){
+        $this->db->where('anqid', $id);
+        $this->db->delete($this->qnascore_table);
+        if ($this->db->affected_rows() > 0) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     function getStudentsByClassID($classid){
@@ -1584,6 +1611,15 @@ class Teacher_model extends CI_Model {
         $this->db->update($this->book_request_table, $data);
     }
 
+    function deleteBookRequest($id){
+        $this->db->where('brequestid', $id);
+        $this->db->delete($this->book_request_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
     function getBookRequestLatestID(){
         $this->db->select('brequestid');
         $this->db->order_by("brequestid", "desc");
@@ -1623,6 +1659,15 @@ class Teacher_model extends CI_Model {
         );
         $this->db->where('frequestid', $id);
         $this->db->update($this->fotocopy_request_table, $data);
+    }
+
+    function deleteFotocopyRequest($id){
+        $this->db->where('frequestid', $id);
+        $this->db->delete($this->fotocopy_request_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
     function getFotocopyRequestLatestID(){
@@ -1975,6 +2020,15 @@ class Teacher_model extends CI_Model {
         );
         $this->db->where('classid', $id);
         $this->db->update($this->class_table, $data);
+    }
+
+    function deleteClass($id){
+        $this->db->where('classid', $id);
+        $this->db->delete($this->class_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
     }
 }
 

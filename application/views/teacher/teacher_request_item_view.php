@@ -81,7 +81,9 @@
                                         <td><?php echo $s['isbn'] ?></td>
                                         <td><?php echo $s['name'] ?></td>
                                         <td><input class="form-control" name="value" value="<?php echo set_value('value', isset($s['number']) ? $s['number'] : ''); ?>"></td>
-                                        <td><button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button></td>
+                                        <td><button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteBookRequest/<?php echo $s['brequestid'] ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                        </td>
                                         <?php echo form_close(); ?>
                                     </tr>
                                 <?php }} ?>
@@ -124,7 +126,9 @@
                                         <td><?php echo $s['isbn'] ?></td>
                                         <td><?php echo $s['name'] ?></td>
                                         <td><input class="form-control" name="value" value="<?php echo set_value('value', isset($s['number']) ? $s['number'] : ''); ?>"></td>
-                                        <td><button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button></td>
+                                        <td><button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteFotocopyRequest/<?php echo $s['frequestid'] ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                        </td>
                                         <?php echo form_close(); ?>
                                     </tr>
                                 <?php }} ?>

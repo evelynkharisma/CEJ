@@ -99,6 +99,7 @@
                                         <td><?php echo $material['date'] ?></td>
                                         <td>
                                             <a download href="<?php echo base_url() ?>assets/file/teacher/material/<?php echo $material['filename'] ?>" class="btn btn-success"><i class="fa fa-download"></i> Download</a>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteMaterial/<?php echo $material['materialid'] ?>/<?php echo $encrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
                                     </tr>
                                 <?php }} ?>
