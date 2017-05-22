@@ -395,6 +395,8 @@ class parents extends CI_Controller {
         $this->nativesession->delete('photo');
         $this->nativesession->delete('lastlogin');
         $this->nativesession->delete('is_login');
+        $this->nativesession->delete('current_child_id');
+        $this->nativesession->delete('current_child_name');
         redirect('');
     }
 }
