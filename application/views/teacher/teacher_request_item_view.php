@@ -45,7 +45,7 @@
                                     <tr>
                                         <input type="hidden" class="form-control set-margin-bottom" name="itemid[]" value="<?php echo $s['itemid']; ?>"/>
                                         <td><?php echo $s['name'] ?></td>
-                                        <td><input class="form-control" name="value[]" value="<?php echo set_value('value', isset($s['value']) ? $s['value'] : ''); ?>"></td>
+                                        <td><input <?php echo (isset($s['status']) && $s['status'] == 1 ? 'readonly' : '') ?> class="form-control" name="value[]" value="<?php echo set_value('value', isset($s['value']) ? $s['value'] : ''); ?>"></td>
                                     </tr>
                                 <?php }} ?>
                             </tbody>
@@ -81,8 +81,8 @@
                                         <td><?php echo $s['isbn'] ?></td>
                                         <td><?php echo $s['name'] ?></td>
                                         <td><input class="form-control" name="value" value="<?php echo set_value('value', isset($s['number']) ? $s['number'] : ''); ?>"></td>
-                                        <td><button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteBookRequest/<?php echo $s['brequestid'] ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                        <td><button <?php echo (isset($s['status']) && $s['status'] == 1 ? 'disabled' : '') ?> type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteBookRequest/<?php echo $s['brequestid'] ?>" class="btn-success btn <?php echo (isset($s['status']) && $s['status'] == 1 ? 'disabled' : '') ?>" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
                                         <?php echo form_close(); ?>
                                     </tr>
@@ -126,8 +126,8 @@
                                         <td><?php echo $s['isbn'] ?></td>
                                         <td><?php echo $s['name'] ?></td>
                                         <td><input class="form-control" name="value" value="<?php echo set_value('value', isset($s['number']) ? $s['number'] : ''); ?>"></td>
-                                        <td><button type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteFotocopyRequest/<?php echo $s['frequestid'] ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                        <td><button <?php echo (isset($s['status']) && $s['status'] == 1 ? 'disabled' : '') ?> type="submit" class="btn btn-success"><i class="fa fa-edit"></i> Edit</button>
+                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteFotocopyRequest/<?php echo $s['frequestid'] ?>" class="btn-success btn <?php echo (isset($s['status']) && $s['status'] == 1 ? 'disabled' : '') ?>" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
                                         <?php echo form_close(); ?>
                                     </tr>
@@ -149,3 +149,8 @@
     </div>
 </div>
 <!-- /page content -->
+<script>
+    $('.disabled').click(function(e){
+        e.preventDefault();
+    })
+</script>

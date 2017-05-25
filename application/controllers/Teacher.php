@@ -2818,6 +2818,7 @@ class teacher extends CI_Controller {
                 $request[$a]['itemid'] = $i['itemid'];
                 $request[$a]['name'] = $i['name'];
                 $request[$a]['value'] = $found['number'];
+                $request[$a]['status'] = $found['status'];
                 $a++;
             }
             else{
