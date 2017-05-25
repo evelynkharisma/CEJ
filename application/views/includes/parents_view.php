@@ -19,25 +19,38 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Photo</th>
+                                <th width="15%">Name</th>
+                                <th width="25%">Address</th>
+                                <th width="15%">Email</th>
+                                <th width="10%">Phone</th>
                                 <th>Children</th>
-                                <th>Class</th>
-                                <th>Address</th>
-                                <th>Email</th>
-                                <th>Phone</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Parent First</td>
-                                <td>Parent Last</td>
-                                <td>Evelyn Kharisma</td>
-                                <td>12-C</td>
-                                <td>Jakarta</td>
-                                <td>kharismaeve@yahoo.com</td>
-                                <td>08117678877</td>
-                            </tr>
+                            <?php
+                            if($parent){
+                                foreach ($parent as $p){ ?>
+                                    <tr>
+                                        <td>
+                                            <div class="teacher_photo_crop">
+                                                <img src="<?php echo base_url() ?>assets/img/parents/profile/<?php echo $p['photo'] ?>" alt="..." class="teacher_photo_img">
+                                            </div>
+                                        </td>
+                                        <td><?php echo $p['firstname'] ?> <?php echo $p['lastname'] ?></td>
+                                        <td><?php echo $p['address'] ?></td>
+                                        <td><?php echo $p['email'] ?></td>
+                                        <td><?php echo $p['phone'] ?></td>
+                                        <td><?php
+                                            if(isset($p['child'])){
+                                            $child = substr($p['child'], 1, strlen($p['child']));
+                                            $child = explode('|', $child);
+                                            foreach ($child as $c){ ?>
+                                                <li><?php echo $c ?></li>
+                                            <?php }}else echo 'no child registered' ?>
+                                        </td>
+                                    </tr>
+                                <?php }} ?>
                             </tbody>
                         </table>
                     </div>

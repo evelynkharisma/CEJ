@@ -30,6 +30,8 @@ class Teacher_model extends CI_Model {
     var $schedule_applied_table = 'schedule_applied';
     var $schedule_exam_table = 'schedule_exam';
     var $schedule_exam_applied_table = 'schedule_exam_applied';
+    var $parent_table = 'parents';
+    var $parent_child_table = 'parent_child';
 
     function __construct() {
         parent::__construct();
@@ -1227,6 +1229,7 @@ class Teacher_model extends CI_Model {
         $this->db->where('date >=' ,date('Y-m-d', now()));
         $this->db->where($where1);
         $this->db->or_where($where2);
+        $this->db->where('date >=' ,date('Y-m-d', now()));
         $this->db->order_by('date', 'asc');
 
         $query = $this->db->get($this->event_table);
@@ -2029,6 +2032,32 @@ class Teacher_model extends CI_Model {
             return TRUE;
         }
         return FALSE;
+    }
+
+    function getAllParent(){
+        $this->db->select('*');
+//        $this->db->join('parent_child', 'parent_child.parentid = parents.parentid');
+//        $this->db->join('student', 'student.studentid = parent_child.studentid');
+//        $this->db->join('class', 'class.classid = student.classid');
+
+        $query = $this->db->get($this->parent_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getChildOfParent($pid){
+        $this->db->select('*');
+        $this->db->join('student', 'student.studentid = parent_child.studentid');
+        $this->db->join('class', 'class.classid = student.classid');
+        $this->db->where('parent_child.parentid', $pid);
+
+        $query = $this->db->get($this->parent_child_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
     }
 }
 
