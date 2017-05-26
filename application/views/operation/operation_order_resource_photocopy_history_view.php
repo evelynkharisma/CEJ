@@ -3,7 +3,7 @@
     <div class="operation_order_stationary">
         <div class="page-title">
             <div class="title_left">
-                <h3>Stationary Order - History</h3>
+                <h3>Resource Order (Photocopy) - History</h3>
             </div>
         </div>
 
@@ -19,8 +19,8 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Item ID</th>
-                                <th>Item Name</th>
+                                <th>ISBN</th>
+                                <th>Name</th>
                                 <th>Qty</th>
                             </tr>
                             </thead>

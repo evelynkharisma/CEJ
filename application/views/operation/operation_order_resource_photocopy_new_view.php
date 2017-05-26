@@ -3,7 +3,7 @@
     <div class="operation_order_stationary">
         <div class="page-title">
             <div class="title_left">
-                <h3>Stationary Order - Request</h3>
+                <h3>Resource Order (Photocopy) - Request</h3>
             </div>
             <div class="float-right">
                 <button>Accept All</button>
@@ -22,7 +22,7 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Item ID</th>
+                                <th>ISBN</th>
                                 <th>Item Name</th>
                                 <th>Qty</th>
                             </tr>
@@ -33,14 +33,14 @@
                                 $index = 0;
                                 foreach($orders as $order){ ?>
                                     <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
-                                        <td><?php echo $order['itemid'] ?></td>
+                                        <td><?php echo $order['isbn'] ?></td>
                                         <td><?php echo $order['name'] ?></td>
-                                        <td><?php echo $order['quantity'] ?></td>
+                                        <td><?php echo $order['number'] ?></td>
                                     </tr>
-                                <?php $index += 1; }}
+                                    <?php $index += 1; }}
                             else {?>
                                 <tr>
-                                    <td colspan="3"><?php echo 'No new stationary request, please check again later' ?></td>
+                                    <td colspan="3"><?php echo 'No new photocopy request, please check again later' ?></td>
                                 </tr>
                             <?php } ?>
                             </tbody>

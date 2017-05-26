@@ -132,10 +132,13 @@
                                         <p class="day"><?php echo date('d', strtotime($event['date'])) ?></p>
                                     </a>
                                     <div class="media-body">
+                                        <?php
+                                        $encrypted = $this->general->encryptParaID($event['eventid'],'event');
+                                        ?>
                                         <a class="title" href="#"><?php echo $event['title'] ?></a>
                                         <p><?php echo substr($event['description'],0,80) ?>...</p>
                                         <div class="teacher_dashboard_deadline">
-                                            <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
+                                            <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/parents/eventDetail/<?php echo $encrypted ?>">Read More</a>
                                         </div>
                                     </div>
                                 </article>

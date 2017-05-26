@@ -11,6 +11,7 @@ class login extends CI_Controller {
 		$this->load->model('Parent_model');
 		$this->load->model('Student_model');
 		$this->load->model('Admin_model');
+		$this->load->model('Operation_model');
 	}
 
 	public function index()
@@ -88,19 +89,20 @@ class login extends CI_Controller {
 				}
 			}
 			else if($loginas == 'operation'){
-//				$user = $this->Operation_model->checkLogin($username, $password);
-//				if (!empty($user)) {
-//					$sessionData['id'] = $user['id'];
-//					$sessionData['email'] = $user['email'];
-//					$sessionData['full_name'] = $user['full_name'];
-//					$sessionData['level'] = $user['level'];
-//					$sessionData['is_login'] = TRUE;
-//
-//					$this->session->set_userdata($sessionData);
-//					$this->Operation_model->updateLastLogin($user['id']);
+				$user = $this->Operation_model->checkLogin($username, $password);
+				if (!empty($user)) {
+					$this->nativesession->set( 'id', $user['operationid'] );
+					$this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
+					$this->nativesession->set( 'photo', $user['photo'] );
+					$this->nativesession->set( 'is_login', 'TRUE' );
+					$this->nativesession->set( 'lastlogin', $user['lastlogin'] );
 
-				redirect('operation/home');
-//				}
+					$this->Operation_model->changeLastLogin($user['operationid'], $user['currentlogin']);
+					$this->Operation_model->setCurrentLogin($user['operationid']);
+					$this->Operation_model->setActive($user['operationid'],'1');
+
+					redirect('operation/home');
+				}
 			}
 			else if($loginas == 'admin'){
                 $user = $this->Admin_model->checkLogin($username, $password);
@@ -230,7 +232,7 @@ class login extends CI_Controller {
 					$userData = $this->Operation_model->getById($user['id']);
 
 					$this->load->library('email');
-					$this->email->from('kharismaeve@gmail.com', 'SMS');
+					$this->email->from('chelsylim@gmail.com', 'SMS');
 					$this->email->to($email);
 
 					$this->email->subject('Request New Password - SMS');

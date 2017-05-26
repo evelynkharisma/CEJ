@@ -81,7 +81,6 @@ class Parent_model extends CI_Model {
             );
         } else {
             $data = array(
-                'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
                 'firstname' => $this->input->post('firstname'),
                 'lastname' => $this->input->post('lastname'),
                 'gender' => $this->input->post('gender'),

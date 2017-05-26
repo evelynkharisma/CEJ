@@ -131,6 +131,11 @@ class General
             $value = substr($id,1) + 432;
             $id = $variable.$value;
         }
+        elseif($type == 'operation'){
+            $variable = ord('n');
+            $value = substr($id,1) + 321;
+            $id = $variable.$value;
+        }
         return $id;
     }
 
@@ -209,6 +214,11 @@ class General
             $variable = strlen(ord('k'));
             $id = substr($id, $variable) - 432;
             $id = 'k'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'operation'){
+            $variable = strlen(ord('k'));
+            $id = substr($id, $variable) - 321;
+            $id = 'n'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         return $id;
     }

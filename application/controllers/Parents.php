@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class parents extends CI_Controller {
 
     var $template = 'template';
+    var $profilephotopath = 'assets/img/parents/profile/';
 
     function __construct() {
         parent::__construct();
@@ -123,9 +124,10 @@ class parents extends CI_Controller {
                         'image_library' => 'gd2',
                         'source_image' => $this->profilephotopath.'/'.$data['orig_name'],
                         'new_image' => $this->profilephotopath.'/'.$data['orig_name'],
-                        'width' => 1240,
+                        'width' => 512,
+                        'height' => 512,
                         'maintain_ratio' => TRUE,
-                        'rotate_by_exif' => TRUE,
+                        'rotate_by_exif' => TRUE
 //                'strip_exif' => TRUE,
                     );
                     $this->load->library('image_lib', $config_image);
@@ -347,6 +349,26 @@ class parents extends CI_Controller {
         $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
 
         $data['content'] = 'includes/forms_view';
+        $this->load->view($this->template, $data);
+    }
+    public function eventDetail($id){
+        $id = $this->general->decryptParaID($id, 'event');
+
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['event'] = $this->Parent_model->getEvent($id);
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+        
+        $data['content'] = 'teacher/event_detail_view';
         $this->load->view($this->template, $data);
     }
     public function classScheduleView()

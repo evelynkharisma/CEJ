@@ -7,11 +7,11 @@
 <!-- menu profile quick info -->
 <div class="profile clearfix">
     <div class="profile_pic">
-        <img src="<?php echo base_url() ?>assets/img/operation/chels.jpg" alt="..." class="img-circle profile_img">
+        <img src="<?php echo base_url() ?>assets/img/operation/profile/<?php echo $this->nativesession->get('photo') ?>" alt="..." class="img-circle profile_img">
     </div>
     <div class="profile_info">
         <span>Welcome,</span>
-        <h2>Chelsy Lim</h2>
+        <h2><?php echo $this->nativesession->get('name') ?></h2>
     </div>
 </div>
 <!-- /menu profile quick info -->
@@ -23,41 +23,10 @@
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
         <ul class="nav side-menu">
-            <li><a><i class="fa fa-bell"></i> Reminder <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-exclamation-circle"></i> Outstanding <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a>Academic<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a>Grade 10<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/operation/grade_status">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/operation/grade_invoice">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/operation/grade_confirmation">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 11<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                            <li><a>Grade 12<span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Status</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Invoices</a></li>
-                                    <li><a href="<?php echo base_url() ?>index.php/parents/child_attendance">Confirmation Request</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a>Book<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="<?php echo base_url() ?>index.php/teacher/homeroomStudent">Borrowed</a>
-                            </li>
-                            <li><a href="<?php echo base_url() ?>index.php/teacher/homeroomStudent">History</a>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_payment">Outstanding Payment</a>
+                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Outstanding Book</a>
                 </ul>
             </li>
             <li><a><i class="fa fa-shopping-cart"></i> Order <span class="fa fa-chevron-down"></span></a>
@@ -70,7 +39,33 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="<?php echo base_url() ?>index.php/operation/order_resource">Resource Order</a>
+                    <li><a>Resource Order<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a>Original<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="<?php echo base_url() ?>index.php/operation/order_resource_original_new">New Order</a>
+                                    </li>
+                                    <li><a href="<?php echo base_url() ?>index.php/operation/order_resource_original_history">Order History</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a>Photocopy<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="<?php echo base_url() ?>index.php/operation/order_resource_photocopy_new">New Order</a>
+                                    </li>
+                                    <li><a href="<?php echo base_url() ?>index.php/operation/order_resource_photocopy_history">Order History</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a><i class="fa fa-child"></i> Student List <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Grade 10</a>
+                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Grade 11</a>
+                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Grade 12</a>
                 </ul>
             </li>
         </ul>
