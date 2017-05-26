@@ -2271,6 +2271,19 @@ class teacher extends CI_Controller {
 
     public function parentView()
     {
+        $parent = $this->Teacher_model->getAllParent();
+        $parentcounter = 0;
+        foreach ($parent as $p){
+            if($child = $this->Teacher_model->getChildOfParent($p['parentid'])){
+                $children = '';
+                foreach ($child as $c){
+                    $children = $children.'|'.$c['firstname'].' '.$c['lastname'].' '.$c['classroom'];
+                }
+                $parent[$parentcounter]['child'] = $children;
+            }
+            $parentcounter++;
+        }
+        $data['parent'] = $parent;
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
@@ -2805,6 +2818,7 @@ class teacher extends CI_Controller {
                 $request[$a]['itemid'] = $i['itemid'];
                 $request[$a]['name'] = $i['name'];
                 $request[$a]['value'] = $found['number'];
+                $request[$a]['status'] = $found['status'];
                 $a++;
             }
             else{
