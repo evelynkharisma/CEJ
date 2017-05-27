@@ -31,12 +31,12 @@
 
                     <ul class="nav navbar-nav navbar-right">
 
-                        <?php if($this->nativesession->get('is_login')) {
+                        <?php if($this->nativesession->get('is_login_library')) {
                         ?>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $user['firstname']?><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="codes.html">Profile</a></li>
+                                    <li><a href="<?php echo base_url() ?>index.php/library/profile">Profile</a></li>
                                     <li><a href="<?php echo base_url() ?>index.php/library/borrowing_history">My Borrowing History</a></li>
                                     <li><a href="<?php echo base_url() ?>index.php/library/obligation">My Obligation</a></li>
                                     <li><a href="<?php echo base_url() ?>index.php/library/logout">Log Out</a></li>

@@ -19,20 +19,25 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <div class="col-md-12 col-sm-12 col-xs-12 profile_left">
-                            <div class="profile_img">
-                                <div class="teacher_profile_crop">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-5 col-sm-12 col-xs-12 profile_left">
+                                <div class="profile_img">
+                                    <div class="teacher_profile_crop">
                                     <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="Avatar" title="Change the avatar">
+                                        <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="Avatar" title="Change the avatar">
+                                    </div>
                                 </div>
                             </div>
-                            <h3><?php echo $student['firstname'].' '.$student['lastname'] ?> </h3>
+                            <div class="col-md-7 col-sm-12 col-xs-12">
+                                <h3><?php echo $student['firstname'].' '.$student['lastname'] ?> </h3>
 
-                            <ul class="list-unstyled user_data">
-                                <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> <?php echo $student['studentid'] ?>
-                                </li>
-                            </ul>
+                                <ul class="list-unstyled user_data">
+                                    <li>
+                                        ID&emsp;&emsp;: <?php echo $student['studentid']; ?>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                             <?php
                             $encrypted = $this->general->encryptParaID($student['studentid'],'student');
                             ?>
@@ -103,7 +108,7 @@
                                     <h2>Academic Information</h2>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">Senior High School</div>

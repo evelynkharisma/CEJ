@@ -16,25 +16,32 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <div class="col-md-12 col-sm-12 col-xs-12 profile_left">
-                            <div class="profile_img">
-                                <div class="teacher_profile_crop">
-                                    <!-- Current avatar -->
-                                    <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="Avatar" title="Change the avatar">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-5 col-sm-12 col-xs-12 profile_left">
+                                <div class="profile_img">
+                                    <div class="teacher_profile_crop">
+                                        <!-- Current avatar -->
+                                        <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="Avatar" title="Change the avatar">
+                                    </div>
                                 </div>
                             </div>
-                            <input class="btn btn-success set-margin-bottom set-margin-top" type="file" name="photo" />
+                            <div class="col-md-7 col-sm-12 col-xs-12">
+                                <h3><?php echo $student['firstname'].' '.$student['lastname'] ?> </h3>
 
-                            <ul class="list-unstyled user_data">
-                                <li>
-                                    <i class="fa fa-briefcase user-profile-icon"></i> <?php echo $student['studentid']; ?>
-                                </li>
-                            </ul>
-
-                            <button type="submit" class="btn btn-success set-right"><i class="fa fa-save m-right-xs"></i> Save Changes</button>
-                            <br />
-
+                                <ul class="list-unstyled user_data">
+                                    <li>
+                                        ID&emsp;&emsp;: <?php echo $student['studentid']; ?>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+                        <?php
+                        $encrypted = $this->general->encryptParaID($student['studentid'],'student');
+                        ?>
+                        <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/student/student_profile_edit/<?php echo $encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Profile</a>
+                        <br />
+
+                    </div>
                         <input type="hidden" class="form-control set-margin-bottom" name="studentid" value="<?php echo $student['studentid']; ?>"/>
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="profile_title">

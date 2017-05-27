@@ -500,6 +500,25 @@ class Admin_model extends CI_Model {
         return $query->num_rows();
     }
 
+    function getItemLatestID()
+    {
+        $this->db->select('itemid');
+        $this->db->order_by("itemid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->item_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addItem($id){
+        $data = array(
+            'itemid' => $id,
+            'name' => $this->input->post('item'),
+        );
+        $this->db->insert($this->item_table, $data);
+    }
 }
 
 ?>

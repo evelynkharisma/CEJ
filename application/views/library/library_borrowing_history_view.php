@@ -1,8 +1,9 @@
-<div class="banner about-banner-w3ls " id="home">
-    <h2>My Borrowing History</h2>
-</div>
+<!--<div class="banner about-banner-w3ls " id="home">-->
+<!--    <h2>My Borrowing History</h2>-->
+<!--</div>-->
 <div class="typography services-w3layouts">
     <div class="container">
+        <h2>My Borrowing History</h2>
         <div class="bs-docs-example wow fadeInUp animated" data-wow-delay=".5s">
         <table class="table table-bordered">
         <thead>

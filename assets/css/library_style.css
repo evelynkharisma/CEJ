@@ -3447,3 +3447,42 @@ li.twt {
     line-height: 64px;
     display: block;
 }
+
+.lib-top-btn {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 6px 12px;
+}
+
+.profile_title {
+    background: #FFF;
+    border-top: 1px solid #dadddc;
+    border-bottom: 1px solid #dadddc;
+    padding: 10px 0;
+    margin-bottom: 2vw;
+    margin-top: 2vw;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.teacher_profile_label {
+    color: #919191;
+    line-height: 30px;
+}
+
+.teacher_profile_value {
+    color: black;
+    font-size: 11pt;
+}
+
+.set-right{
+    float: right;
+}
+
+.alert-success{
+    color:#ffffff;
+    background-color:rgba(38,185,154,0.88);
+    border-color:rgba(38,185,154,0.88)
+}
+
+.alert-info{color:#E9EDEF;background-color:rgba(52,152,219,0.88);border-color:rgba(52,152,219,0.88)}.alert-warning{color:#E9EDEF;background-color:rgba(243,156,18,0.88);border-color:rgba(243,156,18,0.88)}.alert-danger,.alert-error{color:#E9EDEF;background-color:rgba(231,76,60,0.88);border-color:rgba(231,76,60,0.88)}

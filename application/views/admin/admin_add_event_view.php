@@ -97,7 +97,7 @@
                                         <h4 class="modal-title" id="myModalLabel">Upload Event Image</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <?php echo form_open_multipart('teacher/addEventImage/'); ?>
+                                        <?php echo form_open_multipart('admin/addEventImage/'); ?>
                                         <div class="form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12">File</label>
                                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
@@ -138,7 +138,7 @@
                                             <?php
                                             $iencrypted = $this->general->encryptParaID($info_db['eiid'],'eventimage');
                                             ?>
-                                            <a href="<?php echo base_url() ?>index.php/teacher/deleteEventImage/<?php echo $iencrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                            <a href="<?php echo base_url() ?>index.php/admin/deleteEventImage/<?php echo $iencrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
                                     </tr>
                                 <?php }}

@@ -11,19 +11,24 @@
 
         <div class="clearfix"></div>
 
-        <div class="row">
+        <?php if (!empty($top2navigation)): ?>
+            <?php $this->load->view($top2navigation); ?>
+        <?php else: ?>
+            Navigation not found !
+        <?php endif; ?>
+        <!--<div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
-                        <a href="<?php echo base_url() ?>index.php/student/coursePlan" class="btn btn-success">Lesson Plan</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseImplementation" class="btn btn-success">Lesson Implementation</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseMaterial" class="btn btn-success">Shared Materials</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseAssignmentQuiz" class="btn btn-success">Assignments and Quizzes</a>
-                        <a href="<?php echo base_url() ?>index.php/student/courseStudent" class="btn btn-success">Students</a>
+                        <a href="<?php /*echo base_url() */?>index.php/student/coursePlan" class="btn btn-success">Lesson Plan</a>
+                        <a href="<?php /*echo base_url() */?>index.php/student/courseImplementation" class="btn btn-success">Lesson Implementation</a>
+                        <a href="<?php /*echo base_url() */?>index.php/student/courseMaterial" class="btn btn-success">Shared Materials</a>
+                        <a href="<?php /*echo base_url() */?>index.php/student/courseAssignmentQuiz" class="btn btn-success">Assignments and Quizzes</a>
+                        <a href="<?php /*echo base_url() */?>index.php/student/courseStudent" class="btn btn-success">Students</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">

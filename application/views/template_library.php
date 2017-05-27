@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <title>SMS</title>
 
-      <!-- CSS Files -->
+    <!-- CSS Files -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/login_style.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/font-awesome/css/font-awesome.min.css"/>
@@ -42,6 +42,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Bootstrap -->
     <script src="<?php echo base_url() ?>assets/js/bootstrap.js"></script>
 
+
+    <!-- bootstrap-daterangepicker -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/daterangepicker.css">
 
     <script src="<?php echo base_url() ?>assets/js/jquery-1.11.3.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/js/jssor.slider-22.2.16.mini.js" type="text/javascript"></script>
@@ -156,31 +159,82 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         .jssora22r.jssora22rdn { background-position: -310px -31px; }
         .jssora22l.jssora22lds { background-position: -10px -31px; opacity: .3; pointer-events: none; }
         .jssora22r.jssora22rds { background-position: -70px -31px; opacity: .3; pointer-events: none; }
-    </style>
 
+
+    </style>
+<!--    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<!--    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
 </head>
 <body class="nav-md">
-    <?php if (!empty($topnavigation)): ?>
-        <?php $this->load->view($topnavigation); ?>
-        <?php else: ?>
-<!--        Top Navigation not found !-->
-    <?php endif; ?>
+<?php if (!empty($topnavigation)): ?>
+    <?php $this->load->view($topnavigation); ?>
+<?php else: ?>
+    <!--        Top Navigation not found !-->
+<?php endif; ?>
 
-    <?php if (!empty($content)): ?>
-        <?php $this->load->view($content); ?>
-    <?php else: ?>
-        Page not found !
-    <?php endif; ?>
+<?php if (!empty($content)): ?>
+    <?php $this->load->view($content); ?>
+<?php else: ?>
+    Page not found !
+<?php endif; ?>
 
-    <!-- footer content -->
-    <footer>
-        <div class="pull-right">
-        </div>
-        <div class="clearfix"></div>
-    </footer>
-    <!-- /footer content -->
+<!-- footer content -->
+<footer>
+    <div class="pull-right">
+    </div>
+    <div class="clearfix"></div>
+</footer>
+<!-- /footer content -->
+
+    <script>
+        $('.subjectToAdd').hide();
+
+        var countSubject = 0;
+        var countToRemoveSubject = 0;
+        $('.addSubject').on('click',function(){
+            if(countSubject<20) {
+                $('.subjectToAdd:eq('+countSubject+')').show();
+                countToRemoveSubject = countSubject;
+                countSubject++;
+            }
+        });
 
 
+        $('.removeSubject').on('click',function(){
+            if(countSubject>0) {
+                $('.subjectToAdd:eq(' + countToRemoveSubject + ')').hide();
+                countToRemoveSubject--;
+                countSubject--;
+            }
+        });
+
+
+
+        /***** CO AUTHORS ***********/
+        $('.coAuthorToAdd').hide();
+
+        var countCoAuthor = 0;
+        var countToRemoveCoAuthor= 0;
+        $('.addCoAuthor').on('click',function(){
+            if(countCoAuthor<20) {
+                $('.coAuthorToAdd:eq('+countCoAuthor+')').show();
+                countToRemoveCoAuthor = countCoAuthor;
+                countCoAuthor++;
+            }
+        });
+
+
+        $('.removeCoAuthor').on('click',function(){
+            if(countCoAuthor>0) {
+                $('.coAuthorToAdd:eq(' + countToRemoveCoAuthor + ')').hide();
+                countToRemoveCoAuthor--;
+                countCoAuthor--;
+            }
+        });
+    </script>
 
 </body>
 </html>

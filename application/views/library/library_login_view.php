@@ -4,22 +4,23 @@
             Login
         </div>
         <div class="login-box-content-choose">
-<!--            --><?php //if ($this->session->flashdata('error')): ?>
-<!--                <div  class="alert alert-error">-->
-<!--                    --><?php //echo $this->session->flashdata('error'); ?>
-<!--                </div>-->
-<!--            --><?php //endif; ?>
-<!--            --><?php //if (validation_errors()): ?>
-<!--                <div  class="alert alert-error">-->
-<!--                    --><?php //echo validation_errors(); ?>
-<!--                </div>-->
-<!--            --><?php //endif; ?>
-            <?php echo form_open('library/index'); ?>
+            <?php if ($this->nativesession->get('error')): ?>
+                <div  class="alert alert-error">
+                    <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
+                </div>
+            <?php endif; ?>
+            <?php if (validation_errors()): ?>
+                <div  class="alert alert-error">
+                    <?php echo validation_errors(); ?>
+                </div>
+            <?php endif; ?>
+            <?php echo form_open('library/login'); ?>
             <select name="loginas">
                 <option value="student">Student</option>
                 <option value="teacher">Teacher</option>
                 <option value="operation">Operation</option>
                 <option value="admin">Administrator</option>
+                <option value="librarian">Librarian</option>
             </select>
             <input type="text" placeholder="Username" name="username"> <br>
             <input type="password" placeholder="Password" name="password"> <br>

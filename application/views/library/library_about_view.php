@@ -1,6 +1,6 @@
-<div class="banner about-banner-w3ls " id="home">
-    <h2>About</h2>
-</div>
+<!--<div class="banner about-banner-w3ls " id="home">-->
+<!--    <h2>About</h2>-->
+<!--</div>-->
 <div class="wthree-main-content">
     <!-- About-page -->
     <div class="container">

@@ -33,6 +33,7 @@ class login extends CI_Controller {
                     $this->nativesession->set( 'name', $user['firstname'].' '.$user['lastname'] );
                     $this->nativesession->set( 'classid', $user['classid'] );
 //                    $this->nativesession->set( 'role', $user['role'] );
+                    $this->nativesession->set( 'lastlogin', $user['lastlogin'] );
                     $this->nativesession->set( 'is_login', 'TRUE' );
 
                     $this->Student_model->changeLastLogin($user['studentid'], $user['currentlogin']);

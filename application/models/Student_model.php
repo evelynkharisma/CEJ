@@ -158,6 +158,24 @@ class Student_model extends CI_Model {
         return FALSE;
     }
 
+    function getAllEventsCount($id, $lastlogin){
+        $this->db->select('*');
+//        $status_array = array($id,'0','1');
+        $where1 = "(participant='0' OR participant='4' OR participant LIKE '%$id%')";
+
+        $this->db->where('date >=' ,$lastlogin);
+        $this->db->where('date >=' ,date('Y-m-d', now()));
+        $this->db->where($where1);
+//        $this->db->or_where($where2);
+
+
+        $this->db->order_by('date', 'desc');
+
+        $query = $this->db->get($this->event_table);
+
+        return $query->num_rows();
+    }
+
     function getStudentCourses($classid){
 
         $this->db->select('*');

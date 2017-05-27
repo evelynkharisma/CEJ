@@ -136,6 +136,22 @@ class General
             $value = substr($id,1) + 321;
             $id = $variable.$value;
         }
+        elseif($type == 'collection'){
+            $variable = ord('c');
+            $value = substr($id,1) + 211;
+            $id = $variable.$value;
+        }
+        elseif($type == 'collectionauthor'){
+            $variable = ord('a');
+            $value = substr($id,1) + 210;
+            $id = $variable.$value;
+        }
+        elseif($type == 'collectionsubject'){
+            $variable = ord('s');
+            $value = substr($id,1) + 101;
+            $id = $variable.$value;
+        }
+
         return $id;
     }
 
@@ -219,6 +235,24 @@ class General
             $variable = strlen(ord('k'));
             $id = substr($id, $variable) - 321;
             $id = 'n'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'collection'){
+            $variable = strlen(ord('c'));
+            $id = substr($id, $variable) - 211;
+            $id = 'c'.str_pad((int) $id, 6, "0", STR_PAD_LEFT);
+
+        }
+        elseif($type == 'collectionauthor'){
+            $variable = strlen(ord('a'));
+            $id = substr($id, $variable) - 210;
+            $id = 'a'.str_pad((int) $id, 6, "0", STR_PAD_LEFT);
+
+        }
+        elseif($type == 'collectionsubject'){
+            $variable = strlen(ord('s'));
+            $id = substr($id, $variable) - 101;
+            $id = 's'.str_pad((int) $id, 6, "0", STR_PAD_LEFT);
+
         }
         return $id;
     }

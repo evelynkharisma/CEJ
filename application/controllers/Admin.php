@@ -12,6 +12,7 @@ class admin extends CI_Controller {
     var $profileteacherphotopath = 'assets/img/teacher/profile/';
     var $eventimagepath = 'assets/img/texteditor/';
     var $materialpath = 'assets/file/teacher/material/';
+    var $formpath = 'assets/file/forms/';
 
     function __construct() {
         parent::__construct();
@@ -1235,11 +1236,11 @@ class admin extends CI_Controller {
         $data['rolechoice'] = $this->Teacher_model->getRoleCategory(1);
         $data['content'] = 'admin/admin_add_teacher_view';
         $this->load->view($this->template, $data);
-    }
+}
 
 
 
-    /*********************************** ATTENDANCE **********************************/
+/*********************************** ATTENDANCE **********************************/
     public function attendanceClassView($id)
     {
         $classid = $this->general->decryptParaID($id, 'class');
@@ -1325,6 +1326,7 @@ class admin extends CI_Controller {
             $material = $this->input->post('material');
             $latestID = $this->Teacher_model->getPlanLatestID();
             $latestID = $latestID['lessonid'];
+
             for($i=0;$i<sizeof($chapters);$i++)
             {
                 if($chapters[$i] != null){
@@ -2522,7 +2524,7 @@ class admin extends CI_Controller {
 
             if($addedfrequencycount > $workinghourcount){
                 $this->nativesession->set('error', 'Teacher working hour not enough, '.$frequencyallowed.' more frequency allowed');
-                redirect('teacher/createSchedule');
+                redirect('admin/createSchedule');
             }
 
             $gradeList = $this->input->post('grade');
@@ -2884,7 +2886,7 @@ class admin extends CI_Controller {
     {
         if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0025') != 1){
             $this->nativesession->set('error', 'Access Denied');
-            redirect('teacher/home');
+            redirect('admin/home');
         }
         $this->form_validation->set_rules('class', 'Classroom', 'required');
         $this->form_validation->set_rules('teacher', 'Homeroom Teacher', 'required');
@@ -2920,7 +2922,7 @@ class admin extends CI_Controller {
     public function editClass($id){
         if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0026') != 1){
             $this->nativesession->set('error', 'Access Denied');
-            redirect('teacher/home');
+            redirect('admin/home');
         }
         $id = $this->general->decryptParaID($id, 'class');
         $this->form_validation->set_rules('class', 'Classroom', 'required');
@@ -2973,7 +2975,7 @@ class admin extends CI_Controller {
     public function editClassStudent($id){
         if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0026') != 1){
             $this->nativesession->set('error', 'Access Denied');
-            redirect('teacher/home');
+            redirect('admin/home');
         }
         $did = $this->general->decryptParaID($id, 'class');
 
@@ -3010,7 +3012,7 @@ class admin extends CI_Controller {
     {
         if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0001') != 1){
             $this->nativesession->set('error', 'Access Denied');
-            redirect('teacher/home');
+            redirect('admin/home');
         }
         $data['title'] = 'SMS';
         $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
@@ -3030,7 +3032,7 @@ class admin extends CI_Controller {
     {
         if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0006') != 1){
             $this->nativesession->set('error', 'Access Denied');
-            redirect('teacher/home');
+            redirect('admin/home');
         }
         $this->form_validation->set_rules('title', 'Title', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
@@ -3069,11 +3071,11 @@ class admin extends CI_Controller {
             if($notall == true){
                 $this->Teacher_model->addEvent($latestID, $participant);
                 $this->nativesession->set('success', 'New Event Added '.$participant);
-                redirect('teacher/eventList/');
+                redirect('admin/eventList/');
             }
 
             $this->nativesession->set('success', 'New Event Added '.$participant);
-            redirect('teacher/eventList/');
+            redirect('admin/eventList/');
         }
         $data['title'] = 'SMS';
         $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
@@ -3087,9 +3089,473 @@ class admin extends CI_Controller {
 
         $data['students'] = $this->Teacher_model->getAllStudent();
         $data['images'] = $this->Teacher_model->getAllEventImages();
-        $data['content'] = 'admin/add_event_view';
+        $data['content'] = 'admin/admin_add_event_view';
         $this->load->view($this->template, $data);
     }
+
+    public function eventList()
+    {
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0007') == 1){
+            $data['info_dbs'] = $this->Teacher_model->getAllEventNoRestriction();
+        }
+        else{
+            $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->nativesession->get('id'));
+        }
+        $data['content'] = 'admin/admin_event_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function editEvent($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0007') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($id, 'event');
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_rules('duedate', 'Date', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Teacher_model->editEvent($id);
+
+            $this->nativesession->set('success', 'Event Edited');
+            redirect('admin/eventList/');
+        }
+
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['event'] = $this->Teacher_model->getEvent($id);
+        $data['images'] = $this->Teacher_model->getAllEventImages();
+        $data['content'] = 'admin/admin_edit_event_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteEvent($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0007') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($id, 'event');
+        if($this->Teacher_model->deleteEvent($id)){
+            $this->nativesession->set('success', 'Event Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Event');
+        }
+        redirect('admin/eventList');
+    }
+
+    public function addEventImage($id = null)
+    {
+        if (empty($_FILES['userfile']['name'])){
+            $this->nativesession->set('error', 'Image is required');
+            if($id == null){
+                redirect('admin/addEvent');
+            }
+            redirect('admin/editEvent/'.$id);
+        }
+        else{
+            $latestID = $this->Teacher_model->getEventImageLatestID();
+            $latestID = $latestID['eiid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'i'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            if ($_FILES['userfile']['error'] != 4) {
+                $config['upload_path'] = $this->eventimagepath;
+                $config['allowed_types'] = "jpeg|jpg|png";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $latestID;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('userfile')) {
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    if($id == null){
+                        redirect('admin/addEvent');
+                    }
+                    redirect('admin/editEvent/'.$id);
+                } else {
+                    if($data = $this->upload->data()){
+                        $filename = $data['orig_name'];
+                        $this->Teacher_model->addEventImage($latestID, $filename);
+                        $this->nativesession->set('success', 'New Event Image Added');
+                        if($id == null){
+                            redirect('admin/addEvent');
+                        }
+                        redirect('admin/editEvent/'.$id);
+                    }
+                }
+            }
+        }
+    }
+
+    public function deleteEventImage($id, $eid = null){
+        $id = $this->general->decryptParaID($id, 'eventimage');
+        if($this->Teacher_model->deleteEventImage($id)){
+            $this->nativesession->set('success', 'Event Image Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Event Image');
+        }
+        if($eid == null){
+            redirect('admin/addEvent');
+        }
+        redirect('admin/editEvent/'.$eid);
+    }
+
+    public function forms()
+    {
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['info_dbs'] = $this->Teacher_model->getAllForms();
+        $data['content'] = 'admin/admin_forms_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addForm()
+    {
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0011') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            if (empty($_FILES['userfile']['name'])){
+                $this->nativesession->set('error', 'File is required');
+                redirect(current_url());
+            }
+            else{
+                $latestID = $this->Teacher_model->getFormLatestID();
+                $latestID = $latestID['formid'];
+                $latestID = substr($latestID, 1);
+                $latestID = 'f'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                if ($_FILES['userfile']['error'] != 4) {
+                    $config['upload_path'] = $this->formpath;
+                    $config['allowed_types'] = "doc|pdf|docx";
+                    $config['max_size'] = 200000;
+                    $config['overwrite'] = TRUE;
+                    $config['file_name'] = $latestID;
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('userfile')) {
+                        $this->nativesession->set('error', $this->upload->display_errors());
+                        redirect(current_url());
+                    } else {
+                        $data = $this->upload->data();
+                        $filename = $data['orig_name'];
+                        $this->Teacher_model->addForm($latestID, $filename);
+                    }
+                }
+                $this->nativesession->set('success', 'New Form Added');
+                redirect('admin/forms/');
+            }
+        }
+
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['content'] = 'admin/admin_add_form_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function editForm($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0012') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($id, 'form');
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('description', 'Description', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            if (empty($_FILES['userfile']['name'])){
+                $this->Teacher_model->editForm($id);
+            }
+            else{
+                if ($_FILES['userfile']['error'] != 4) {
+                    $config['upload_path'] = $this->formpath;
+                    $config['allowed_types'] = "doc|pdf|docx";
+                    $config['max_size'] = 200000;
+                    $config['overwrite'] = TRUE;
+                    $config['file_name'] = $id;
+                    $this->load->library('upload', $config);
+
+                    if (!$this->upload->do_upload('userfile')) {
+                        $this->nativesession->set('error', $this->upload->display_errors());
+                        redirect(current_url());
+                    } else {
+                        $data = $this->upload->data();
+                        $filename = $data['orig_name'];
+                        $this->Teacher_model->editFormWithFile($id, $filename);
+                    }
+                }
+            }
+            $this->nativesession->set('success', 'Form Edited');
+            redirect('admin/forms/');
+        }
+
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['form'] = $this->Teacher_model->getForm($id);
+        $data['content'] = 'admin/admin_edit_form_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteForm($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0012') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($id, 'form');
+        if($this->Teacher_model->deleteForm($id)){
+            $this->nativesession->set('success', 'Form Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Form');
+        }
+        redirect('admin/forms');
+    }
+
+    public function settings()
+    {
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0009') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['scheduling'] = $this->Teacher_model->getAllSchedulingSettings();
+        $data['grading'] = $this->Teacher_model->getAllGradingSettings();
+        $data['content'] = 'admin/admin_settings_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function editSetting($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0010') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $this->form_validation->set_rules('value', 'Value', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Teacher_model->editSetting($id);
+            $this->nativesession->set('success', 'Setting Edited');
+            redirect('admin/settings/');
+        }
+    }
+
+    public function requestItem()
+    {
+        $id = $this->nativesession->get('id');
+
+//        $savebutton = $this->input->post('savebutton');
+//        if($savebutton == 'itemrequest'){
+//            $itemid = $this->input->post('itemid');
+//            $number = $this->input->post('value');
+//            for($i=0;$i<sizeof($itemid);$i++)
+//            {
+//                if($result = $this->Teacher_model->getAllRequestedByTeacher($itemid[$i], $id)){
+//                    $this->Teacher_model->editRequestedItem($result['itemid'], $number[$i]);
+//                }
+//                else{
+//                    $latestID = $this->Teacher_model->getRequestLatestID();
+//                    $latestID = $latestID['requestid'];
+//                    $latestID = substr($latestID, 1);
+//                    $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+//                    $this->Teacher_model->addRequest($latestID, $itemid[$i], $id, $number[$i]);
+//                }
+//            }
+//            $this->nativesession->set('success', 'Request Submitted');
+//            redirect('admin/requestItem/');
+//        }
+
+        $itemlist = $this->Teacher_model->getAllItems();
+        $a = 0;
+        $j = 0;
+        foreach ($itemlist as $i){
+            if($found = $this->Teacher_model->getAllRequestedByTeacher($i['itemid'], $id)){
+                $request[$a]['itemid'] = $i['itemid'];
+                $request[$a]['name'] = $i['name'];
+                $request[$a]['value'] = $found['number'];
+                $a++;
+            }
+            else{
+                $items[$j]['itemid'] = $i['itemid'];
+                $items[$j]['name'] = $i['name'];
+                $j++;
+            }
+        }
+        if(isset($items)){
+            $data['items'] = $items;
+        }
+        if(isset($request)){
+            $data['request'] = $request;
+        }
+        $data['requestbook'] = $this->Teacher_model->getAllBooksRequested($id);
+        $data['requestfotocopy'] = $this->Teacher_model->getAllFotocopyRequested($id);
+
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['content'] = 'admin/admin_request_item_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addItem()
+    {
+        if ($this->general->checkPrivilege($this->nativesession->get('role'), 'p0033') != 1) {
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $this->form_validation->set_rules('item', 'Item', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $item = $this->input->post('item');
+            $latestID = $this->Admin_model->getItemLatestID();
+            $latestID = $latestID['itemid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'i'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            $this->Admin_model->addItem($latestID);
+            $this->nativesession->set('success', 'New Form Added');
+            redirect('admin/requestItem/');
+
+        }
+    }
+
+    public function addRequestItem()
+    {
+        $id = $this->nativesession->get('id');
+
+        $itemid = $this->input->post('itemid');
+        $number = $this->input->post('value');
+        for($i=0;$i<sizeof($itemid);$i++)
+        {
+            if($result = $this->Teacher_model->getAllRequestedByTeacher($itemid[$i], $id)){
+                $this->Teacher_model->editRequestedItem($result['itemid'], $number[$i]);
+            }
+            else{
+                if($number[$i] != null || $number[$i] != 0){
+                    $latestID = $this->Teacher_model->getRequestLatestID();
+                    $latestID = $latestID['requestid'];
+                    $latestID = substr($latestID, 1);
+                    $latestID = 'r'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                    $this->Teacher_model->addRequest($latestID, $itemid[$i], $id, $number[$i]);
+                }
+            }
+        }
+        $this->nativesession->set('success', 'Request Submitted');
+        redirect('admin/requestItem/');
+    }
+
+    public function editBookRequest($id){
+        $this->Teacher_model->editBookRequest($id);
+        $this->nativesession->set('success', 'Book Request Edited');
+        redirect('admin/requestItem/');
+    }
+
+    public function addBookRequest()
+    {
+        $id = $this->nativesession->get('id');
+
+        $this->form_validation->set_rules('isbn', 'ISBN', 'required');
+        $this->form_validation->set_rules('name', 'Title', 'required');
+        $this->form_validation->set_rules('value', 'Number', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Teacher_model->getBookRequestLatestID();
+            $latestID = $latestID['brequestid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'b'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+
+            $this->Teacher_model->addBookRequest($latestID, $id);
+
+            $this->nativesession->set('success', 'New Book Request Added');
+            redirect('admin/requestItem/');
+        }else{
+            redirect('admin/requestItem/');
+        }
+    }
+
+    public function editFotocopyRequest($id){
+        $this->Teacher_model->editFotocopyRequest($id);
+        $this->nativesession->set('success', 'Fotocopy Request Edited');
+        redirect('admin/requestItem/');
+    }
+
+    public function addFotocopyRequest()
+    {
+        $id = $this->nativesession->get('id');
+
+        $this->form_validation->set_rules('isbn', 'ISBN', 'required');
+        $this->form_validation->set_rules('name', 'Title', 'required');
+        $this->form_validation->set_rules('value', 'Number', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Teacher_model->getFotocopyRequestLatestID();
+            $latestID = $latestID['frequestid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 'f'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+
+            $this->Teacher_model->addFotocopyRequest($latestID, $id);
+
+            $this->nativesession->set('success', 'New Fotocopy Request Added');
+            redirect('admin/requestItem/');
+        }else{
+            redirect('admin/requestItem/');
+        }
+    }
+
 //    public function student_profile($id)
 //    {
 //        $id = $this->general->decryptParaID($id, 'student');

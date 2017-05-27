@@ -237,7 +237,15 @@
                     <li><a href="<?php echo base_url() ?>index.php/admin/allAssignedPrivilege">Assigned Privilege</a></li>
                 </ul>
             </li>
-            <li><a href="<?php echo base_url()?>index.php/library/home" target="_blank"><i class="fa fa-pencil-square-o "></i> Feedbacks <span class="fa"></span></a>
+            <li><a href="<?php echo base_url() ?>index.php/admin/forms"><i class="fa fa-download"></i>Download</span></a></li>
+            <?php
+            $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0009');
+            if($privilege == 1){
+                ?>
+                <li><a href="<?php echo base_url() ?>index.php/admin/settings"><i class="fa fa-gear"></i>Settings</span></a></li>
+            <?php } ?>
+            <li><a href="<?php echo base_url() ?>index.php/admin/requestItem"><i class="fa fa-shopping-cart"></i>Request Items</span></a></li>
+            <li><a href="<?php echo base_url()?>index.php/admin/home" target="_blank"><i class="fa fa-pencil-square-o "></i> Feedbacks <span class="fa"></span></a>
             </li>
             <li><a href="<?php echo base_url()?>index.php/library/home" target="_blank"><i class="fa fa-book"></i> Library <span class="fa"></span></a>
             </li>
