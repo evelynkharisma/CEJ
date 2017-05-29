@@ -1556,8 +1556,10 @@ class Teacher_model extends CI_Model {
 
     function getAllRequestedByTeacher($i, $t){
         $this->db->select('*');
-        $this->db->where('itemid', $i);
+        $this->db->join('items', 'items.itemid = item_request.itemid');
+        $this->db->where('item_request.itemid', $i);
         $this->db->where('teacherid', $t);
+        $this->db->where('status <' , 2);
 
         $query = $this->db->get($this->item_request_table,1);
 
@@ -1598,6 +1600,7 @@ class Teacher_model extends CI_Model {
     function getAllBooksRequested($id){
         $this->db->select('*');
         $this->db->where('teacherid', $id);
+        $this->db->where('status <' , 2);
 
         $query = $this->db->get($this->book_request_table);
 
@@ -1634,6 +1637,16 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getBookRequest($id){
+        $this->db->select('*');
+        $this->db->where("brequestid", $id);
+        $query = $this->db->get($this->book_request_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function addBookRequest($id, $tid){
         $data = array(
             'brequestid' => $id,
@@ -1648,11 +1661,22 @@ class Teacher_model extends CI_Model {
     function getAllFotocopyRequested($id){
         $this->db->select('*');
         $this->db->where('teacherid', $id);
+        $this->db->where('status <' , 2);
 
         $query = $this->db->get($this->fotocopy_request_table);
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
+        }
+    }
+
+    function getFotocopyRequest($id){
+        $this->db->select('*');
+        $this->db->where("frequestid", $id);
+        $query = $this->db->get($this->fotocopy_request_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
         }
     }
 

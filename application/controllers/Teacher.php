@@ -2853,6 +2853,9 @@ class teacher extends CI_Controller {
         for($i=0;$i<sizeof($itemid);$i++)
         {
             if($result = $this->Teacher_model->getAllRequestedByTeacher($itemid[$i], $id)){
+                if($result['status'] == 1) {
+                    $this->nativesession->set('error', 'Request '.$result['name'].' on process cannot edit');
+                }
                 $this->Teacher_model->editRequestedItem($result['itemid'], $number[$i]);
             }
             else{
@@ -2870,6 +2873,12 @@ class teacher extends CI_Controller {
     }
 
     public function editBookRequest($id){
+        if($result = $this->Teacher_model->getBookRequest($id)){
+            if($result['status'] == 1) {
+                $this->nativesession->set('error', 'Request on process cannot edit');
+                redirect('teacher/requestItem/');
+            }
+        }
             $this->Teacher_model->editBookRequest($id);
             $this->nativesession->set('success', 'Book Request Edited');
             redirect('teacher/requestItem/');
@@ -2909,6 +2918,12 @@ class teacher extends CI_Controller {
     }
 
     public function editFotocopyRequest($id){
+        if($result = $this->Teacher_model->getFotocopyRequest($id)){
+            if($result['status'] == 1) {
+                $this->nativesession->set('error', 'Request on process cannot edit');
+                redirect('teacher/requestItem/');
+            }
+        }
         $this->Teacher_model->editFotocopyRequest($id);
         $this->nativesession->set('success', 'Fotocopy Request Edited');
         redirect('teacher/requestItem/');

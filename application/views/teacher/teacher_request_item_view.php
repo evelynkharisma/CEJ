@@ -14,6 +14,11 @@
                 <?php echo $this->nativesession->get('success');$this->nativesession->delete('success'); ?>
             </div>
         <?php endif; ?>
+        <?php if ($this->nativesession->get('error')): ?>
+            <div  class="alert alert-error">
+                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
+            </div>
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
