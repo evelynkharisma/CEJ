@@ -15,6 +15,7 @@ class teacher extends CI_Controller {
         $this->general->TeacherLogin();
         $this->load->model('Teacher_model');
         $this->load->model('Student_model');
+        $this->load->model('Admin_model');
     }
 
     public function home()
@@ -1675,7 +1676,8 @@ class teacher extends CI_Controller {
                                     foreach (${'grade'.$allclass[$i-1]['classroom']} as $initial){
                                         if($initial['scid'] == $availablecourse[$index]['scid']){
                                             ${'grade'.$allclass[$i-1]['classroom']}[$initialcounter]['frequency'] = ${'grade'.$allclass[$i-1]['classroom']}[$initialcounter]['frequency'] - 1;
-                                            if($initial['frequency'] == 0){
+//                                            print_r(${'grade'.$allclass[$i-1]['classroom']}[$initialcounter]);
+                                            if(${'grade'.$allclass[$i-1]['classroom']}[$initialcounter]['frequency'] == 0){
 //                                                $this->nativesession->set('success', print_r($initial));
                                                 unset(${'grade'.$allclass[$i-1]['classroom']}[$initialcounter]);
                                                 ${'grade'.$allclass[$i-1]['classroom']} = array_values(${'grade'.$allclass[$i-1]['classroom']});
@@ -1700,6 +1702,7 @@ class teacher extends CI_Controller {
                                         unset(${'grade'.$allclass[$i-1]['classroom']}[$index]);
                                         ${'grade'.$allclass[$i-1]['classroom']} = array_values(${'grade'.$allclass[$i-1]['classroom']});
                                     }
+//                                    print_r(${'grade'.$allclass[$i-1]['classroom']}[$index]);
                                 }
                             }
                         }
@@ -2337,12 +2340,15 @@ class teacher extends CI_Controller {
 
     public function staffView()
     {
+        $data['admins'] = $this->Admin_model->getAllAdministrator();
+        $data['operators'] = "";
+        
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
-        $data['content'] = 'includes/staff_view';
+        $data['content'] = 'teacher/teacher_all_staff_view';
         $this->load->view($this->template, $data);
     }
 
