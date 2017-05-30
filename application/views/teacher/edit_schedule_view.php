@@ -81,7 +81,7 @@
                                                         <?php echo $thisperiod; ?>
                                                     </td>
                                                     <?php for($j=0; $j < $day['value']; $j++){ ?>
-                                                        <td id="cell-<?php echo $grade ?>-<?php echo $i ?>-<?php echo $j ?>" class="assigned set-center drop <?php echo (isset($schedule[$grade][$i*$day['value']+$j]['conflict']) && $schedule[$grade][$i*$day['value']+$j]['conflict'] == 1)?'conflicted':'not-conflicted' ?>" style="color: #FFF;">
+                                                        <td id="cell-<?php echo $grade ?>-<?php echo $i ?>-<?php echo $j ?>" class="assigned set-center drop <?php  if(isset($schedule[$grade][$i*$day['value']+$j]['conflict'])){if($schedule[$grade][$i*$day['value']+$j]['conflict'] == 1){echo 'conflict1';}elseif($schedule[$grade][$i*$day['value']+$j]['conflict'] == 2){echo 'conflict2';}elseif($schedule[$grade][$i*$day['value']+$j]['conflict'] == 3){echo 'conflict3';}} ?> not-conflicted" style="color: #FFF;">
                                                             <div class="item" id="item-<?php echo $grade ?>-<?php echo $i ?>-<?php echo $j ?>">
                                                                 <input type="hidden" name="class[]" value="<?php echo $schedule[$grade][$i*$day['value']+$j]['classid'] ?>" />
                                                                 <input type="hidden" name="row[]" value="<?php echo $i ?>" />

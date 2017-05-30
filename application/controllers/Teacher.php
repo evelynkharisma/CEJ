@@ -1829,9 +1829,9 @@ class teacher extends CI_Controller {
                 for($a=0; $a<$period['value']; $a++){
                     for($b=0; $b<$day['value']; $b++){
                         $currentgrade = ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['classid'];
-                        $conflict1 = false;
-                        $conflict2 = false;
-                        $conflict3 = false;
+//                        $conflict1 = false;
+//                        $conflict2 = false;
+//                        $conflict3 = false;
 
                         if(isset(${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b])){
                             $notthisid = ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['scheduleid'];
@@ -1840,7 +1840,8 @@ class teacher extends CI_Controller {
                         $othertablewithsamerowandcolom = $this->Teacher_model->getScheduleWithRowColom($a, $b, $notthisid);
                         foreach ($othertablewithsamerowandcolom as $other){
                             if(isset(${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]) && ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['teacherid'] == $other['teacherid']){
-                                $conflict1 = true;
+//                                $conflict1 = true;
+                                ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['conflict'] = 1;
                             }
                         }
                         unset($othertablewithsamerowandcolom);
@@ -1848,7 +1849,8 @@ class teacher extends CI_Controller {
                         $otherperiodsameday = $this->Teacher_model->getScheduleWithDayOfGrade($b, $currentgrade, $notthisid);
                         foreach ($otherperiodsameday as $other){
                             if(isset(${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]) && ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['courseid'] == $other['courseid']){
-                                $conflict2 = true;
+//                                $conflict2 = true;
+                                ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['conflict'] = 2;
                             }
                         }
                         unset($otherperiodsameday);
@@ -1856,12 +1858,13 @@ class teacher extends CI_Controller {
                         $worktimestring = substr($thisteacherworkinghour['workinghour'], 1, strlen($thisteacherworkinghour['workinghour']));
                         $worktime = explode('|', $worktimestring);
                         if(isset($worktime[$a*$day['value']+$b]) && $worktime[$a*$day['value']+$b] == '0'){
-                            $conflict3 = true;
+//                            $conflict3 = true;
+                            ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['conflict'] = 3;
                         }
                         
-                        if($conflict1 == true || $conflict2 == true || $conflict3 == true){
-                            ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['conflict'] = 1;
-                        }
+//                        if($conflict1 == true || $conflict2 == true || $conflict3 == true){
+//                            ${'grade'.$allclass[$i-1]['classid']}[$a*$day['value']+$b]['conflict'] = 1;
+//                        }
                     }
                 }
                 array_push($schedule, ${'grade'.$allclass[$i-1]['classid']});

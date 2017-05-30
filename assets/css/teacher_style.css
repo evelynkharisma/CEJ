@@ -372,8 +372,16 @@ input[type=checkbox]:checked + label, .workavailable
     height: 100%;
 }
 
-.conflicted{
-    background-color: red;
+.conflict1{
+    background-color: red !important;
+}
+
+.conflict2{
+    background-color: orange !important;
+}
+
+.conflict3{
+    background-color: darkgray !important;
 }
 
 .not-conflicted{
