@@ -1609,6 +1609,7 @@ class teacher extends CI_Controller {
 //            }
 //            else{
                 $currentTable = 1;
+                $firstline = true;
                 for($i=1; $i<sizeof($allclass)+1; $i++){
                     if(isset(${'grade'.$allclass[$i-1]['classroom']})){
                         for($a=0; $a<$period['value']; $a++){
@@ -1696,7 +1697,9 @@ class teacher extends CI_Controller {
                                     ${'table'.$i}[$a][$b]['teacherid'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['teacherid'];
                                     ${'table'.$i}[$a][$b]['coursename'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['coursename'];
                                     ${'table'.$i}[$a][$b]['teachername'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['firstname'].' '.${'grade'.$allclass[$i-1]['classroom']}[$index]['lastname'];
-                                    ${'table'.$i}[$a][$b]['conflict'] = 1;
+                                    if($firstline == false){
+                                        ${'table'.$i}[$a][$b]['conflict'] = 1;
+                                    }
                                     ${'grade'.$allclass[$i-1]['classroom']}[$index]['frequency'] = ${'grade'.$allclass[$i-1]['classroom']}[$index]['frequency'] - 1;
                                     if(${'grade'.$allclass[$i-1]['classroom']}[$index]['frequency'] == 0){
                                         unset(${'grade'.$allclass[$i-1]['classroom']}[$index]);
@@ -1705,6 +1708,7 @@ class teacher extends CI_Controller {
 //                                    print_r(${'grade'.$allclass[$i-1]['classroom']}[$index]);
                                 }
                             }
+                            $firstline = false;
                         }
                         array_push($schedule, ${'table'.$i});
                         $currentTable++;

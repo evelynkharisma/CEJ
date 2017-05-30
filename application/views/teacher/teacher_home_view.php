@@ -92,7 +92,10 @@
                     <a class="title" href="#"><?php echo $event['title'] ?></a>
                     <p><?php echo substr($event['description'],0,80) ?>...</p>
                     <div class="teacher_dashboard_deadline">
-                      <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $event['eventid'] ?>">Read More</a>
+                      <?php
+                      $evencrypted = $this->general->encryptParaID($event['eventid'],'event');
+                      ?>
+                      <a class="teacher_dashboard_deadline" href="<?php echo base_url() ?>index.php/teacher/eventDetail/<?php echo $evencrypted ?>">Read More</a>
                     </div>
                   </div>
                 </article>
