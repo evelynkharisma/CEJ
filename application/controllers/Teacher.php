@@ -113,7 +113,7 @@ class teacher extends CI_Controller {
     {
         $id = $this->general->decryptParaID($id, 'student');
         $class = $this->Teacher_model->getClassByStudentID($id);
-        $class = explode('-', $class['classroom']);
+        $class = explode('_', $class['classroom']);
 
         $this->form_validation->set_rules('op1', 'Consideration', 'required');
         $this->form_validation->set_rules('op2', 'Responsibility', 'required');
@@ -164,7 +164,7 @@ class teacher extends CI_Controller {
     {
         $id = $this->general->decryptParaID($id, 'student');
         $class = $this->Teacher_model->getClassByStudentID($id);
-        $class = explode('-', $class['classroom']);
+        $class = explode('_', $class['classroom']);
 
         $this->form_validation->set_rules('comment', 'Comment', 'required');
         $this->form_validation->set_error_delimiters('', '<br/>');
@@ -204,7 +204,7 @@ class teacher extends CI_Controller {
     {
         $id = $this->general->decryptParaID($id, 'student');
         $class = $this->Teacher_model->getClassByStudentID($id);
-        $class = explode('-', $class['classroom']);
+        $class = explode('_', $class['classroom']);
         $allattendance = $this->Teacher_model->getTotalAttendance($id);
         $present = $this->Teacher_model->getTotalPresentByStudent($id);
         $attendancepercentage = $present/$allattendance*100;
@@ -235,7 +235,7 @@ class teacher extends CI_Controller {
     {
         $id = $this->general->decryptParaID($id, 'student');
         $class = $this->Teacher_model->getClassByStudentID($id);
-        $class = explode('-', $class['classroom']);
+        $class = explode('_', $class['classroom']);
         $allattendance = $this->Teacher_model->getTotalAttendance($id);
         $present = $this->Teacher_model->getTotalPresentByStudent($id);
         $attendancepercentage = $present/$allattendance*100;
@@ -1097,7 +1097,7 @@ class teacher extends CI_Controller {
                 }
 
 
-                $this->nativesession->set('success', 'New Material Added');
+                $this->nativesession->set('success', 'New File Added');
                 $eid = $this->general->encryptParaID($id, 'courseassigned');
                 redirect('teacher/courseAssignmentQuiz/'.$eid);
             }
@@ -1233,29 +1233,36 @@ class teacher extends CI_Controller {
         $assessmentevaluation = $this->Teacher_model->getSetting('s0024');
         $examevaluation = $this->Teacher_model->getSetting('s0025');
 
-        $homework = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 1);
+
         $homeworkscore = 0;
-        foreach ($homework as $h){
-            $homeworkscore = $homeworkscore + $h['score'];
+        $homework = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 1);
+        if($homework){
+            foreach ($homework as $h){
+                $homeworkscore = $homeworkscore + $h['score'];
+            }
+            $homeworkscore = $homeworkscore/sizeof($homework);
+            $homeworkscore = $homeworkscore * $homeworkevaluation['value'] / 100;
         }
-        $homeworkscore = $homeworkscore/sizeof($homework);
-        $homeworkscore = $homeworkscore * $homeworkevaluation['value'] / 100;
 
-        $classwork = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 2);
         $classworkscore = 0;
-        foreach ($classwork as $h){
-            $classworkscore = $classworkscore + $h['score'];
+        $classwork = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 2);
+        if($classwork){
+            foreach ($classwork as $h){
+                $classworkscore = $classworkscore + $h['score'];
+            }
+            $classworkscore = $classworkscore/sizeof($classwork);
+            $classworkscore = $classworkscore * $classworkevaluation['value'] / 100;
         }
-        $classworkscore = $classworkscore/sizeof($classwork);
-        $classworkscore = $classworkscore * $classworkevaluation['value'] / 100;
 
-        $assessment = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 3);
         $assessmentscore = 0;
-        foreach ($assessment as $h){
-            $assessmentscore = $assessmentscore + $h['score'];
+        $assessment = $this->Teacher_model->getAllQnAByStudent($studentid, $assignid, 3);
+        if($assessment){
+            foreach ($assessment as $h){
+                $assessmentscore = $assessmentscore + $h['score'];
+            }
+            $assessmentscore = $assessmentscore/sizeof($assessment);
+            $assessmentscore = $assessmentscore * $assessmentevaluation['value'] / 100;
         }
-        $assessmentscore = $assessmentscore/sizeof($assessment);
-        $assessmentscore = $assessmentscore * $assessmentevaluation['value'] / 100;
 
         $savebutton = $this->input->post('savebutton');
         if($savebutton == 'term1'){
@@ -1760,9 +1767,6 @@ class teacher extends CI_Controller {
                 $latestID = substr($latestID, 1);
                 $latestID = 'j'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
 
-                $latestSID = substr($latestSID, 1);
-                $latestSID = 's'.str_pad((int) $latestSID+1, 4, "0", STR_PAD_LEFT);
-
                 $schedule[$i] = array(
                     'scheduleid' => $latestID,
                     'classid' => $grade[$i],
@@ -1775,6 +1779,9 @@ class teacher extends CI_Controller {
                 if($result = $this->Teacher_model->checkAssignCourse($grade[$i], $teacherid[$i], $courseid[$i])){
                 }
                 else{
+                    $latestSID = substr($latestSID, 1);
+                    $latestSID = 's'.str_pad((int) $latestSID+1, 4, "0", STR_PAD_LEFT);
+
                     $assign = array(
                         'assignid' => $latestSID,
                         'teacherid' => $teacherid[$i],

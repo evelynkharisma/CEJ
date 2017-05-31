@@ -69,26 +69,10 @@
                                 <?php echo form_close(); ?>
                                 <?php
                                     $i = 0;
-                                    if($coursesList){
-                                        foreach ($coursesList as $course){
-                                            if ( ! isset($reports[$i]['coursename'])) {
-                                                $reports[$i]['coursename'] = '';
-                                            }
-                                            if ($course['coursename'] != $reports[$i]['coursename']) {
-                                ?>
-                                            <div class="col-md-12 set-margin-top set-margin-bottom">
-                                               <span class="alert alert-error">
-                                                   <?php echo $course['coursename'] ?> report is not yet submitted by <?php echo $course['firstname'] ?> <?php echo $course['lastname'] ?>
-                                               </span>
-                                                <?php
-                                                $sencrypted = $this->general->encryptParaID($course['assignid'],'courseassigned');
-                                                ?>
-                                                <a href="<?php echo base_url() ?>index.php/teacher/sendEmailReport/<?php echo $sencrypted ?>" class="btn btn-danger set-margin-left"><i class="fa fa-bell-o"></i> Request Report</a>
-                                            </div>
-                                <?php
-                                            }
-                                            else{
-                                ?>
+                                    if($reports){
+                                        foreach ($reports as $r){
+//
+//                                ?>
                                                 <table class="teacher_course_student_mid table-bordered">
                                                         <tr>
                                                             <td width="60%"
@@ -113,8 +97,28 @@
                                 <?php
                                                 $i++;
                                             }
+                                    }
+                                ?>
+                                <?php
+                                if($coursesList){
+                                    foreach ($coursesList as $course){
+                                        foreach ($reports as $r){
+                                            if($course['coursename'] != $r['coursename']){
+                                                ?>
+                                                <div class="col-md-12 set-margin-top set-margin-bottom">
+                                                   <span class="alert alert-error">
+                                                       <?php echo $course['coursename'] ?> report is not yet submitted by <?php echo $course['firstname'] ?> <?php echo $course['lastname'] ?>
+                                                   </span>
+                                                    <?php
+                                                    $sencrypted = $this->general->encryptParaID($course['assignid'],'courseassigned');
+                                                    ?>
+                                                    <a href="<?php echo base_url() ?>index.php/teacher/sendEmailReport/<?php echo $sencrypted ?>" class="btn btn-danger set-margin-left"><i class="fa fa-bell-o"></i> Request Report</a>
+                                                </div>
+                                                <?php
+                                            }
                                         }
                                     }
+                                }
                                 ?>
                             </div>
                         </div>

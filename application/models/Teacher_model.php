@@ -1082,7 +1082,7 @@ class Teacher_model extends CI_Model {
     function getTotalPresentByStudent($id){
         $this->db->select('*');
         $this->db->where('studentid', $id);
-        $this->db->where('status', 'p');
+        $this->db->where('status !=', 'a');
 
         $query = $this->db->get($this->attendance_table);
 

@@ -13,6 +13,12 @@
 
         <div class="clearfix"></div>
 
+        <?php if ($this->nativesession->get('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->nativesession->get('success');$this->nativesession->delete('success'); ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (!empty($top2navigation)): ?>
             <?php $this->load->view($top2navigation); ?>
         <?php else: ?>

@@ -31,6 +31,7 @@
                 $break = false;
                 $lunch = false;
                 $a = 0;
+                $j = 0;
                 for($i=0; $i < $period['value'];){
                 if($break == false && $thisperiod >= date('H:i', strtotime($breakstarttime['value']))){
                 ?>
@@ -54,9 +55,9 @@
                                         else{ ?>
                   <tr>
                     <th class="teacher_dashboard_today_schedule_period">Period <?php echo $i+1; ?><br><?php echo $thisperiod; ?></th>
-                    <?php if(isset($schedule[$i])){ ?>
-                      <td><?php echo $schedule[$i]['coursename']; ?><br><?php echo $schedule[$i]['classroom']; ?></td>
-                    <?php }else{ ?>
+                    <?php if(isset($schedule[$j]) && $schedule[$j]['period'] == $i){ ?>
+                      <td><?php echo $schedule[$j]['coursename']; ?><br><?php echo $schedule[$j]['classroom']; ?></td>
+                    <?php $j++; }else{ ?>
                       <td>&nbsp<br>&nbsp</td>
                     <?php } ?>
                   </tr>

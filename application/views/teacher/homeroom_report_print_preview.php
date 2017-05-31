@@ -18,7 +18,7 @@
                     <div class="x_title no-border">
                         <h2 class="set-bold">Student Name: <?php echo $info_db['firstname'] ?> <?php echo $info_db['lastname'] ?></h2>
                         <?php
-                        $yearlevel = explode('-', $info_db['classroom']);
+                        $yearlevel = explode('_', $info_db['classroom']);
                         ?>
                         <div class="set-right set-bold font-h2">Year Level: <?php echo $yearlevel[0] ?></div>
                         <div class="clearfix"></div>
