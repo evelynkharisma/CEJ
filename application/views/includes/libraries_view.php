@@ -19,20 +19,35 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
+                                <th>ISBN</th>
                                 <th>Book</th>
                                 <th>Author</th>
-                                <th>ISBN</th>
                                 <th>Available</th>
                                 <th>Borrowed By</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Information Management System</td>
-                                <td>This author</td>
-                                <td>Book ISBN</td>
+                                <td>123-4567-8-911</td>
+                                <td>School Information Management System</td>
+                                <td>Chelsy</td>
                                 <td>3</td>
-                                <td>Evelyn Kharisma<br>12-C<br>kharismaeve@gmail.com</td>
+                                <td>Evelyn Kharisma<br>7_A<br>kharismaeve@gmail.com<br><br>
+                                    Janis Giovani Tan<br>7_B<br>janisgtan@gmail.com</td>
+                            </tr>
+                            <tr>
+                                <td>456-7890-9-123</td>
+                                <td>School Information Management System</td>
+                                <td>Janis Giovani Tan</td>
+                                <td>2</td>
+                                <td>Chelsy<br>7_A<br>chelsylim@gmail.com</td>
+                            </tr>
+                            <tr>
+                                <td>789-1234-5-678</td>
+                                <td>School Information Management System</td>
+                                <td>Evelyn Kharisma</td>
+                                <td>1</td>
+                                <td>Janis Giovani Tan<br>7_B<br>janisgtan@gmail.com</td>
                             </tr>
                             </tbody>
                         </table>

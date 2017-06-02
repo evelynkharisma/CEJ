@@ -20,8 +20,7 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Name</th>
                                 <th>Class</th>
                                 <th>Parent</th>
                                 <th>Address</th>
@@ -33,12 +32,71 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Evelyn</td>
-                                <td>Kharisma</td>
+                                <td>Evelyn Kharisma</td>
+                                <td>7_A</td>
+                                <td>Chelsy</td>
+                                <td>Jakarta</td>
+                                <td>khasmaeve@yahoo.com</td>
+                                <td>08117678877</td>
+                                <td>Rp 1.000.000</td>
+                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
+                            </tr>
+                            <tr>
+                                <td>Chelsy</td>
+                                <td>7_A</td>
+                                <td>Parent</td>
+                                <td>Jakarta</td>
+                                <td>khame@yahoo.com</td>
+                                <td>08117678877</td>
+                                <td>Rp 1.000.000</td>
+                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
+                            </tr>
+                            <tr>
+                                <td>David Killington</td>
+                                <td>8_C</td>
+                                <td>Parent</td>
+                                <td>Jakarta</td>
+                                <td>kharismjkghgaeve@yahoo.com</td>
+                                <td>08117678877</td>
+                                <td>Rp 1.000.000</td>
+                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
+                            </tr>
+                            <tr>
+                                <td>Janis Giovani Tan</td>
+                                <td>7_B</td>
+                                <td>Parent</td>
+                                <td>Jakarta</td>
+                                <td>khave@yahoo.com</td>
+                                <td>08117678877</td>
+                                <td>Rp 1.000.000</td>
+                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
+                            </tr>
+                            <tr>
+                                <td>Emilia</td>
                                 <td>12-C</td>
                                 <td>Parent</td>
                                 <td>Jakarta</td>
-                                <td>kharismaeve@yahoo.com</td>
+                                <td>khariafefbesmaeve@yahoo.com</td>
+                                <td>08117678877</td>
+                                <td>Rp 3.000.000</td>
+                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
+                            </tr>
+                            <tr>
+                                <td>John Smith</td>
+                                <td>12-C</td>
+                                <td>Parent</td>
+                                <td>Jakarta</td>
+                                <td>aeve@yahoo.com</td>
+                                <td>08117678877</td>
+                                <td>Rp 1.000.000</td>
+                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
+                            </tr>
+                            <tr>
+                                <td>Maria Marie</td>
+                                <td>12-C</td>
+                                <td>Parent</td>
+                                <td>Jakarta</td>
+                                <td>kharisdafvwmaeve@yahoo.com</td>
                                 <td>08117678877</td>
                                 <td>Rp 1.000.000</td>
                                 <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>

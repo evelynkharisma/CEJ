@@ -39,24 +39,24 @@
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <h2>All Student</h2>
                         </div>
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <?php
-//                            if()){
-                                ?>
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <input type="text" id="pick-class" class="form-control set-margin-bottom set-right" name="classchoosen" value="<?php echo date('Y-m-d', now()) ?>"/>
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-12">
-                                    <button type="submit" name="datebutton" value="setdate" class="btn btn-success set-right"><i class="fa fa-search"></i> Search</button>
-                                </div>
-                                <?php
-//                            }else{
+<!--                        <div class="col-md-4 col-sm-4 col-xs-12">-->
+<!--                            --><?php
+////                            if()){
 //                                ?>
-<!--                                <button type="submit" name="datebutton" value="today" class="btn btn-success set-right"><i class="fa fa-search"></i> Go to Today</button>-->
+<!--                                <div class="col-md-8 col-sm-8 col-xs-12">-->
+<!--                                    <input type="text" id="pick-class" class="form-control set-margin-bottom set-right" name="classchoosen" value="--><?php //echo date('Y-m-d', now()) ?><!--"/>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-4 col-sm-4 col-xs-12">-->
+<!--                                    <button type="submit" name="datebutton" value="setdate" class="btn btn-success set-right"><i class="fa fa-search"></i> Search</button>-->
+<!--                                </div>-->
 <!--                                --><?php
-//                            }
-                            ?>
-                        </div>
+////                            }else{
+////                                ?>
+<!--<!--                                <button type="submit" name="datebutton" value="today" class="btn btn-success set-right"><i class="fa fa-search"></i> Go to Today</button>-->
+<!--<!--                                --><?php
+////                            }
+//                            ?>
+<!--                        </div>-->
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -64,6 +64,7 @@
                             <thead>
                             <tr>
                                 <th width="10%">No</th>
+                                <th>Photo</th>
                                 <th>Student ID</th>
                                 <th>Name</th>
                                 <th>Class</th>
@@ -82,9 +83,14 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $i ?></td>
+                                        <td>
+                                            <div class="teacher_photo_crop">
+                                                <img src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo'] ?>" alt="..." class="teacher_photo_img">
+                                            </div>
+                                        </td>
                                         <td><?php echo $student['studentid'] ?></td>
                                         <td><?php echo $student['firstname'] ?> <?php echo $student['lastname'] ?></td>
-                                        <td><?php echo $student['classid'] ?></td>
+                                        <td><?php echo $student['classroom'] ?></td>
                                     <?php $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0003');
                                     if($privilege == 1){
                                         ?>
