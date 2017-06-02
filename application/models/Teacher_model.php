@@ -1967,6 +1967,19 @@ class Teacher_model extends CI_Model {
             return $query->result_array();
         }
     }
+
+    function getExamByID($id){
+        $this->db->select('*');
+        $this->db->join('class', 'class.classid = schedule_exam_applied.classid');
+        $this->db->join('course', 'course.courseid = schedule_exam_applied.courseid');
+        $this->db->join('teacher', 'teacher.teacherid = schedule_exam_applied.teacherid');
+        $this->db->where('schedule_exam_applied.examid', $id);
+        $query = $this->db->get($this->schedule_exam_applied_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
     
     function getAllClasses(){
         $this->db->select('*');

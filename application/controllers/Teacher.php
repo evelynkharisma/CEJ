@@ -2066,24 +2066,41 @@ class teacher extends CI_Controller {
         $count = $this->input->post('count');
 
         $startdate = $this->input->post('date');
+
+        $latestID = 'e0000';
         for($i=0;$i<sizeof($classid);$i++)
         {
+            $totalStudent = $this->Teacher_model->getStudentsByClassID($classid[$i]);
+            $arrangement = '';
+            if($totalStudent){
+                $seating = range(1, sizeof($totalStudent));
+                shuffle($seating);
+                foreach ($seating as $s){
+                    $arrangement = $arrangement.'|'.$s;
+                }
+            }
+            $latestID = substr($latestID, 1);
+            $latestID = 'e'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
             if($result = $this->Teacher_model->getExamScheduleAppliedOfCourse($courseid[$i])){
                 $schedule[$i] = array(
+                    'examid' => $latestID,
                     'classid' => $classid[$i],
                     'teacherid' => $teacherid[$i],
                     'courseid' => $courseid[$i],
                     'count' => $count[$i],
                     'date' => $result['date'],
+                    'seat' => $arrangement
                 );
             }
             else{
                 $schedule[$i] = array(
+                    'examid' => $latestID,
                     'classid' => $classid[$i],
                     'teacherid' => $teacherid[$i],
                     'courseid' => $courseid[$i],
                     'count' => $count[$i],
                     'date' => $startdate,
+                    'seat' => $arrangement
                 );
                 if($count[$i]%2 == 0){
                     $startdate = date('Y-m-d', strtotime($startdate. ' +1 weekdays'));
@@ -2096,6 +2113,21 @@ class teacher extends CI_Controller {
         }
         $this->Teacher_model->addExamScheduleApplied($schedule);
         redirect('teacher/examScheduleView/');
+    }
+
+    public function seatingArrangement($id){
+        $id = $this->general->decryptParaID($id, 'exam');
+        $data['title'] = 'SMS';
+        $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['sidebar'] = 'teacher/teacher_sidebar';
+        $data['topnavigation'] = 'teacher/teacher_topnavigation';
+        $info = $this->Teacher_model->getExamByID($id);
+        $data['info_db'] = $info;
+        $classid = $info['classid'];
+        $data['students'] = $this->Teacher_model->getStudentsByClassID($classid);
+        $data['content'] = 'teacher/teacher_exam_seating_arrangement_view';
+        $this->load->view($this->template, $data);
     }
 
     public function studentView()

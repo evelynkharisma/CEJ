@@ -151,6 +151,11 @@ class General
             $value = substr($id,1) + 101;
             $id = $variable.$value;
         }
+        elseif($type == 'exam'){
+            $variable = ord('e');
+            $value = substr($id,1) + 159;
+            $id = $variable.$value;
+        }
 
         return $id;
     }
@@ -253,6 +258,11 @@ class General
             $id = substr($id, $variable) - 101;
             $id = 's'.str_pad((int) $id, 6, "0", STR_PAD_LEFT);
 
+        }
+        elseif($type == 'exam'){
+            $variable = strlen(ord('e'));
+            $id = substr($id, $variable) - 159;
+            $id = 'e'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         return $id;
     }
