@@ -5,9 +5,7 @@
             <div class="title_left">
                 <h3>Resource Order (Photocopy) - Request</h3>
             </div>
-            <div class="float-right">
-                <button>Accept All</button>
-            </div>
+            <a href="<?php echo base_url() ?>index.php/parents/coursePerformance" class="order-accept-all btn btn-success">Accept All</a>
         </div>
 
         <div class="clearfix"></div>

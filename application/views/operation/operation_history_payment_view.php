@@ -1,9 +1,18 @@
 <!-- order tab -->
+<?php
+    $transaction=[
+        "1" => "Bank Transfer",
+        "2" => "Credit Card"
+    ];
+?>
 <div class="right_col" role="main">
     <div class="operation_order_stationary">
         <div class="page-title">
             <div class="title_left">
-                <h3>Resource Order (Photocopy) - History</h3>
+                <h3>History - Payment</h3>
+            </div>
+            <div class="operation_title_right">
+                <p>*click on Payment ID to view detail <br> *click on Transaction Type to view attachment</p>
             </div>
         </div>
 
@@ -16,13 +25,14 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Completion</th>
-                                <th>Total Quantity</th>
-                                <th>Action</th>
+                                <th>Payment Date</th>
+                                <th>Payment ID</th>
+                                <th>Student Name</th>
+                                <th>Value</th>
+                                <th>Transaction Type</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -31,14 +41,16 @@
                                 $index = 0;
                                 foreach($orders as $order){ ?>
                                     <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
-                                        <td><a href=""><?php echo $order['completion'] ?></a></td>
-                                        <td><?php echo $order['remains'] ?></td>
-                                        <td><a href="<?php echo base_url() ?>index.php/operation/completeOrder/<?php echo $order['completion'] ?>" class="btn btn-success">Finish Order</a></td>
+                                        <td><?php echo $order['paymentdate'] ?></td>
+                                        <td><?php echo $order['paymentid'] ?></td>
+                                        <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
+                                        <td><?php echo $order['value'] ?></td>
+                                        <td><?php echo $transaction[$order['transactiontype']]?></td>
                                     </tr>
                                     <?php $index += 1; }}
                             else {?>
                                 <tr>
-                                    <td colspan="3"><?php echo 'No book history request, please check again later' ?></td>
+                                    <td colspan="3"><?php echo 'No payment history, please check again later' ?></td>
                                 </tr>
                             <?php } ?>
                             </tbody>

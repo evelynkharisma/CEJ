@@ -112,6 +112,30 @@ class operation extends CI_Controller
 
         $this->load->view($this->template, $data);
     }
+    public function outstanding_payment()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/operation_outstanding_payment_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['orders'] = $this->Operation_model->getAllOutstandingPayment();
+
+        $this->load->view($this->template, $data);
+    }
+    public function history_payment()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/operation_history_payment_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['orders'] = $this->Operation_model->getAllHistoryPayment();
+
+        $this->load->view($this->template, $data);
+    }
     public function order_stationary_new()
     {
         $data['title'] = 'SMS';
@@ -132,6 +156,7 @@ class operation extends CI_Controller
         $data['content'] = 'operation/operation_order_stationary_history_view';
 
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['orders'] = $this->Operation_model->getAllStationaryHistory();
 
         $this->load->view($this->template, $data);
     }
@@ -147,6 +172,18 @@ class operation extends CI_Controller
 
         $this->load->view($this->template, $data);
     }
+    public function order_resource_original_history()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/operation_order_resource_original_history_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['orders'] = $this->Operation_model->getAllResourceOriHistory();
+
+        $this->load->view($this->template, $data);
+    }
     public function order_resource_photocopy_new()
     {
         $data['title'] = 'SMS';
@@ -156,6 +193,18 @@ class operation extends CI_Controller
 
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
         $data['orders'] = $this->Operation_model->getAllResourceCopyNew();
+
+        $this->load->view($this->template, $data);
+    }
+    public function order_resource_photocopy_history()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/operation_order_resource_photocopy_history_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['orders'] = $this->Operation_model->getAllResourceCopyHistory();
 
         $this->load->view($this->template, $data);
     }

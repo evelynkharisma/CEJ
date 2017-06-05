@@ -19,22 +19,27 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>ISBN</th>
-                                <th>Name</th>
-                                <th>Qty</th>
+                                <th>Completion</th>
+                                <th>Total Quantity</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr role="row" class="odd">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr role="row" class="even">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            <?php
+                            if($orders){
+                                $index = 0;
+                                foreach($orders as $order){ ?>
+                                    <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
+                                        <td><a href=""><?php echo $order['completion'] ?></a></td>
+                                        <td><?php echo $order['remains'] ?></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/operation/completeOrder/<?php echo $order['completion'] ?>" class="btn btn-success">Finish Order</a></td>
+                                    </tr>
+                                    <?php $index += 1; }}
+                            else {?>
+                                <tr>
+                                    <td colspan="3"><?php echo 'No book history request, please check again later' ?></td>
+                                </tr>
+                            <?php } ?>
                             </tbody>
                         </table>
                         </form>

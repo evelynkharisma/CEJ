@@ -9,6 +9,7 @@ class Operation_model extends CI_Model {
     var $item_request = 'item_request';
     var $book_request = 'book_request';
     var $photocopy_request = 'fotocopy_request';
+    var $payment = 'payment';
 
 
     function __construct() {
@@ -132,11 +133,43 @@ class Operation_model extends CI_Model {
     }
 
 
+    function getAllOutstandingPayment()
+    {
+        $this->db->select('*, SUM(payment.value) AS value, GROUP_CONCAT(payment.inquirydate) AS inquirydate');
+        $this->db->join('student', 'payment.studentid = student.studentid');
+        $this->db->group_by('payment.studentid');
+        $this->db->order_by('student.firstname', 'asc');
+        $this->db->order_by('payment.transactiontype', 'desc');
+        $this->db->where('payment.status', '0');
+
+        $query = $this->db->get($this->payment);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+    
+    function getAllHistoryPayment()
+    {
+        $this->db->select('*, SUM(payment.value) AS value');
+        $this->db->join('student', 'payment.studentid = student.studentid');
+        $this->db->group_by('payment.studentid');
+        $this->db->order_by('student.firstname', 'asc');
+        $this->db->where('payment.status', '1');
+
+        $query = $this->db->get($this->payment);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getAllResourceOriNew()
     {
         $this->db->select('*, SUM(number) AS number');
         $this->db->group_by('isbn');
         $this->db->order_by('name', 'asc');
+        $this->db->where('status', '0');
 
         $query = $this->db->get($this->book_request);
 
@@ -151,6 +184,7 @@ class Operation_model extends CI_Model {
         $this->db->select('*, SUM(number) AS number');
         $this->db->group_by('isbn');
         $this->db->order_by('name', 'asc');
+        $this->db->where('status', '0');
 
         $query = $this->db->get($this->photocopy_request);
 
@@ -166,8 +200,52 @@ class Operation_model extends CI_Model {
         $this->db->join('items', 'item_request.itemid = items.itemid');
         $this->db->group_by('item_request.itemid');
         $this->db->order_by('items.name', 'asc');
+        $this->db->where('status', '0');
 
         $query = $this->db->get($this->item_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllStationaryHistory()
+    {
+        $this->db->select('*, SUM(remains) AS remains');
+        $this->db->group_by('completion');
+        $this->db->order_by('completion, status', 'asc');
+        $this->db->where('status!=', '0');
+
+        $query = $this->db->get($this->item_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllResourceOriHistory()
+    {
+        $this->db->select('*, SUM(remains) AS remains');
+        $this->db->group_by('completion');
+        $this->db->order_by('completion, status', 'asc');
+        $this->db->where('status !=', '0');
+
+        $query = $this->db->get($this->book_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+
+    function getAllResourceCopyHistory()
+    {
+        $this->db->select('*, SUM(remains) AS remains');
+        $this->db->group_by('completion');
+        $this->db->order_by('completion, status', 'asc');
+        $this->db->where('status !=', '0');
+
+        $query = $this->db->get($this->photocopy_request);
 
         if ($query->num_rows() > 0) {
             return $query->result_array();

@@ -2,3 +2,10 @@
     -webkit-appearance: none;
     margin: 0;
 }
+.order-accept-all{
+    margin: 17px 22px 0;
+    float: right;
+}
+.operation_title_right{
+    color: red;
+}

@@ -25,8 +25,22 @@
         <ul class="nav side-menu">
             <li><a><i class="fa fa-exclamation-circle"></i> Outstanding <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_payment">Outstanding Payment</a>
-                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Outstanding Book</a>
+                    <li><a>Payment<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_payment">Outstanding</a>
+                            </li>
+                            <li><a href="<?php echo base_url() ?>index.php/operation/history_payment">History</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a>Book<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Outstanding</a>
+                            </li>
+                            <li><a href="<?php echo base_url() ?>index.php/operation/history_book">History</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
             <li><a><i class="fa fa-shopping-cart"></i> Order <span class="fa fa-chevron-down"></span></a>
@@ -61,13 +75,13 @@
                     </li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-child"></i> Student List <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Grade 10</a>
-                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Grade 11</a>
-                    <li><a href="<?php echo base_url() ?>index.php/operation/outstanding_book">Grade 12</a>
-                </ul>
-            </li>
+<!--            <li><a><i class="fa fa-child"></i> Student List <span class="fa fa-chevron-down"></span></a>-->
+<!--                <ul class="nav child_menu">-->
+<!--                    <li><a href="--><?php //echo base_url() ?><!--index.php/operation/outstanding_book">Grade 10</a>-->
+<!--                    <li><a href="--><?php //echo base_url() ?><!--index.php/operation/outstanding_book">Grade 11</a>-->
+<!--                    <li><a href="--><?php //echo base_url() ?><!--index.php/operation/outstanding_book">Grade 12</a>-->
+<!--                </ul>-->
+<!--            </li>-->
         </ul>
     </div>
 
