@@ -86,17 +86,12 @@
                         </div>
                         <div class="x_content">
                             <div class="">
-                                <div class="pricing_features">
-                                    <ul class="list-unstyled text-left payment-icon">
-                                        <img src="<?php echo base_url() ?>assets/img/parents/visa.png" alt="Visa">
-                                        <img src="<?php echo base_url() ?>assets/img/parents/mastercard.png" alt="Mastercard">
-                                        <img src="<?php echo base_url() ?>assets/img/parents/american-express.png" alt="American Express">
-                                        <img src="<?php echo base_url() ?>assets/img/parents/paypal.png" alt="Paypal">
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="pricing_footer">
-                                <a href="javascript:void(0);" class="btn btn-success btn-block" role="button">Pay Online</span></a>
+                                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                    <input type="hidden" name="cmd" value="_s-xclick">
+                                    <input type="hidden" name="hosted_button_id" value="CHVXG5VSM2LVJ">
+                                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                                </form>
                             </div>
                         </div>
                     </div>
