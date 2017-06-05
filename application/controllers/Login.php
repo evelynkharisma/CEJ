@@ -100,7 +100,6 @@ class login extends CI_Controller {
 
 					$this->Operation_model->changeLastLogin($user['operationid'], $user['currentlogin']);
 					$this->Operation_model->setCurrentLogin($user['operationid']);
-					$this->Operation_model->setActive($user['operationid'],'1');
 
 					redirect('operation/home');
 				}
@@ -141,28 +140,40 @@ class login extends CI_Controller {
 			$token = $this->general->generateRandomCode();
 
 			if($loginas == 'student'){
-				$user = $this->Student_model->getByEmail($email);
-				if (!empty($user)) {
-					$userData = $this->Student_model->getById($user['id']);
+				$userData = $this->Student_model->getByEmail($email);
+				if (!empty($userData)) {
+//					$userData = $this->Teacher_model->getById($user['id']);
 
-					$this->load->library('email');
-					$this->email->from('kharismaeve@gmail.com', 'SMS');
-					$this->email->to($email);
+					$config = Array(
+						'protocol' => 'smtp',
+						'smtp_host' => 'ssl://smtp.googlemail.com',
+						'smtp_port' => 465,
+						'smtp_user' => 'healthybonefamily@gmail.com',
+						'smtp_pass' => 'healthybonefamilycb4',
+					);
 
+					$this->load->library('email', $config);
+					$this->email->set_newline('\r\n');
+					$this->email->from('healthybonefamily@gmail.com', 'SMS');
+					$this->email->to($userData['email']);
 					$this->email->subject('Request New Password - SMS');
+
 					$message = '';
-					$message .= 'You have sent request to reset password.<br/>';
-					$message .= 'Here is your New Password: '.$token;
+					$message .= 'You have sent request to reset password. ';
+					$message .= 'Here is your New Password: ' . $token;
 					$this->email->message($message);
-					$this->email->send();
-					$this->nativesession->set('success', 'Check your email for new password');
 
-					$this->Student_model->resetPassword($userData['id'], $token);
+					if ($this->email->send()){
+						$this->nativesession->set("success", "Email sent successfully.");
+						$this->Student_model->resetPassword($userData['studentid'], $token);
+						redirect('login/');
+					}
+					else {
+						$this->nativesession->set("error", $this->email->print_debugger());
+						redirect('login/forgot_password');
+					}
 
-					redirect('login/loginAs?choice='.$loginas);
-				} else {
-					$this->nativesession->set('error', 'Email not registered');
-					redirect('login/forgot_password?choice='.$loginas);
+					return TRUE;
 				}
 			}
 			else if($loginas == 'teacher'){
@@ -191,7 +202,7 @@ class login extends CI_Controller {
 
 					if ($this->email->send()){
 						$this->nativesession->set("success", "Email sent successfully.");
-						$this->Teacher_model->resetPassword($userData['id'], $token);
+						$this->Teacher_model->resetPassword($userData['teacherid'], $token);
 						redirect('login/');
 					}
 					else {
@@ -203,78 +214,113 @@ class login extends CI_Controller {
 				}
 			}
 			else if($loginas == 'parent'){
-				$user = $this->Parent_model->getByEmail($email);
-				if (!empty($user)) {
-					$userData = $this->Parent_model->getById($user['id']);
+				$userData = $this->Parent_model->getByEmail($email);
+				if (!empty($userData)) {
+//					$userData = $this->Teacher_model->getById($user['id']);
 
-					$this->load->library('email');
-					$this->email->from('chelsylim@gmail.com', 'SMS');
-					$this->email->to($email);
+					$config = Array(
+						'protocol' => 'smtp',
+						'smtp_host' => 'ssl://smtp.googlemail.com',
+						'smtp_port' => 465,
+						'smtp_user' => 'healthybonefamily@gmail.com',
+						'smtp_pass' => 'healthybonefamilycb4',
+					);
 
+					$this->load->library('email', $config);
+					$this->email->set_newline('\r\n');
+					$this->email->from('healthybonefamily@gmail.com', 'SMS');
+					$this->email->to($userData['email']);
 					$this->email->subject('Request New Password - SMS');
+
 					$message = '';
-					$message .= 'You have sent request to reset password.<br/>';
-					$message .= 'Here is your New Password: '.$token;
+					$message .= 'You have sent request to reset password. ';
+					$message .= 'Here is your New Password: ' . $token;
 					$this->email->message($message);
-					$this->email->send();
-					$this->nativesession->set('success', 'Check your email for new password');
 
-					$this->Parent_model->resetPassword($userData['id'], $token);
+					if ($this->email->send()){
+						$this->nativesession->set("success", "Email sent successfully.");
+						$this->Parent_model->resetPassword($userData['parentid'], $token);
+						redirect('login/');
+					}
+					else {
+						$this->nativesession->set("error", $this->email->print_debugger());
+						redirect('login/forgot_password');
+					}
 
-					redirect('login/loginAs?choice='.$loginas);
-				} else {
-					$this->nativesession->set('error', 'Email not registered');
-					redirect('login/forgot_password?choice='.$loginas);
+					return TRUE;
 				}
 			}
 			else if($loginas == 'operation'){
-				$user = $this->Operation_model->getByEmail($email);
-				if (!empty($user)) {
-					$userData = $this->Operation_model->getById($user['id']);
+				$userData = $this->Operation_model->getByEmail($email);
+				if (!empty($userData)) {
+//					$userData = $this->Teacher_model->getById($user['id']);
 
-					$this->load->library('email');
-					$this->email->from('chelsylim@gmail.com', 'SMS');
-					$this->email->to($email);
+					$config = Array(
+						'protocol' => 'smtp',
+						'smtp_host' => 'ssl://smtp.googlemail.com',
+						'smtp_port' => 465,
+						'smtp_user' => 'healthybonefamily@gmail.com',
+						'smtp_pass' => 'healthybonefamilycb4',
+					);
 
+					$this->load->library('email', $config);
+					$this->email->set_newline('\r\n');
+					$this->email->from('healthybonefamily@gmail.com', 'SMS');
+					$this->email->to($userData['email']);
 					$this->email->subject('Request New Password - SMS');
+
 					$message = '';
-					$message .= 'You have sent request to reset password.<br/>';
-					$message .= 'Here is your New Password: '.$token;
+					$message .= 'You have sent request to reset password. ';
+					$message .= 'Here is your New Password: ' . $token;
 					$this->email->message($message);
-					$this->email->send();
-					$this->nativesession->set('success', 'Check your email for new password');
 
-					$this->Operation_model->resetPassword($userData['id'], $token);
+					if ($this->email->send()){
+						$this->nativesession->set("success", "Email sent successfully.");
+						$this->Operation_model->resetPassword($userData['operationid'], $token);
+						redirect('login/');
+					}
+					else {
+						$this->nativesession->set("error", $this->email->print_debugger());
+						redirect('login/forgot_password');
+					}
 
-					redirect('login/loginAs?choice='.$loginas);
-				} else {
-					$this->nativesession->set('error', 'Email not registered');
-					redirect('login/forgot_password?choice='.$loginas);
+					return TRUE;
 				}
 			}
 			else if($loginas == 'admin'){
-				$user = $this->Admin_model->getByEmail($email);
-				if (!empty($user)) {
-					$userData = $this->Admin_model->getById($user['id']);
+				$userData = $this->Admin_model->getByEmail($email);
+				if (!empty($userData)) {
 
-					$this->load->library('email');
-					$this->email->from('kharismaeve@gmail.com', 'SMS');
-					$this->email->to($email);
+					$config = Array(
+						'protocol' => 'smtp',
+						'smtp_host' => 'ssl://smtp.googlemail.com',
+						'smtp_port' => 465,
+						'smtp_user' => 'healthybonefamily@gmail.com',
+						'smtp_pass' => 'healthybonefamilycb4',
+					);
 
+					$this->load->library('email', $config);
+					$this->email->set_newline('\r\n');
+					$this->email->from('healthybonefamily@gmail.com', 'SMS');
+					$this->email->to($userData['email']);
 					$this->email->subject('Request New Password - SMS');
+
 					$message = '';
-					$message .= 'You have sent request to reset password.<br/>';
-					$message .= 'Here is your New Password: '.$token;
+					$message .= 'You have sent request to reset password. ';
+					$message .= 'Here is your New Password: ' . $token;
 					$this->email->message($message);
-					$this->email->send();
-					$this->nativesession->set('success', 'Check your email for new password');
 
-					$this->Admin_model->resetPassword($userData['id'], $token);
+					if ($this->email->send()){
+						$this->nativesession->set("success", "Email sent successfully.");
+						$this->Admin_model->resetPassword($userData['adminid'], $token);
+						redirect('login/');
+					}
+					else {
+						$this->nativesession->set("error", $this->email->print_debugger());
+						redirect('login/forgot_password');
+					}
 
-					redirect('login/loginAs?choice='.$loginas);
-				} else {
-					$this->nativesession->set('error', 'Email not registered');
-					redirect('login/forgot_password?choice='.$loginas);
+					return TRUE;
 				}
 			}
 		}

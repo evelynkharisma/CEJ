@@ -11,6 +11,45 @@
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
+                <table id="directoryView" class="table table-striped table-bordered">
+                    <thead>
+                    <tr role="row">
+                        <th>Inquiry Date</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Charge</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    if($payments){
+                        $sum = 0;
+                        foreach($payments as $payment){ ?>
+                            <tr>
+                                <td><?php echo $payment['inquirydate'] ?></td>
+                                <td><?php echo $payment['firstname'] ?> <?php echo $payment['lastname'] ?></td>
+                                <td><?php echo $payment['description'] ?></td>
+                                <td>Rp <?php
+                                    $priceAfter = number_format($payment['value'], 0, ',', '.');
+                                    echo $priceAfter;
+                                    ?></td>
+                            </tr>
+                        <?php $sum+=$payment['value'];}?>
+                    <tr>
+                        <td colspan="3"><h2><b>Total Charge: </b></h2></td>
+                        <td><h2><b>Rp <?php
+                            $priceAfter = number_format($sum, 0, ',', '.');
+                            echo $priceAfter;
+                            ?></b></h2></td>
+                    </tr>
+
+                    <?php } else {?>
+                        <tr>
+                            <td colspan="4"><?php echo 'no charges' ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="pricing offline">
                         <div class="title">
@@ -21,21 +60,14 @@
                             <div class="">
                                 <div class="pricing_features">
                                     <ul class="list-unstyled text-left">
-                                        <h3 class="price text-center">Rp. 5,000,000</h3><br>
-                                        <h2 class="text-center">Due: <span class="due-date">4th April 2017</span></h2>
-                                        <h2 class="text-center">Virtual Account: <span><strong>9024715225</strong></span></h2>
-                                        <h2 class="text-center">Bank Account Name: <span><strong>User QQ Account</strong></span></h2>
                                         <div class="bank-transfer-section">
-                                            <h3>BCA</h3>
-                                            <h2>XYZ International School - <strong>2779101996</strong></h2>
+                                            <h2>BCA - <strong>2779101996</strong></h2>
                                         </div>
                                         <div class="bank-transfer-section">
-                                            <h3>BNI</h3>
-                                            <h2>XYZ International School - <strong>2779101996</strong></h2>
+                                            <h2>BNI - <strong>2779101996</strong></h2>
                                         </div>
                                         <div class="bank-transfer-section">
-                                            <h3>Mandiri</h3>
-                                            <h2>XYZ International School - <strong>2779101996</strong></h2>
+                                            <h2>Mandiri - <strong>2779101996</strong></h2>
                                         </div>
                                     </ul>
                                 </div>

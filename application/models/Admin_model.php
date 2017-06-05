@@ -519,6 +519,16 @@ class Admin_model extends CI_Model {
         );
         $this->db->insert($this->item_table, $data);
     }
+
+    function getByEmail($email) {
+        $this->db->select('*');
+        $this->db->where('email', $email);
+        $query = $this->db->get($this->table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
 }
 
 ?>

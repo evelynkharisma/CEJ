@@ -216,7 +216,6 @@ class operation extends CI_Controller
         $this->nativesession->delete('is_login');
         $this->nativesession->delete('current_child_id');
         $this->nativesession->delete('current_child_name');
-        $this->Operation_model->setActive($this->nativesession->get('id'),'0');
         redirect('');
     }
 }

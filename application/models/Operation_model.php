@@ -51,17 +51,6 @@ class Operation_model extends CI_Model {
         return TRUE;
     }
 
-    function setActive($id, $status){
-        $data = array(
-            'active' => $status,
-        );
-
-        $this->db->where('operationid', $id);
-        $this->db->update($this->table, $data);
-
-        return TRUE;
-    }
-
     function getProfileDataByID($id) {
         $this->db->select('*');
         $this->db->where('operationid', $id);
@@ -355,6 +344,16 @@ class Operation_model extends CI_Model {
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
+        }
+    }
+
+    function getByEmail($email) {
+        $this->db->select('*');
+        $this->db->where('email', $email);
+        $query = $this->db->get($this->table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
         }
     }
 }

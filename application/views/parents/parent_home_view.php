@@ -9,41 +9,41 @@
 
         <div class="clearfix"></div>
 
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="row top_tiles parent_dashboard_top_tile">
-                        <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <a href="<?php echo base_url() ?>index.php/parents/parent_announcement">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-bullhorn"></i></div>
-                                    <div class="count">0</div>
-                                    <h3 class="announcement_top_tile">Announcement</h3>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <a href="<?php echo base_url() ?>index.php/parents/parent_correspond">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-comment-o"></i></div>
-                                    <div class="count">0</div>
-                                    <h3 class="message_top_tile">Message</h3>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <a href="<?php echo base_url() ?>index.php/parents/payment_status">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-credit-card"></i></div>
-                                    <div class="count">0</div>
-                                    <h3 class="invoice_top_tile">Invoice</h3>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="row">-->
+<!--            <div class="col-md-12 col-sm-12 col-xs-12">-->
+<!--                <div class="x_panel">-->
+<!--                    <div class="row top_tiles parent_dashboard_top_tile">-->
+<!--                        <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">-->
+<!--                            <a href="--><?php //echo base_url() ?><!--index.php/parents/parent_announcement">-->
+<!--                                <div class="tile-stats">-->
+<!--                                    <div class="icon"><i class="fa fa-bullhorn"></i></div>-->
+<!--                                    <div class="count">0</div>-->
+<!--                                    <h3 class="announcement_top_tile">Announcement</h3>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">-->
+<!--                            <a href="--><?php //echo base_url() ?><!--index.php/parents/parent_correspond">-->
+<!--                                <div class="tile-stats">-->
+<!--                                    <div class="icon"><i class="fa fa-comment-o"></i></div>-->
+<!--                                    <div class="count">0</div>-->
+<!--                                    <h3 class="message_top_tile">Message</h3>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="animated flipInY col-lg-4 col-md-4 col-sm-4 col-xs-12">-->
+<!--                            <a href="--><?php //echo base_url() ?><!--index.php/parents/payment_status">-->
+<!--                                <div class="tile-stats">-->
+<!--                                    <div class="icon"><i class="fa fa-credit-card"></i></div>-->
+<!--                                    <div class="count">0</div>-->
+<!--                                    <h3 class="invoice_top_tile">Invoice</h3>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="row">
             <?php
             $childs = $this->Parent_model->getAllChildren($this->nativesession->get('id'));

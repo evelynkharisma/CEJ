@@ -6,6 +6,7 @@ class Parent_model extends CI_Model {
     var $child_table = 'parent_child';
     var $student = 'student';
     var $form_table = 'forms';
+    var $payment_table = 'payment';
 
     function __construct() {
         parent::__construct();
@@ -405,6 +406,37 @@ class Parent_model extends CI_Model {
         }
     }
 
+    function getPaymentStatus($id){
+        $this->db->select('*');
+//        $this->db->group_by('parent_child.parentid');
+        $this->db->join('student', 'student.studentid = payment.studentid');
+        $this->db->join('parent_child', 'parent_child.studentid = student.studentid');
+        $this->db->order_by('payment.inquirydate', 'desc');
+        $this->db->where('parentid', $id);
+        $this->db->where('transactiontype', '0');
+
+        $query = $this->db->get($this->payment_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getPaymentHistory($id){
+        $this->db->select('*');
+        $this->db->join('student', 'student.studentid = payment.studentid');
+        $this->db->join('parent_child', 'parent_child.studentid = student.studentid');
+        $this->db->order_by('payment.paymentdate', 'desc');
+        $this->db->where('parentid', $id);
+        $this->db->where('transactiontype!= ', '0');
+
+        $query = $this->db->get($this->payment_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function checkNoSubmission($sid, $qid){
         $this->db->select('*');
         $this->db->where('studentid', $sid);
@@ -488,6 +520,16 @@ class Parent_model extends CI_Model {
 
         if ($query->num_rows() > 0) {
             return $query->result_array();
+        }
+    }
+
+    function getByEmail($email) {
+        $this->db->select('*');
+        $this->db->where('email', $email);
+        $query = $this->db->get($this->table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
         }
     }
 }

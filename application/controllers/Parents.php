@@ -9,6 +9,7 @@ class parents extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('Parent_model');
+        $this->load->model('Teacher_model');
         $this->load->model('Student_model');
     }
 
@@ -49,6 +50,7 @@ class parents extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
         $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+        $data['attendances'] = $this->Student_model->getAttendanceList($this->nativesession->get('classid'),$this->nativesession->get('current_child_id'));
 
         $this->load->view($this->template, $data);
     }
@@ -376,7 +378,53 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
-        $data['content'] = 'includes/class_schedule_view';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $id = $this->nativesession->get('classid');
+        $timeinterval = array();
+        $period = $this->Teacher_model->getSetting('s0006');
+        $hour = $this->Teacher_model->getSetting('s0007');
+        $starttime = $this->Teacher_model->getSetting('s0008');
+        $breakstarttime = $this->Teacher_model->getSetting('s0009');
+        $breaktime = $this->Teacher_model->getSetting('s0011');
+        $lunchstarttime = $this->Teacher_model->getSetting('s0010');
+        $lunchtime = $this->Teacher_model->getSetting('s0012');
+
+        $thisperiod = $starttime['value'];
+        $break = false;
+        $lunch = false;
+        for($i=0; $i < $period['value'];){
+            if($break == false && $thisperiod >= date('H:i', strtotime($breakstarttime['value']))){
+                $thisperiod; //break
+                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$breaktime['value']);
+                $break = true;
+            }
+            elseif ($lunch == false && $thisperiod >= date('H:i', strtotime($lunchstarttime['value']))){
+                $thisperiod; //lunch
+                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$lunchtime['value']);
+                $lunch = true;
+            }
+            else{
+                array_push($timeinterval, $thisperiod);
+                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$hour['value']);
+                $i++;
+            }
+        }
+
+        $data['hour'] = $hour;
+        $data['time'] = $timeinterval;
+        $data['schedule'] = $this->Teacher_model->getAllScheduleForGrade($id);
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+
+        $data['content'] = 'student/student_class_schedule_view';
         $this->load->view($this->template, $data);
     }
     public function examScheduleView()
@@ -384,7 +432,35 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
-        $data['content'] = 'includes/exam_schedule_view';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $period = array();
+        $starttime = $this->Teacher_model->getSetting('s0008');
+        $thisperiod = $starttime['value'];
+        array_push($period, $thisperiod);
+        $examtime = $this->Teacher_model->getSetting('s0013');
+        $thisperiod = date('H:i', strtotime($thisperiod) + 60*$examtime['value']);
+        array_push($period, $thisperiod);
+        $breaktime = $this->Teacher_model->getSetting('s0011');
+        $thisperiod = date('H:i', strtotime($thisperiod) + 60*$breaktime['value']);
+        array_push($period, $thisperiod);
+        $thisperiod = date('H:i', strtotime($thisperiod) + 60*$examtime['value']);
+        array_push($period, $thisperiod);
+
+        $data['time'] = $period;
+        $data['schedule'] = $this->Teacher_model->getExamScheduleApplied();
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+        $data['classid'] =  $this->nativesession->get('classid');
+
+        $data['content'] = 'student/student_exam_schedule_view';
         $this->load->view($this->template, $data);
     }
     public function parent_correspond()
@@ -392,6 +468,19 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+
         $data['content'] = 'parents/parent_correspond_view';
         $this->load->view($this->template, $data);
     }
@@ -400,6 +489,18 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $data['payments'] = $this->Parent_model->getPaymentStatus($this->nativesession->get('id'));
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
         $data['content'] = 'parents/payment_status_view';
         $this->load->view($this->template, $data);
     }
@@ -408,6 +509,18 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $data['payments'] = $this->Parent_model->getPaymentHistory($this->nativesession->get('id'));
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
         $data['content'] = 'parents/payment_receipt_view';
         $this->load->view($this->template, $data);
     }

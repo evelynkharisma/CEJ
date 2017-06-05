@@ -58,7 +58,10 @@
     margin: 5px;
 }
 .bank-transfer-section{
-    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.bank-transfer-section:last-child{
+    border-bottom: 0;
 }
 .payment-status .row{
     margin-top: 15px;
