@@ -12,7 +12,7 @@
                 <h3>History - Payment</h3>
             </div>
             <div class="operation_title_right">
-                <p>*click on Payment ID to view detail <br> *click on Transaction Type to view attachment</p>
+                <p>*click on Payment ID to view payment receipt <br> *click on Transaction Type to view attachment</p>
             </div>
         </div>
 
@@ -42,10 +42,10 @@
                                 foreach($orders as $order){ ?>
                                     <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
                                         <td><?php echo $order['paymentdate'] ?></td>
-                                        <td><?php echo $order['paymentid'] ?></td>
+                                        <td><a href="#" style="color: cornflowerblue;"><?php echo $order['paymentid'] ?></a></td>
                                         <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
                                         <td><?php echo $order['value'] ?></td>
-                                        <td><?php echo $transaction[$order['transactiontype']]?></td>
+                                        <td><a href="#" style="color: cornflowerblue;"><?php echo $transaction[$order['transactiontype']]?></a></td>
                                     </tr>
                                     <?php $index += 1; }}
                             else {?>

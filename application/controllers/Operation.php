@@ -136,6 +136,30 @@ class operation extends CI_Controller
 
         $this->load->view($this->template, $data);
     }
+    public function outstanding_book()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/operation_outstanding_book_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+//        $data['orders'] = $this->Operation_model->getAllOutstandingPayment();
+
+        $this->load->view($this->template, $data);
+    }
+    public function history_book()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/operation_history_book_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+//        $data['orders'] = $this->Operation_model->getAllHistoryPayment();
+
+        $this->load->view($this->template, $data);
+    }
     public function order_stationary_new()
     {
         $data['title'] = 'SMS';

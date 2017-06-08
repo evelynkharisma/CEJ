@@ -24,7 +24,16 @@
         <input type="email" placeholder="Email" name="email"> <br>
     </div>
     <div class="login-box-footer" style="text-align: right">
-        <button class="btn login-btn" type="submit"></button> <br>
+        <table>
+            <tr>
+                <td align="left">
+                    <a href="<?php echo base_url() ?>index.php/login" class="forgot-password">Back To Login Page</a>
+                </td>
+                <td align="right">
+                    <button class="btn login-btn" type="submit"></button> <br>
+                </td>
+            </tr>
+        </table>
         <?php echo form_close(); ?>
     </div>
 </div>

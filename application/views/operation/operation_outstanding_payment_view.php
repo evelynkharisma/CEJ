@@ -5,7 +5,7 @@
             <div class="title_left">
                 <h3>Outstanding - Payment</h3>
             </div>
-            <a href="<?php echo base_url() ?>index.php/operation/notifyall" class="order-accept-all btn btn-success">Notify All</a>
+            <a href="<?php echo base_url() ?>index.php/operation/notifyall" class="order-accept-all btn btn-danger">Notify All</a>
         </div>
 
         <div class="clearfix"></div>
@@ -37,7 +37,7 @@
                                         <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
                                         <td><?php echo $order['description'] ?></td>
                                         <td><?php echo $order['value'] ?></td>
-                                        <td><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn btn-success <?php if ($order['transactiontype']=='1'){echo 'disabled';}?>">Notify</a><a href="<?php echo base_url() ?>index.php/operation/uploadInvoice/<?php echo $order['paymentid']?>" class="btn <?php if($order['transactiontype']==1){echo'btn-danger';} else{echo 'btn-success';}?>"><?php if($order['transactiontype']==1){echo 'Confirm Request';} else{echo'Upload Invoice';}?></a></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn <?php if ($order['transactiontype']=='1'){echo 'btn-default disabled';} else{echo 'btn-danger';}?>">Notify</a><a href="<?php echo base_url() ?>index.php/operation/uploadInvoice/<?php echo $order['paymentid']?>" class="btn <?php if($order['transactiontype']==1){echo'btn-success';} else{echo 'btn-success';}?>"><?php if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Upload Receipt';}?></a></td>
                                     </tr>
                                     <?php $index += 1; }}
                             else {?>
