@@ -20,87 +20,31 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Class</th>
-                                <th>Parent</th>
-                                <th>Address</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Outstanding Payment</th>
+                                <th>Inquiry Date</th>
+                                <th>Student Name</th>
+                                <th>Payment Description</th>
+                                <th>Value</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>Evelyn Kharisma</td>
-                                <td>7_A</td>
-                                <td>Chelsy</td>
-                                <td>Jakarta</td>
-                                <td>khasmaeve@yahoo.com</td>
-                                <td>08117678877</td>
-                                <td>Rp 1.000.000</td>
-                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
-                            </tr>
-                            <tr>
-                                <td>Chelsy</td>
-                                <td>7_A</td>
-                                <td>Parent</td>
-                                <td>Jakarta</td>
-                                <td>khame@yahoo.com</td>
-                                <td>08117678877</td>
-                                <td>Rp 1.000.000</td>
-                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
-                            </tr>
-                            <tr>
-                                <td>David Killington</td>
-                                <td>8_C</td>
-                                <td>Parent</td>
-                                <td>Jakarta</td>
-                                <td>kharismjkghgaeve@yahoo.com</td>
-                                <td>08117678877</td>
-                                <td>Rp 1.000.000</td>
-                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
-                            </tr>
-                            <tr>
-                                <td>Janis Giovani Tan</td>
-                                <td>7_B</td>
-                                <td>Parent</td>
-                                <td>Jakarta</td>
-                                <td>khave@yahoo.com</td>
-                                <td>08117678877</td>
-                                <td>Rp 1.000.000</td>
-                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
-                            </tr>
-                            <tr>
-                                <td>Emilia</td>
-                                <td>12-C</td>
-                                <td>Parent</td>
-                                <td>Jakarta</td>
-                                <td>khariafefbesmaeve@yahoo.com</td>
-                                <td>08117678877</td>
-                                <td>Rp 3.000.000</td>
-                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
-                            </tr>
-                            <tr>
-                                <td>John Smith</td>
-                                <td>12-C</td>
-                                <td>Parent</td>
-                                <td>Jakarta</td>
-                                <td>aeve@yahoo.com</td>
-                                <td>08117678877</td>
-                                <td>Rp 1.000.000</td>
-                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
-                            </tr>
-                            <tr>
-                                <td>Maria Marie</td>
-                                <td>12-C</td>
-                                <td>Parent</td>
-                                <td>Jakarta</td>
-                                <td>kharisdafvwmaeve@yahoo.com</td>
-                                <td>08117678877</td>
-                                <td>Rp 1.000.000</td>
-                                <td><a class="btn btn-danger"><i class="fa fa-bell-o"></i> Notify</a></td>
-                            </tr>
+                            <?php
+                            if($orders){
+                                $index = 0;
+                                foreach($orders as $order){ ?>
+                                    <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
+                                        <td><?php echo $order['inquirydate'] ?></td>
+                                        <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
+                                        <td><?php echo $order['description'] ?></td>
+                                        <td><?php echo $order['value'] ?></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn <?php if ($order['transactiontype']=='1'){echo 'btn-default disabled';} else{echo 'btn-danger';}?>"><i class="fa fa-bell-o"></i> Notify</a></td>
+                                    </tr>
+                                    <?php $index += 1; }}
+                            else {?>
+                                <tr>
+                                    <td colspan="3"><?php echo 'No outstanding request, please check again later' ?></td>
+                                </tr>
+                            <?php } ?>
                             </tbody>
                         </table>
                     </div>

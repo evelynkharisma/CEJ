@@ -58,17 +58,37 @@
                                         <?php
                                         $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0026');
                                         if($privilege == 1){
-                                        ?>
-                                        <td width="30%">
-                                            <?php
-                                            $encrypted = $this->general->encryptParaID($c['classid'],'class');
                                             ?>
+                                            <td width="30%">
+                                                <?php
+                                                    $encrypted = $this->general->encryptParaID($c['classid'],'class');
+                                                ?>
                                                 <a href="<?php echo base_url() ?>index.php/teacher/editClass/<?php echo $encrypted ?>" class="btn-success btn"><i class="fa fa-edit"></i> Edit</a>
                                                 <a href="<?php echo base_url() ?>index.php/teacher/deleteClass/<?php echo $encrypted ?>" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
-                                        </td>
+                                            </td>
                                         <?php } ?>
                                     </tr>
                                 <?php }} ?>
+<!--                            --><?php //if($classesnoteacher){
+//                                foreach ($classesnoteacher as $c){ ?>
+<!--                                    <tr>-->
+<!--                                        <td>--><?php //echo $c['classid'] ?><!--</td>-->
+<!--                                        <td>--><?php //echo $c['classroom'] ?><!--</td>-->
+<!--                                        <td>Collaboratvie / Elective</td>-->
+<!--                                        --><?php
+//                                        $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0026');
+//                                        if($privilege == 1){
+//                                        ?>
+<!--                                        <td width="30%">-->
+<!--                                            --><?php
+//                                                $encrypted = $this->general->encryptParaID($c['classid'],'class');
+//                                            ?>
+<!--                                                <a href="--><?php //echo base_url() ?><!--index.php/teacher/editClass/--><?php //echo $encrypted ?><!--" class="btn-success btn"><i class="fa fa-edit"></i> Edit</a>-->
+<!--                                                <a href="--><?php //echo base_url() ?><!--index.php/teacher/deleteClass/--><?php //echo $encrypted ?><!--" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>-->
+<!--                                        </td>-->
+<!--                                        --><?php //} ?>
+<!--                                    </tr>-->
+<!--                                --><?php //}} ?>
                             </tbody>
                         </table>
                     </div>

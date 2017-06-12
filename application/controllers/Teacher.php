@@ -16,6 +16,7 @@ class teacher extends CI_Controller {
         $this->load->model('Teacher_model');
         $this->load->model('Student_model');
         $this->load->model('Admin_model');
+        $this->load->model('Operation_model');
     }
 
     public function home()
@@ -1420,6 +1421,88 @@ class teacher extends CI_Controller {
 
     public function createSchedule()
     {
+        $assign = $this->Teacher_model->getAllScheduleSetting();
+        $i = 0;
+        foreach ($assign as $c){
+            $gradeList = explode('|', substr($c['grade'], 1, strlen($c['grade'])));
+            $gradeName = '';
+            foreach ($gradeList as $t){
+                $grade = $this->Teacher_model->getClassByClassid($t);
+                $g = $grade['classroom'];
+                $gradeName = $gradeName.'|'.$g;
+            }
+            $assign[$i]['grade'] = $gradeName;
+            $i++;
+        }
+
+//        $collaborative = $this->Teacher_model->getAllCollaborativeScheduleSetting();
+//        $i = 0;
+//        foreach ($collaborative as $c){
+//            $teacherList = explode('|', substr($c['teacherid'], 1, strlen($c['teacherid'])));
+//            $teacherName = '';
+//            foreach ($teacherList as $t){
+//                $teacher = $this->Teacher_model->getProfileDataByID($t);
+//                $g = $teacher['firstname'].' '.$teacher['lastname'];
+//                $teacherName = $teacherName.'|'.$g;
+//            }
+//            $collaborative[$i]['teacher'] = $teacherName;
+//
+//            $gradeList = explode('|', substr($c['grade'], 1, strlen($c['grade'])));
+//            $gradeName = '';
+//            foreach ($gradeList as $t){
+//                $grade = $this->Teacher_model->getClassByClassid($t);
+//                $g = $grade['classroom'];
+//                $gradeName = $gradeName.'|'.$g;
+//            }
+//            $collaborative[$i]['grade'] = $gradeName;
+//
+//            $room = $this->Teacher_model->getClassByClassid($c['room']);
+//            $collaborative[$i]['room'] = $room['classroom'];
+//            $i++;
+//        }
+//        $elective = $this->Teacher_model->getAllElectiveScheduleSetting();
+//        $i = 0;
+//        foreach ($elective as $c){
+//            $teacherList = explode('|', substr($c['teacherid'], 1, strlen($c['teacherid'])));
+//            $teacherName = '';
+//            foreach ($teacherList as $t){
+//                $teacher = $this->Teacher_model->getProfileDataByID($t);
+//                $g = $teacher['firstname'].' '.$teacher['lastname'];
+//                $teacherName = $teacherName.'|'.$g;
+//            }
+//            $elective[$i]['teacher'] = $teacherName;
+//
+//            $courseList = explode('|', substr($c['courseid'], 1, strlen($c['courseid'])));
+//            $courseName = '';
+//            foreach ($courseList as $t){
+//                $course = $this->Teacher_model->getCourseDataByID($t);
+//                $g = $course['coursename'];
+//                $courseName = $courseName.'|'.$g;
+//            }
+//            $elective[$i]['course'] = $courseName;
+
+//            $gradeList = explode('|', substr($c['grade'], 1, strlen($c['grade'])));
+//            $gradeName = '';
+//            foreach ($gradeList as $t){
+//                $grade = $this->Teacher_model->getClassByClassid($t);
+//                $g = $grade['classroom'];
+//                $gradeName = $gradeName.'|'.$g;
+//            }
+//            $elective[$i]['grade'] = $gradeName;
+//
+//            $roomList = explode('|', substr($c['room'], 1, strlen($c['room'])));
+//            $roomName = '';
+//            foreach ($roomList as $t){
+//                $room = $this->Teacher_model->getClassByClassid($t);
+//                $g = $room['classroom'];
+//                $roomName = $roomName.'|'.$g;
+//            }
+//            $elective[$i]['room'] = $roomName;
+//            $i++;
+//        }
+//        $special = array_merge($collaborative, $elective);
+//        $data['special'] = $special;
+        $data['assign'] = $assign;
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
@@ -1427,8 +1510,8 @@ class teacher extends CI_Controller {
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['teachers'] = $this->Teacher_model->getAllTeacher();
         $data['coursesList'] = $this->Teacher_model->getAllCourses();
-        $data['assign'] = $this->Teacher_model->getAllScheduleSetting();
-        $data['classes'] = $this->Teacher_model->getAllClasses();
+        $data['classes'] = $this->Teacher_model->getAllClassesOfType(0);
+//        $data['room'] = $this->Teacher_model->getAllClassesOfType(1);
         $data['content'] = 'teacher/create_schedule_view';
         $this->load->view($this->template, $data);
     }
@@ -1481,7 +1564,7 @@ class teacher extends CI_Controller {
                         $classname = $this->Teacher_model->getClassByClassid($gradeList[$i]);
                         $periodallowed[$i]['grade'] = $classname['classroom'];
                         $periodallowed[$i]['count'] = $periodcount - $totalperiod;
-                        $i++;
+//                        $i++;
                     }
                 }
             }
@@ -1524,18 +1607,6 @@ class teacher extends CI_Controller {
             for($i=0;$i<sizeof($gradeList);$i++)
             {
                 $g = $gradeList[$i];
-//                if($g == '10'){
-//                    $g = 'A';
-//                }
-//                elseif($g == '11'){
-//                    $g = 'B';
-//                }
-//                elseif($g == '12'){
-//                    $g = 'C';
-//                }
-//                elseif($g == '13'){
-//                    $g = 'D';
-//                }
                 $grade = $grade.'|'.$g;
             }
             
@@ -1543,9 +1614,267 @@ class teacher extends CI_Controller {
             $latestID = $latestID['scid'];
             $latestID = substr($latestID, 1);
             $latestID = 's'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
-            $this->Teacher_model->addScheduleSetting($latestID, $tid, $cid, $grade, $frequency);
+            $this->Teacher_model->addScheduleSetting($latestID, $tid, $cid, $grade, $frequency, 0, 0);
             $this->nativesession->set('success', 'Schedule Assign saved');
             redirect('teacher/createSchedule');
+        }
+        else{
+            $this->nativesession->set('error', 'All field required');
+            redirect('teacher/createSchedule');
+        }
+    }
+
+    public function addCollaborativeScheduleSetting(){
+        $this->form_validation->set_rules('course', 'Course', 'required');
+        $this->form_validation->set_rules('room', 'Room', 'required');
+        $this->form_validation->set_rules('frequency', 'Frequency', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $teacherList = $this->input->post('teacher');
+            $cid = $this->input->post('course');
+            $frequency = $this->input->post('frequency');
+
+            $i = 0;
+//            for($g=1; $g<14; $g++){
+            $gradeList = $this->input->post('grade');
+            for($i=0;$i<sizeof($gradeList);$i++)
+            {
+                $thisgrade = $gradeList[$i];
+                $allschedule = $this->Teacher_model->getAllFrequencyForGrade($thisgrade);
+
+                $totalperiod = 0;
+                if($allschedule){
+                    foreach ($allschedule as $s){
+                        $totalperiod = $totalperiod + $s['frequency'];
+                    }
+
+                    $addedperiod = $totalperiod + $frequency;
+
+                    $day = $this->Teacher_model->getSetting('s0005');
+                    $period = $this->Teacher_model->getSetting('s0006');
+                    $periodcount = $day['value']*$period['value'];
+
+
+                    if($addedperiod > $periodcount){
+                        $classname = $this->Teacher_model->getClassByClassid($gradeList[$i]);
+                        $periodallowed[$i]['grade'] = $classname['classroom'];
+                        $periodallowed[$i]['count'] = $periodcount - $totalperiod;
+//                        $i++;
+                    }
+                }
+            }
+
+            $message = '';
+            if(isset($periodallowed)) {
+                foreach ($periodallowed as $p) {
+                    $message .= 'Total period for grade ' . $p['grade'] . ' exceed limit, ' . $p['count'] . ' more period allowed</br>';
+                }
+            }
+
+            if(isset($periodallowed)){
+                $this->nativesession->set('error', $message);
+                redirect('teacher/createSchedule');
+            }
+
+            for($i=0;$i<sizeof($teacherList);$i++)
+            {
+                $tid = $teacherList[$i];
+                $workinghour = $this->Teacher_model->getWorkingHour($tid);
+                $workinghourList = explode('|', $workinghour['workinghour']);
+                $workinghourcount = 0;
+                foreach ($workinghourList as $w){
+                    $workinghourcount = $workinghourcount + $w;
+                }
+
+                $teachingfrequency = $this->Teacher_model->getTeachingFrequency($tid);
+                $frequencycount = 0;
+                foreach ($teachingfrequency as $f){
+                    $frequencycount = $frequencycount + $f['frequency'];
+                }
+                $addedfrequencycount = $frequencycount + $frequency;
+                $frequencyallowed = $workinghourcount - $frequencycount;
+
+                if($addedfrequencycount > $workinghourcount){
+                    $fallowed[$i]['allowed'] = $frequencyallowed;
+                }
+            }
+
+            $message = '';
+            if(isset($fallowed)) {
+                foreach ($fallowed as $p) {
+                    $message .= 'Teacher working hour not enough, '.$p['allowed'].' more frequency allowed</br>';
+                }
+            }
+
+            if(isset($fallowed)){
+                $this->nativesession->set('error', $message);
+                redirect('teacher/createSchedule');
+            }
+
+
+            $gradeList = $this->input->post('grade');
+            $grade = '';
+            for($i=0;$i<sizeof($gradeList);$i++)
+            {
+                $g = $gradeList[$i];
+                $grade = $grade.'|'.$g;
+            }
+
+            $teacherList = $this->input->post('teacher');
+            $tid = '';
+            for($i=0;$i<sizeof($teacherList);$i++)
+            {
+                $t = $teacherList[$i];
+                $tid = $tid.'|'.$t;
+            }
+
+            $latestID = $this->Teacher_model->getScheduleSettingLatestID();
+            $latestID = $latestID['scid'];
+            $latestID = substr($latestID, 1);
+            $latestID = 's'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+            $this->Teacher_model->addScheduleSetting($latestID, $tid, $cid, $grade, $frequency, 1, $this->input->post('room'));
+            $this->nativesession->set('success', 'Schedule Assign saved');
+            redirect('teacher/createSchedule');
+        }
+        else{
+            $this->nativesession->set('error', 'All field required');
+            redirect('teacher/createSchedule');
+        }
+    }
+
+    public function addElectiveScheduleSetting(){
+        $this->form_validation->set_rules('frequency', 'Frequency', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $teacherList = $this->input->post('teacher');
+            $courseList = $this->input->post('course');
+            $frequency = $this->input->post('frequency');
+            $roomList = $this->input->post('room');
+
+            if(sizeof($teacherList) == sizeof($courseList) && sizeof($courseList) == sizeof($roomList)){
+
+                $i = 0;
+    //            for($g=1; $g<14; $g++){
+                $gradeList = $this->input->post('grade');
+                for($i=0;$i<sizeof($gradeList);$i++)
+                {
+                    $thisgrade = $gradeList[$i];
+                    $allschedule = $this->Teacher_model->getAllFrequencyForGrade($thisgrade);
+
+                    $totalperiod = 0;
+                    if($allschedule){
+                        foreach ($allschedule as $s){
+                            $totalperiod = $totalperiod + $s['frequency'];
+                        }
+
+                        $addedperiod = $totalperiod + $frequency;
+
+                        $day = $this->Teacher_model->getSetting('s0005');
+                        $period = $this->Teacher_model->getSetting('s0006');
+                        $periodcount = $day['value']*$period['value'];
+
+
+                        if($addedperiod > $periodcount){
+                            $classname = $this->Teacher_model->getClassByClassid($gradeList[$i]);
+                            $periodallowed[$i]['grade'] = $classname['classroom'];
+                            $periodallowed[$i]['count'] = $periodcount - $totalperiod;
+    //                        $i++;
+                        }
+                    }
+                }
+
+                $message = '';
+                if(isset($periodallowed)) {
+                    foreach ($periodallowed as $p) {
+                        $message .= 'Total period for grade ' . $p['grade'] . ' exceed limit, ' . $p['count'] . ' more period allowed</br>';
+                    }
+                }
+
+                if(isset($periodallowed)){
+                    $this->nativesession->set('error', $message);
+                    redirect('teacher/createSchedule');
+                }
+
+                for($i=0;$i<sizeof($teacherList);$i++)
+                {
+                    $tid = $teacherList[$i];
+                    $workinghour = $this->Teacher_model->getWorkingHour($tid);
+                    $workinghourList = explode('|', $workinghour['workinghour']);
+                    $workinghourcount = 0;
+                    foreach ($workinghourList as $w){
+                        $workinghourcount = $workinghourcount + $w;
+                    }
+
+                    $teachingfrequency = $this->Teacher_model->getTeachingFrequency($tid);
+                    $frequencycount = 0;
+                    foreach ($teachingfrequency as $f){
+                        $frequencycount = $frequencycount + $f['frequency'];
+                    }
+                    $addedfrequencycount = $frequencycount + $frequency;
+                    $frequencyallowed = $workinghourcount - $frequencycount;
+
+                    if($addedfrequencycount > $workinghourcount){
+                        $fallowed[$i]['allowed'] = $frequencyallowed;
+                    }
+                }
+
+                $message = '';
+                if(isset($fallowed)) {
+                    foreach ($fallowed as $p) {
+                        $message .= 'Teacher working hour not enough, '.$p['allowed'].' more frequency allowed</br>';
+                    }
+                }
+
+                if(isset($fallowed)){
+                    $this->nativesession->set('error', $message);
+                    redirect('teacher/createSchedule');
+                }
+
+
+                $gradeList = $this->input->post('grade');
+                $grade = '';
+                for($i=0;$i<sizeof($gradeList);$i++)
+                {
+                    $g = $gradeList[$i];
+                    $grade = $grade.'|'.$g;
+                }
+
+                $teacherList = $this->input->post('teacher');
+                $tid = '';
+                for($i=0;$i<sizeof($teacherList);$i++)
+                {
+                    $t = $teacherList[$i];
+                    $tid = $tid.'|'.$t;
+                }
+
+                $cid = '';
+                for($i=0;$i<sizeof($courseList);$i++)
+                {
+                    $c = $courseList[$i];
+                    $cid = $cid.'|'.$c;
+                }
+
+                $rid = '';
+                for($i=0;$i<sizeof($roomList);$i++)
+                {
+                    $c = $roomList[$i];
+                    $rid = $rid.'|'.$c;
+                }
+
+                $latestID = $this->Teacher_model->getScheduleSettingLatestID();
+                $latestID = $latestID['scid'];
+                $latestID = substr($latestID, 1);
+                $latestID = 's'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
+                $this->Teacher_model->addScheduleSetting($latestID, $tid, $cid, $grade, $frequency, 2, $rid);
+                $this->nativesession->set('success', 'Schedule Assign saved');
+                redirect('teacher/createSchedule');
+            }else{
+                $this->nativesession->set('error', 'Number of teacher, course and room should be the same');
+                redirect('teacher/createSchedule');
+            }
+
         }
         else{
             $this->nativesession->set('error', 'All field required');
@@ -2412,6 +2741,7 @@ class teacher extends CI_Controller {
     public function classesView()
     {
         $data['classes'] = $this->Teacher_model->getAllClassesWithTeacher();
+//        $data['classesnoteacher'] = $this->Teacher_model->getAllClassesWithNoTeacher();
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Teacher_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
@@ -2436,7 +2766,7 @@ class teacher extends CI_Controller {
             $latestID = substr($latestID, 1);
             $latestID = 'k'.str_pad((int) $latestID+1, 4, "0", STR_PAD_LEFT);
             $this->Teacher_model->addClass($latestID);
-                
+            
             $this->nativesession->set('success', 'Class Added');
             redirect('teacher/classesView/');
         }
@@ -2458,7 +2788,9 @@ class teacher extends CI_Controller {
         }
         $id = $this->general->decryptParaID($id, 'class');
         $this->form_validation->set_rules('class', 'Classroom', 'required');
-        $this->form_validation->set_rules('teacher', 'Homeroom Teacher', 'required');
+//        if($this->input->post('type') != 1){
+            $this->form_validation->set_rules('teacher', 'Homeroom Teacher', 'required');
+//        }
         $this->form_validation->set_error_delimiters('', '<br/>');
         if ($this->form_validation->run() == TRUE) {
             $this->Teacher_model->editClass($id);
@@ -2466,7 +2798,12 @@ class teacher extends CI_Controller {
             redirect('teacher/classesView/');
         }
 
-        $data['class'] = $this->Teacher_model->getClassByClassidWithTeacher($id);
+        $class = $this->Teacher_model->getClassByClassid($id);
+        if($teacher = $this->Teacher_model->getTeacherByClassid($id)){
+            $class['firstname'] = $teacher['firstname'];
+            $class['lastname'] = $teacher['lastname'];
+        }
+        $data['class'] = $class;
         $data['teacher'] = $this->Teacher_model->getAllTeacher();
         $data['title'] = 'SMS';
         $data['courses'] = $this->Teacher_model->getAllCoursesByTeacher($this->nativesession->get('id'));
@@ -2504,6 +2841,9 @@ class teacher extends CI_Controller {
         $data['sidebar'] = 'teacher/teacher_sidebar';
         $data['topnavigation'] = 'teacher/teacher_topnavigation';
         $data['content'] = 'includes/payments_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['orders'] = $this->Operation_model->getAllOutstandingPayment();
         $this->load->view($this->template, $data);
     }
 

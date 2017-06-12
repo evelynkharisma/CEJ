@@ -32,9 +32,11 @@
                                 <input type="text" class="form-control set-margin-bottom set-margin-top" name="class" placeholder="ex: 1_A" value="<?php echo set_value('class', isset($class['classroom']) ? $class['classroom'] : ''); ?>"/>
                             </div>
                         </div>
+<!--                        --><?php //if (isset($class['type']) && $class['type']==1){}else{ ?>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Homeroom</label>
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
+<!--                                <input type="hidden" name="teacher" value="--><?php //echo $class['teacherid']; ?><!--" />-->
                                 <select name="teacher" class="chosen-select form-control set-margin-bottom set-margin-top">
                                     <option disabled selected="selected"><?php echo $class['firstname']; ?> <?php echo $class['lastname']; ?></option>
                                     <?php foreach ($teacher as $t){?>
@@ -43,12 +45,19 @@
                                 </select>
                             </div>
                         </div>
+<!--                        --><?php //} ?>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Capacity</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12 set-margin-top">Capacity</label>
                             <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
                                 <input type="text" class="form-control set-margin-bottom set-margin-top" name="capacity" placeholder="Capacity" value="<?php echo set_value('capacity', isset($class['capacity']) ? $class['capacity'] : '30'); ?>"/>
                             </div>
                         </div>
+<!--                        <div class="form-group">-->
+<!--                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Collaborative/Elective Class</label>-->
+<!--                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">-->
+<!--                                <input type="checkbox" class="form-control set-margin-bottom set-margin-top" name="type" id="type" value="1" --><?php //echo (isset($class['type']) && $class['type']==1)?'checked':'' ?><!--/><label for="type"></label>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <button type="submit" class="btn btn-success set-margin-top"><i class="fa fa-edit"></i> Edit Class</button>
                         <?php echo form_close(); ?>
                     </div>

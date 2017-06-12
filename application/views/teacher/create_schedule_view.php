@@ -25,6 +25,7 @@
         <?php endif; ?>
 
         <div class="row">
+
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_content">
@@ -36,8 +37,8 @@
                                     <option disabled selected="selected">Teacher</option>
                                     <?php if($teachers){
                                         foreach ($teachers as $t){?>
-                                        <option value="<?php echo $t['teacherid']; ?>"><?php echo $t['firstname']; ?> <?php echo $t['lastname']; ?></option>
-                                    <?php }} ?>
+                                            <option value="<?php echo $t['teacherid']; ?>"><?php echo $t['firstname']; ?> <?php echo $t['lastname']; ?></option>
+                                        <?php }} ?>
                                 </select>
                             </div>
                         </div>
@@ -67,13 +68,13 @@
                                     }?>
                                 </select>
                             </div>
-<!--                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">-->
-<!--                                --><?php
-//                                 for($i=0; $i<13; $i++){
-//                                ?>
-<!--                                <input class="grade" type='checkbox' name='grade[]' value='--><?php //echo $i+1 ?><!--' id="check_--><?php //echo $i ?><!--" checked/><label style="width: auto; height: auto; padding: 10px; color: white; margin-right: 10px" for="check_--><?php //echo $i ?><!--">--><?php //echo $i+1 ?><!--</label>-->
-<!--                                --><?php //} ?>
-<!--                            </div>-->
+                            <!--                            <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">-->
+                            <!--                                --><?php
+                            //                                 for($i=0; $i<13; $i++){
+                            //                                ?>
+                            <!--                                <input class="grade" type='checkbox' name='grade[]' value='--><?php //echo $i+1 ?><!--' id="check_--><?php //echo $i ?><!--" checked/><label style="width: auto; height: auto; padding: 10px; color: white; margin-right: 10px" for="check_--><?php //echo $i ?><!--">--><?php //echo $i+1 ?><!--</label>-->
+                            <!--                                --><?php //} ?>
+                            <!--                            </div>-->
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Frequency</label>
@@ -82,7 +83,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success set-margin-top"><i class="fa fa-plus"></i> Add</button>
-<!--                        <a id="loaddata" class="btn btn-success set-margin-top"><i class="fa fa-plus"></i> Add</a>-->
+                        <!--                        <a id="loaddata" class="btn btn-success set-margin-top"><i class="fa fa-plus"></i> Add</a>-->
                         <?php echo form_close(); ?>
                     </div>
                 </div>
@@ -101,6 +102,7 @@
                                 <th>Course</th>
                                 <th>Grade</th>
                                 <th>Frequency</th>
+                                <th>Room</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -116,6 +118,7 @@
                                         <td><?php echo $info_db['coursename'] ?></td>
                                         <td><?php echo $info_db['grade'] ?></td>
                                         <td><?php echo $info_db['frequency'] ?></td>
+                                        <td>Classroom</td>
                                         <td width="20%">
                                             <?php
                                             $encrypted = $this->general->encryptParaID($info_db['scid'],'schedulesetting');
@@ -124,11 +127,32 @@
                                         </td>
                                     </tr>
                                 <?php }}
-                            else {?>
-                                <tr>
-                                    <td colspan="3"><?php echo 'no forms found' ?></td>
-                                </tr>
-                            <?php } ?>
+
+//                            else {?>
+<!--                                <tr>-->
+<!--                                    <td colspan="3">--><?php //echo 'no schedule course found' ?><!--</td>-->
+<!--                                </tr>-->
+<!--                            --><?php //} ?>
+<!--                            --><?php
+//                            if($special){
+//                            foreach($special as $info_db){ ?>
+<!--                            <tr>-->
+<!--                                <td>-->
+<!--                                    --><?php //echo $info_db['teacher'] ?>
+<!--                                </td>-->
+<!--                                <td>--><?php //echo $info_db['coursename'] ?><!--</td>-->
+<!--                                <td>--><?php //echo $info_db['grade'] ?><!--</td>-->
+<!--                                <td>--><?php //echo $info_db['frequency'] ?><!--</td>-->
+<!--                                <td>--><?php //if($info_db['type'] == 1){echo 'Collaborative in room '.$info_db['room'];}else{echo 'Elective in room '.$info_db['room'];} ?><!--</td>-->
+<!--                                <td width="20%">-->
+<!--                                    --><?php
+//                                    $encrypted = $this->general->encryptParaID($info_db['scid'],'schedulesetting');
+//                                    ?>
+<!--                                    <a href="--><?php //echo base_url() ?><!--index.php/teacher/deleteScheduleSetting/--><?php //echo $encrypted ?><!--" class="btn-success btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            --><?php //}}?>
+
 
                             </tbody>
                         </table>

@@ -226,6 +226,29 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getAllCollaborativeScheduleSetting(){
+        $this->db->select('*');
+        $this->db->join('course', 'course.courseid = schedule_course.courseid');
+        $this->db->where('schedule_course.type', 1);
+
+        $query = $this->db->get($this->schedule_course_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllElectiveScheduleSetting(){
+        $this->db->select('*');
+        $this->db->where('schedule_course.type', 2);
+
+        $query = $this->db->get($this->schedule_course_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getScheduleSettingLatestID(){
         $this->db->select('scid');
         $this->db->order_by("scid", "desc");
@@ -237,13 +260,15 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function addScheduleSetting($id, $t, $c, $grade, $f){
+    function addScheduleSetting($id, $t, $c, $grade, $f, $tp, $r){
         $data = array(
             'scid' => $id,
             'teacherid' => $t,
             'courseid' => $c,
             'grade' => $grade,
-            'frequency' => $f
+            'frequency' => $f,
+            'type' => $tp,
+            'room' => $r
         );
         $this->db->insert($this->schedule_course_table, $data);
     }
@@ -808,7 +833,7 @@ class Teacher_model extends CI_Model {
         }
     }
 
-    function getClassByClassidWithTeacher($id){
+    function getTeacherByClassid($id){
         $this->db->select('*');
         $this->db->join('teacher', 'teacher.teacherid = class.teacherid');
         $this->db->where('classid', $id);
@@ -1992,9 +2017,32 @@ class Teacher_model extends CI_Model {
         }
     }
 
+    function getAllClassesOfType($t){
+        $this->db->select('*');
+        $this->db->where('type', $t);
+
+        $query = $this->db->get($this->class_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getAllClassesWithTeacher(){
         $this->db->select('*');
         $this->db->join('teacher', 'teacher.teacherid = class.teacherid');
+
+        $query = $this->db->get($this->class_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllClassesWithNoTeacher(){
+        $this->db->select('*');
+        $this->db->join('teacher', 'teacher.teacherid = class.teacherid', 'left');
+        $this->db->where('teacher.teacherid', null);
 
         $query = $this->db->get($this->class_table);
 
@@ -2048,6 +2096,8 @@ class Teacher_model extends CI_Model {
             'teacherid' => $this->input->post('teacher'),
             'periode' =>  date('Y-m-d', now()),
             'capacity' =>  $this->input->post('capacity'),
+//            'type' =>  $this->input->post('type'),
+            'type' =>  0,
         );
         $this->db->insert($this->class_table, $data);
     }
