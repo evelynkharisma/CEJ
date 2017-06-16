@@ -52,6 +52,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });</script>
 
 
+    <!-- custom attachment button-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/component.css">
+
 
     <!-- iCheck -->
 <!--    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">-->
@@ -113,6 +117,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Custom Theme Scripts -->
     <script src="<?php echo base_url() ?>assets/js/custom.min.js"></script>
 
+    <!-- Custom Attachment Button Scripts -->
+    <script src="<?php echo base_url() ?>assets/js/custom-file-input.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/jquery.custom-file-input.js"></script>
 
 
     <!-- FastClick -->
@@ -143,6 +150,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
 
             $('#directoryView').dataTable();
+
+            $('#correspond').dataTable({
+                "ordering": false
+            });
 
             $('#duedate, #pick-date').daterangepicker({
                 singleDatePicker: true,

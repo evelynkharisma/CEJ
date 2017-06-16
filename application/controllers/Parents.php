@@ -472,8 +472,6 @@ class parents extends CI_Controller {
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
 
-
-
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
         $this->nativesession->set( 'classid', $student['classid'] );
@@ -482,6 +480,44 @@ class parents extends CI_Controller {
         $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
 
         $data['content'] = 'parents/parent_correspond_view';
+        $this->load->view($this->template, $data);
+    }
+    public function parent_correspond_compose()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+
+        $data['content'] = 'parents/parent_correspond_compose_view';
+        $this->load->view($this->template, $data);
+    }
+    public function parent_correspond_sent()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+
+        $data['content'] = 'parents/parent_correspond_sent_view';
         $this->load->view($this->template, $data);
     }
     public function payment_status()

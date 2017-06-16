@@ -43,7 +43,7 @@
                                             <thead>
                                             <tr>
                                                 <th>
-                                                    <div class="inbox-name">From</div>
+                                                    <div class="inbox-name">To</div>
                                                     <div class="inbox-attachment"></div>
                                                     <div class="inbox-subjects">Subject</div>
                                                     <div class="inbox-date">Date</div>
@@ -52,7 +52,7 @@
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <td class="inbox-unread">
+                                                <td>
                                                     <a href="#a">
                                                         <div class="inbox-name">Evelyn Kharisma</div>
                                                         <div class="inbox-attachment"><i class="fa fa-paperclip"></i></div>
@@ -62,7 +62,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="inbox-read">
+                                                <td>
                                                     <a href="#b">
                                                         <div class="inbox-name">Janis Giovani Tan</div>
                                                         <div class="inbox-attachment transparent"><i class="fa fa-paperclip"></i></div>
