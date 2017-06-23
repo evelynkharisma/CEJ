@@ -86,6 +86,8 @@
                     <li><a href="<?php echo base_url() ?>index.php/student/examScheduleView">Exam Schedule</a></li>
                 </ul>
             </li>
+            <li><a href="<?php echo base_url() ?>index.php/student/events"><i class="fa fa-bell"></i> Events <span class="badge bg-green"><?php echo $eventnotif ?></span> </a>
+            </li>
             <li><a href="<?php echo base_url() ?>index.php/student/forms"><i class="fa fa-download"></i>Download</span></a></li>
             <li><a href="<?php echo base_url()?>index.php/library/home" target="_blank"><i class="fa fa-book"></i> Library <span class="fa"></span></a>
             </li>

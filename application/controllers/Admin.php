@@ -76,18 +76,97 @@ class admin extends CI_Controller {
             redirect('admin/home');
         }
         $id = $this->general->decryptParaID($stid, 'student');
+        $this->form_validation->set_rules('familyname', 'familyname', 'required');
         $this->form_validation->set_rules('firstname', 'firstname', 'required');
         $this->form_validation->set_rules('lastname', 'lastname', 'required');
         $this->form_validation->set_rules('gender', 'gender', 'required');
-        $this->form_validation->set_rules('phone', 'phone', 'required');
-        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
-        $this->form_validation->set_rules('address', 'address', 'required');
         $this->form_validation->set_rules('dateofbirth', 'date of birth', 'required');
         $this->form_validation->set_rules('placeofbirth', 'place of birth', 'required');
         $this->form_validation->set_rules('religion', 'religion', 'required');
-        $this->form_validation->set_rules('elementary', 'elementary', 'required');
-        $this->form_validation->set_rules('juniorhigh', 'junior high', 'required');
-        $this->form_validation->set_rules('seniorhigh', 'senior high', 'required');
+        $this->form_validation->set_rules('phone', 'phone', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('nationality', 'nationality', 'required');
+        $this->form_validation->set_rules('ethnic', 'ethnic', 'required');
+        $this->form_validation->set_rules('citizenship', 'citizenship', 'required');
+        $this->form_validation->set_rules('passportcountry', 'passport country', 'required');
+        $this->form_validation->set_rules('passportexpired', 'passport expired', 'required');
+        $this->form_validation->set_rules('idcardtype', 'ID card type', 'required');
+        $this->form_validation->set_rules('address', 'address', 'required');
+
+        $this->form_validation->set_rules('rcname', 'recent school name', 'required');
+        $this->form_validation->set_rules('rccontact', 'recent school contact person', 'required');
+        $this->form_validation->set_rules('rcposition', 'recent school contact person position', 'required');
+        $this->form_validation->set_rules('rcemail', 'recent school contact person email', 'required|valid_email');
+        $this->form_validation->set_rules('rcphone', 'recent school contact person phone', 'required');
+        $this->form_validation->set_rules('rcreason', 'reason leaving recent school', 'required');
+
+        $this->form_validation->set_rules('cdlearningdiff', 'learning difficulties', 'required');
+        $this->form_validation->set_rules('cdlearningdiffnature', 'nature of learning difficlties', 'required');
+        $this->form_validation->set_rules('cdacademicsuport', 'academic difficulties', 'required');
+        $this->form_validation->set_rules('cdacademicsuportnature', 'nature of academic support', 'required');
+        $this->form_validation->set_rules('cdtalented', 'gift or talent', 'required');
+        $this->form_validation->set_rules('cdtalenteddetail', 'nature of the gift', 'required');
+        $this->form_validation->set_rules('cdnativelang', 'native language', 'required');
+        $this->form_validation->set_rules('cdsecondlang', 'second language', 'required');
+        $this->form_validation->set_rules('cdenglishproficiency', 'english proficiency', 'required');
+        $this->form_validation->set_rules('cdlearningenglish', 'learning english duration', 'required');
+        $this->form_validation->set_rules('cdlangathome', 'language at home', 'required');
+        $this->form_validation->set_rules('cdlangproficient', 'other proficient language', 'required');
+        $this->form_validation->set_rules('cdprevcountry', 'previous country residence', 'required');
+        $this->form_validation->set_rules('cdstudiedotherlang', 'studied language  other than english', 'required');
+        $this->form_validation->set_rules('cddifficultvocab', 'difficulties in acquiring language', 'required');
+        $this->form_validation->set_rules('cdfirstlangSupport', 'first language support', 'required');
+        $this->form_validation->set_rules('cdvocabEnglishSupportDetail', 'english suport detail', 'required');
+
+        $this->form_validation->set_rules('hrallegies', 'allergies', 'required');
+        $this->form_validation->set_rules('hrallegiesdetail', 'allergies detail', 'required');
+        $this->form_validation->set_rules('hrmedication', 'required medication detail', 'required');
+        $this->form_validation->set_rules('hrmedicationdetail', 'detail of required medication', 'required');
+        $this->form_validation->set_rules('hrpsychologicalAssessment', 'psychological assessment', 'required');
+        $this->form_validation->set_rules('hrpsychologicalAssessmentdetail', 'nature of psychological assessment', 'required');
+        $this->form_validation->set_rules('hrhearingSpeechDifficulty', 'hearing and speech difficulty', 'required');
+        $this->form_validation->set_rules('hrhearingSpeechDifficultydetail', 'nature of hearing and speech difficulty', 'required');
+        $this->form_validation->set_rules('hrbehaviouralDifficulty', 'behavioural difficulty', 'required');
+        $this->form_validation->set_rules('hrbehaviouralDifficultydetail', 'nature of behavioural difficulty', 'required');
+        $this->form_validation->set_rules('hrother', 'other detail', 'required');
+        $this->form_validation->set_rules('hrotherinformation', 'other comments/information', 'required');
+        $this->form_validation->set_rules('hreyesight', 'eyesight', 'required');
+        $this->form_validation->set_rules('hrhearing', 'hearing', 'required');
+        $this->form_validation->set_rules('hrfoodallergies', 'food allergies', 'required');
+        $this->form_validation->set_rules('hrissueexplanation', 'other issues explanation', 'required');
+        $this->form_validation->set_rules('hrdocname', 'doctor name', 'required');
+        $this->form_validation->set_rules('hrdocphone', 'doctor phone', 'required');
+        $this->form_validation->set_rules('hrecname', 'emergency contact name', 'required');
+        $this->form_validation->set_rules('hrecphone', 'emergency contact phone', 'required');
+        $this->form_validation->set_rules('hrecrelationship', 'emergency contact relationship', 'required');
+
+        $this->form_validation->set_rules('vchepatitisb', 'hepatitis b', 'required');
+        $this->form_validation->set_rules('vchepatitisbyear', 'hepatitis b year', 'required');
+        $this->form_validation->set_rules('vcmeasles', 'measles, mumps rubella', 'required');
+        $this->form_validation->set_rules('vcmeaslesyear', 'measles, mumps rubella', 'required');
+        $this->form_validation->set_rules('vcpolio', 'polio', 'required');
+        $this->form_validation->set_rules('vcpolioyear', 'polio year', 'required');
+        $this->form_validation->set_rules('vctetanus', 'tetanus', 'required');
+        $this->form_validation->set_rules('vctetanusyear', 'tetanus year', 'required');
+        $this->form_validation->set_rules('vchib', 'HiB', 'required');
+        $this->form_validation->set_rules('vchibyear', 'HiB year', 'required');
+        $this->form_validation->set_rules('vcmenzb', 'MenzB', 'required');
+        $this->form_validation->set_rules('vcmenzbyear', 'MenzB year', 'required');
+        $this->form_validation->set_rules('vcmenzb', 'MenzB', 'required');
+        $this->form_validation->set_rules('vcmenzbyear', 'MenzB year', 'required');
+        $this->form_validation->set_rules('vctb', 'TB', 'required');
+        $this->form_validation->set_rules('vctbyear', 'TB year', 'required');
+
+        $this->form_validation->set_rules('mp1', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp2', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp3', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp4', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp5', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp6', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp7', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp8', 'medical problem', 'required');
+
+
         $studentid = $this->input->post('studentid');
 
         if ($this->input->post('password')):
@@ -97,8 +176,8 @@ class admin extends CI_Controller {
 
         $this->form_validation->set_error_delimiters('', '<br/>');
 
-
         if ($this->form_validation->run() == TRUE) {
+
             if ($_FILES['photo']['error'] != 4) {
                 $config['upload_path'] = $this->profilestudentphotopath;
                 $config['allowed_types'] = "jpg|jpeg|png|JPG|JPEG|PNG";
@@ -134,9 +213,24 @@ class admin extends CI_Controller {
             }
 
             $this->Student_model->editProfile($studentid);
+            $this->Admin_model->editStudentRecentSchool($studentid);
+            $this->Admin_model->editStudentChildDevelopment($studentid);
+            $this->Admin_model->editStudentVaccination($studentid);
+            $this->Admin_model->editStudentHealthRecord($studentid);
+
+            for($i=1;$i<10;$i++) {
+                $id = $this->input->post('mp'.$i.'id');
+                $prob = $this->input->post('mp'.$i.'problem');
+                $status = $this->input->post('mp'.$i);
+                $severity = $this->input->post('mp'.$i.'severity');
+                $med = $this->input->post('mp'.$i.'medication');
+                $act = $this->input->post('mp'.$i.'action');
+
+                $this->Admin_model->editStudentMedicalProblem($id, $prob, $status, $severity, $med, $act);
+            }
             $this->nativesession->set('success', 'Profile saved');
             $eid = $this->general->encryptParaID($id, 'student');
-            redirect('admin/editStudent/'.$eid);
+            redirect('admin/editStudent/'.$stid);
         }
 
         $data['title'] = 'SMS';
@@ -146,10 +240,142 @@ class admin extends CI_Controller {
         $data['allteacher']  = $this->Teacher_model->getAllTeacher();
         $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
 
+        $data['studentRecentSchool']  = $this->Admin_model->getStudentRecentSchoolByID($id);
+        $data['studentChildDevelopment']  = $this->Admin_model->getStudentChildDevelopmentDataByID($id);
+        $data['studentHealthRecord']  = $this->Admin_model->getStudentHealthRecordDataByID($id);
+        $data['studentVaccination']  = $this->Admin_model->getStudentVaccinationDataByID($id);
+        $data['studentMedicalProblem']  = $this->Admin_model->getStudentMedicalProblemDataByID($id);
         $data['classes']  = $this->Admin_model->getAllClass();
         $data['sidebar'] = 'admin/admin_sidebar';
         $data['topnavigation'] = 'admin/admin_topnavigation';
         $data['content'] = 'admin/admin_edit_student_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function addStudentEducational($stid){
+        $this->form_validation->set_rules('school', 'school name', 'required');
+        $this->form_validation->set_rules('start', 'start year', 'required');
+        $this->form_validation->set_rules('end', 'finish year', 'required');
+        $this->form_validation->set_rules('highest', 'highest grade', 'required');
+        $this->form_validation->set_rules('language', 'language', 'required');
+
+        $id = $this->general->decryptParaID($stid, 'student');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $latestID =  $this->Admin_model->getStudentEducationalLatestID();
+            if($latestID) {
+                $latestID = $latestID['seid'];
+                $latestID = substr($latestID, 1);
+//                    ECHO $latestID;
+                $latestID = 'e' . str_pad((int)$latestID + 1, 8, "0", STR_PAD_LEFT);
+            } else {
+                $latestID = 'e000000001';
+            }
+            $this->Admin_model->addStudentEducational($latestID, $id);
+            $this->nativesession->set('success', 'Student Educational saved');
+
+
+
+            $data['title'] = 'SMS';
+            $data['student']  = $this->Student_model->getProfileDataByID($id);
+            $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+            $data['allcourses']  = $this->Admin_model->getAllCourses();
+            $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+            $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+            $data['studentEducational']  = $this->Admin_model->getStudentEducationalByID($id);
+            $data['studentRecentSchool']  = $this->Admin_model->getStudentRecentSchoolByID($id);
+            $data['studentRecentSchool']  = $this->Admin_model->getStudentRecentSchoolByID($id);
+            $data['studentChildDevelopment']  = $this->Admin_model->getStudentChildDevelopmentDataByID($id);
+            $data['studentHealthRecord']  = $this->Admin_model->getStudentHealthRecordDataByID($id);
+            $data['studentVaccination']  = $this->Admin_model->getStudentVaccinationDataByID($id);
+            $data['studentMedicalProblem']  = $this->Admin_model->getStudentMedicalProblemDataByID($id);
+            $data['classes']  = $this->Admin_model->getAllClass();
+            $data['sidebar'] = 'admin/admin_sidebar';
+            $data['topnavigation'] = 'admin/admin_topnavigation';
+            $data['content'] = 'admin/admin_edit_student_educational_view';
+            $this->load->view($this->template, $data);
+
+        }
+
+        else {
+
+                $this->nativesession->set('error', 'All field are required');
+                redirect('library/studentEducational/' . $id);
+        }
+
+
+    }
+
+    public function editStudentEducational($id){
+        $this->form_validation->set_rules('school', 'school name', 'required');
+        $this->form_validation->set_rules('start', 'start year', 'required');
+        $this->form_validation->set_rules('end', 'finish year', 'required');
+        $this->form_validation->set_rules('highest', 'highest grade', 'required');
+        $this->form_validation->set_rules('language', 'language', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Admin_model->editStudentEducational($id);
+            $this->nativesession->set('success', 'Student Educational saved');
+
+            $data['title'] = 'SMS';
+            $data['student']  = $this->Student_model->getProfileDataByID($id);
+            $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+            $data['allcourses']  = $this->Admin_model->getAllCourses();
+            $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+            $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+            $data['studentEducational']  = $this->Admin_model->getStudentEducationalByID($id);
+            $data['studentRecentSchool']  = $this->Admin_model->getStudentRecentSchoolByID($id);
+            $data['studentRecentSchool']  = $this->Admin_model->getStudentRecentSchoolByID($id);
+            $data['studentChildDevelopment']  = $this->Admin_model->getStudentChildDevelopmentDataByID($id);
+            $data['studentHealthRecord']  = $this->Admin_model->getStudentHealthRecordDataByID($id);
+            $data['studentVaccination']  = $this->Admin_model->getStudentVaccinationDataByID($id);
+            $data['studentMedicalProblem']  = $this->Admin_model->getStudentMedicalProblemDataByID($id);
+            $data['classes']  = $this->Admin_model->getAllClass();
+            $data['sidebar'] = 'admin/admin_sidebar';
+            $data['topnavigation'] = 'admin/admin_topnavigation';
+            $data['content'] = 'admin/admin_edit_student_educational_view';
+            $this->load->view($this->template, $data);
+
+        }
+
+        else {
+
+            $this->nativesession->set('error', 'All field are required');
+            redirect('library/studentEducational/' . $id);
+        }
+
+
+    }
+
+    public function studentEducational($stid){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0003') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($stid, 'student');
+
+        $data['title'] = 'SMS';
+        $data['student']  = $this->Student_model->getProfileDataByID($id);
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['studentEducational']  = $this->Admin_model->getStudentEducationalByID($id);
+        $data['studentRecentSchool']  = $this->Admin_model->getStudentRecentSchoolByID($id);
+        $data['studentRecentSchool']  = $this->Admin_model->getStudentRecentSchoolByID($id);
+        $data['studentChildDevelopment']  = $this->Admin_model->getStudentChildDevelopmentDataByID($id);
+        $data['studentHealthRecord']  = $this->Admin_model->getStudentHealthRecordDataByID($id);
+        $data['studentVaccination']  = $this->Admin_model->getStudentVaccinationDataByID($id);
+        $data['studentMedicalProblem']  = $this->Admin_model->getStudentMedicalProblemDataByID($id);
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['content'] = 'admin/admin_edit_student_educational_view';
         $this->load->view($this->template, $data);
     }
 
@@ -174,23 +400,130 @@ class admin extends CI_Controller {
             $newstudentid = 'm' . $value;
         }
 
+        $this->form_validation->set_rules('familyname', 'familyname', 'required');
         $this->form_validation->set_rules('firstname', 'firstname', 'required');
         $this->form_validation->set_rules('lastname', 'lastname', 'required');
         $this->form_validation->set_rules('gender', 'gender', 'required');
-        $this->form_validation->set_rules('phone', 'phone', 'required');
-        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
-        $this->form_validation->set_rules('address', 'address', 'required');
         $this->form_validation->set_rules('dateofbirth', 'date of birth', 'required');
         $this->form_validation->set_rules('placeofbirth', 'place of birth', 'required');
         $this->form_validation->set_rules('religion', 'religion', 'required');
-        $this->form_validation->set_rules('elementary', 'elementary', 'required');
-        $this->form_validation->set_rules('juniorhigh', 'junior high', 'required');
-        $this->form_validation->set_rules('seniorhigh', 'senior high', 'required');
+        $this->form_validation->set_rules('phone', 'phone', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('nationality', 'nationality', 'required');
+        $this->form_validation->set_rules('ethnic', 'ethnic', 'required');
+        $this->form_validation->set_rules('citizenship', 'citizenship', 'required');
+        $this->form_validation->set_rules('passportcountry', 'passport country', 'required');
+        $this->form_validation->set_rules('passportexpired', 'passport expired', 'required');
+        $this->form_validation->set_rules('idcardtype', 'ID card type', 'required');
+        $this->form_validation->set_rules('address', 'address', 'required');
+
+        $this->form_validation->set_rules('rcname', 'recent school name', 'required');
+        $this->form_validation->set_rules('rccontact', 'recent school contact person', 'required');
+        $this->form_validation->set_rules('rcposition', 'recent school contact person position', 'required');
+        $this->form_validation->set_rules('rcemail', 'recent school contact person email', 'required|valid_email');
+        $this->form_validation->set_rules('rcphone', 'recent school contact person phone', 'required');
+        $this->form_validation->set_rules('rcreason', 'reason leaving recent school', 'required');
+
+        $this->form_validation->set_rules('cdlearningdiff', 'learning difficulties', 'required');
+        $this->form_validation->set_rules('cdlearningdiffnature', 'nature of learning difficlties', 'required');
+        $this->form_validation->set_rules('cdacademicsuport', 'academic difficulties', 'required');
+        $this->form_validation->set_rules('cdacademicsuportnature', 'nature of academic support', 'required');
+        $this->form_validation->set_rules('cdtalented', 'gift or talent', 'required');
+        $this->form_validation->set_rules('cdtalenteddetail', 'nature of the gift', 'required');
+        $this->form_validation->set_rules('cdnativelang', 'native language', 'required');
+        $this->form_validation->set_rules('cdsecondlang', 'second language', 'required');
+        $this->form_validation->set_rules('cdenglishproficiency', 'english proficiency', 'required');
+        $this->form_validation->set_rules('cdlearningenglish', 'learning english duration', 'required');
+        $this->form_validation->set_rules('cdlangathome', 'language at home', 'required');
+        $this->form_validation->set_rules('cdlangproficient', 'other proficient language', 'required');
+        $this->form_validation->set_rules('cdprevcountry', 'previous country residence', 'required');
+        $this->form_validation->set_rules('cdstudiedotherlang', 'studied language  other than english', 'required');
+        $this->form_validation->set_rules('cddifficultvocab', 'difficulties in acquiring language', 'required');
+        $this->form_validation->set_rules('cdfirstlangSupport', 'first language support', 'required');
+        $this->form_validation->set_rules('cdvocabEnglishSupportDetail', 'english suport detail', 'required');
+
+        $this->form_validation->set_rules('hrallegies', 'allergies', 'required');
+        $this->form_validation->set_rules('hrallegiesdetail', 'allergies detail', 'required');
+        $this->form_validation->set_rules('hrmedication', 'required medication detail', 'required');
+        $this->form_validation->set_rules('hrmedicationdetail', 'detail of required medication', 'required');
+        $this->form_validation->set_rules('hrpsychologicalAssessment', 'psychological assessment', 'required');
+        $this->form_validation->set_rules('hrpsychologicalAssessmentdetail', 'nature of psychological assessment', 'required');
+        $this->form_validation->set_rules('hrhearingSpeechDifficulty', 'hearing and speech difficulty', 'required');
+        $this->form_validation->set_rules('hrhearingSpeechDifficultydetail', 'nature of hearing and speech difficulty', 'required');
+        $this->form_validation->set_rules('hrbehaviouralDifficulty', 'behavioural difficulty', 'required');
+        $this->form_validation->set_rules('hrbehaviouralDifficultydetail', 'nature of behavioural difficulty', 'required');
+        $this->form_validation->set_rules('hrother', 'other detail', 'required');
+        $this->form_validation->set_rules('hrotherinformation', 'other comments/information', 'required');
+        $this->form_validation->set_rules('hreyesight', 'eyesight', 'required');
+        $this->form_validation->set_rules('hrhearing', 'hearing', 'required');
+        $this->form_validation->set_rules('hrfoodallergies', 'food allergies', 'required');
+        $this->form_validation->set_rules('hrissueexplanation', 'other issues explanation', 'required');
+        $this->form_validation->set_rules('hrdocname', 'doctor name', 'required');
+        $this->form_validation->set_rules('hrdocphone', 'doctor phone', 'required');
+        $this->form_validation->set_rules('hrecname', 'emergency contact name', 'required');
+        $this->form_validation->set_rules('hrecphone', 'emergency contact phone', 'required');
+        $this->form_validation->set_rules('hrecrelationship', 'emergency contact relationship', 'required');
+
+        $this->form_validation->set_rules('vchepatitisb', 'hepatitis b', 'required');
+        $this->form_validation->set_rules('vchepatitisbyear', 'hepatitis b year', 'required');
+        $this->form_validation->set_rules('vcmeasles', 'measles, mumps rubella', 'required');
+        $this->form_validation->set_rules('vcmeaslesyear', 'measles, mumps rubella', 'required');
+        $this->form_validation->set_rules('vcpolio', 'polio', 'required');
+        $this->form_validation->set_rules('vcpolioyear', 'polio year', 'required');
+        $this->form_validation->set_rules('vctetanus', 'tetanus', 'required');
+        $this->form_validation->set_rules('vctetanusyear', 'tetanus year', 'required');
+        $this->form_validation->set_rules('vchib', 'HiB', 'required');
+        $this->form_validation->set_rules('vchibyear', 'HiB year', 'required');
+        $this->form_validation->set_rules('vcmenzb', 'MenzB', 'required');
+        $this->form_validation->set_rules('vcmenzbyear', 'MenzB year', 'required');
+        $this->form_validation->set_rules('vcmenzb', 'MenzB', 'required');
+        $this->form_validation->set_rules('vcmenzbyear', 'MenzB year', 'required');
+        $this->form_validation->set_rules('vctb', 'TB', 'required');
+        $this->form_validation->set_rules('vctbyear', 'TB year', 'required');
+
+        $this->form_validation->set_rules('mp1', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp2', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp3', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp4', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp5', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp6', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp7', 'medical problem', 'required');
+        $this->form_validation->set_rules('mp8', 'medical problem', 'required');
+
 
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
             $this->Student_model->addStudent($newstudentid);
+            $this->Admin_model->addStudentRecentSchool($newstudentid);
+            $this->Admin_model->addStudentChildDevelopment($newstudentid);
+            $this->Admin_model->addStudentHealthRecord($newstudentid);
+            $this->Admin_model->addStudentVaccination($newstudentid);
+            for($i=1;$i<10;$i++) {
+
+                $latestID =  $this->Admin_model->getStudentMedicalProblemLatestID();
+                if($latestID) {
+                    $latestID = $latestID['hpid'];
+                    $latestID = substr($latestID, 1);
+//                    ECHO $latestID;
+                    $latestID = 'h' . str_pad((int)$latestID + 1, 8, "0", STR_PAD_LEFT);
+                } else {
+                    $latestID = 'h000000001';
+                }
+                $hpid = $latestID;
+                $stdid = $newstudentid;
+                $prob = $this->input->post('mp'.$i.'problem');
+                $status = $this->input->post('mp'.$i);
+                $severity = $this->input->post('mp'.$i.'severity');
+                $med = $this->input->post('mp'.$i.'medication');
+                $act = $this->input->post('mp'.$i.'action');
+//                echo "NOMOR ".$i;
+//                echo $hpid.";  ".$stdid.";  ".$prob.";  ".$status;
+                $this->Admin_model->addStudentMedicalProblem($hpid, $stdid, $prob, $status, $severity, $med, $act);
+
+            }
+
+
             if ($_FILES['photo']['error'] != 4) {
                 $config['upload_path'] = $this->profilestudentphotopath;
                 $config['allowed_types'] = "jpg|jpeg|png|JPG|JPEG|PNG";
@@ -224,6 +557,10 @@ class admin extends CI_Controller {
                         $this->nativesession->set('error', 'Upload Photo Failed, try again !');
                         redirect(current_url());
                     }
+                }
+            } else {
+                if ($this->Student_model->editProfilePhoto($newstudentid, "default.png")) {
+                    $this->nativesession->set('success', 'Photo Changed');
                 }
             }
             $this->nativesession->set('success', 'New Student Added');
@@ -434,6 +771,11 @@ class admin extends CI_Controller {
                     }
                 }
             }
+            else {
+                if ($this->Parent_model->editProfilePhoto($newsparentid, "default.png")) {
+                    $this->nativesession->set('success', 'Photo Changed');
+                }
+            }
             $this->nativesession->set('success', 'New Parent Added');
             $eid = $this->general->encryptParaID($newsparentid, 'parent');
             redirect('admin/editParent/'.$eid);
@@ -573,6 +915,7 @@ class admin extends CI_Controller {
         $data['topnavigation'] = 'admin/admin_topnavigation';
         $data['allcourses']  = $this->Admin_model->getAllCourses();
         $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
 
         $data['classes']  = $this->Admin_model->getAllClass();
         $data['sidebar'] = 'admin/admin_sidebar';
@@ -3111,6 +3454,23 @@ class admin extends CI_Controller {
             $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->nativesession->get('id'));
         }
         $data['content'] = 'admin/admin_event_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function eventDetail($id){
+        $id = $this->general->decryptParaID($id, 'event');
+
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['event'] = $this->Teacher_model->getEvent($id);
+
+        $data['content'] = 'admin/admin_event_detail_view';
         $this->load->view($this->template, $data);
     }
 

@@ -33,7 +33,7 @@
                                             <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $user['photo']?>" alt="Avatar" title="Change the avatar">
                                             <?php
                                         }
-                                        else if( $this->nativesession->get('is_login_library') == 'librarian'){echo "Aa";?>
+                                        else if( $this->nativesession->get('is_login_library') == 'librarian'){?>
                                             <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/library/profile/<?php echo $user['photo']?>" alt="Avatar" title="Change the avatar">
                                             <?php
                                         }

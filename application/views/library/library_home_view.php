@@ -94,7 +94,20 @@
 <!-------------------------------------------  NEWS ----------------------------------->
 <div class="gallery" id="facilities">
     <div class="container">
+        <?php $privilege = $this->general->checkPrivilege($this->nativesession->get('librole'), 'p0043');
+        if($privilege == 1){?>
+            <div class="row" style="margin-bottom: 3vw">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_content">
+                            <a href="<?php echo base_url() ?>index.php/library/allNews" class="btn-primary btn set-right"><i class="fa fa-edit"></i>Edit Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
         <h5 class="title-w3">what’s New on Library & Knowledge Center</h5>
+
         <div class="col-md-1"></div>
         <div class="col-md-10" style=" margin: auto;">
             <ul class="list-group wow fadeInUp animated" data-wow-delay=".5s">
@@ -136,50 +149,56 @@
 
 
 <!-------------------------------------------  USEFUL LINKS  ----------------------------------->
-<div class="services-w3layouts" id="useful_link">
-    <div class="container">
-        <h5 class="title-w3">useful links</h5>
-            <div class="panel-group" id="accordion">
-                <?php
-                if($useful_link_categories) {
-                    $i =0;
-                    foreach ($useful_link_categories as $useful_link_category) {
-                ?>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i?>"><?php echo $useful_link_category['name']?></a>
-                                </h4>
-                            </div>
-                            <div id="collapse<?php echo $i?>" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul style="margin-left: 20px">
-                                        <?php
-                                        if($useful_links) {
-                                            foreach ($useful_links as $useful_link) {
-                                                if($useful_link['category'] == $useful_link_category['category']) {
-                                                    ?>
-                                                    <li>
-                                                        <a href="<?php echo $useful_link['link'] ?>" target="_blank"><?php echo $useful_link['name'] ?></a>
-                                                    </li>
-                                                    <?php
+    <div class="services-w3layouts" id="useful_link">
+        <div class="container">
 
+            <h5 class="title-w3">useful links</h5>
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div class="panel-group" id="accordion">
+                    <?php
+                    if($useful_link_categories) {
+                        $i =0;
+                        foreach ($useful_link_categories as $useful_link_category) {
+                            ?>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i?>"><?php echo $useful_link_category['name']?></a>
+                                    </h4>
+                                </div>
+                                <div id="collapse<?php echo $i?>" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul style="margin-left: 20px">
+                                            <?php
+                                            if($useful_links) {
+                                                foreach ($useful_links as $useful_link) {
+                                                    if($useful_link['category'] == $useful_link_category['category']) {
+                                                        ?>
+                                                        <li>
+                                                            <a href="<?php echo $useful_link['link'] ?>" target="_blank"><?php echo $useful_link['name'] ?></a>
+                                                        </li>
+                                                        <?php
+
+                                                    }
                                                 }
-                                            }
 
-                                        }
-                                        ?>
-                                    </ul>
+                                            }
+                                            ?>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                <?php
-                        $i++;
-                    }
+                            <?php
+                            $i++;
+                        }
 
-                }
-                ?>
+                    }
+                    ?>
+                </div>
             </div>
+
+
         </div>
     </div>
 </div>

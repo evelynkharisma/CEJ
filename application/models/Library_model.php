@@ -7,6 +7,7 @@ class Library_model extends CI_Model {
     var $library_collection_table = 'library_collection';
     var $library_collection_authors_table = 'library_collection_authors';
     var $library_collection_subjects_table = 'library_collection_subjects';
+    var $library_borrowed_collection_table = 'library_borrowed';
 //    var $course_table = 'course';
 //    var $course_assign_table = 'course_assign';
 //    var $attendance_table = 'attendance';
@@ -312,9 +313,59 @@ class Library_model extends CI_Model {
     }
 
 
-
     function getCollectionSubjectByCollectionID($lcid) {
         $sql = 'SELECT * FROM library_collection_subjects WHERE lcid=\''.$lcid.'\'';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+
+    function getServiceDataByID($id) {
+        $this->db->select('*');
+        $this->db->where('serviceid', $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_service_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editService($id) {
+        $data = array(
+            'title' => $this->input->post('title'),
+            'content' => $this->input->post('content'),
+        );
+        $this->db->where('serviceid', $id);
+        $this->db->update($this->library_service_table, $data);
+    }
+
+    function getBorrowedCollection() {
+        $sql = 'SELECT * FROM library_borrowed';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getBorrowedCollectionDataByID($id){
+        $this->db->select('*');
+        $this->db->where('lbid',$id);
+
+
+        $query = $this->db->get($this->library_borrowed_collection_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getTotalBorrowedCollection() {
+        $sql = 'SELECT lbid, lcid, count(library_borrowed.lbid) as totalBorrowed FROM library_borrowed WHERE library_borrowed.status=\'Borrowed\'';
 
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {

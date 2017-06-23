@@ -58,7 +58,15 @@
                                             </div>
                                         </td>
                                         <td><?php echo ucfirst($student['firstname']) ?> <?php echo ucfirst($student['lastname']) ?></td>
-                                        <td><?php echo $student['classroom'] ?></td>
+                                        <td><?php
+                                            if($classes) {
+                                                foreach ($classes as $class) {
+                                                    if(strcmp($class['classid'], $student['classid'])==0){
+                                                        echo $class['classroom'];
+                                                    }
+                                                }
+
+                                            } ?></td>
                                         <td><?php echo $student['address'] ?></td>
                                         <td><?php echo $student['email'] ?></td>
                                         <td><?php echo $student['phone'] ?></td>

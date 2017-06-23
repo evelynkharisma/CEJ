@@ -38,11 +38,19 @@
                         <li><a href="<?php echo base_url() ?>index.php/admin/addStaff ">Add Staff</a></li>
                     <?php }
 
+                    $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0002');
+                    if($privilege == 1){
+                        ?>
+                        <li><a href="<?php echo base_url() ?>index.php/admin/addStudent">Add Student</a></li>
+                    <?php }
+
                     $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0004');
                     if($privilege == 1){
                         ?>
                         <li><a href="<?php echo base_url() ?>index.php/admin/addTeacher">Add Teacher</a></li>
                     <?php }
+
+
 
                      ?>
                     <li><a href="<?php echo base_url() ?>index.php/admin/parentView">Parents</a></li>

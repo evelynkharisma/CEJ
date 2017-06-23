@@ -24,6 +24,7 @@
                                         <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $student['photo']?>" alt="Avatar" title="Change the avatar">
                                     </div>
                                 </div>
+                                <input class="btn btn-success set-margin-bottom set-margin-top" type="file" name="photo" />
                             </div>
                             <div class="col-md-7 col-sm-12 col-xs-12">
                                 <h3><?php echo $student['firstname'].' '.$student['lastname'] ?> </h3>

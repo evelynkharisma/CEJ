@@ -37,48 +37,34 @@
                             <thead>
                             <tr>
 <!--                                <th width="11%">Number</th>-->
-                                <th width="10%">ISBN</th>
-                                <th >Title</th>
-                                <th width="20%">Type</th>
-                                <th width="5%">Availability</th>
-                                <th width="5%">Borrowed</th>
-                                <th width="35%">Action</th>
+                                <th width="5%">ID</th>
+                                <th width="15%">Name</th>
+                                <th width="10%">Role</th>
+                                <th width="10%">Borrowed Date</th>
+                                <th width="10%">Returned Date</th>
+                                <th width="10%">Status</th>
+                                <th width="15%">Action</th>
 
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            if($collections) {
-                                foreach ($collections as $collection) {
+                            if($borrowed) {
+                                foreach ($borrowed as $bcollection) {
                             ?>
                                     <tr>
 <!--                                        <td>--><?php //echo $collection['lcid'] ?><!--</td>-->
-                                        <td><?php echo $collection['isbn'] ?></td>
-                                        <td><?php echo $collection['title'] ?></td>
-                                        <td><?php echo $collection['materialType'] ?></td>
-                                        <td><?php echo $collection['stock'] ?></td>
-                                        <td><?php
-                                            $found = 0;
-                                            if($totalborrowed) {
-                                                foreach ($totalborrowed as $t) {
-                                                    if(strcmp($t['lcid'], $collection['lcid'])==0) {
-                                                        echo $t['totalBorrowed'];
-                                                        $found = 1;
-                                                    }
-                                                }
-                                            }
-                                            if(!$found) {
-                                                echo '0';
-                                            }
-                                            ?></td>
-
+                                        <td><?php echo $bcollection['userid'] ?></td>
+                                        <td><?php echo $bcollection['firstname'] ?></td>
+                                        <td><?php echo $bcollection['usertype'] ?></td>
+                                        <td><?php echo $bcollection['borrowed_date'] ?></td>
+                                        <td><?php echo $bcollection['returned_date'] ?></td>
+                                        <td><?php echo $bcollection['status'] ?></td>
                                         <td>
                                             <?php
-                                            $encrypted = $this->general->encryptParaID($collection['lcid'],'collection');
+                                            $encrypted = $this->general->encryptParaID($bcollection['lbid'],'libborrowed');
                                             ?>
-                                            <a href="<?php echo base_url() ?>index.php/library/collectionAuthor/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-eye"></i> Authors</a>
-                                            <a href="<?php echo base_url() ?>index.php/library/collectionSubject/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-eye"></i> Subject</a>
-                                            <a href="<?php echo base_url() ?>index.php/library/editCollection/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-edit"></i> Edit</a>
+                                            <a href="<?php echo base_url() ?>index.php/library/editBorrowedCollection/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-edit"></i> Edit</a>
                                             <a href="<?php echo base_url() ?>index.php/library/deleteCollection/<?php echo $encrypted?>" class="btn-primary btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
                                     </tr>

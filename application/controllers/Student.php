@@ -28,6 +28,7 @@ class student extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
 
         $data['events'] = $this->Student_model->getAllEvents($this->nativesession->get('id'), $this->nativesession->get('classid'));
         $data['content'] = 'student/student_home_view';
@@ -43,6 +44,8 @@ class student extends CI_Controller {
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['attendances'] = $this->Student_model->getAttendanceList($this->nativesession->get('classid'),$this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
         $data['content'] = 'student/learning_attendance_view';
         $this->load->view($this->template, $data);
     }
@@ -57,6 +60,7 @@ class student extends CI_Controller {
         $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['course_plan'] = $this->Student_model->getCoursePlanDataByID($id);
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['top2navigation'] = 'student/student_top2navigation';
         $data['content'] = 'student/student_course_view';
@@ -73,6 +77,7 @@ class student extends CI_Controller {
         $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['course_plan'] = $this->Student_model->getCoursePlanDataByID($id);
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['top2navigation'] = 'student/student_top2navigation';
         $data['content'] = 'student/student_course_plan_view';
@@ -89,6 +94,7 @@ class student extends CI_Controller {
         $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['course_implementation'] = $this->Student_model->getCourseImplementationData($id, $this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['top2navigation'] = 'student/student_top2navigation';
         $data['content'] = 'student/student_course_implementation_view';
@@ -105,6 +111,7 @@ class student extends CI_Controller {
         $data['materials'] = $this->Student_model->getSharedMaterialsByCourseID($id, $this->nativesession->get('classid'));
         $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['top2navigation'] = 'student/student_top2navigation';
         $data['content'] = 'student/student_course_material_view';
@@ -121,6 +128,7 @@ class student extends CI_Controller {
         $data['qnas'] = $this->Student_model->getAssignmentAndQuizesByCourseID($id, $this->nativesession->get('classid'));
         $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['top2navigation'] = 'student/student_top2navigation';
         $data['submissions'] = $this->Student_model->getSubmission($this->nativesession->get('id'), $this->nativesession->get('classid'));
@@ -139,6 +147,7 @@ class student extends CI_Controller {
         $data['course'] = $this->Student_model->getCourseDataByID($id, $this->nativesession->get('classid'));
         $data['courseStudents'] = $this->Student_model->getAllStudentByClassID($this->nativesession->get('classid'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['top2navigation'] = 'student/student_top2navigation';
         $data['content'] = 'student/student_course_student_view';
@@ -249,6 +258,7 @@ class student extends CI_Controller {
         $teacherID = $this->Student_model->getTeacherByAssignID($assignID['assignid']);
         $data['teacherid'] = $teacherID['teacherid'];
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['top2navigation'] = 'student/student_top2navigation';
         $data['content'] = 'student/student_course_qna_add_view';
@@ -264,6 +274,7 @@ class student extends CI_Controller {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['reportGrade']  = $grade;
         $data['reportTerm']  = $term;
@@ -285,6 +296,7 @@ class student extends CI_Controller {
         $data['title'] = 'Student LMS';
         $data['sidebar'] = 'student/student_sidebar';
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['reportGrade']  = $grade;
         $data['reportTerm']  = $term;
@@ -318,6 +330,7 @@ class student extends CI_Controller {
 
         $data['course'] = $this->Student_model->getCourseDataByAssignID($assignid);
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
 
         $data['top2navigation'] = 'student/student_top2navigation';
@@ -378,6 +391,7 @@ class student extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
 //        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
 
@@ -409,6 +423,7 @@ class student extends CI_Controller {
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
 
         $data['classid'] =  $this->nativesession->get('classid');
         $data['content'] = 'student/student_exam_schedule_view';
@@ -430,7 +445,6 @@ class student extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
-
     public function student_profile($id)
     {
         $id = $this->general->decryptParaID($id, 'student');
@@ -439,6 +453,7 @@ class student extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['content'] = 'student/student_profile_view';
         $this->load->view($this->template, $data);
@@ -518,8 +533,44 @@ class student extends CI_Controller {
         $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
         $data['topnavigation'] = 'student/student_topnavigation';
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['content'] = 'student/student_profile_edit_view';
         $data['info_db'] = $this->Student_model->getProfileDataByID($id);
+        $this->load->view($this->template, $data);
+    }
+
+    public function events()
+    {
+        $data['title'] = 'SMS';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $data['sidebar'] = 'student/student_sidebar';
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'student/student_topnavigation';
+        $data['events'] = $this->Student_model->getAllEvents($this->nativesession->get('id'), $this->nativesession->get('classid'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['content'] = 'student/student_event_view';
+        $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->nativesession->get('id'));
+        $this->load->view($this->template, $data);
+    }
+
+    public function eventDetail($id)
+    {
+        $data['title'] = 'SMS';
+        $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+
+        $data['sidebar'] = 'student/student_sidebar';
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'student/student_topnavigation';
+        $data['events'] = $this->Student_model->getAllEvents($this->nativesession->get('id'), $this->nativesession->get('classid'));
+        $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['event'] = $this->Teacher_model->getEvent($id);
+
+        $data['content'] = 'student/student_event_detail_view';
+        $data['info_dbs'] = $this->Teacher_model->getAllEvents($this->nativesession->get('id'));
         $this->load->view($this->template, $data);
     }
 

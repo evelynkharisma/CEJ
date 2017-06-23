@@ -35,6 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/teacher_style.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/parent_style.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/operation_style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/admin_style.css">
 
     <!-- jQuery -->
     <script src="<?php echo base_url() ?>assets/js/jquery.min.js"></script>

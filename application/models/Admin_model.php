@@ -16,6 +16,12 @@ class Admin_model extends CI_Model {
     var $lesson_plan_table = 'lesson_plan';
     var $lesson_implementation_table = 'lesson_implementation';
     var $student_table = 'student';
+    var $student_recent_school_table = 'student_recent_school';
+    var $student_child_development_table = 'student_child_development';
+    var $student_health_record_table = 'student_health';
+    var $student_vaccination_table = 'student_vaccination';
+    var $student_health_problem_table = 'student_health_problelm';
+    var $student_educational_table = 'student_educational';
     var $report_table = 'report';
     var $class_table = 'class';
     var $attendance_table = 'attendance';
@@ -155,9 +161,12 @@ class Admin_model extends CI_Model {
     }
 
     function addParent($id){
+        $dbrth = $this->input->post('dateofbirth');
+        $dob= strtotime($dbrth);
+        $pass = 'xyz'.date('Ymd', $dob);
         $data = array(
             'parentid' => $id,
-//            'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
+            'password' => crypt($pass,'$6$rounds=5000$simsthesisproject$'),
             'firstname' => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
             'gender' => $this->input->post('gender'),
@@ -520,6 +529,340 @@ class Admin_model extends CI_Model {
         $this->db->insert($this->item_table, $data);
     }
 
+    function getStudentRecentSchoolByID($id){
+        $this->db->select('*');
+        $this->db->where('studentid',$id);
+
+
+        $query = $this->db->get($this->student_recent_school_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getStudentChildDevelopmentDataByID($id){
+        $this->db->select('*');
+        $this->db->where('studentid',$id);
+
+
+        $query = $this->db->get($this->student_child_development_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getStudentHealthRecordDataByID($id){
+        $this->db->select('*');
+        $this->db->where('studentid',$id);
+
+
+        $query = $this->db->get($this->student_health_record_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getStudentVaccinationDataByID($id){
+        $this->db->select('*');
+        $this->db->where('studentid',$id);
+
+
+        $query = $this->db->get($this->student_vaccination_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getStudentMedicalProblemDataByID($id){
+        $this->db->select('*');
+        $this->db->where('studentid',$id);
+
+        $query = $this->db->get($this->student_health_problem_table);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+
+
+    function editStudentRecentSchool($id) {
+        $data = array(
+            'school' => $this->input->post('rcname'),
+            'contactperson' => $this->input->post('rccontact'),
+            'position' => $this->input->post('rcposition'),
+            'email' => $this->input->post('rcemail'),
+            'phone' => $this->input->post('rcphone'),
+            'reason' => $this->input->post('rcreason')
+            );
+
+        $this->db->where('studentid', $id);
+        $this->db->update($this->student_recent_school_table, $data);
+    }
+
+    function editStudentChildDevelopment($id) {
+        $data = array(
+            'learningdifficulties' => $this->input->post('cdlearningdiff'),
+            'learningdificultiesdetail' => $this->input->post('cdlearningdiffnature'),
+            'academicsuport' => $this->input->post('cdacademicsuport'),
+            'academicsuportdetail' => $this->input->post('cdacademicsuportnature'),
+            'talented' => $this->input->post('cdtalented'),
+            'talenteddetail' => $this->input->post('cdtalenteddetail'),
+            'nativelanguage' => $this->input->post('cdnativelang'),
+            'secondlanguage' => $this->input->post('cdsecondlang'),
+            'englishproficiency' => $this->input->post('cdenglishproficiency'),
+            'learningenglish' => $this->input->post('cdlearningenglish'),
+            'langathome' => $this->input->post('cdlangathome'),
+            'langproficient' => $this->input->post('cdlangproficient'),
+            'prevcountry' => $this->input->post('cdprevcountry'),
+            'studiedotherlang' => $this->input->post('cdstudiedotherlang'),
+            'difficultvocab' => $this->input->post('cddifficultvocab'),
+            'firstlangSupport' => $this->input->post('cdfirstlangSupport'),
+            'vocabEnglishSupportDetail' => $this->input->post('cdvocabEnglishSupportDetail'),
+        );
+
+        $this->db->where('studentid', $id);
+        $this->db->update($this->student_child_development_table, $data);
+    }
+
+    function editStudentHealthRecord($id) {
+        $data = array(
+            'allergies' => $this->input->post('hrallegies'),
+            'allergiesdetail' => $this->input->post('hrallegiesdetail'),
+            'medication' => $this->input->post('hrmedication'),
+            'medicationdetail' => $this->input->post('hrmedicationdetail'),
+            'psychologicalAssessment' => $this->input->post('hrpsychologicalAssessment'),
+            'psychologicalAssessmentDetail' => $this->input->post('hrpsychologicalAssessmentdetail'),
+            'hearingSpeechDifficulty' => $this->input->post('hrhearingSpeechDifficulty'),
+            'hearingSpeechDifficultyDetail' => $this->input->post('hrhearingSpeechDifficultydetail'),
+            'behaviouralDifficulty' => $this->input->post('hrbehaviouralDifficulty'),
+            'behaviouralDifficultyDetail' => $this->input->post('hrbehaviouralDifficultydetail'),
+            'others' => $this->input->post('hrother'),
+            'otherinformation' => $this->input->post('hrotherinformation'),
+            'eyesight' => $this->input->post('hreyesight'),
+            'hearing' => $this->input->post('hrhearing'),
+            'foodallergies' => $this->input->post('hrfoodallergies'),
+            'issuesexplanation' => $this->input->post('hrissueexplanation'),
+            'docname' => $this->input->post('hrdocname'),
+            'docphone' => $this->input->post('hrdocphone'),
+            'ecname' => $this->input->post('hrecname'),
+            'ecrelationship' => $this->input->post('hrecrelationship'),
+            'ecphone' => $this->input->post('hrecphone'),
+        );
+
+        $this->db->where('studentid', $id);
+        $this->db->update($this->student_health_record_table, $data);
+    }
+
+    function editStudentVaccination($id) {
+        $data = array(
+            'hepatitisb' => $this->input->post('vchepatitisb'),
+            'hepatitisbYear' => $this->input->post('vchepatitisbyear'),
+            'measlesMumpsRubella' => $this->input->post('vcmeasles'),
+            'measlesMumpsRubellaYear' => $this->input->post('vcmeaslesyear'),
+            'polio' => $this->input->post('vcpolio'),
+            'polioYear' => $this->input->post('vcpolioyear'),
+            'tetanus' => $this->input->post('vctetanus'),
+            'tetanusYear' => $this->input->post('vctetanusyear'),
+            'hib' => $this->input->post('vchib'),
+            'hibYear' => $this->input->post('vchibyear'),
+            'menzb' => $this->input->post('vcmenzb'),
+            'menzbYear' => $this->input->post('vcmenzbyear'),
+            'tb' => $this->input->post('vctb'),
+            'tbYear' => $this->input->post('vctbyear')
+        );
+
+        $this->db->where('studentid', $id);
+        $this->db->update($this->student_vaccination_table, $data);
+    }
+
+    function editStudentMedicalProblem($id, $prob, $status, $severity, $med, $act) {
+        $data = array(
+            'healthproblem' => $prob,
+            'status' => $status,
+            'severity' => $severity,
+            'medication' => $med,
+            'action' => $act
+        );
+
+        $this->db->where('hpid', $id);
+        $this->db->update($this->student_health_problem_table, $data);
+    }
+
+    function addStudentRecentSchool($id) {
+        $data = array(
+            'studentid' => $id,
+            'school' => $this->input->post('rcname'),
+            'contactperson' => $this->input->post('rccontact'),
+            'position' => $this->input->post('rcposition'),
+            'email' => $this->input->post('rcemail'),
+            'phone' => $this->input->post('rcphone'),
+            'reason' => $this->input->post('rcreason')
+        );
+
+        $this->db->insert($this->student_recent_school_table, $data);
+    }
+
+    function addStudentChildDevelopment($id) {
+        $data = array(
+            'studentid' => $id,
+            'learningdifficulties' => $this->input->post('cdlearningdiff'),
+            'learningdificultiesdetail' => $this->input->post('cdlearningdiffnature'),
+            'academicsuport' => $this->input->post('cdacademicsuport'),
+            'academicsuportdetail' => $this->input->post('cdacademicsuportnature'),
+            'talented' => $this->input->post('cdtalented'),
+            'talenteddetail' => $this->input->post('cdtalenteddetail'),
+            'nativelanguage' => $this->input->post('cdnativelang'),
+            'secondlanguage' => $this->input->post('cdsecondlang'),
+            'englishproficiency' => $this->input->post('cdenglishproficiency'),
+            'learningenglish' => $this->input->post('cdlearningenglish'),
+            'langathome' => $this->input->post('cdlangathome'),
+            'langproficient' => $this->input->post('cdlangproficient'),
+            'prevcountry' => $this->input->post('cdprevcountry'),
+            'studiedotherlang' => $this->input->post('cdstudiedotherlang'),
+            'difficultvocab' => $this->input->post('cddifficultvocab'),
+            'firstlangSupport' => $this->input->post('cdfirstlangSupport'),
+            'vocabEnglishSupportDetail' => $this->input->post('cdvocabEnglishSupportDetail'),
+        );
+
+        $this->db->insert($this->student_child_development_table, $data);
+    }
+
+    function addStudentHealthRecord($id) {
+        $data = array(
+            'studentid' => $id,
+            'allergies' => $this->input->post('hrallegies'),
+            'allergiesdetail' => $this->input->post('hrallegiesdetail'),
+            'medication' => $this->input->post('hrmedication'),
+            'medicationdetail' => $this->input->post('hrmedicationdetail'),
+            'psychologicalAssessment' => $this->input->post('hrpsychologicalAssessment'),
+            'psychologicalAssessmentDetail' => $this->input->post('hrpsychologicalAssessmentdetail'),
+            'hearingSpeechDifficulty' => $this->input->post('hrhearingSpeechDifficulty'),
+            'hearingSpeechDifficultyDetail' => $this->input->post('hrhearingSpeechDifficultydetail'),
+            'behaviouralDifficulty' => $this->input->post('hrbehaviouralDifficulty'),
+            'behaviouralDifficulty' => $this->input->post('hrbehaviouralDifficultydetail'),
+            'others' => $this->input->post('hrother'),
+            'otherinformation' => $this->input->post('hrotherinformation'),
+            'eyesight' => $this->input->post('hreyesight'),
+            'hearing' => $this->input->post('hrhearing'),
+            'foodallergies' => $this->input->post('hrfoodallergies'),
+            'issuesexplanation' => $this->input->post('hrissueexplanation'),
+            'docname' => $this->input->post('hrdocname'),
+            'docphone' => $this->input->post('hrdocphone'),
+            'ecname' => $this->input->post('hrecname'),
+            'ecrelationship' => $this->input->post('hrecrelationship'),
+            'ecphone' => $this->input->post('hrecphone'),
+        );
+
+        $this->db->insert($this->student_health_record_table, $data);
+    }
+
+    function addStudentVaccination($id) {
+        $data = array(
+            'studentid' => $id,
+            'hepatitisb' => $this->input->post('vchepatitisb'),
+            'hepatitisbYear' => $this->input->post('vchepatitisbyear'),
+            'measlesMumpsRubella' => $this->input->post('vcmeasles'),
+            'measlesMumpsRubellaYear' => $this->input->post('vcmeaslesyear'),
+            'polio' => $this->input->post('vcpolio'),
+            'polioYear' => $this->input->post('vcpolioyear'),
+            'tetanus' => $this->input->post('vctetanus'),
+            'tetanusYear' => $this->input->post('vctetanusyear'),
+            'hib' => $this->input->post('vchib'),
+            'hibYear' => $this->input->post('vchibyear'),
+            'menzb' => $this->input->post('vcmenzb'),
+            'menzbYear' => $this->input->post('vcmenzbyear'),
+            'tb' => $this->input->post('vctb'),
+            'tbYear' => $this->input->post('vctbyear')
+        );
+
+        $this->db->insert($this->student_vaccination_table, $data);
+    }
+
+
+
+    function getStudentEducationalByID($id){
+        $this->db->select('*');
+        $this->db->where('studentid',$id);
+
+
+        $query = $this->db->get($this->student_educational_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+
+    }
+
+    function addStudentEducational($id, $stid) {
+        $data = array(
+            'seid' => $id,
+            'studentid' => $stid,
+            'school' => $this->input->post('school'),
+            'start' => $this->input->post('start'),
+            'end' => $this->input->post('end'),
+            'highestgrade' => $this->input->post('highest'),
+            'language' => $this->input->post('language'),
+        );
+
+        $this->db->insert($this->student_educational_table, $data);
+    }
+
+    function getStudentEducationalLatestID(){
+        $this->db->select('seid');
+        $this->db->order_by("seid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->student_educational_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editStudentEducational($id) {
+        $data = array(
+            'school' => $this->input->post('school'),
+            'start' => $this->input->post('start'),
+            'end' => $this->input->post('end'),
+            'highestgrade' => $this->input->post('highest'),
+            'language' => $this->input->post('language'),
+        );
+
+        $this->db->where('seid', $id);
+        $this->db->update($this->student_educational_table, $data);
+    }
+
+
+
+    function addStudentMedicalProblem($hpid, $stdid, $prob, $status, $severity, $med, $act) {
+        $data = array(
+            'hpid' => $hpid,
+            'studentid' => $stdid,
+            'healthproblem' => $prob,
+            'status' => $status,
+            'severity' => $severity,
+            'medication' => $med,
+            'action' => $act
+        );
+
+        $this->db->insert($this->student_health_problem_table, $data);
+    }
+
+    function getStudentMedicalProblemLatestID()
+    {
+        $this->db->select('hpid');
+        $this->db->order_by("hpid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->student_health_problem_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function getByEmail($email) {
         $this->db->select('*');
         $this->db->where('email', $email);
@@ -529,6 +872,8 @@ class Admin_model extends CI_Model {
             return $query->row_array();
         }
     }
+
+
 }
 
 ?>

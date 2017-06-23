@@ -156,6 +156,21 @@ class General
             $value = substr($id,1) + 159;
             $id = $variable.$value;
         }
+        elseif($type == 'libservice'){
+            $variable = ord('p');
+            $value = substr($id,1) + 103;
+            $id = $variable.$value;
+        }
+        elseif($type == 'libborrowed'){
+            $variable = ord('b');
+            $value = substr($id,1) + 105;
+            $id = $variable.$value;
+        }
+        elseif($type == 'studenteducational'){
+            $variable = ord('e');
+            $value = substr($id,1) + 107;
+            $id = $variable.$value;
+        }
 
         return $id;
     }
@@ -263,6 +278,21 @@ class General
             $variable = strlen(ord('e'));
             $id = substr($id, $variable) - 159;
             $id = 'e'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'libservice'){
+            $variable = strlen(ord('p'));
+            $id = substr($id, $variable) - 103;
+            $id = 'p'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'libborrowed'){
+            $variable = strlen(ord('b'));
+            $id = substr($id, $variable) - 105;
+            $id = 'p'.str_pad((int) $id, 6, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'studenteducational'){
+            $variable = strlen(ord('e'));
+            $id = substr($id, $variable) - 107;
+            $id = 'e'.str_pad((int) $id, 8, "0", STR_PAD_LEFT);
         }
         return $id;
     }
