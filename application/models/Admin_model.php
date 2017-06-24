@@ -743,7 +743,7 @@ class Admin_model extends CI_Model {
             'hearingSpeechDifficulty' => $this->input->post('hrhearingSpeechDifficulty'),
             'hearingSpeechDifficultyDetail' => $this->input->post('hrhearingSpeechDifficultydetail'),
             'behaviouralDifficulty' => $this->input->post('hrbehaviouralDifficulty'),
-            'behaviouralDifficulty' => $this->input->post('hrbehaviouralDifficultydetail'),
+            'behaviouralDifficultyDetail' => $this->input->post('hrbehaviouralDifficultydetail'),
             'others' => $this->input->post('hrother'),
             'otherinformation' => $this->input->post('hrotherinformation'),
             'eyesight' => $this->input->post('hreyesight'),
