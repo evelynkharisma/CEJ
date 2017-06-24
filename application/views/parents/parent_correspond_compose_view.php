@@ -78,7 +78,21 @@
                                             <div class="form-group">
                                                 <label for="to" class="col-sm-1 control-label">To:</label>
                                                 <div class="col-xs-11">
-                                                    <input type="text" name="receiver" value="<?php echo $receiver;?>" class="form-control select2-offscreen" id="to" tabindex="-1">
+                                                    <select id="receiver" name="receiver" class="col-xs-12 form-control ">
+                                                        <option value="">Select Receiver</option>
+                                                        <?php
+                                                        if($teacherList){
+                                                        foreach($teacherList as $tL){?>
+                                                            <option value="<?php echo $tL['teacherid']?>" <?php if($tL['teacherid']==$receiver){echo 'selected=\'\'';}?>><?php echo $tL['firstname']?> <?php echo $tL['lastname']?></option>
+                                                        <?php
+                                                        }}
+                                                        if($parentList){
+                                                            foreach($parentList as $tL){?>
+                                                                <option value="<?php echo $tL['parentid']?>" <?php if($tL['parentid']==$receiver){echo 'selected=\'\'';}?>><?php echo $tL['firstname']?> <?php echo $tL['lastname']?></option>
+                                                                <?php
+                                                        }}
+                                                        ?>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">

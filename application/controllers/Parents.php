@@ -564,6 +564,7 @@ class parents extends CI_Controller {
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
         $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+        $data['teacherList'] = $this->Teacher_model->getAllTeacher();
 
         $data['subject'] = '';
         $data['receiver'] = '';
@@ -622,6 +623,7 @@ class parents extends CI_Controller {
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
         $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+        $data['teacherList'] = $this->Teacher_model->getAllTeacher();
         $mail = $this->Parent_model->getMailDetail($id);
 
         $data['subject'] = 'RE: '.$mail['subject'];
@@ -681,6 +683,7 @@ class parents extends CI_Controller {
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
         $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+        $data['teacherList'] = $this->Teacher_model->getAllTeacher();
         $mail = $this->Parent_model->getMailDetail($id);
 
         $data['subject'] = $mail['subject'];
@@ -767,6 +770,20 @@ class parents extends CI_Controller {
         }
 
         return true;
+    }
+    private function parentName($id)
+    {
+        $parent = $this->Parent_model->getProfileDataByID($id);
+        $name = $parent['firstname'].' '.$parent['lastname'];
+        $data['name']= $name;
+        return $name;
+    }
+    private function teacherName($id)
+    {
+        $teacher = $this->Teacher_model->getProfileDataByID($id);
+        $name = $teacher['firstname'].' '.$teacher['lastname'];
+        $data['name']= $name;
+        return $name;
     }
     public function downloadAll($correspondid){
         $this->load->library('zip');
