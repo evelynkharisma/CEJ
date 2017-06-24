@@ -31,9 +31,9 @@ class Library extends CI_Controller
             if ($loginas == 'student') {
                 $user = $this->Student_model->checkLogin($username, $password);
                 if (!empty($user)) {
-                    $this->nativesession->set('id', $user['studentid']);
-                    $this->nativesession->set('name', $user['firstname'] . ' ' . $user['lastname']);
-                    $this->nativesession->set('classid', $user['classid']);
+                    $this->nativesession->set('libid', $user['studentid']);
+                    $this->nativesession->set('libname', $user['firstname'] . ' ' . $user['lastname']);
+                    $this->nativesession->set('libclassid', $user['classid']);
                     $this->nativesession->set('is_login_library', 'TRUE');
                     $this->nativesession->set('loginas', 'student');
                     redirect('library/home');
@@ -41,10 +41,10 @@ class Library extends CI_Controller
             } else if ($loginas == 'teacher') {
                 $user = $this->Teacher_model->checkLogin($username, $password);
                 if (!empty($user)) {
-                    $this->nativesession->set('id', $user['teacherid']);
-                    $this->nativesession->set('name', $user['firstname'] . ' ' . $user['lastname']);
-                    $this->nativesession->set('photo', $user['photo']);
-                    $this->nativesession->set('role', $user['role']);
+                    $this->nativesession->set('libid', $user['teacherid']);
+                    $this->nativesession->set('libname', $user['firstname'] . ' ' . $user['lastname']);
+                    $this->nativesession->set('libphoto', $user['photo']);
+                    $this->nativesession->set('librole', $user['role']);
                     $this->nativesession->set('lastlogin', $user['lastlogin']);
                     $this->nativesession->set('is_login_library', 'TRUE');
                     $this->nativesession->set('loginas', 'teacher');;
@@ -53,10 +53,10 @@ class Library extends CI_Controller
             } else if ($loginas == 'librarian') {
                 $user = $this->Library_model->checkLogin($username, $password);
                 if (!empty($user)) {
-                    $this->nativesession->set('id', $user['librarianid']);
-                    $this->nativesession->set('name', $user['firstname'] . ' ' . $user['lastname']);
-                    $this->nativesession->set('photo', $user['photo']);
-                    $this->nativesession->set('role', $user['role']);
+                    $this->nativesession->set('libid', $user['librarianid']);
+                    $this->nativesession->set('libname', $user['firstname'] . ' ' . $user['lastname']);
+                    $this->nativesession->set('libphoto', $user['photo']);
+                    $this->nativesession->set('librole', $user['role']);
                     $this->nativesession->set('lastlogin', $user['lastlogin']);
                     $this->nativesession->set('is_login_library', 'TRUE');
                     $this->nativesession->set('loginas', 'librarian');;
@@ -65,9 +65,9 @@ class Library extends CI_Controller
             } else if ($loginas == 'admin') {
                 $user = $this->Admin_model->checkLogin($username, $password);
                 if (!empty($user)) {
-                    $this->nativesession->set('id', $user['adminid']);
-                    $this->nativesession->set('name', $user['firstname'] . ' ' . $user['lastname']);
-                    $this->nativesession->set('role', $user['role']);
+                    $this->nativesession->set('libid', $user['adminid']);
+                    $this->nativesession->set('libname', $user['firstname'] . ' ' . $user['lastname']);
+                    $this->nativesession->set('librole', $user['role']);
                     $this->nativesession->set('lastlogin', $user['lastlogin']);
                     $this->nativesession->set('is_login_library', 'TRUE');
                     $this->nativesession->set('loginas', 'admin');;
@@ -90,15 +90,15 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'student') {
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'teacher') {
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'operation') {
 
             } else if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -117,15 +117,15 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'student') {
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'teacher') {
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                   $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'operation') {
 
             } else if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -143,22 +143,22 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'student') {
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'teacher') {
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'operation') {
 
             } else if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
         }
 
         $data['title'] = 'Library LMS';
-//        //$data['sidebar'] = 'library/library_sidebar';
+        $data['about'] = $this->Library_model->getServiceByID('p0007');
         $data['topnavigation'] = 'library/library_topnavigation';
         $data['content'] = 'library/library_about_view';
         $this->load->view($this->template, $data);
@@ -168,20 +168,21 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'student') {
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'teacher') {
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'operation') {
 
             } else if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
         }
         $data['title'] = 'Library LMS';
+        $data['contact'] = $this->Library_model->getServiceByID('p0008');
         $data['topnavigation'] = 'library/library_topnavigation';
         $data['content'] = 'library/library_contact_view';
         $this->load->view($this->template, $data);
@@ -191,15 +192,15 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'student') {
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'teacher') {
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'operation') {
 
             } else if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -214,15 +215,15 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'student') {
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'teacher') {
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'operation') {
 
             } else if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -238,15 +239,15 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'student') {
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'teacher') {
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'operation') {
 
             } else if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -262,15 +263,15 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'student') {
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'teacher') {
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'operation') {
 
             } else if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -280,6 +281,7 @@ class Library extends CI_Controller
         $data['topnavigation'] = 'library/library_topnavigation';
         $data['top2navigation'] = 'library/library_top2navigation';
 
+        $data['totalborrowed'] = $this->Library_model->getTotalBorrowedCollection();
         $data['collections'] = $this->Library_model->getCollections();
         $data['content'] = 'library/library_all_collection_view';
         $this->load->view($this->template, $data);
@@ -289,9 +291,9 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             } else {
                 $this->nativesession->set('error', 'Access Denied');
                 redirect('library/home');
@@ -418,9 +420,9 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             } else {
                 $this->nativesession->set('error', 'Access Denied');
                 redirect('library/home');
@@ -471,7 +473,7 @@ class Library extends CI_Controller
 
     public function deleteCollection($lcid)
     {
-        if ($this->general->checkPrivilege($this->nativesession->get('role'), 'p0036') != 1) {
+        if ($this->general->checkPrivilege($this->nativesession->get('librole'), 'p0036') != 1) {
             $this->nativesession->set('error', 'Access Denied');
             redirect('library/home');
         }
@@ -488,9 +490,9 @@ class Library extends CI_Controller
     public function addCollectionAuthor($colid){
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             } else {
                 $this->nativesession->set('error', 'Access Denied');
                 redirect('library/home');
@@ -507,7 +509,6 @@ class Library extends CI_Controller
         $this->form_validation->set_error_delimiters('', '<br/>');
 
         if ($this->form_validation->run() == TRUE) {
-            echo ";p;p";
             $lastestid = $this->Library_model->getCollectionAuthorLatestID();
             if ($lastestid) {
                 foreach ($lastestid as $lastid) {
@@ -559,9 +560,9 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             } else {
                 $this->nativesession->set('error', 'Access Denied');
                 redirect('library/home');
@@ -587,9 +588,9 @@ class Library extends CI_Controller
     public function editCollectionAuthor($colaid, $colid) {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             } else {
                 $this->nativesession->set('error', 'Access Denied');
                 redirect('library/home');
@@ -620,7 +621,7 @@ class Library extends CI_Controller
 
     public function deleteCollectionAuthor($lcaid, $lcid)
     {
-        if ($this->general->checkPrivilege($this->nativesession->get('role'), 'p0040') != 1) {
+        if ($this->general->checkPrivilege($this->nativesession->get('librole'), 'p0040') != 1) {
             $this->nativesession->set('error', 'Access Denied');
             redirect('library/home');
         }
@@ -637,9 +638,9 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             } else {
                 $this->nativesession->set('error', 'Access Denied');
                 redirect('library/home');
@@ -703,9 +704,9 @@ class Library extends CI_Controller
     public function collectionSubject($colid){
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             } else {
                 $this->nativesession->set('error', 'Access Denied');
                 redirect('library/home');
@@ -728,9 +729,9 @@ class Library extends CI_Controller
     public function editCollectionSubject($colsid, $colid) {
         if ($this->nativesession->get('is_login_library')) {
             if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             } else {
                 $this->nativesession->set('error', 'Access Denied');
                 redirect('library/home');
@@ -762,7 +763,7 @@ class Library extends CI_Controller
     }
 
     public function deleteCollectionSubject($lcsid, $lcid) {
-        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0042') != 1){
+        if($this->general->checkPrivilege($this->nativesession->get('librole'), 'p0042') != 1){
             $this->nativesession->set('error', 'Access Denied');
             redirect('library/home');
         }
@@ -787,19 +788,19 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')){
             if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='operation'){
 
             }
             else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -816,19 +817,19 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')){
             if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='operation'){
 
             }
             else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -845,19 +846,19 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')){
             if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='operation'){
 
             }
             else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -874,19 +875,19 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')){
             if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='operation'){
 
             }
             else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -903,19 +904,19 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')){
             if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='operation'){
 
             }
             else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -932,19 +933,19 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')){
             if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='operation'){
 
             }
             else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -961,19 +962,19 @@ class Library extends CI_Controller
     {
         if ($this->nativesession->get('is_login_library')){
             if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='operation'){
 
             }
             else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -987,24 +988,156 @@ class Library extends CI_Controller
     }
 
 
+    public function editService($id) {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else {
+                $this->nativesession->set('error', 'Access Denied');
+                redirect('library/home');
+            }
+        } else {
+            redirect('library/home');
+        }
+
+
+        $this->form_validation->set_rules('content', 'Subject', 'required');
+        $lsid = $this->general->decryptParaID($id, 'libservice');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+
+            $subject = $this->input->post('title');
+
+            $this->Library_model->editService($lsid);
+
+            if(strcmp($lsid,'p0007')==0) {
+                $suc = "About";
+            } else if(strcmp($lsid,'p0008')==0) {
+                $suc = "Contact";
+            } else {
+                $suc = "Service";
+            }
+            $this->nativesession->set('success', $suc.' subject saved');
+
+            redirect('library/editService/'.$id);
+        }
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['top2navigation'] = 'library/library_top2navigation';
+
+        $data['eserviceID'] = $id;
+        $data['serviceID'] = $lsid;
+        $data['service'] = $this->Library_model->getServiceDataByID($lsid);
+        $data['content'] = 'library/library_service_edit_view';
+        $this->load->view($this->template, $data);
+    }
+
+
+    public function allBorrowedCollection()
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'student') {
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'teacher') {
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'operation') {
+
+            } else if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            }
+        } else {
+
+        }
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['top2navigation'] = 'library/library_top2navigation';
+
+
+        $data['borrowed'] = $this->Library_model->getBorrowedCollection();
+        $data['content'] = 'library/library_all_borrowed_collection_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function editBorrowedCollection($lbid)
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else {
+                $this->nativesession->set('error', 'Access Denied');
+                redirect('library/home');
+            }
+        } else {
+            redirect('library/home');
+        }
+
+        $lcid = $this->general->decryptParaID($lbid, 'libborrowed');
+
+        $this->form_validation->set_rules('titleLA', 'Title Leading Article', 'required');
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('subtitle', 'Subtitle', 'required');
+        $this->form_validation->set_rules('edition', 'Edition', 'required');
+        $this->form_validation->set_rules('lccn', 'LCCN', 'required');
+        $this->form_validation->set_rules('isbn', 'ISBN', 'required');
+        $this->form_validation->set_rules('issn', 'ISSN', 'required');
+        $this->form_validation->set_rules('materialType', 'Material Type', 'required');
+        $this->form_validation->set_rules('subtype', 'Subtype', 'required');
+        $this->form_validation->set_rules('authorName', 'Author Name', 'required');
+        $this->form_validation->set_rules('authorDate', 'Author Date', 'required');
+        $this->form_validation->set_rules('uniformTitleLA', 'Uniform Title Leading Article', 'required');
+        $this->form_validation->set_rules('uniformTitle', 'Uniform Title', 'required');
+        $this->form_validation->set_rules('varyingForm', 'Varying Form', 'required');
+        $this->form_validation->set_rules('seriesUniformTitleLA', 'Series Uniform Title Leading Article', 'required');
+        $this->form_validation->set_rules('seriesUniformTitle', 'Series Uniform Title', 'required');
+        $this->form_validation->set_rules('publicationPlace', 'Publication Place', 'required');
+        $this->form_validation->set_rules('publisher', 'Publisher', 'required');
+        $this->form_validation->set_rules('availability', 'Availability', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Library_model->editCollection($lcid);
+
+            $this->nativesession->set('success', 'Collection saved');
+            redirect('library/editCollection/' . $colid);
+        }
+
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['top2navigation'] = 'library/library_top2navigation';
+
+        $data['collection'] = $this->Library_model->getBorrowedCollectionDataByID($lcid);
+        $data['content'] = 'library/library_edit_borrowed_collection_view';
+        $this->load->view($this->template, $data);
+    }
+
 
     public function library_profile_edit()
     {
         if ($this->nativesession->get('is_login_library')){
             if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('id'));
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='operation'){
 
             }
             else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
             }
             else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('id'));
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
 
@@ -1021,7 +1154,7 @@ class Library extends CI_Controller
         $this->nativesession->delete('id');
         $this->nativesession->delete('name');
         $this->nativesession->delete('photo');
-        $this->nativesession->delete('role');
+        $this->nativesession->delete('librole');
         $this->nativesession->delete('lastlogin');
         $this->nativesession->delete('is_login_library');
         redirect('library/home');

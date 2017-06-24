@@ -76,35 +76,42 @@ class Student_model extends CI_Model {
             $data = array(
 //                'password' => hash('sha512', $this->input->post('password')),
                 'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
+                'familyname' => $this->input->post('familyname'),
                 'firstname' => $this->input->post('firstname'),
                 'lastname' => $this->input->post('lastname'),
                 'gender' => $this->input->post('gender'),
-                'phone' => $this->input->post('phone'),
-                'email' => $this->input->post('email'),
-                'address' => $this->input->post('address'),
                 'dateofbirth' => $this->input->post('dateofbirth'),
                 'placeofbirth' => $this->input->post('placeofbirth'),
+                'nationality' => $this->input->post('nationality'),
+                'ethnic' => $this->input->post('ethnic'),
+                'citizenship' => $this->input->post('citizenship'),
+                'passportcountry' => $this->input->post('passportcountry'),
+                'passportexpired' => $this->input->post('passportexpired'),
+                'idcardtype' => $this->input->post('idcardtype'),
+                'email' => $this->input->post('email'),
+                'phone' => $this->input->post('phone'),
+                'address' => $this->input->post('address'),
                 'religion' => $this->input->post('religion'),
-                'elementary' => $this->input->post('elementary'),
-                'juniorhigh' => $this->input->post('juniorhigh'),
-                'seniorhigh' => $this->input->post('seniorhigh'),
-
             );
         } else {
             $data = array(
 //                'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
+                'familyname' => $this->input->post('familyname'),
                 'firstname' => $this->input->post('firstname'),
                 'lastname' => $this->input->post('lastname'),
                 'gender' => $this->input->post('gender'),
-                'phone' => $this->input->post('phone'),
-                'email' => $this->input->post('email'),
-                'address' => $this->input->post('address'),
                 'dateofbirth' => $this->input->post('dateofbirth'),
                 'placeofbirth' => $this->input->post('placeofbirth'),
+                'nationality' => $this->input->post('nationality'),
+                'ethnic' => $this->input->post('ethnic'),
+                'citizenship' => $this->input->post('citizenship'),
+                'passportcountry' => $this->input->post('passportcountry'),
+                'passportexpired' => $this->input->post('passportexpired'),
+                'idcardtype' => $this->input->post('idcardtype'),
+                'email' => $this->input->post('email'),
+                'phone' => $this->input->post('phone'),
+                'address' => $this->input->post('address'),
                 'religion' => $this->input->post('religion'),
-                'elementary' => $this->input->post('elementary'),
-                'juniorhigh' => $this->input->post('juniorhigh'),
-                'seniorhigh' => $this->input->post('seniorhigh'),
 
             );
         }
@@ -480,22 +487,28 @@ class Student_model extends CI_Model {
       }
 
     function addStudent($id){
+        $dbrth = $this->input->post('dateofbirth');
+        $dob= strtotime($dbrth);
+        $pass = 'xyz'.date('Ymd', $dob);
         $data = array(
             'studentid' => $id,
-//            'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
+            'password' => crypt($pass,'$6$rounds=5000$simsthesisproject$'),
+            'familyname' => $this->input->post('familyname'),
             'firstname' => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
             'gender' => $this->input->post('gender'),
-            'phone' => $this->input->post('phone'),
-            'email' => $this->input->post('email'),
-            'address' => $this->input->post('address'),
             'dateofbirth' => $this->input->post('dateofbirth'),
             'placeofbirth' => $this->input->post('placeofbirth'),
+            'nationality' => $this->input->post('nationality'),
+            'ethnic' => $this->input->post('ethnic'),
+            'citizenship' => $this->input->post('citizenship'),
+            'passportcountry' => $this->input->post('passportcountry'),
+            'passportexpired' => $this->input->post('passportexpired'),
+            'idcardtype' => $this->input->post('idcardtype'),
+            'email' => $this->input->post('email'),
+            'phone' => $this->input->post('phone'),
+            'address' => $this->input->post('address'),
             'religion' => $this->input->post('religion'),
-            'elementary' => $this->input->post('elementary'),
-            'juniorhigh' => $this->input->post('juniorhigh'),
-            'seniorhigh' => $this->input->post('seniorhigh'),
-//            'role' => 'r0004',
             'active' => '1'
         );
         $this->db->insert($this->table, $data);
@@ -517,8 +530,8 @@ class Student_model extends CI_Model {
 
     function getAllStudent(){
         $this->db->select('student.*');
-        $this->db->select('class.classroom');
-        $this->db->join('class class', 'class.classid=student.classid');
+//        $this->db->select('class.classroom');
+//        $this->db->join('class class', 'class.classid=student.classid');
 
         $query = $this->db->get($this->table);
 
@@ -550,16 +563,6 @@ class Student_model extends CI_Model {
               return $query->result_array();
           }
       }
-
-    function getByEmail($email) {
-        $this->db->select('*');
-        $this->db->where('email', $email);
-        $query = $this->db->get($this->table, 1);
-
-        if ($query->num_rows() == 1) {
-            return $query->row_array();
-        }
-    }
 }
 
 ?>

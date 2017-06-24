@@ -15,7 +15,7 @@
 
 
             <div class="row" style="margin-bottom: 3vw">
-                <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Edit Collection Data</h2>
+                <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Edit Borrowed Collection Data</h2>
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
             $encrypted = $this->general->encryptParaID($collection['lcid'],'collection');
             ?>
             <?php echo form_open_multipart("library/editCollection/".$encrypted);?>
-            <button type="submit" class="btn btn-primary set-right" href=""><i class="fa fa-save m-right-xs"></i> Save Collection</button>
+            <button type="submit" class="btn btn-primary set-right" href=""><i class="fa fa-save m-right-xs"></i> Save Changes</button>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="profile_title">

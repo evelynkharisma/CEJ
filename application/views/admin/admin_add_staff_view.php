@@ -3,7 +3,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left">
-                <h3>Edit Staff Information</h3>
+                <h3>Add New Staff </h3>
             </div>
         </div>
 
@@ -69,22 +69,22 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">New Password</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="password" class="form-control set-margin-bottom" name="password"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Confirm Password</div>
-                                        <div class="teacher_profile_value">
-                                            <input type="password" class="form-control set-margin-bottom" name="confirmpassword"/>
-                                        </div>
-                                    </div>
-                                </div>
+<!--                                <div class="col-md-6 col-sm-6 col-xs-12">-->
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">New Password</div>-->
+<!--                                        <div class="teacher_profile_value">-->
+<!--                                            <input type="password" class="form-control set-margin-bottom" name="password"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-md-6 col-sm-6 col-xs-12">-->
+<!--                                    <div class="teacher_profile_group">-->
+<!--                                        <div class="teacher_profile_label">Confirm Password</div>-->
+<!--                                        <div class="teacher_profile_value">-->
+<!--                                            <input type="password" class="form-control set-margin-bottom" name="confirmpassword"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="teacher_profile_group">
                                         <div class="teacher_profile_label">First Name</div>
