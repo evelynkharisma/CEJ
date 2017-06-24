@@ -5,6 +5,7 @@ class parents extends CI_Controller {
 
     var $template = 'template';
     var $profilephotopath = 'assets/img/parents/profile/';
+    var $correspondpath = 'assets/file/correspond/';
 
     function __construct() {
         parent::__construct();
@@ -22,6 +23,7 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
@@ -43,6 +45,7 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
@@ -63,6 +66,7 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
@@ -156,6 +160,7 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
@@ -183,6 +188,7 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $data['reportGrade']  = $grade;
         $data['reportTerm']  = $term;
@@ -210,6 +216,7 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $data['reportGrade']  = $grade;
         $data['reportTerm']  = $term;
@@ -234,6 +241,7 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
@@ -253,6 +261,7 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
@@ -272,6 +281,7 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
@@ -291,6 +301,7 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
@@ -309,6 +320,7 @@ class parents extends CI_Controller {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $assignid = $this->general->decryptParaID($assignid, 'courseassigned');
         $studentid = $this->general->decryptParaID($this->nativesession->get('current_child_id'), 'student');
@@ -338,6 +350,7 @@ class parents extends CI_Controller {
         $data['sidebar'] = 'parents/parent_sidebar';
         $data['topnavigation'] = 'parents/parent_topnavigation';
         $data['info_dbs'] = $this->Parent_model->getAllForms();
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
@@ -355,6 +368,7 @@ class parents extends CI_Controller {
     }
     public function eventDetail($id){
         $id = $this->general->decryptParaID($id, 'event');
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $data['title'] = 'SMS';
         $data['sidebar'] = 'parents/parent_sidebar';
@@ -381,6 +395,7 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
@@ -435,6 +450,7 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $period = array();
         $starttime = $this->Teacher_model->getSetting('s0008');
@@ -471,7 +487,9 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
-
+        $data['mails'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+        
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
         $this->nativesession->set( 'classid', $student['classid'] );
@@ -482,6 +500,61 @@ class parents extends CI_Controller {
         $data['content'] = 'parents/parent_correspond_view';
         $this->load->view($this->template, $data);
     }
+
+    /**
+     * @param $id
+     */
+    public function parent_correspond_detail($id)
+    {
+        $id = $this->general->decryptParaID($id, 'correspond');
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+        $mail = $this->Parent_model->getMailDetail($id);
+        $data['mail'] = $mail;
+        
+        if($mail['receiver']==$this->nativesession->get('id')){
+            $this->Parent_model->markAsRead($id);
+        }
+        
+        
+        $explodesend = str_split($mail['sender'],1);
+        $explodesend = $explodesend[0];
+        switch ($explodesend){
+            case 't':
+                $data['sender'] = $this->Teacher_model->getProfileDataByID($mail['sender']);
+                break;
+
+            case 'p':
+                $data['sender'] = $this->Parent_model->getProfileDataByID($mail['sender']);
+                break;
+        }
+        $explodereceive = str_split($mail['receiver'],1);
+        $explodereceive = $explodereceive[0];
+        switch ($explodereceive){
+            case 't':
+                $data['receiver'] = $this->Teacher_model->getProfileDataByID($mail['receiver']);
+                break;
+
+            case 'p':
+                $data['receiver'] = $this->Parent_model->getProfileDataByID($mail['receiver']);
+                break;
+        }
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+
+        $data['content'] = 'parents/parent_correspond_detail_view';
+        $this->load->view($this->template, $data);
+    }
     public function parent_correspond_compose()
     {
         $data['title'] = 'SMS';
@@ -490,7 +563,44 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
-        
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+
+        $data['subject'] = '';
+        $data['receiver'] = '';
+        $data['text'] = '';
+        $data['reply'] = '0';
+
+
+        $this->form_validation->set_rules('receiver', 'Receiver', 'required');
+        $this->form_validation->set_rules('subject', 'Subject', 'required');
+        $this->form_validation->set_rules('text', 'Text', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Parent_model->getCorrespondLatestID();
+            $latestID = $latestID['correspondid'];
+            $latestID = substr($latestID, 1);
+            $correspondID = 'c'.str_pad((int) $latestID+1, 6, "0", STR_PAD_LEFT);
+
+            if (!empty($_FILES['images']['name'][0])) {
+                if ($this->upload_files($correspondID, $_FILES['images']) === FALSE) {
+                    $data['error'] = $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect(current_url());
+                }
+            }
+
+            if (!isset($data['error'])) {
+                $this->Parent_model->addCorrespond($correspondID, $this->nativesession->get('id'));
+                $this->nativesession->set('success', 'Message successfully sent');
+                redirect('parents/parent_correspond');
+            }
+        }
+        if(!empty($_POST)){
+            $data['subject'] = $this->input->post('subject');
+            $data['receiver'] = $this->input->post('receiver');
+            $data['text'] = $this->input->post('text');
+        }
+
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
         $this->nativesession->set( 'classid', $student['classid'] );
@@ -501,6 +611,175 @@ class parents extends CI_Controller {
         $data['content'] = 'parents/parent_correspond_compose_view';
         $this->load->view($this->template, $data);
     }
+    public function parent_correspond_reply()
+    {
+        $id = $this->nativesession->get('tempID');
+        $id = $this->general->decryptParaID($id, 'correspond');
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+        $mail = $this->Parent_model->getMailDetail($id);
+
+        $data['subject'] = 'RE: '.$mail['subject'];
+        $data['receiver'] = $mail['sender'];
+        $data['text'] = PHP_EOL.PHP_EOL.'--------------PREVIOUS MESSAGE--------------'.PHP_EOL.$mail['text'];
+        $data['reply'] = '1';
+
+
+        $this->form_validation->set_rules('receiver', 'Receiver', 'required');
+        $this->form_validation->set_rules('subject', 'Subject', 'required');
+        $this->form_validation->set_rules('text', 'Text', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Parent_model->getCorrespondLatestID();
+            $latestID = $latestID['correspondid'];
+            $latestID = substr($latestID, 1);
+            $correspondID = 'c'.str_pad((int) $latestID+1, 6, "0", STR_PAD_LEFT);
+
+            if (!empty($_FILES['images']['name'][0])) {
+                if ($this->upload_files($correspondID, $_FILES['images']) === FALSE) {
+                    $data['error'] = $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect(current_url());
+                }
+            }
+
+            if (!isset($data['error'])) {
+                $this->Parent_model->addCorrespond($correspondID, $this->nativesession->get('id'));
+                $this->nativesession->set('success', 'Message successfully sent');
+                redirect('parents/parent_correspond');
+            }
+        }
+        if(!empty($_POST)){
+            $data['subject'] = $this->input->post('subject');
+            $data['receiver'] = $this->input->post('receiver');
+            $data['text'] = $this->input->post('text');
+        }
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+
+        $data['content'] = 'parents/parent_correspond_compose_view';
+        $this->load->view($this->template, $data);
+    }
+    public function parent_correspond_forward()
+    {
+        $id = $this->nativesession->get('tempID');
+        $id = $this->general->decryptParaID($id, 'correspond');
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+        $mail = $this->Parent_model->getMailDetail($id);
+
+        $data['subject'] = $mail['subject'];
+        $data['receiver'] = '';
+        $data['text'] = $mail['text'];
+        $data['reply'] = '2';
+
+
+        $this->form_validation->set_rules('receiver', 'Receiver', 'required');
+        $this->form_validation->set_rules('subject', 'Subject', 'required');
+        $this->form_validation->set_rules('text', 'Text', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Parent_model->getCorrespondLatestID();
+            $latestID = $latestID['correspondid'];
+            $latestID = substr($latestID, 1);
+            $correspondID = 'c'.str_pad((int) $latestID+1, 6, "0", STR_PAD_LEFT);
+
+            if (!empty($_FILES['images']['name'][0])) {
+                if ($this->upload_files($correspondID, $_FILES['images']) === FALSE) {
+                    $data['error'] = $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect(current_url());
+                }
+            }
+
+            if (!isset($data['error'])) {
+                $this->Parent_model->addCorrespond($correspondID, $this->nativesession->get('id'));
+                $this->nativesession->set('success', 'Message successfully sent');
+                redirect('parents/parent_correspond');
+            }
+        }
+
+        if(!empty($_POST)){
+            $data['subject'] = $this->input->post('subject');
+            $data['receiver'] = $this->input->post('receiver');
+            $data['text'] = $this->input->post('text');
+        }
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+
+        $data['content'] = 'parents/parent_correspond_compose_view';
+        $this->load->view($this->template, $data);
+    }
+    private function upload_files($id, $files)
+    {
+        if (!file_exists($this->correspondpath.$id)) {
+            mkdir($this->correspondpath.$id, 0777, true);
+        }
+        $pathID = $this->correspondpath.$id;
+        $config = array(
+            'upload_path'   => $pathID,
+            'allowed_types' => 'doc|docx|pdf|ppt|pptx|xlsx|xls|jpg|jpeg|png|gdoc|gsheet|gslides',
+            'overwrite'     => 1,
+            'max_size'      => 200000,
+        );
+
+        $this->load->library('upload', $config);
+        foreach ($files['name'] as $key => $image) {
+            $_FILES['images[]']['name']= $files['name'][$key];
+            $_FILES['images[]']['type']= $files['type'][$key];
+            $_FILES['images[]']['tmp_name']= $files['tmp_name'][$key];
+            $_FILES['images[]']['error']= $files['error'][$key];
+            $_FILES['images[]']['size']= $files['size'][$key];
+
+            $fileName = $image;
+
+            $images[] = $fileName;
+            $config['file_name'] = $fileName;
+
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('images[]')) {
+                $data = $this->upload->data();
+                $filename = $data['orig_name'];
+                $this->Parent_model->addCorrespondAttachment($id, $filename);
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public function downloadAll($correspondid){
+        $this->load->library('zip');
+
+        $mail = $this->Parent_model->getMailDetail($correspondid);
+        $path = 'assets/file/correspond/'.$correspondid.'/';
+
+//        $this->zip->add_dir($mail['subject'].'.zip'); // Creates a directory called "myfolder"
+        $this->zip->read_dir($path, false);
+
+// Download the file to your desktop. Name it "my_backup.zip"
+        $this->zip->download($mail['subject'].'.zip');
+    }
     public function parent_correspond_sent()
     {
         $data['title'] = 'SMS';
@@ -509,6 +788,8 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['mails'] = $this->Parent_model->getAllSent($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
@@ -520,6 +801,42 @@ class parents extends CI_Controller {
         $data['content'] = 'parents/parent_correspond_sent_view';
         $this->load->view($this->template, $data);
     }
+    public function add_correspond()
+    {
+        $this->form_validation->set_rules('receiver', 'Receiver', 'required');
+        $this->form_validation->set_rules('subject', 'Subject', 'required');
+        $this->form_validation->set_rules('text', 'Text', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $latestID = $this->Parent_model->getCorrespondLatestID();
+            $latestID = $latestID['correspondid'];
+            $latestID = substr($latestID, 1);
+            $correspondID = 'c'.str_pad((int) $latestID+1, 6, "0", STR_PAD_LEFT);
+            if ($_FILES['userfile']['error'] != 4) {
+                $config['upload_path'] = $this->correspondpath;
+                $config['allowed_types'] = "doc|docx|pdf|ppt|pptx|xlsx|xls|jpg|jpeg|png|gdoc|gsheet|gslides";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $correspondID;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('attachment')) {
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect(current_url());
+                } else {
+                    $data = $this->upload->data();
+                    $filename = $data['orig_name'];
+                    if ($this->Parent_model->addCorrespond($correspondID, $this->nativesession->get('id'), $filename)) {
+                    } else {
+                        $this->nativesession->set('error', 'There is a problem, please check the required field. If there are attachment, make sure the file has proper file type.');
+                        redirect(current_url());
+                    }
+                }
+            }
+            redirect('parents/parent_correspond');
+        }
+    }
     public function payment_status()
     {
         $data['title'] = 'SMS';
@@ -528,6 +845,7 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $data['payments'] = $this->Parent_model->getPaymentStatus($this->nativesession->get('id'));
 
@@ -548,6 +866,7 @@ class parents extends CI_Controller {
         $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
         $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $data['payments'] = $this->Parent_model->getPaymentHistory($this->nativesession->get('id'));
 

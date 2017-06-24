@@ -1,5 +1,10 @@
 <!-- page content -->
 <div class="right_col" role="main">
+    <?php if ($this->nativesession->get('success')): ?>
+        <div  class="alert alert-success">
+            <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
+        </div>
+    <?php endif; ?>
     <div class="">
 
         <div class="page-title">
@@ -8,10 +13,21 @@
             </div>
         </div>
 
+        <?php
+        $result = 0;
+        if($mails){
+            foreach($mails as $mail) {
+                if($mail['status'] == 0){
+                    $result += 1;
+                }
+            }
+        }
+        ?>
+
         <div class="clearfix"></div>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Parent's Mail</h2>
@@ -26,7 +42,7 @@
                                         <a href="<?php echo base_url() ?>index.php/parents/parent_correspond_compose"><button id="compose" class="btn btn-sm btn-success btn-block" type="button">COMPOSE</button></a>
                                         <ul>
                                             <li>
-                                                <a href="<?php echo base_url() ?>index.php/parents/parent_correspond"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger">5</span></a>
+                                                <a href="<?php echo base_url() ?>index.php/parents/parent_correspond"><i class="fa fa-inbox"></i> Inbox <?php if($result!=''){?><span class="label label-danger"><?php echo $result;}?></span></a>
                                             </li>
                                             <li>
                                                 <a href="<?php echo base_url() ?>index.php/parents/parent_correspond_sent"><i class="fa fa-rocket"></i> Sent</a>
@@ -51,26 +67,28 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            <?php
+                                            if($mails){
+                                                foreach($mails as $mail){
+                                                $encrypted = $this->general->encryptParaID($mail['correspondid'],'correspond');
+                                                if(!empty($this->Parent_model->getAllCorrespondAttachmentByID($mail['correspondid']))){$attachment = 1;}else $attachment=0;
+                                                ?>
                                             <tr>
-                                                <td class="inbox-unread">
-                                                    <a href="#a">
-                                                        <div class="inbox-name">Evelyn Kharisma</div>
-                                                        <div class="inbox-attachment"><i class="fa fa-paperclip"></i></div>
-                                                        <div class="inbox-subjects">Question A<small> - Dear Student, You are close to completing your study in the Even Semester 2016/2017. Put in your best efforts in the upcoming final exams and earn the grades you deserve! please check your Binusmaya for the data of attendance and exam schedule detail.</small></div>
-                                                        <div class="inbox-date">June 12</div>
+                                                <td class="inbox-<?php if($mail['status']=='1'){ echo 'read'; } else{ echo'unread'; }?>">
+                                                    <a href="<?php echo base_url() ?>index.php/parents/parent_correspond_detail/<?php echo $encrypted;?>">
+                                                        <div class="inbox-name"><?php echo $mail['firstname'] ?> <?php echo $mail['lastname'] ?></div>
+                                                        <div class="inbox-attachment<?php if($attachment==0){echo ' transparent';} ?>"><i class="fa fa-paperclip"></i></div>
+                                                        <div class="inbox-subjects"><?php echo $mail['subject'] ?><small> - <?php echo $mail['text'] ?></small></div>
+                                                        <div class="inbox-date"><?php $date = date_create($mail['date']); echo date_format($date, 'F d'); ?></div>
                                                     </a>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="inbox-read">
-                                                    <a href="#b">
-                                                        <div class="inbox-name">Janis Giovani Tan</div>
-                                                        <div class="inbox-attachment transparent"><i class="fa fa-paperclip"></i></div>
-                                                        <div class="inbox-subjects">Hi<small> - hello.</small></div>
-                                                        <div class="inbox-date">June 12</div>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            <?php }}
+                                            else {?>
+                                                <tr>
+                                                    <td colspan="4"><?php echo 'no message' ?></td>
+                                                </tr>
+                                            <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>

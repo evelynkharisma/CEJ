@@ -156,6 +156,11 @@ class General
             $value = substr($id,1) + 159;
             $id = $variable.$value;
         }
+        elseif($type == 'correspond'){
+            $variable = ord('c');
+            $value = substr($id,1) + 260;
+            $id = $variable.$value;
+        }
 
         return $id;
     }
@@ -263,6 +268,11 @@ class General
             $variable = strlen(ord('e'));
             $id = substr($id, $variable) - 159;
             $id = 'e'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'correspond'){
+            $variable = strlen(ord('c'));
+            $id = substr($id, $variable) - 260;
+            $id = 'c'.str_pad((int) $id, 6, "0", STR_PAD_LEFT);
         }
         return $id;
     }

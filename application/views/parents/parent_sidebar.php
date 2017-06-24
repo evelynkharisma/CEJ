@@ -4,6 +4,17 @@
 
 <div class="clearfix"></div>
 
+<?php
+$result = 0;
+if($inbox){
+    foreach($inbox as $inbox) {
+        if($inbox['status'] == 0){
+            $result += 1;
+        }
+    }
+}
+?>
+
 <!-- menu profile quick info -->
 <div class="profile clearfix">
     <div class="profile_pic">
@@ -100,7 +111,7 @@
             </li>
 <!--            <li><a href="--><?php //echo base_url() ?><!--index.php/parents/eventList"><i class="fa fa-bell"></i> Events</a></li>-->
             <li><a href="<?php echo base_url() ?>index.php/parents/forms"><i class="fa fa-download"></i> Download</a></li>
-            <li><a href="<?php echo base_url() ?>index.php/parents/parent_correspond"><i class="fa fa-envelope"></i> Correspond</a></li>
+            <li><a href="<?php echo base_url() ?>index.php/parents/parent_correspond"><i class="fa fa-envelope"></i> Correspond  <?php if($result!=''){?><span class="badge bg-green"><?php echo $result ;}?></span></a></li>
 
 
 <!--            <li>-->

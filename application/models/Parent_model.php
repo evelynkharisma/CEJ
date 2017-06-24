@@ -7,6 +7,8 @@ class Parent_model extends CI_Model {
     var $student = 'student';
     var $form_table = 'forms';
     var $payment_table = 'payment';
+    var $correspond = 'correspond';
+    var $correspond_file = 'correspond_file';
 
     function __construct() {
         parent::__construct();
@@ -532,6 +534,107 @@ class Parent_model extends CI_Model {
             return $query->row_array();
         }
     }
+
+    //start of corresponding / mail model
+    function getAllInbox ($receiver){
+        $this->db->select('*');
+        $this->db->where('receiver', $receiver);
+        $this->db->join('teacher', 'teacher.teacherid = correspond.sender');
+        $this->db->order_by('date', 'desc');
+        $query = $this->db->get($this->correspond);
+        
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+    
+    function getAllSent ($sender){
+        $this->db->select('*');
+        $this->db->where('sender', $sender);
+        $this->db->join('teacher', 'teacher.teacherid = correspond.receiver');
+        $this->db->order_by('correspondid', 'desc');
+        $query = $this->db->get($this->correspond);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getMailDetail ($id){
+        $this->db->select('*');
+        $this->db->where('correspondid', $id);
+//        $this->db->join('teacher', 'teacher.teacherid = correspond.receiver');
+//        $this->db->join('parents', 'parents.parentid = correspond.receiver');
+        $this->db->order_by('correspondid', 'desc');
+        $this->db->limit(1);
+        $query = $this->db->get($this->correspond, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getCorrespondLatestID(){
+        $this->db->select('correspondid');
+        $this->db->order_by("correspondid", "desc");
+        $this->db->limit(1);   
+        $query = $this->db->get($this->correspond, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addCorrespond($id, $sender){
+        $data = array(
+            'correspondid' => $id,
+            'receiver' => $this->input->post('receiver'),
+            'sender' => $sender,
+            'subject' => $this->input->post('subject'),
+            'text' => $this->input->post('text'),
+            'date' => date('Y-m-d', now()),
+            'status' => '0'
+        );
+        $this->db->insert($this->correspond, $data);
+    }
+    
+    function addCorrespondAttachment($id, $filename){
+        $data = array(
+            'correspondid' => $id,
+            'attachment' => $filename
+        );
+        $this->db->insert($this->correspond_file, $data);
+    }
+
+    function getAllCorrespondAttachmentByID ($id){
+        $this->db->select('*');
+        $this->db->where('correspondid', $id);
+        $query = $this->db->get($this->correspond_file);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+    
+    function totalCorrespondAttachment ($id){
+        $this->db->select('count(*) AS count');
+        $this->db->where('correspondid', $id);
+        $query = $this->db->get($this->correspond_file);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function markAsRead($id){
+        $data = array(
+            'status' => '1'
+        );
+        $this->db->where('correspondid', $id);
+        $this->db->update($this->correspond, $data);
+        return TRUE;
+    }
+    //end of corresponding / mail model
 }
 
 ?>
