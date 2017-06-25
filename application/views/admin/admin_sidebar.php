@@ -76,6 +76,7 @@
             </li>
             <li><a><i class="fa fa-book"></i> Courses <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
+                    <li><a href="<?php echo base_url() ?>index.php/admin/feedback">Feedback</a></li>
                     <?php
                     $privilege = $this->general->checkPrivilege($this->nativesession->get('role'), 'p0013');
                     if($privilege == 1){

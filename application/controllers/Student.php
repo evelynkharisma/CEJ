@@ -50,6 +50,47 @@ class student extends CI_Controller {
         $this->load->view($this->template, $data);
     }
 
+    public function editFeedback($ecourseid, $eassignid){
+        $stid = $this->general->decryptParaID($this->nativesession->get('id'), 'student');
+        $assignid = $this->general->decryptParaID($eassignid, 'courseassigned');
+
+        $this->form_validation->set_rules('feedback', 'feedback', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Student_model->editFeedback($stid, $assignid);
+            $this->nativesession->set('success', 'Feedback saved');
+            redirect('student/courseView/' . $ecourseid);
+        }
+        else {
+            $this->nativesession->set('error', 'All field are required');
+            redirect('student/courseView/' . $ecourseid);
+        }
+    }
+
+    public function submitFeedback($ecourseid, $eassignid, $null){
+        $stid = $this->nativesession->get('id');
+        $assignid = $this->general->decryptParaID($eassignid, 'courseassigned');
+
+        $this->form_validation->set_rules('feedback', 'feedback', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            if($null) {
+                $this->Student_model->addFeedback($stid, $assignid);
+            } else {
+                $this->Student_model->editFeedback($stid, $assignid);
+            }
+
+            $this->nativesession->set('success', 'Feedback saved');
+           redirect('student/courseView/' . $ecourseid);
+        }
+        else {
+            $this->nativesession->set('error', 'All field are required');
+            redirect('student/courseView/' . $ecourseid);
+        }
+    }
+
     public function courseView($id)
     {
         $id = $this->general->decryptParaID($id, 'course');
@@ -61,9 +102,20 @@ class student extends CI_Controller {
         $data['course_plan'] = $this->Student_model->getCoursePlanDataByID($id);
         $data['student']  = $this->Student_model->getProfileDataByID($this->nativesession->get('id'));
         $data['eventnotif'] = $this->Student_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $assignid = $this->Student_model->getAssignidByCourse($id,$this->nativesession->get('classid'));
+        $feedback = $this->Student_model->getFeedback($this->nativesession->get('id'),$assignid['assignid']);
+//        $data['feedback'] = $this->Student_model->getFeedback($this->nativesession->get('id'),$assignid['assignid']);
+        if($feedback==NULL) {
+            $data['feedback'] = null;
+        } else {
+            $data['feedback'] = $feedback['feedback'];
+        }
+
         $data['topnavigation'] = 'student/student_topnavigation';
         $data['top2navigation'] = 'student/student_top2navigation';
         $data['content'] = 'student/student_course_view';
+
         $this->load->view($this->template, $data);
     }
 

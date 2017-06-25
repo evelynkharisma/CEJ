@@ -835,6 +835,38 @@ class Admin_model extends CI_Model {
         $this->db->update($this->student_educational_table, $data);
     }
 
+    function deleteStudentEducational($id) {
+        $this->db->where('seid', $id);
+        $this->db->delete($this->student_educational_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
+
+    function getFeedback()
+    {
+        $sql = 'SELECT course_assign.*, teacher.firstname as teacherfirstname, teacher.lastname as teacherlastname, course.coursename, class.classroom, class.periode FROM course_assign, teacher, course, class WHERE course_assign.teacherid=teacher.teacherid AND course_assign.courseid=course.courseid AND course_assign.classid=class.classid ';
+
+        $query = $this->db->query($sql);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getFeedbackByAssignID($id)
+    {
+        $sql = 'SELECT * FROM feedback WHERE assignid=\''.$id.'\'';
+
+        $query = $this->db->query($sql);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
 
 
     function addStudentMedicalProblem($hpid, $stdid, $prob, $status, $severity, $med, $act) {
