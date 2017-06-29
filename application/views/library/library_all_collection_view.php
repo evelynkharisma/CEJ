@@ -39,10 +39,10 @@
 <!--                                <th width="11%">Number</th>-->
                                 <th width="10%">ISBN</th>
                                 <th >Title</th>
-                                <th width="20%">Type</th>
+                                <th width="15%">Type</th>
                                 <th width="5%">Availability</th>
                                 <th width="5%">Borrowed</th>
-                                <th width="35%">Action</th>
+                                <th width="45%">Action</th>
 
                             </tr>
                             </thead>
@@ -78,6 +78,7 @@
                                             ?>
                                             <a href="<?php echo base_url() ?>index.php/library/collectionAuthor/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-eye"></i> Authors</a>
                                             <a href="<?php echo base_url() ?>index.php/library/collectionSubject/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-eye"></i> Subject</a>
+                                            <a href="<?php echo base_url() ?>index.php/library/collectionBorrowed/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-eye"></i> Borrowed</a>
                                             <a href="<?php echo base_url() ?>index.php/library/editCollection/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-edit"></i> Edit</a>
                                             <a href="<?php echo base_url() ?>index.php/library/deleteCollection/<?php echo $encrypted?>" class="btn-primary btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>

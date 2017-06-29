@@ -46,9 +46,7 @@
                                         <td><?php echo $info_db['coursename'] ?></td>
                                         <td width="20%">
                                             <?php
-                                            echo "sbm ".$info_db['assignid'];
                                                 $encrypted = $this->general->encryptParaID($info_db['assignid'],'courseassigned');
-                                            echo "sbm ".$encrypted;
                                             ?>
                                             <a href="<?php echo base_url() ?>index.php/admin/viewFeedback/<?php echo $encrypted ?>" class="btn-success btn"><i class="fa fa-eye"></i>View feedback</a>
                                         </td>

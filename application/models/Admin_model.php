@@ -36,6 +36,8 @@ class Admin_model extends CI_Model {
     var $item_request_table = 'item_request';
     var $book_request_table = 'book_request';
     var $fotocopy_request_table = 'fotocopy_request';
+    var $librarian_table = 'librarian';
+    var $operation_table = 'operations';
 
     function __construct() {
         parent::__construct();
@@ -906,6 +908,27 @@ class Admin_model extends CI_Model {
     }
 
 
+    function getAllLibrarian(){
+        $this->db->select('*');
+//        $this->db->where('active', '1');
+
+        $query = $this->db->get($this->librarian_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllOperations(){
+        $this->db->select('*');
+//        $this->db->where('active', '1');
+
+        $query = $this->db->get($this->operation_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
 }
 
 ?>

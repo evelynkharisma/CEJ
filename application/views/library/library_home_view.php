@@ -100,7 +100,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_content">
-                            <a href="<?php echo base_url() ?>index.php/library/allNews" class="btn-primary btn set-right"><i class="fa fa-edit"></i>Edit Contact</a>
+                            <a href="<?php echo base_url() ?>index.php/library/allNews" class="btn-primary btn set-right"><i class="fa fa-edit"></i>Edit News</a>
                         </div>
                     </div>
                 </div>
@@ -151,7 +151,18 @@
 <!-------------------------------------------  USEFUL LINKS  ----------------------------------->
     <div class="services-w3layouts" id="useful_link">
         <div class="container">
-
+            <?php $privilege = $this->general->checkPrivilege($this->nativesession->get('librole'), 'p0045');
+            if($privilege == 1){?>
+                <div class="row" style="margin-bottom: 3vw">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_content">
+                                <a href="<?php echo base_url() ?>index.php/library/allUsefulLink" class="btn-primary btn set-right"><i class="fa fa-edit"></i>Edit Useful Link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
             <h5 class="title-w3">useful links</h5>
             <div class="col-md-1"></div>
             <div class="col-md-10">

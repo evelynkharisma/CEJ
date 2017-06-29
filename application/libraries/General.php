@@ -171,6 +171,12 @@ class General
             $value = substr($id,1) + 107;
             $id = $variable.$value;
         }
+        elseif($type == 'libnews'){
+            $variable = ord('b');
+            $value = substr($id,1) + 109;
+            $id = $variable.$value;
+        }
+
         elseif($type == 'correspond'){
             $variable = ord('c');
             $value = substr($id,1) + 260;
@@ -292,13 +298,19 @@ class General
         elseif($type == 'libborrowed'){
             $variable = strlen(ord('b'));
             $id = substr($id, $variable) - 105;
-            $id = 'p'.str_pad((int) $id, 6, "0", STR_PAD_LEFT);
+            $id = 'b'.str_pad((int) $id, 6, "0", STR_PAD_LEFT);
         }
         elseif($type == 'studenteducational'){
             $variable = strlen(ord('e'));
             $id = substr($id, $variable) - 107;
             $id = 'e'.str_pad((int) $id, 8, "0", STR_PAD_LEFT);
         }
+        elseif($type == 'libnews'){
+            $variable = strlen(ord('b'));
+            $id = substr($id, $variable) - 109;
+            $id = 'b'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+
         elseif($type == 'correspond'){
             $variable = strlen(ord('c'));
             $id = substr($id, $variable) - 260;

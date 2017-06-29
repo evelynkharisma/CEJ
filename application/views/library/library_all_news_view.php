@@ -5,7 +5,6 @@
     <div class="container">
         <div class="row" style="margin-bottom: 3vw">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <h2>Borrowed Collection</h2>
                 <?php if ($this->nativesession->get('error')): ?>
                     <div  class="alert alert-error">
                         <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
@@ -21,14 +20,10 @@
                         <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
                     </div>
                 <?php endif; ?>
+
+                <h2>News</h2>
             </div>
         </div>
-
-        <?php if (!empty($top2navigation)): ?>
-            <?php $this->load->view($top2navigation); ?>
-        <?php else: ?>
-            Navigation not found !
-        <?php endif; ?>
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -37,39 +32,35 @@
                             <thead>
                             <tr>
 <!--                                <th width="11%">Number</th>-->
-                                <th width="5%">ID</th>
-                                <th width="15%">Name</th>
-                                <th width="10%">Role</th>
-                                <th width="10%">Borrowed Date</th>
-                                <th width="10%">Returned Date</th>
-                                <th width="10%">Status</th>
-                                <th width="15%">Action</th>
+                                <th width="5%">No</th>
+                                <th width="65%">Title</th>
+                                <th width="10%">Date</th>
+                                <th width="20%">Action</th>
 
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            if($borrowed) {
-                                foreach ($borrowed as $bcollection) {
+                            if($news) {
+                                $i=1;
+                                foreach ($news as $n) {
                             ?>
                                     <tr>
-<!--                                        <td>--><?php //echo $collection['lcid'] ?><!--</td>-->
-                                        <td><?php echo $bcollection['userid'] ?></td>
-                                        <td><?php echo $bcollection['firstname'] ?></td>
-                                        <td><?php echo $bcollection['usertype'] ?></td>
-                                        <td><?php echo $bcollection['borrowed_date'] ?></td>
-                                        <td><?php echo $bcollection['returned_date'] ?></td>
-                                        <td><?php echo $bcollection['status'] ?></td>
+<!--                                        <td>--><?php //echo $n['lcid'] ?><!--</td>-->
+                                        <td><?php echo $i ?></td>
+                                        <td><?php echo $n['title'] ?></td>
+                                        <td><?php echo date('d M Y', strtotime($n['date']))?></td>
                                         <td>
                                             <?php
-                                            $encrypted = $this->general->encryptParaID($bcollection['lbid'],'libborrowed');
+                                            $encrypted = $this->general->encryptParaID($n['newsid'],'libnews');
                                             ?>
-                                            <a href="<?php echo base_url() ?>index.php/library/editBorrowedCollection/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-edit"></i> Edit</a>
-                                            <a href="<?php echo base_url() ?>index.php/library/deleteCollection/<?php echo $encrypted?>" class="btn-primary btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                            <a href="<?php echo base_url() ?>index.php/library/editNews/<?php echo $encrypted ?>" class="btn-primary btn" ><i class="fa fa-edit"></i> Edit</a>
+                                            <a href="<?php echo base_url() ?>index.php/library/deleteNews/<?php echo $encrypted?>" class="btn-primary btn" onclick="return confirm('Are you sure want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
                                     </tr>
 
                             <?php
+                                    $i++;
                                 }
                             }
                             ?>
@@ -84,8 +75,5 @@
     $(document).ready(function(){
         $('#example').dataTable();
     });
-</script>
-<script>
-    document.getElementById("libmenu_collection").className = "active";
 </script>
 <!-- /page content -->
