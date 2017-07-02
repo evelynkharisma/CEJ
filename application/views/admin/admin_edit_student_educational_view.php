@@ -124,11 +124,11 @@
                                 ?>
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="border-bottom: 1px solid lightgrey; margin-top: 1vw; padding-bottom: 1vw">
                                     <?php
-                                    $encrypted = $this->general->encryptParaID($edu['seid'],'studenteducational');
+                                    $encryptedSE = $this->general->encryptParaID($edu['seid'],'studenteducational');
 
                                     ?>
 
-                                    <a class="btn btn-success set-right" onclick="return confirm('Are you sure want to delete this?');" href="<?php echo base_url() ?>index.php/library/deleteCollectionAuthor/<?php echo $encrypted?>/<?php echo $encrypted?>"<"><i class="fa fa-trash m-right-xs"></i> Delete</a>
+                                    <a class="btn btn-success set-right" onclick="return confirm('Are you sure want to delete this?');" href="<?php echo base_url() ?>index.php/admin/deleteStudentEducational/<?php echo $encryptedSE?>/<?php echo $encrypted?>"<"><i class="fa fa-trash m-right-xs"></i> Delete</a>
                                     <a data-toggle="modal" data-target="#edit<?php echo $edu['seid']?>" class="btn btn-success set-right" style="margin-right: 0.5vw"><i class="fa fa-edit"></i> Edit</a>
 
                                     <div class="col-md-12 col-sm-12 col-xs-12">

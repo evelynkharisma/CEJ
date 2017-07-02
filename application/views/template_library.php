@@ -41,7 +41,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Bootstrap -->
     <script src="<?php echo base_url() ?>assets/js/bootstrap.js"></script>
-
+    <script src="<?php echo base_url() ?>assets/js/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({
+            selector:'#long-text',
+            plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table contextmenu paste"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        });</script>
 
     <!-- bootstrap-daterangepicker -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/daterangepicker.css">

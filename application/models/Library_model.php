@@ -8,6 +8,9 @@ class Library_model extends CI_Model {
     var $library_collection_authors_table = 'library_collection_authors';
     var $library_collection_subjects_table = 'library_collection_subjects';
     var $library_borrowed_collection_table = 'library_borrowed';
+    var $library_borrowing_setting= 'library_borrowing_setting';
+    var $library_useful_link_table = 'library_useful_link';
+    var $library_useful_link_content_table = 'library_useful_link_content';
 //    var $course_table = 'course';
 //    var $course_assign_table = 'course_assign';
 //    var $attendance_table = 'attendance';
@@ -53,72 +56,7 @@ class Library_model extends CI_Model {
     }
 
 
-    function getAllServices(){
-        $this->db->select('*');
 
-        $query = $this->db->get($this->library_service_table);
-
-        return $query->num_rows();
-    }
-
-    function getServiceByID($id) {
-        $this->db->select('*');
-        $this->db->where('serviceid', $id);
-        $this->db->limit(1);
-        $query = $this->db->get($this->library_service_table, 1);
-
-        if ($query->num_rows() == 1) {
-            return $query->row_array();
-        }
-    }
-
-    function getAllNews(){
-        $this->db->select('*');
-
-        $query = $this->db->get($this->library_news_table);
-
-        return $query->num_rows();
-    }
-
-    function getNewsByID($id) {
-        $this->db->select('*');
-        $this->db->where('newsid', $id);
-        $this->db->limit(1);
-        $query = $this->db->get($this->library_news_table, 1);
-
-        if ($query->num_rows() == 1) {
-            return $query->row_array();
-        }
-    }
-
-    function getRecentNews() {
-        $sql = 'SELECT * FROM `library_news` ORDER BY `date` ASC LIMIT 5';
-
-        $query = $this->db->query($sql);
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
-        }
-    }
-
-    function getAllUsefulLink(){
-        $sql = 'SELECT library_useful_link.name, library_useful_link_content.* FROM library_useful_link_content, library_useful_link WHERE library_useful_link.category=library_useful_link_content.category ORDER BY library_useful_link.category ASC';
-
-        $query = $this->db->query($sql);
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
-        }
-
-    }
-
-    function getUsefulLinkCategory(){
-        $sql = 'SELECT * FROM library_useful_link ORDER BY category ASC';
-
-        $query = $this->db->query($sql);
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
-        }
-
-    }
 
     function getCollectionLatestID()
     {
@@ -199,6 +137,14 @@ class Library_model extends CI_Model {
             'seriesUniformTitleLA' => $this->input->post('seriesUniformTitleLA'),
             'seriesUniformTitle' => $this->input->post('seriesUniformTitle'),
             'stock' => $this->input->post('availability'),
+        );
+        $this->db->where('lcid', $id);
+        $this->db->update($this->library_collection_table, $data);
+    }
+
+    function setCollectionStock($id, $stock) {
+        $data = array(
+           'stock' => $stock
         );
         $this->db->where('lcid', $id);
         $this->db->update($this->library_collection_table, $data);
@@ -312,7 +258,6 @@ class Library_model extends CI_Model {
         return FALSE;
     }
 
-
     function getCollectionSubjectByCollectionID($lcid) {
         $sql = 'SELECT * FROM library_collection_subjects WHERE lcid=\''.$lcid.'\'';
 
@@ -322,6 +267,26 @@ class Library_model extends CI_Model {
         }
     }
 
+
+
+    function getTotalServices(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->library_service_table);
+
+        return $query->num_rows();
+    }
+
+    function getServiceByID($id) {
+        $this->db->select('*');
+        $this->db->where('serviceid', $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_service_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
 
     function getServiceDataByID($id) {
         $this->db->select('*');
@@ -372,6 +337,237 @@ class Library_model extends CI_Model {
             return $query->result_array();
         }
     }
+
+    function getBorrowedCollectionDataByCollectionID($id)
+    {
+        $sql = 'SELECT * FROM library_borrowed WHERE status=\'Borrowed\' AND lcid=\''.$id.'\'';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getBorrowingSetting() {
+        $sql = 'SELECT * FROM library_borrowing_setting';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getBorrowingSettingByID($id) {
+        $this->db->select('*');
+        $this->db->where('borrowCategory', $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_borrowing_setting, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getBorrowedLatestID()
+    {
+        $this->db->select('lbid');
+        $this->db->order_by("lbid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_borrowed_collection_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addBorrowedCollection($id) {
+        $data = array(
+            'lbid' => $id,
+            'lcid' => $this->input->post('collid'),
+            'userid' => $this->input->post('userid'),
+            'firstname' => $this->input->post('firstname'),
+            'lastname' => $this->input->post('lastname'),
+            'usertype' => $this->input->post('usertype'),
+            'borrowCategory' => $this->input->post('borrowSetting'),
+            'status' => 'Borrowed'
+        );
+        $this->db->insert($this->library_borrowed_collection_table, $data);
+    }
+
+
+
+
+    function getNewsByID($id) {
+        $this->db->select('*');
+        $this->db->where('newsid', $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_news_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function getRecentNews() {
+        $sql = 'SELECT * FROM `library_news` ORDER BY `date` ASC LIMIT 5';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllNews(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->library_news_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function editNews($id) {
+        $data = array(
+            'title' => $this->input->post('title'),
+            'content' => $this->input->post('content'),
+        );
+        $this->db->where('newsid', $id);
+        $this->db->update($this->library_news_table, $data);
+    }
+
+    function deleteNews($id) {
+        $this->db->where('newsid', $id);
+        $this->db->delete($this->library_news_table);
+        if ($this->db->affected_rows() != 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
+
+
+    function getUsefulLinkCategory(){
+//        $sql = 'SELECT * FROM library_useful_link ORDER BY category ASC';
+//
+//        $query = $this->db->query($sql);
+//        if ($query->num_rows() > 0) {
+//            return $query->result_array();
+//        }
+
+        $this->db->select('*');
+        $this->db->order_by('category', 'ASC');
+
+        $query = $this->db->get($this->library_useful_link_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getUsefulLinkCategoryLatestID()
+    {
+        $this->db->select('category');
+        $this->db->order_by("category", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_useful_link_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addUsefulLinkCategory($id) {
+        $data = array(
+            'category' => $id,
+            'name' => $this->input->POST('category')
+        );
+        $this->db->insert($this->library_useful_link_table, $data);
+    }
+
+    function editUsefulLinkCategory($id) {
+        $data = array(
+            'name' => $this->input->POST('category')
+        );
+
+        $this->db->where('category', $id);
+        $this->db->update($this->library_useful_link_table, $data);
+    }
+
+    function deleteUsefulLinkCategory($id) {
+        $this->db->where('category', $id);
+        $this->db->delete($this->library_useful_link_table);
+        if ($this->db->affected_rows() != 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    function getAllUsefulLinkContent(){
+        $sql = 'SELECT library_useful_link.name, library_useful_link_content.* FROM library_useful_link_content, library_useful_link WHERE library_useful_link.category=library_useful_link_content.category ORDER BY library_useful_link.category ASC';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+
+    }
+
+    function getUsefulLinkContentByID($id) {
+        $this->db->select('*');
+        $this->db->where('category', $id);
+        $this->db->order_by('category', 'ASC');
+
+        $query = $this->db->get($this->library_useful_link_content_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getUsefulLinkContentLatestID()
+    {
+        $this->db->select('linkid');
+        $this->db->order_by("linkid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_useful_link_content_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addUsefulLinkContent($id, $cat) {
+        $data = array(
+            'category' => $cat,
+            'name' => $this->input->POST('title'),
+            'link' => $this->input->POST('link'),
+            'linkid' => $id
+        );
+        $this->db->insert($this->library_useful_link_content_table, $data);
+    }
+
+    function editUsefulLinkContent($id) {
+        $data = array(
+            'name' => $this->input->POST('title'),
+            'link' => $this->input->POST('link')
+        );
+
+        $this->db->where('linkid', $id);
+        $this->db->update($this->library_useful_link_content_table, $data);
+    }
+
+    function deleteUsefulLinkContent($id) {
+        $this->db->where('linkid', $id);
+        $this->db->delete($this->library_useful_link_content_table);
+        if ($this->db->affected_rows() != 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
 
 }
 

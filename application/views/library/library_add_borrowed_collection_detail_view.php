@@ -15,7 +15,7 @@
 
 
             <div class="row" style="margin-bottom: 3vw">
-                <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Edit Borrowing Collection</h2>
+                <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Add Borrowing Collection</h2>
                 </div>
             </div>
 
@@ -37,7 +37,7 @@
 
             <?php endif; ?>
 
-            <?php echo form_open_multipart("library/editBorrowedCollectionDetail");?>
+            <?php echo form_open_multipart("library/addBorrowedCollectionDetail");?>
            <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="profile_title">

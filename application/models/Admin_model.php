@@ -36,6 +36,8 @@ class Admin_model extends CI_Model {
     var $item_request_table = 'item_request';
     var $book_request_table = 'book_request';
     var $fotocopy_request_table = 'fotocopy_request';
+    var $librarian_table = 'librarian';
+    var $operation_table = 'operations';
 
     function __construct() {
         parent::__construct();
@@ -835,6 +837,38 @@ class Admin_model extends CI_Model {
         $this->db->update($this->student_educational_table, $data);
     }
 
+    function deleteStudentEducational($id) {
+        $this->db->where('seid', $id);
+        $this->db->delete($this->student_educational_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
+
+    function getFeedback()
+    {
+        $sql = 'SELECT course_assign.*, teacher.firstname as teacherfirstname, teacher.lastname as teacherlastname, course.coursename, class.classroom, class.periode FROM course_assign, teacher, course, class WHERE course_assign.teacherid=teacher.teacherid AND course_assign.courseid=course.courseid AND course_assign.classid=class.classid ';
+
+        $query = $this->db->query($sql);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getFeedbackByAssignID($id)
+    {
+        $sql = 'SELECT * FROM feedback WHERE assignid=\''.$id.'\'';
+
+        $query = $this->db->query($sql);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
 
 
     function addStudentMedicalProblem($hpid, $stdid, $prob, $status, $severity, $med, $act) {
@@ -874,6 +908,27 @@ class Admin_model extends CI_Model {
     }
 
 
+    function getAllLibrarian(){
+        $this->db->select('*');
+//        $this->db->where('active', '1');
+
+        $query = $this->db->get($this->librarian_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getAllOperations(){
+        $this->db->select('*');
+//        $this->db->where('active', '1');
+
+        $query = $this->db->get($this->operation_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
 }
 
 ?>

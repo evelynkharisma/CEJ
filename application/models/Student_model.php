@@ -20,6 +20,7 @@ class Student_model extends CI_Model {
     var $event_table = 'events';
 //    var $setting_table = 'settings';
     var $event_image_table = 'event_images';
+    var $feedback_table = 'feedback';
 
     function __construct() {
         parent::__construct();
@@ -528,6 +529,18 @@ class Student_model extends CI_Model {
           }
       }
 
+    function getAssignidByCourse($courseid, $classid) {
+        $this->db->select('assignid');
+        $this->db->where('courseid', $courseid);
+        $this->db->where('classid', $classid);
+        $this->db->limit(1);
+        $query = $this->db->get($this->course_assign_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function getAllStudent(){
         $this->db->select('student.*');
 //        $this->db->select('class.classroom');
@@ -563,6 +576,38 @@ class Student_model extends CI_Model {
               return $query->result_array();
           }
       }
+
+    function getFeedback($stid, $assignid){
+        $this->db->select('*');
+        $this->db->where('studentid', $stid);
+        $this->db->where('assignid', $assignid);
+        $this->db->limit(1);
+        $query = $this->db->get($this->feedback_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editFeedback($stid, $assignid) {
+        $data = array(
+            'feedback' => $this->input->post('feedback'),
+        );
+
+        $this->db->where('assignid', $assignid);
+        $this->db->where('studentid', $stid);
+        $this->db->update($this->feedback_table, $data);
+    }
+
+    function addFeedback($stid, $assignid) {
+        $data = array(
+            'feedback' => $this->input->post('feedback'),
+            'studentid' => $stid,
+            'assignid' => $assignid
+        );
+
+        $this->db->insert($this->feedback_table, $data);
+    }
 }
 
 ?>

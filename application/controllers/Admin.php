@@ -253,6 +253,11 @@ class admin extends CI_Controller {
     }
 
     public function addStudentEducational($stid){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0002') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+
         $this->form_validation->set_rules('school', 'school name', 'required');
         $this->form_validation->set_rules('start', 'start year', 'required');
         $this->form_validation->set_rules('end', 'finish year', 'required');
@@ -302,13 +307,17 @@ class admin extends CI_Controller {
         else {
 
                 $this->nativesession->set('error', 'All field are required');
-                redirect('library/studentEducational/' . $id);
+                redirect('admin/studentEducational/' . $id);
         }
 
 
     }
 
     public function editStudentEducational($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0003') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
         $this->form_validation->set_rules('school', 'school name', 'required');
         $this->form_validation->set_rules('start', 'start year', 'required');
         $this->form_validation->set_rules('end', 'finish year', 'required');
@@ -345,10 +354,25 @@ class admin extends CI_Controller {
         else {
 
             $this->nativesession->set('error', 'All field are required');
-            redirect('library/studentEducational/' . $id);
+            redirect('admin/studentEducational/' . $id);
         }
+    }
 
+    public function deleteStudentEducational($id, $stid){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0003') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $did = $this->general->decryptParaID($id,'studenteducational');
+        $stdtid = $this->general->decryptParaID($stid,'student');
 
+        if($this->Admin_model->deleteStudentEducational($did)){
+            $this->nativesession->set('success', 'Student Educational Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Delete Student Educational');
+        }
+        redirect('admin/studentEducational/' . $stid);
     }
 
     public function studentEducational($stid){
@@ -3915,6 +3939,44 @@ class admin extends CI_Controller {
             redirect('admin/requestItem/');
         }
     }
+
+    public function feedback()
+    {
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['info_dbs'] = $this->Admin_model->getFeedback();
+        $data['content'] = 'admin/admin_all_feedback_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function viewFeedback($id)
+    {
+        $id = $this->general->decryptParaID($id, 'courseassigned');
+
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['info_dbs'] = $this->Admin_model->getFeedbackByAssignID($id);
+        $data['courseassign'] = $id;
+        $data['content'] = 'admin/admin_view_feedback_view';
+        $this->load->view($this->template, $data);
+    }
+
+
+
 
 //    public function student_profile($id)
 //    {
