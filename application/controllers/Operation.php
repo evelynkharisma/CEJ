@@ -273,7 +273,7 @@ class operation extends CI_Controller
 //                redirect(current_url());
             }
             return TRUE;
-        }
+        }}
     }
     public function logout(){
         $this->nativesession->delete('id');
