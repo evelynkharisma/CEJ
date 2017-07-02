@@ -43,13 +43,20 @@
     overflow: visible;
 }
 .offline .title,.offline .btn, .offline .btn-success:active:hover{
-    background: rgba(243,156,18,.88);
+    background: #2dbbe8;
 }
-.offline .btn, .online .btn{
+.offline .buttonForm, .online .buttonForm{
     font-size: 25px;
 }
 .offline .btn, .offline .btn-success:active:hover{
-    border: 1px solid rgba(243,156,18,.88);
+    border: 1px solid #2dbbe8;
+}
+.online .title,.online .btn, .online .btn-success:active:hover{
+    background: rgba(243,156,18,.88);
+}
+.online input{
+    width:100%;
+    padding: 3vw 0px;
 }
 .pricing .title{
     height: 85px;

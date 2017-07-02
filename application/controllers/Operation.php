@@ -232,6 +232,49 @@ class operation extends CI_Controller
 
         $this->load->view($this->template, $data);
     }
+
+    public function notify($paymentid){
+        $payment = $this->Operation_model->getOutstandingPayment($paymentid);
+        $child = $this->Parent_model->getParent($payment['studentid']);
+        $student = $this->Parent_model->getChild($payment['studentid']);
+        $parent = $this->Parent_model->getProfileDataByID($child['parentid']);
+        
+        if (!empty($parent)) {
+            if (!empty($student)) {
+
+            $config = Array(
+                'protocol' => 'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_port' => 465,
+                'smtp_user' => 'healthybonefamily@gmail.com',
+                'smtp_pass' => 'healthybonefamilycb4',
+            );
+
+            $this->load->library('email', $config);
+            $this->email->set_newline('\r\n');
+            $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+            $this->email->to($parent['email']);
+            $this->email->to($student['email']);
+            $this->email->subject('School Fee Reminder - XYZ International School');
+
+            $message = '';
+            $message .= 'Dear '.$parent['firstname'].' '.$parent['lastname'].',  ';
+            $message .= 'Here is the school fee reminder: ';
+            $message .= '<table><tr><th>Name</th><th>Description</th><th>Charge</th></tr>';
+            $message .= '<tr><td>'.$student['firstname'].' '.$student['lastname'].'</td><td>'.$payment['description'].'</td><td>'.$payment['charge'].'</td></tr></table>';
+            $message .= '';
+            $message .= 'You may ';
+
+            $this->email->message($message);
+
+            if ($this->email->send()){
+                $this->nativesession->set("success", "Email sent successfully.");
+                $this->Parent_model->notify($correspondid);
+                redirect(current_url());
+            }
+            return TRUE;
+        }
+    }
     public function logout(){
         $this->nativesession->delete('id');
         $this->nativesession->delete('name');

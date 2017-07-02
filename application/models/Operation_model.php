@@ -137,7 +137,19 @@ class Operation_model extends CI_Model {
             return $query->result_array();
         }
     }
-    
+
+    function getOutstandingPayment($id)
+    {
+        $this->db->select('*');
+        $this->db->where('paymentid', $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->payment, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
     function getAllHistoryPayment()
     {
         $this->db->select('*, SUM(payment.value) AS value');

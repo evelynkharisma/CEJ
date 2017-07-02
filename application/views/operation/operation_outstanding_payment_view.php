@@ -46,6 +46,42 @@
                                 </tr>
                             <?php } ?>
                             </tbody>
+
+                            <div class="pricing_footer">
+                                <a data-toggle="modal" data-target="#upload" class="btn btn-success btn-block buttonForm" role="button">Upload Transfer Receipt</span></a>
+                            </div>
+                            <div id="upload" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">Upload Transfer Receipt</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <?php echo form_open_multipart('parents/payment_status'); ?>
+                                            <div class="form-group">
+                                                <?php
+                                                $paymentArray = array();
+                                                foreach($payments as $payment){?>
+                                                    <input type="hidden" name="paymentid[]" value="<?php echo $payment['paymentid']?>"/>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">File</label>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
+                                                    <input class="btn btn-yellow" type="file" name="userfile" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-upload"></i> Upload</button>
+                                        </div>
+                                        <?php echo form_close(); ?>
+                                    </div>
+                                </div>
+                            </div>
                         </table>
                         </form>
                     </div>

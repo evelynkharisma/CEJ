@@ -7,6 +7,7 @@ class Parent_model extends CI_Model {
     var $student = 'student';
     var $form_table = 'forms';
     var $payment_table = 'payment';
+    var $payment_file = 'payment_file';
     var $correspond = 'correspond';
     var $correspond_file = 'correspond_file';
 
@@ -290,6 +291,19 @@ class Parent_model extends CI_Model {
         }
     }
 
+    function getParent($id){
+        $this->db->select('*');
+        $this->db->where('studentid' ,$id);
+        $this->db->limit(1);
+
+        $query = $this->db->get($this->child_table);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+
     function getFirstChild($id){
         $this->db->select('*');
         $this->db->join('student', 'student.studentid = parent_child.studentid');
@@ -428,7 +442,7 @@ class Parent_model extends CI_Model {
         $this->db->select('*');
         $this->db->join('student', 'student.studentid = payment.studentid');
         $this->db->join('parent_child', 'parent_child.studentid = student.studentid');
-        $this->db->order_by('payment.paymentdate', 'desc');
+//        $this->db->order_by('payment.status', 'asc');
         $this->db->where('parentid', $id);
         $this->db->where('transactiontype!= ', '0');
 
@@ -635,6 +649,38 @@ class Parent_model extends CI_Model {
         return TRUE;
     }
     //end of corresponding / mail model
+
+
+    function setTransferTransaction($id){
+        $data = array(
+            'transactiontype' => '1',
+            'paymentdate' => date('Y-m-d', now()),
+        );
+
+        $this->db->where('paymentid', $id);
+        $this->db->update($this->payment_table, $data);
+
+        return TRUE;
+    }
+    
+    function addTransferReceipt($id, $file){
+        $data = array(
+            'paymentid' => $id,
+            'attachment' => $file
+        );
+        $this->db->insert($this->payment_file, $data);
+    }
+
+    function notify($id){
+        $data = array(
+            'notify' => date('Y-m-d', now()),
+        );
+
+        $this->db->where('paymentid', $id);
+        $this->db->update($this->payment_table, $data);
+
+        return TRUE;
+    }
 }
 
 ?>

@@ -6,6 +6,7 @@ class parents extends CI_Controller {
     var $template = 'template';
     var $profilephotopath = 'assets/img/parents/profile/';
     var $correspondpath = 'assets/file/correspond/';
+    var $transferpath = 'assets/file/payment/';
 
     function __construct() {
         parent::__construct();
@@ -771,20 +772,6 @@ class parents extends CI_Controller {
 
         return true;
     }
-    private function parentName($id)
-    {
-        $parent = $this->Parent_model->getProfileDataByID($id);
-        $name = $parent['firstname'].' '.$parent['lastname'];
-        $data['name']= $name;
-        return $name;
-    }
-    private function teacherName($id)
-    {
-        $teacher = $this->Teacher_model->getProfileDataByID($id);
-        $name = $teacher['firstname'].' '.$teacher['lastname'];
-        $data['name']= $name;
-        return $name;
-    }
     public function downloadAll($correspondid){
         $this->load->library('zip');
 
@@ -854,6 +841,44 @@ class parents extends CI_Controller {
             redirect('parents/parent_correspond');
         }
     }
+
+    private function uploadTransferReceipt($name)
+    {
+        if ($_FILES['userfile']['error'] != 4) {
+            $config['upload_path'] = $this->transferpath;
+            $config['allowed_types'] = "jpg|jpeg|png";
+            $config['max_size'] = 200000;
+            $config['overwrite'] = TRUE;
+            $config['file_name'] = $name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('userfile')) {
+
+                $this->nativesession->set('error', $this->upload->display_errors());
+                redirect(current_url());
+            } else {
+                $data = $this->upload->data();
+                $config_image = array(
+                    'image_library' => 'gd2',
+                    'source_image' => $this->transferpath . '/' . $data['orig_name'],
+                    'new_image' => $this->transferpath . '/' . $data['orig_name'],
+                    'maintain_ratio' => TRUE,
+                    'rotate_by_exif' => TRUE
+                    //                'strip_exif' => TRUE,
+                );
+                $this->load->library('image_lib', $config_image);
+                $this->image_lib->resize();
+
+                $filename = $data['orig_name'];
+                $payments = $this->Parent_model->getPaymentStatus($this->nativesession->get('id'));
+                foreach($payments as $paymentss) {
+                    $this->Parent_model->addTransferReceipt($paymentss['paymentid'], $filename);
+                    $this->Parent_model->setTransferTransaction($paymentss['paymentid']);
+                }
+            }
+        }
+        $this->nativesession->set('success', 'Successfully Uploaded, confirmation will be sent to your email');
+        redirect('parents/payment_status');
+    }
     public function payment_status()
     {
         $data['title'] = 'SMS';
@@ -864,7 +889,17 @@ class parents extends CI_Controller {
         $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
         $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
-        $data['payments'] = $this->Parent_model->getPaymentStatus($this->nativesession->get('id'));
+        $payments = $this->Parent_model->getPaymentStatus($this->nativesession->get('id'));
+        $data['payments'] = $payments;
+        $name = '';
+        if($payments){
+            foreach($payments as $paymentss) {
+                $name = $name.$paymentss['paymentid'];
+            }
+            if(!empty($_POST)) {
+                $this->uploadTransferReceipt($name);
+            }
+        }
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
