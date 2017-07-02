@@ -269,8 +269,8 @@ class operation extends CI_Controller
 
             if ($this->email->send()){
                 $this->nativesession->set("success", "Email sent successfully.");
-                $this->Parent_model->notify($correspondid);
-                redirect(current_url());
+//                $this->Parent_model->notify($correspondid);
+//                redirect(current_url());
             }
             return TRUE;
         }
