@@ -84,6 +84,7 @@
                                 <div class="">
                                     <div class="pricing_features">
                                         <ul class="list-unstyled text-left">
+                                            <h3 style="text-align: center; padding-bottom: 3vw">XYZ International School</h3>
                                             <div class="bank-transfer-section">
                                                 <h2>BCA - <strong>2779101996</strong></h2>
                                             </div>

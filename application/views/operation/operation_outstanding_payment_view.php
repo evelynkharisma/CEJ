@@ -37,7 +37,7 @@
                                         <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
                                         <td><?php echo $order['description'] ?></td>
                                         <td><?php echo $order['value'] ?></td>
-                                        <td><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn <?php if ($order['transactiontype']=='1'){echo 'btn-default disabled';} else{echo 'btn-danger';}?>">Notify</a><a href="<?php echo base_url() ?>index.php/operation/uploadInvoice/<?php echo $order['paymentid']?>" class="btn <?php if($order['transactiontype']==1){echo'btn-success';} else{echo 'btn-success';}?>"><?php if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Upload Receipt';}?></a></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn <?php if ($order['transactiontype']=='1'){echo 'btn-default disabled';} else{echo 'btn-danger';}?>">Notify</a><a data-toggle="modal" data-target="#<?php if($order['transactiontype']==1){echo'confirm';} else{echo 'receipt';}?>" role="button" class="btn btn-success"><?php if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Manual Receipt';}?></a></td>
                                     </tr>
                                     <?php $index += 1; }}
                             else {?>
@@ -47,17 +47,14 @@
                             <?php } ?>
                             </tbody>
 
-                            <div class="pricing_footer">
-                                <a data-toggle="modal" data-target="#upload" class="btn btn-success btn-block buttonForm" role="button">Upload Transfer Receipt</span></a>
-                            </div>
-                            <div id="upload" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div id="receipt" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
 
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                             </button>
-                                            <h4 class="modal-title" id="myModalLabel">Upload Transfer Receipt</h4>
+                                            <h4 class="modal-title" id="myModalLabel">Confirm Manual Receipt</h4>
                                         </div>
                                         <div class="modal-body">
                                             <?php echo form_open_multipart('parents/payment_status'); ?>

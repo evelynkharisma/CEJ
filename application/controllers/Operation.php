@@ -10,6 +10,7 @@ class operation extends CI_Controller
     function __construct() {
         parent::__construct();
         $this->load->model('Operation_model');
+        $this->load->model('Parent_model');
     }
 
     public function home()
@@ -259,18 +260,34 @@ class operation extends CI_Controller
 
             $message = '';
             $message .= 'Dear '.$parent['firstname'].' '.$parent['lastname'].',  ';
-            $message .= 'Here is the school fee reminder: ';
-            $message .= '<table><tr><th>Name</th><th>Description</th><th>Charge</th></tr>';
-            $message .= '<tr><td>'.$student['firstname'].' '.$student['lastname'].'</td><td>'.$payment['description'].'</td><td>'.$payment['charge'].'</td></tr></table>';
             $message .= '';
-            $message .= 'You may ';
+            $message .= 'We would like to remind you of the following invoice(s):';
+            $message .= '<table><tr><th>Name</th><th>Description</th><th>Charge</th></tr>';
+            $message .= '<tr><td>'.$student['firstname'].' '.$student['lastname'].'</td><td>'.$payment['description'].'</td><td>'.$payment['value'].'</td></tr></table>';
+            $message .= '';
+            $message .= 'TOTAL   : $'.$payment['value'];
+            $message .= '';
+            $message .= '';
+            $message .= 'Payment Method: ';
+            $message .= '(1) Online Payment: Please access the school website to use the online payment method';
+            $message .= '(2) Offline Payment: XYZ International School';
+            $message .= 'BCA - XXXXXXXXXX';
+            $message .= 'BNI - XXXXXXXXXX';
+            $message .= 'Mandiri - XXXXXXXXXX';
+            $message .= '';
+            $message .= '';
+            $message .= 'Best Regards,';
+            $message .= 'XYZ International School';
+            $message .= 'Phone: xx-xx-xxx';
+            $message .= 'Support Service: info@xyzinternationalschool.com';
+
 
             $this->email->message($message);
 
             if ($this->email->send()){
                 $this->nativesession->set("success", "Email sent successfully.");
-//                $this->Parent_model->notify($correspondid);
-//                redirect(current_url());
+                $this->Parent_model->notify($paymentid);
+                redirect(current_url());
             }
             return TRUE;
         }}
