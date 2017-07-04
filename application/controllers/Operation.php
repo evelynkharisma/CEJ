@@ -234,6 +234,60 @@ class operation extends CI_Controller
         $this->load->view($this->template, $data);
     }
 
+    public function notifyall(){
+        $payments = $this->Operation_model->getAllNotify();
+        foreach ($payments as $payment){
+            $child = $this->Parent_model->getParent($payment['studentid']);
+            $student = $this->Parent_model->getChild($payment['studentid']);
+            $parent = $this->Parent_model->getProfileDataByID($child['parentid']);
+            if (!empty($parent)) {
+//            if (!empty($student)) {
+                $config = Array(
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'ssl://smtp.googlemail.com',
+                    'smtp_port' => 465,
+                    'smtp_user' => 'healthybonefamily@gmail.com',
+                    'smtp_pass' => 'healthybonefamilycb4',
+                );
+
+                $this->load->library('email', $config);
+                $this->email->set_newline('\r\n');
+                $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+                $this->email->to($parent['email']);
+//                $this->email->to($student['email']);
+                $this->email->subject('School Fee Reminder - XYZ International School');
+
+                $message = "\r\n";
+                $message .= "Dear ".$parent['firstname']." ".$parent['lastname'].",  \r\n";
+                $message .= "\r\n\r\n";
+                $message .= "We would like to remind you of the following invoice:\r\n\r\n";
+                $message .= "Name: ".$student['firstname']." ".$student['lastname']."\r\n";
+                $message .= "Description: ".$payment['description']."\r\n";
+                $message .= "\r\n";
+                $message .= "TOTAL   : $".$payment['value'];
+                $message .= "\r\n\r\n";
+                $message .= "Payment Method: \r\n";
+                $message .= "(1) Online Payment: Please access the school website to use the online payment method (www.rumputilmu.com/sms) \r\n\r\n";
+                $message .= "(2) Offline Payment: XYZ International School\r\n";
+                $message .= "BCA - XXXXXXXXXX\r\n";
+                $message .= "BNI - XXXXXXXXXX\r\n";
+                $message .= "Mandiri - XXXXXXXXXX\r\n";
+                $message .= "\r\n\r\n";
+                $message .= "Best Regards,\r\n";
+                $message .= "XYZ International School\r\n";
+                $message .= "Phone: xx-xx-xxx\r\n";
+                $message .= "Support Service: info@xyzinternationalschool.com\r\n";
+
+
+                $this->email->message($message);
+            }
+            if ($this->email->send()){
+                $this->nativesession->set("success", "Email sent successfully.");
+                $this->Parent_model->notify($payment['paymentid']);
+            }
+        }
+        redirect('operation/outstanding_payment');
+    }
     public function notify($paymentid){
         $payment = $this->Operation_model->getOutstandingPayment($paymentid);
         $child = $this->Parent_model->getParent($payment['studentid']);
@@ -241,56 +295,54 @@ class operation extends CI_Controller
         $parent = $this->Parent_model->getProfileDataByID($child['parentid']);
         
         if (!empty($parent)) {
-            if (!empty($student)) {
+//            if (!empty($student)) {
+                $config = Array(
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'ssl://smtp.googlemail.com',
+                    'smtp_port' => 465,
+                    'smtp_user' => 'healthybonefamily@gmail.com',
+                    'smtp_pass' => 'healthybonefamilycb4',
+                );
 
-            $config = Array(
-                'protocol' => 'smtp',
-                'smtp_host' => 'ssl://smtp.googlemail.com',
-                'smtp_port' => 465,
-                'smtp_user' => 'healthybonefamily@gmail.com',
-                'smtp_pass' => 'healthybonefamilycb4',
-            );
+                $this->load->library('email', $config);
+                $this->email->set_newline('\r\n');
+                $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+                $this->email->to($parent['email']);
+//                $this->email->to($student['email']);
+                $this->email->subject('School Fee Reminder - XYZ International School');
 
-            $this->load->library('email', $config);
-            $this->email->set_newline('\r\n');
-            $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
-            $this->email->to($parent['email']);
-            $this->email->to($student['email']);
-            $this->email->subject('School Fee Reminder - XYZ International School');
-
-            $message = '';
-            $message .= 'Dear '.$parent['firstname'].' '.$parent['lastname'].',  ';
-            $message .= '';
-            $message .= 'We would like to remind you of the following invoice(s):';
-            $message .= '<table><tr><th>Name</th><th>Description</th><th>Charge</th></tr>';
-            $message .= '<tr><td>'.$student['firstname'].' '.$student['lastname'].'</td><td>'.$payment['description'].'</td><td>'.$payment['value'].'</td></tr></table>';
-            $message .= '';
-            $message .= 'TOTAL   : $'.$payment['value'];
-            $message .= '';
-            $message .= '';
-            $message .= 'Payment Method: ';
-            $message .= '(1) Online Payment: Please access the school website to use the online payment method';
-            $message .= '(2) Offline Payment: XYZ International School';
-            $message .= 'BCA - XXXXXXXXXX';
-            $message .= 'BNI - XXXXXXXXXX';
-            $message .= 'Mandiri - XXXXXXXXXX';
-            $message .= '';
-            $message .= '';
-            $message .= 'Best Regards,';
-            $message .= 'XYZ International School';
-            $message .= 'Phone: xx-xx-xxx';
-            $message .= 'Support Service: info@xyzinternationalschool.com';
+                $message = "\r\n";
+                $message .= "Dear ".$parent['firstname']." ".$parent['lastname'].",  \r\n";
+                $message .= "\r\n\r\n";
+                $message .= "We would like to remind you of the following invoice:\r\n\r\n";
+                $message .= "Name: ".$student['firstname']." ".$student['lastname']."\r\n";
+                $message .= "Description: ".$payment['description']."\r\n";
+                $message .= "\r\n";
+                $message .= "TOTAL   : $".$payment['value'];
+                $message .= "\r\n\r\n";
+                $message .= "Payment Method: \r\n";
+                $message .= "(1) Online Payment: Please access the school website to use the online payment method (www.rumputilmu.com/sms) \r\n\r\n";
+                $message .= "(2) Offline Payment: XYZ International School\r\n";
+                $message .= "BCA - XXXXXXXXXX\r\n";
+                $message .= "BNI - XXXXXXXXXX\r\n";
+                $message .= "Mandiri - XXXXXXXXXX\r\n";
+                $message .= "\r\n\r\n";
+                $message .= "Best Regards,\r\n";
+                $message .= "XYZ International School\r\n";
+                $message .= "Phone: xx-xx-xxx\r\n";
+                $message .= "Support Service: info@xyzinternationalschool.com\r\n";
 
 
-            $this->email->message($message);
+                $this->email->message($message);
 
-            if ($this->email->send()){
-                $this->nativesession->set("success", "Email sent successfully.");
-                $this->Parent_model->notify($paymentid);
-                redirect(current_url());
-            }
-            return TRUE;
-        }}
+                if ($this->email->send()){
+                    $this->nativesession->set("success", "Email sent successfully.");
+                    $this->Parent_model->notify($paymentid);
+                    redirect('operation/outstanding_payment');
+                }
+                return TRUE;
+//            }
+        }
     }
     public function logout(){
         $this->nativesession->delete('id');

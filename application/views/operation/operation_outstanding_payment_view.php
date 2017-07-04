@@ -1,5 +1,10 @@
 <!-- order tab -->
 <div class="right_col" role="main">
+    <?php if ($this->nativesession->get('success')): ?>
+        <div  class="alert alert-success">
+            <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
+        </div>
+    <?php endif; ?>
     <div class="operation_order_stationary">
         <div class="page-title">
             <div class="title_left">
@@ -37,7 +42,7 @@
                                         <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
                                         <td><?php echo $order['description'] ?></td>
                                         <td><?php echo $order['value'] ?></td>
-                                        <td><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn <?php if ($order['transactiontype']=='1'){echo 'btn-default disabled';} else{echo 'btn-danger';}?>">Notify</a><a data-toggle="modal" data-target="#<?php if($order['transactiontype']==1){echo'confirm';} else{echo 'receipt';}?>" role="button" class="btn btn-success"><?php if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Manual Receipt';}?></a></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn <?php if (($order['transactiontype']=='1') OR ($order['notify']==(date('Y-m-d', now())))){echo 'btn-default disabled';} else{echo 'btn-danger';}?>">Notify</a><a data-toggle="modal" data-target="#<?php if($order['transactiontype']==1){echo'confirm';} else{echo 'receipt';}?>" role="button" class="btn btn-success"><?php if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Manual Receipt';}?></a></td>
                                     </tr>
                                     <?php $index += 1; }}
                             else {?>

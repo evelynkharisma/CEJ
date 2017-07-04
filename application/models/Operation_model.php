@@ -121,6 +121,18 @@ class Operation_model extends CI_Model {
         return FALSE;
     }
 
+    function getAllNotify()
+    {
+        $this->db->select('*');
+        $this->db->where('transactiontype', '0');
+        $this->db->where('notify!=', date('Y-m-d', now()));
+
+        $query = $this->db->get($this->payment);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
 
     function getAllOutstandingPayment()
     {
