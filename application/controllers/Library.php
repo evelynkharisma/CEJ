@@ -5,6 +5,8 @@ class Library extends CI_Controller
 {
 
     var $template = 'template_library';
+    var $profileadminphotopath = 'assets/img/admin/';
+    var $profilelibrarianphotopath = 'assets/img/library/profile/';
 
 
     function __construct()
@@ -203,8 +205,12 @@ class Library extends CI_Controller
                 $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
             }
         } else {
-
+            redirect('library/home');
         }
+
+        $data['borrowed'] = $this->Library_model->getBorrowedCollectionDataByUserID($this->nativesession->get('libid'));
+        $data['collections'] = $this->Library_model->getCollections();
+
         $data['title'] = 'Library LMS';
         $data['topnavigation'] = 'library/library_topnavigation';
         $data['content'] = 'library/library_borrowing_history_view';
@@ -228,6 +234,11 @@ class Library extends CI_Controller
         } else {
 
         }
+
+        $data['collections'] = $this->Library_model->getCollections();
+        $data['borrowSetting'] =  $this->Library_model->getBorrowingSetting();
+        $data['borrowed'] = $this->Library_model->getBorrowedCollection();
+        $data['fines'] = $this->Library_model->getFineSetting();
 
         $data['title'] = 'Library LMS';
         $data['topnavigation'] = 'library/library_topnavigation';
@@ -1059,7 +1070,8 @@ class Library extends CI_Controller
 
         $data['title'] = 'Library LMS';
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['top2navigation'] = 'library/library_top2navigation';
+        $data['top2navigation'] = 'library/library_top2navigation_borrowing';
+        $data['top2subnavigation'] = 'library/library_top2navigation_subborrowing';
 
 
         $data['borrowed'] = $this->Library_model->getBorrowedCollection();
@@ -1082,14 +1094,11 @@ class Library extends CI_Controller
             redirect('library/home');
         }
 
-        $this->form_validation->set_error_delimiters('', '<br/>');
-        $collData = $this->nativesession->get('collData');
-        $userData = $this->nativesession->get('userData');
-        $userid = $this->nativesession->get('userID');
-        $usertype = $this->nativesession->get('userType');
-        $borrowSetting = $this->nativesession->get('borrowSetting');
-        $collStock = $this->nativesession->get('collStock');
+        $lbid = $this->general->decryptParaID($elbid, 'libborrowed');
+        $borrowed = $this->Library_model->getBorrowedCollectionDataByID($lbid);
+        $collData = $this->Library_model->getCollectionDataByID($borrowed['lcid']);
 
+        $this->form_validation->set_error_delimiters('', '<br/>');
 
         $this->form_validation->set_rules('userid', 'user ID', 'required');
         $this->form_validation->set_rules('collid', 'collection ID', 'required');
@@ -1097,165 +1106,16 @@ class Library extends CI_Controller
         $this->form_validation->set_rules('borrowSetting', 'borrowing period', 'required');
 
 
-        if ($this->form_validation->run() == TRUE) {
-            $latestid = $this->Library_model->getBorrowedLatestID();
-            if ($latestid) {
-                foreach ($latestid as $lastid) {
-                    $value = substr($lastid, 1) + 1;
-                }
-//                echo $value;
-
-                if ($value < 10) {
-                    $newid = 'b00000' . $value;
-                } else if ($value >= 10 and $value < 100) {
-                    $newid = 'b0000' . $value;
-                } else if ($value >= 100 and $value < 1000) {
-                    $newid = 'b000' . $value;
-                } else if ($value >= 1000 and $value < 10000) {
-                    $newid = 'b00' . $value;
-                } else if ($value >= 10000 and $value < 100000) {
-                    $newid = 'b0' . $value;
-                } else {
-                    $newid = 'b' . $value;
-                }
-                echo $newid;
-            } else {
-                $newid = 'b000001';
-            }
-
-            $this->Library_model->addBorrowedCollection($newid);
-            $currStock = $collStock -1;
-            $this->Library_model->setCollectionStock($collData['lcid'],$currStock);
-
-            $this->nativesession->set('success', 'Borrowed collection saved');
-            redirect("library/allBorrowedCollection");
-
-        }
-
-
         $data['title'] = 'Library LMS';
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['top2navigation'] = 'library/library_top2navigation';
+        $data['top2navigation'] = 'library/library_top2navigation_borrowing';
 
-        $data['borrower'] = $userData;
+        $data['borrowedCollectionData'] = $borrowed;
+        $data['borrowedIDEncrypted'] = $elbid;
+        $data['borrowedID'] = $lbid;
+        $data['fines'] = $this->Library_model->getFineDataByType($collData['materialType']);
         $data['collectionBorrowed'] = $collData;
-        $data['userID'] = $userid;
-        $data['borrowSetting'] =  $this->Library_model->getBorrowingSettingByID($borrowSetting);
-        $data['userType'] = $usertype;
-        $data['content'] = 'library/library_edit_borrowed_collection_view';
-        $this->load->view($this->template, $data);
-    }
-
-    public function editBorrowedCollectionDetail($elbid)
-    {
-        if ($this->nativesession->get('is_login_library')) {
-            if ($this->nativesession->get('loginas') == 'admin') {
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
-            } else if ($this->nativesession->get('loginas') == 'librarian') {
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
-            } else {
-                $this->nativesession->set('error', 'Access Denied');
-                redirect('library/home');
-            }
-        } else {
-            redirect('library/home');
-        }
-
-        $lbid = $this->general->decryptParaID($elbid, 'libborrowed');
-        $this->form_validation->set_rules('collID', 'collection ID', 'required');
-        $this->form_validation->set_rules('userID', 'user ID', 'required');
-        $this->form_validation->set_rules('usertype', 'user type', 'required');
-
-
-        $this->form_validation->set_error_delimiters('', '<br/>');
-        $userData = NULL;
-        $collectionData = NULL;
-        if ($this->form_validation->run() == TRUE) {
-
-            $type = $this->input->post('usertype');
-            $userid = $this->input->post('userID');
-            $collid = $this->input->post('collID');
-
-            $found = 0;
-            $foundCol = 0;
-
-            if(strcmp($type, "Student")==0) {
-                $users = $this->Student_model->getAllStudent();
-                if($users) {
-                    foreach ($users as $user) {
-                        if(strcmp($user['studentid'], $userid)==0) {
-                            $found=1;
-                            $userData = $user;
-                        }
-                    }
-                }
-            } else if(strcmp($type, "Teacher")==0) {
-                $users = $this->Teacher_model->getAllTeacher();
-                if($users) {
-                    foreach ($users as $user) {
-                        if(strcmp($user['teacherid'], $userid)==0) {
-                            $found=1;
-                            $userData = $user;
-                        }
-                    }
-                }
-            } else if(strcmp($type, "Administrator")==0) {
-                $users = $this->Admin_model->getAllAdministrator();
-                if($users) {
-                    foreach ($users as $user) {
-                        if(strcmp($user['adminid'], $userid)==0) {
-                            $found=1;
-                            $userData = $user;
-                        }
-                    }
-                }
-            } else if(strcmp($type, "Operator")==0) {
-                $users = $this->Admin_model->getAllOperations();
-                if($users) {
-                    foreach ($users as $user) {
-                        if(strcmp($user['operationid'], $userid)==0) {
-                            $found=1;
-                            $userData = $user;
-                        }
-                    }
-                }
-            } else if(strcmp($type, "Librarian")==0) {
-                $users = $this->Admin_model->getAllLibrarian();
-                if($users) {
-                    foreach ($users as $user) {
-                        if(strcmp($user['librarianid'], $userid)==0) {
-                            $found=1;
-                            $userData = $user;
-                        }
-                    }
-                }
-            }
-
-
-            $coll = $this->Library_model->getCollectionDataByID($collid);
-            if($coll) {
-                if(strcmp($coll['lcid'], $collid)==0) {
-                    $foundCol=1;
-                    $collectionData = $collid;
-                }
-            }
-
-            if($found AND $foundCol) {
-                $this->nativesession->set('success', ' saved');
-//                redirect('library/editBorrowedCollection/'.$elbid);
-            } else {
-                $this->nativesession->set('error', 'Data is invalid, please input valid data');
-            }
-        }
-
-
-        $data['title'] = 'Library LMS';
-        $data['topnavigation'] = 'library/library_topnavigation';
-        $data['top2navigation'] = 'library/library_top2navigation';
-
-        $data['borrower'] = $userData;
-        $data['collection'] = $userData;
-        $data['collectionBorrowed'] = $this->Library_model->getBorrowedCollectionDataByID($lbid);
+        $data['borrowSetting'] =  $this->Library_model->getBorrowingSettingByID($borrowed['borrowCategory']);
         $data['content'] = 'library/library_edit_borrowed_collection_view';
         $this->load->view($this->template, $data);
     }
@@ -1402,7 +1262,7 @@ class Library extends CI_Controller
             } else if(!$collectionData['stock']>0) {
                 $this->nativesession->set('error', 'There is no collection available');
             } else {
-                $this->nativesession->set('collData',$coll);
+                $this->nativesession->set('collData',$collectionData);
                 $this->nativesession->set('userData',$user);
                 $this->nativesession->set('userType',$type);
                 $this->nativesession->set('userID',$userid);
@@ -1417,7 +1277,7 @@ class Library extends CI_Controller
 
         $data['title'] = 'Library LMS';
         $data['topnavigation'] = 'library/library_topnavigation';
-        $data['top2navigation'] = 'library/library_top2navigation';
+        $data['top2navigation'] = 'library/library_top2navigation_borrowing';
 
         $data['borrower'] = $userData;
         $data['borrowSetting'] =  $this->Library_model->getBorrowingSetting();
@@ -1482,7 +1342,8 @@ class Library extends CI_Controller
                 $newid = 'b000001';
             }
 
-            $this->Library_model->addBorrowedCollection($newid);
+
+            $this->Library_model->addBorrowedCollection($newid, date("Y-m-d"));
             $currStock = $collStock -1;
             $this->Library_model->setCollectionStock($collData['lcid'],$currStock);
 
@@ -1502,6 +1363,363 @@ class Library extends CI_Controller
         $data['borrowSetting'] =  $this->Library_model->getBorrowingSettingByID($borrowSetting);
         $data['userType'] = $usertype;
         $data['content'] = 'library/library_add_borrowed_collection_detail_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function returnBorrowed($elbid)
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else {
+                $this->nativesession->set('error', 'Access Denied');
+                redirect('library/home');
+            }
+        } else {
+            redirect('library/home');
+        }
+
+        $lbid = $this->general->decryptParaID($elbid, 'libborrowed');
+        echo $this->input->post('lcid')."asa";
+
+        $this->form_validation->set_rules('fine', 'fine', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Library_model->editBorrowedCollectionStatus($lbid, "Returned", date("Y-m-d"));
+
+
+
+            $coll = $this->Library_model->getCollectionDataByID($this->input->post('lcid'));
+            $foundCol= 0;
+            $collData = null;
+
+            if($coll) {
+                if (strcmp($coll['lcid'], $this->input->post('lcid')) == 0) {
+                        $foundCol = 1;
+                        $collData = $coll;
+                }
+            }
+
+
+//            echo $collData['stock']."sblm <br>";
+            $currStock = $collData['stock'] + 1;
+//            echo $currStock."ssdh";
+            $this->Library_model->setCollectionStock($collData['lcid'],$currStock);
+            $this->nativesession->set('success', 'Borrowed collection saved');
+            redirect("library/allBorrowedCollection");
+
+        }
+
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['top2navigation'] = 'library/library_top2navigation';
+
+
+        $data['borrowedIDEncrypted'] = $elbid;
+        $data['borrowedID'] = $lbid;
+        $data['fines'] = $this->Library_model->getFineDataByType($collData['materialType']);
+        $data['collectionBorrowed'] = $collData;
+//        $data['borrowSetting'] =  $this->Library_model->getBorrowingSettingByID($borrowed['borrowCategory']);
+        $data['content'] = 'library/library_edit_borrowed_collection_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteBorrowedCollection($id)
+    {
+        $lbid = $this->general->decryptParaID($id, 'libborrowed');
+        if ($this->Library_model->deleteBorrowedCollection($lbid)) {
+            $this->nativesession->set('success', 'Borrowed Collection Deleted');
+        } else {
+            $this->nativesession->set('error', 'Failed to Delete Borrowed Collection');
+        }
+        redirect('library/allBorrowedCollection');
+    }
+
+    public function outstandingCollection()
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'student') {
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'teacher') {
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'operation') {
+
+            } else if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            }
+        } else {
+
+        }
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['top2navigation'] = 'library/library_top2navigation_borrowing';
+        $data['top2subnavigation'] = 'library/library_top2navigation_subborrowing';
+
+        $data['borrowSetting'] =  $this->Library_model->getBorrowingSetting();
+        $data['borrowed'] = $this->Library_model->getBorrowedCollection();
+        $data['content'] = 'library/library_outstanding_collection_view';
+        $this->load->view($this->template, $data);
+    }
+
+
+
+
+    public function allBorrowingSetting()
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'student') {
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'teacher') {
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'operation') {
+
+            } else if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            }
+        } else {
+
+        }
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['top2navigation'] = 'library/library_top2navigation_borrowing';
+
+
+        $data['infodb'] = $this->Library_model->getBorrowingSetting();
+        $data['content'] = 'library/library_all_borrowing_setting_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function editBorrowingSetting($id)
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else {
+                $this->nativesession->set('error', 'Access Denied');
+                redirect('library/home');
+            }
+        } else {
+            redirect('library/home');
+        }
+
+         $this->form_validation->set_error_delimiters('', '<br/>');
+
+        $this->form_validation->set_rules('borrowingPeriod', 'borrowing period', 'required');
+
+        if ($this->form_validation->run() == TRUE) {
+
+            $this->Library_model->editBorrowingSetting($id);
+
+            $this->nativesession->set('success', 'Borrowing setting saved');
+            redirect('library/allBorrowingSetting');
+        } else {
+            $this->nativesession->set('error', 'All field are required');
+            redirect('library/allBorrowingSetting');
+        }
+    }
+
+    public function addBorrowingSetting(){
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else {
+                $this->nativesession->set('error', 'Access Denied');
+                redirect('library/home');
+            }
+        } else {
+            redirect('library/home');
+        }
+
+
+        $this->form_validation->set_rules('borrowingPeriod', 'borrowing period', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $lastestid = $this->Library_model->getBorrowingSettingLatestID();
+            if ($lastestid) {
+//                foreach ($lastestid as $lastid) {
+                    $newid=$lastestid['borrowCategory']+1;
+//                }
+
+            } else {
+                $newid = '1';
+            }
+
+            $this->Library_model->addBorrowingSetting($newid);
+
+            $this->nativesession->set('success', 'Borrowing Setting saved');
+            redirect("library/allBorrowingSetting");
+
+        }
+        else {
+            $this->nativesession->set('error', 'All field are required');
+            redirect('library/allBorrowingSetting');
+        }
+    }
+
+    public function deleteBorrowingSetting($id)
+    {
+        if ($this->Library_model->deleteBorrowingSetting($id)) {
+            $this->nativesession->set('success', 'Borrowing Setting Deleted');
+        } else {
+            $this->nativesession->set('error', 'Failed to Delete Borrowing Setting');
+        }
+        redirect('library/allBorrowingSetting');
+    }
+
+
+
+    public function allFineSetting()
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'student') {
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'teacher') {
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'operation') {
+
+            } else if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            }
+        } else {
+
+        }
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['top2navigation'] = 'library/library_top2navigation_borrowing';
+
+
+        $data['infodb'] = $this->Library_model->getFineSetting();
+        $data['content'] = 'library/library_all_fine_setting_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function editFineSetting($id)
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else {
+                $this->nativesession->set('error', 'Access Denied');
+                redirect('library/home');
+            }
+        } else {
+            redirect('library/home');
+        }
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        $this->form_validation->set_rules('type', 'type', 'required');
+        $this->form_validation->set_rules('fine', 'fine', 'required');
+
+        if ($this->form_validation->run() == TRUE) {
+
+            $this->Library_model->editFineSetting($id);
+
+            $this->nativesession->set('success', 'Fine setting saved');
+            redirect('library/allFineSetting');
+        } else {
+            $this->nativesession->set('error', 'All field are required');
+            redirect('library/allFineSetting');
+        }
+    }
+
+    public function addFineSetting(){
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else {
+                $this->nativesession->set('error', 'Access Denied');
+                redirect('library/home');
+            }
+        } else {
+            redirect('library/home');
+        }
+
+
+        $this->form_validation->set_rules('type', 'type', 'required');
+        $this->form_validation->set_rules('fine', 'fine', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $lastestid = $this->Library_model->getFineSettingLatestID();
+            if ($lastestid) {
+//                foreach ($lastestid as $lastid) {
+                $newid=$lastestid['id']+1;
+//                }
+
+            } else {
+                $newid = '1';
+            }
+
+            $this->Library_model->addFineSetting($newid);
+
+            $this->nativesession->set('success', 'Fine Setting saved');
+            redirect("library/allFineSetting");
+
+        }
+        else {
+            $this->nativesession->set('error', 'All field are required');
+            redirect('library/allFineSetting');
+        }
+    }
+
+    public function deleteFineSetting($id)
+    {
+        if ($this->Library_model->deleteFineSetting($id)) {
+            $this->nativesession->set('success', 'Fine Setting Deleted');
+        } else {
+            $this->nativesession->set('error', 'Failed to Delete Fine Setting');
+        }
+        redirect('library/allFineSetting');
+    }
+
+
+    public function homeSlides()
+    {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'student') {
+                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'teacher') {
+                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'operation') {
+
+            } else if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            }
+        } else {
+
+        }
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+
+        $data['infodb'] = $this->Library_model->getHomeSlides();
+        $data['content'] = 'library/library_all_slides_view';
         $this->load->view($this->template, $data);
     }
 
@@ -1587,6 +1805,65 @@ class Library extends CI_Controller
         }
         redirect('library/allNews/');
     }
+
+    public function addNews() {
+        if ($this->nativesession->get('is_login_library')) {
+            if ($this->nativesession->get('loginas') == 'admin') {
+                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else if ($this->nativesession->get('loginas') == 'librarian') {
+                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
+            } else {
+                $this->nativesession->set('error', 'Access Denied');
+                redirect('library/home');
+            }
+        } else {
+            redirect('library/home');
+        }
+
+
+        $this->form_validation->set_rules('title', 'title', 'required');
+        $this->form_validation->set_rules('content', 'content', 'required');
+
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+
+            $latestid = $this->Library_model->getNewsLatestID();
+            if ($latestid) {
+                foreach ($latestid as $lastid) {
+                    $value = substr($lastid, 1) + 1;
+                }
+//                echo $value;
+                if ($value < 10) {
+                    $newid = 'b000' . $value;
+                } else if ($value >= 10 and $value < 100) {
+                    $newid = 'b00' . $value;
+                } else if ($value >= 100 and $value < 1000) {
+                    $newid = 'b0' . $value;
+                } else {
+                    $newid = 'b' . $value;
+                }
+//                echo $newid;
+            } else {
+                $newid = 'b0001';
+            }
+
+
+            $this->Library_model->addNews($newid, date("Y-m-d"));
+            $this->nativesession->set('success', 'News saved');
+
+            redirect('library/allNews');
+        }
+
+        $data['title'] = 'Library LMS';
+        $data['topnavigation'] = 'library/library_topnavigation';
+        $data['top2navigation'] = 'library/library_top2navigation';
+
+        $data['content'] = 'library/library_add_news_view';
+        $this->load->view($this->template, $data);
+    }
+
+
 
 
     public function allUsefulLink()
@@ -1822,32 +2099,118 @@ class Library extends CI_Controller
         redirect('library/usefulLinkContent/'.$cat);
     }
 
-
-
-    public function library_profile_edit()
+    public function profileEdit($id)
     {
-        if ($this->nativesession->get('is_login_library')){
-            if($this->nativesession->get('loginas')=='student'){
-                $data['user'] = $this->Student_model->getProfileDataByID($this->nativesession->get('libid'));
-            }
-            else  if($this->nativesession->get('loginas')=='teacher'){
-                $data['user'] = $this->Teacher_model->getClassByTeacherID($this->nativesession->get('libid'));
-            }
-            else  if($this->nativesession->get('loginas')=='operation'){
-
-            }
-            else  if($this->nativesession->get('loginas')=='admin'){
-                $data['user'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('libid'));
-            }
-            else  if($this->nativesession->get('loginas')=='librarian'){
-                $data['user'] = $this->Library_model->getProfileDataByID($this->nativesession->get('libid'));
-            }
-        } else {
-
+        $userid=null;
+        $userdata = 0;
+        if( $this->nativesession->get('loginas') == 'librarian'){
+            $userid = $this->general->decryptParaID($id, 'librarian');
+            $userdata  = $this->Library_model->getProfileDataByID($userid);
+        }
+        else if($this->nativesession->get('loginas') == 'admin'){
+            $userid = $this->general->decryptParaID($id, 'admin');
+            $userdata = $this->Admin_model->getProfileDataByID($userid);
         }
 
+
+        $this->form_validation->set_rules('firstname', 'firstname', 'required');
+        $this->form_validation->set_rules('lastname', 'lastname', 'required');
+        $this->form_validation->set_rules('gender', 'gender', 'required');
+        $this->form_validation->set_rules('phone', 'phone', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('address', 'address', 'required');
+        $this->form_validation->set_rules('dateofbirth', 'date of birth', 'required');
+        $this->form_validation->set_rules('placeofbirth', 'place of birth', 'required');
+        $this->form_validation->set_rules('religion', 'religion', 'required');
+        $this->form_validation->set_rules('elementary', 'elementary', 'required');
+        $this->form_validation->set_rules('juniorhigh', 'junior high', 'required');
+        $this->form_validation->set_rules('seniorhigh', 'senior high', 'required');
+        $this->form_validation->set_rules('undergraduate', 'undergraduate', 'required');
+//        $this->form_validation->set_rules('graduate', 'graduate', 'required');
+//        $this->form_validation->set_rules('postgraduate', 'postgraduate', 'required');
+//        $this->form_validation->set_rules('experience', 'working experience', 'required');
+
+
+        if ($this->input->post('password')):
+            $this->form_validation->set_rules('password', 'password', 'required');
+            $this->form_validation->set_rules('confirmpassword', 'confirm password', 'required|matches[password]');
+        endif;
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+//            echo "mask";
+            if ($_FILES['photo']['error'] != 4) {
+                $path = null;
+                if( $this->nativesession->get('loginas') == 'librarian'){
+                    $path = $this->profilelibrarianphotopath;
+                }
+                else if($this->nativesession->get('loginas') == 'admin'){
+                    $path = $this->profileadminphotopath;
+                }
+
+                $config['upload_path'] = $path;
+                $config['allowed_types'] = "jpg|jpeg|png";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $userid;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('photo')) {
+
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect(current_url());
+                } else {
+                    $data = $this->upload->data();
+                    $config_image = array(
+                        'image_library' => 'gd2',
+                        'source_image' => $path . '/' . $data['orig_name'],
+                        'new_image' => $path . '/' . $data['orig_name'],
+                        'width' => 1240,
+                        'maintain_ratio' => TRUE,
+                        'rotate_by_exif' => TRUE,
+//                'strip_exif' => TRUE,
+                    );
+                    $this->load->library('image_lib', $config_image);
+                    $this->image_lib->resize();
+
+                    $filename = $data['orig_name'];
+                    if( $this->nativesession->get('loginas') == 'librarian'){
+                        $this->Library_model->editProfile($userid);
+                        if ($this->Library_model->editProfilePhoto($userid, $filename)) {
+                        } else {
+                            $this->nativesession->set('error', 'Upload Photo Failed, try again !');
+                            redirect(current_url());
+                        }
+
+
+                    }
+                     else if($this->nativesession->get('loginas') == 'admin'){
+                        $this->Admin_model->editProfile($userid);
+                        echo $this->input->POST('firstname');
+                        if ($this->Admin_model->editProfilePhoto($userid, $filename)) {
+                        } else {
+                            $this->nativesession->set('error', 'Upload Photo Failed, try again !');
+                            redirect(current_url());
+                        }
+
+                    }
+                }
+            }
+
+            if( $this->nativesession->get('loginas') == 'librarian'){
+                $this->Library_model->editProfile($userid);
+            }
+            else if($this->nativesession->get('loginas') == 'admin'){
+                $this->Admin_model->editProfile($userid);
+            }
+            $this->nativesession->set('success', 'Profile saved');
+                        redirect('library/profile');
+        }
+
+
+        $data['user'] = $userdata;
         $data['title'] = 'Library LMS';
-        //$data['sidebar'] = 'library/library_sidebar';
         $data['topnavigation'] = 'library/library_topnavigation';
         $data['content'] = 'library/library_profile_edit_view';
         $this->load->view($this->template, $data);

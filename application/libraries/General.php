@@ -176,6 +176,11 @@ class General
             $value = substr($id,1) + 109;
             $id = $variable.$value;
         }
+        elseif($type == 'librarian'){
+            $variable = ord('l');
+            $value = substr($id,1) + 111;
+            $id = $variable.$value;
+        }
 
         elseif($type == 'correspond'){
             $variable = ord('c');
@@ -310,7 +315,11 @@ class General
             $id = substr($id, $variable) - 109;
             $id = 'b'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
-
+        elseif($type == 'librarian'){
+            $variable = strlen(ord('l'));
+            $id = substr($id, $variable) - 111;
+            $id = 'l'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
         elseif($type == 'correspond'){
             $variable = strlen(ord('c'));
             $id = substr($id, $variable) - 260;

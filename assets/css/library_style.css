@@ -3486,3 +3486,25 @@ li.twt {
 }
 
 .alert-info{color:#E9EDEF;background-color:rgba(52,152,219,0.88);border-color:rgba(52,152,219,0.88)}.alert-warning{color:#E9EDEF;background-color:rgba(243,156,18,0.88);border-color:rgba(243,156,18,0.88)}.alert-danger,.alert-error{color:#E9EDEF;background-color:rgba(231,76,60,0.88);border-color:rgba(231,76,60,0.88)}
+
+.teacher_profile_img {
+    width: 220px;
+    height: auto;
+}
+
+.teacher_profile_group {
+    padding: 15px;
+}
+
+.profile_title {
+    background: #FFF;
+    border-top: 1px solid #dadddc;
+    border-bottom: 1px solid #dadddc;
+    padding: 7px 0;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.set-margin-top {
+    margin-top: 10px;
+}

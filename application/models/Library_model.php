@@ -9,6 +9,7 @@ class Library_model extends CI_Model {
     var $library_collection_subjects_table = 'library_collection_subjects';
     var $library_borrowed_collection_table = 'library_borrowed';
     var $library_borrowing_setting= 'library_borrowing_setting';
+    var $library_fine_setting_table= 'library_fine_setting';
     var $library_useful_link_table = 'library_useful_link';
     var $library_useful_link_content_table = 'library_useful_link_content';
 //    var $course_table = 'course';
@@ -53,6 +54,63 @@ class Library_model extends CI_Model {
         if ($query->num_rows() == 1) {
             return $query->row_array();
         }
+    }
+
+    function editProfilePhoto($id, $filename) {
+        $data = array(
+            'photo' => $filename,
+        );
+
+        $this->db->where('librarianid', $id);
+        $this->db->update($this->table, $data);
+
+        return TRUE;
+    }
+
+    function editProfile($id) {
+        if ($this->input->post('password')) {
+            $data = array(
+//                'password' => hash('sha512', $this->input->post('password')),
+                'password' => crypt($this->input->post('password'),'$6$rounds=5000$simsthesisproject$'),
+                'firstname' => $this->input->post('firstname'),
+                'lastname' => $this->input->post('lastname'),
+                'gender' => $this->input->post('gender'),
+                'phone' => $this->input->post('phone'),
+                'email' => $this->input->post('email'),
+                'address' => $this->input->post('address'),
+                'dateofbirth' => $this->input->post('dateofbirth'),
+                'placeofbirth' => $this->input->post('placeofbirth'),
+                'religion' => $this->input->post('religion'),
+                'elementary' => $this->input->post('elementary'),
+                'juniorhigh' => $this->input->post('juniorhigh'),
+                'seniorhigh' => $this->input->post('seniorhigh'),
+                'undergraduate' => $this->input->post('undergraduate'),
+                'graduate' => $this->input->post('graduate'),
+                'postgraduate' => $this->input->post('postgraduate'),
+                'experience' => $this->input->post('experience'),
+                );
+        } else {
+            $data = array(
+                'firstname' => $this->input->post('firstname'),
+                'lastname' => $this->input->post('lastname'),
+                'gender' => $this->input->post('gender'),
+                'phone' => $this->input->post('phone'),
+                'email' => $this->input->post('email'),
+                'address' => $this->input->post('address'),
+                'dateofbirth' => $this->input->post('dateofbirth'),
+                'placeofbirth' => $this->input->post('placeofbirth'),
+                'religion' => $this->input->post('religion'),
+                'elementary' => $this->input->post('elementary'),
+                'juniorhigh' => $this->input->post('juniorhigh'),
+                'seniorhigh' => $this->input->post('seniorhigh'),
+                'undergraduate' => $this->input->post('undergraduate'),
+                'graduate' => $this->input->post('graduate'),
+                'postgraduate' => $this->input->post('postgraduate'),
+                'experience' => $this->input->post('experience'),
+            );
+        }
+        $this->db->where('librarianid', $id);
+        $this->db->update($this->table, $data);
     }
 
 
@@ -219,6 +277,7 @@ class Library_model extends CI_Model {
     }
 
 
+
     function getCollectionAuthorLatestID()
     {
         $this->db->select('lcaid');
@@ -329,10 +388,13 @@ class Library_model extends CI_Model {
         }
     }
 
-    function getTotalBorrowedCollection() {
-        $sql = 'SELECT lbid, lcid, count(library_borrowed.lbid) as totalBorrowed FROM library_borrowed WHERE library_borrowed.status=\'Borrowed\'';
+    function getBorrowedCollectionDataByUserID($id){
+        $this->db->select('*');
+        $this->db->where('userid',$id);
 
-        $query = $this->db->query($sql);
+
+        $query = $this->db->get($this->library_borrowed_collection_table);
+
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
@@ -347,6 +409,63 @@ class Library_model extends CI_Model {
             return $query->result_array();
         }
     }
+
+    function getTotalBorrowedCollection() {
+        $sql = 'SELECT lbid, lcid, count(library_borrowed.lbid) as totalBorrowed FROM library_borrowed WHERE library_borrowed.status=\'Borrowed\'';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getBorrowedLatestID()
+    {
+        $this->db->select('lbid');
+        $this->db->order_by("lbid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_borrowed_collection_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addBorrowedCollection($id, $bordate) {
+        $data = array(
+            'lbid' => $id,
+            'lcid' => $this->input->post('collid'),
+            'userid' => $this->input->post('userid'),
+            'firstname' => $this->input->post('firstname'),
+            'lastname' => $this->input->post('lastname'),
+            'usertype' => $this->input->post('usertype'),
+            'borrowed_date' => $bordate,
+            'borrowCategory' => $this->input->post('borrowSetting'),
+            'status' => 'Borrowed'
+        );
+        $this->db->insert($this->library_borrowed_collection_table, $data);
+    }
+
+    function editBorrowedCollectionStatus($lbid, $status, $returnedDate) {
+        $data = array(
+            'status' => $status,
+            'fine' => $this->input->post('fine'),
+            'returned_date' => $returnedDate
+        );
+        $this->db->where('lbid', $lbid);
+        $this->db->update($this->library_borrowed_collection_table, $data);
+    }
+
+    function deleteBorrowedCollection($id) {
+        $this->db->where('lbid', $id);
+        $this->db->delete($this->library_borrowed_collection_table);
+        if ($this->db->affected_rows() != 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
 
     function getBorrowingSetting() {
         $sql = 'SELECT * FROM library_borrowing_setting';
@@ -368,30 +487,104 @@ class Library_model extends CI_Model {
         }
     }
 
-    function getBorrowedLatestID()
+    function editBorrowingSetting($id) {
+        $data = array(
+            'borrowingPeriod' => $this->input->post('borrowingPeriod')
+        );
+        $this->db->where('borrowCategory', $id);
+        $this->db->update($this->library_borrowing_setting, $data);
+    }
+
+    function addBorrowingSetting($id) {
+        $data = array(
+            'borrowCategory' => $id,
+            'borrowingPeriod' => $this->input->post('borrowingPeriod')
+        );
+
+        $this->db->insert($this->library_borrowing_setting, $data);
+    }
+
+    function getBorrowingSettingLatestID()
     {
-        $this->db->select('lbid');
-        $this->db->order_by("lbid", "desc");
+        $this->db->select('borrowCategory');
+        $this->db->order_by("borrowCategory", "desc");
         $this->db->limit(1);
-        $query = $this->db->get($this->library_borrowed_collection_table, 1);
+        $query = $this->db->get($this->library_borrowing_setting, 1);
 
         if ($query->num_rows() == 1) {
             return $query->row_array();
         }
     }
 
-    function addBorrowedCollection($id) {
+    function deleteBorrowingSetting($id) {
+        $this->db->where('borrowCategory', $id);
+        $this->db->delete($this->library_borrowing_setting);
+        if ($this->db->affected_rows() != 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
+
+
+    function getFineSetting() {
+        $sql = 'SELECT * FROM library_fine_setting';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function editFineSetting($id) {
         $data = array(
-            'lbid' => $id,
-            'lcid' => $this->input->post('collid'),
-            'userid' => $this->input->post('userid'),
-            'firstname' => $this->input->post('firstname'),
-            'lastname' => $this->input->post('lastname'),
-            'usertype' => $this->input->post('usertype'),
-            'borrowCategory' => $this->input->post('borrowSetting'),
-            'status' => 'Borrowed'
+            'type' => $this->input->post('type'),
+            'fine' => $this->input->post('fine')
         );
-        $this->db->insert($this->library_borrowed_collection_table, $data);
+        $this->db->where('id', $id);
+        $this->db->update($this->library_fine_setting_table, $data);
+    }
+
+    function addFineSetting($id) {
+        $data = array(
+            'id' => $id,
+            'type' => $this->input->post('type'),
+            'fine' => $this->input->post('fine')
+        );
+
+        $this->db->insert($this->library_fine_setting_table, $data);
+    }
+
+    function getFineSettingLatestID()
+    {
+        $this->db->select('id');
+        $this->db->order_by("id", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_fine_setting_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function deleteFineSetting($id) {
+        $this->db->where('id', $id);
+        $this->db->delete($this->library_fine_setting_table);
+        if ($this->db->affected_rows() != 0) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
+    function getHomeSlides() {
+        $sql = 'SELECT * FROM library_slide';
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
     }
 
 
@@ -443,6 +636,28 @@ class Library_model extends CI_Model {
             return TRUE;
         }
         return FALSE;
+    }
+
+    function getNewsLatestID()
+    {
+        $this->db->select('newsid');
+        $this->db->order_by("newsid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_news_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addNews($id, $date) {
+        $data = array(
+            'newsid' => $id,
+            'title' => $this->input->post('title'),
+            'content' => $this->input->post('content'),
+            'date' => $date
+        );
+        $this->db->insert($this->library_news_table, $data);
     }
 
 
@@ -568,6 +783,17 @@ class Library_model extends CI_Model {
     }
 
 
+    function getFineDataByType($id){
+        $this->db->select('*');
+        $this->db->where('type',$id);
+
+
+        $query = $this->db->get($this->library_fine_setting_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
 
 }
 

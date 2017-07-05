@@ -25,6 +25,7 @@
             </div>
         </div>
 
+        <a href="<?php echo base_url() ?>index.php/library/addNews" class="btn btn-primary set-right" style="margin-bottom: 1vw"><i class="fa fa-plus"></i> Add News</a>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="container">
@@ -76,4 +77,6 @@
         $('#example').dataTable();
     });
 </script>
-<!-- /page content -->
+<script>
+    document.getElementById("libmenu_home").className = "active";
+</script>                                                                                                                                                                                                            <!-- /page content -->

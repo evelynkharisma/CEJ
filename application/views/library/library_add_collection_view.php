@@ -1,11 +1,11 @@
 <!-- page content -->
 
-<div class="contact-agile">
+<!--<div class="contact-agile">-->
     <div class="faq">
         <div class="container">
             <div class="row" style="margin-bottom: 3vw">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <h2>Add Collection</h2>
+<!--                    <h2>Add Collection</h2>-->
                     <?php if ($this->nativesession->get('error')): ?>
                         <div  class="alert alert-error">
                             <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
@@ -21,6 +21,13 @@
                             <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
                         </div>
                     <?php endif; ?>
+                </div>
+            </div>
+
+
+            <div class="row" style="margin-bottom: 3vw">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <h2>Add Collection</h2>
                 </div>
             </div>
 

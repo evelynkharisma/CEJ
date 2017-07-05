@@ -1,19 +1,44 @@
 <!-- page content -->
+<!-- page content -->
 <div class="right_col" role="main">
-    <div class="">
-        <div class="page-title">
-            <div class="title_left">
-                <h3>User Profile</h3>
+
+<div class="faq">
+    <div class="container">
+        <div class="row" style="margin-bottom: 3vw">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <!--                <h2>Borrowed Collection</h2>-->
+                <?php if ($this->nativesession->get('error')): ?>
+                    <div  class="alert alert-error">
+                        <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (validation_errors()): ?>
+                    <div  class="alert alert-error">
+                        <?php echo validation_errors(); ?>
+                    </div>
+                <?php endif; ?>
+                <?php if ($this->nativesession->get('success')): ?>
+                    <div  class="alert alert-success">
+                        <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-bottom: 3vw">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <h2>User Profile</h2>
             </div>
         </div>
 
         <div class="clearfix"></div>
 
-        <?php if ($this->nativesession->get('success')): ?>
-            <div  class="alert alert-success">
-                <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
-            </div>
-        <?php endif; ?>
+
+
+        <?php
+        $encrypted = null;
+        ?>
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -24,20 +49,21 @@
                                 <div class="profile_img">
                                     <div class="teacher_profile_crop">
                                         <!-- Current avatar -->
-                                            <?php
-                                        if( $this->nativesession->get('is_login_library') == 'student'){ ?>
+
+                                        <?php
+                                        if( $this->nativesession->get('loginas') == 'student'){ ?>
                                             <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/student/<?php echo $user['photo']?>" alt="Avatar" title="Change the avatar">
                                             <?php
                                         }
-                                        else if( $this->nativesession->get('is_login_library') == 'teacher'){ ?>
+                                        else if( $this->nativesession->get('loginas') == 'teacher'){ ?>
                                             <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/teacher/profile/<?php echo $user['photo']?>" alt="Avatar" title="Change the avatar">
                                             <?php
                                         }
-                                        else if( $this->nativesession->get('is_login_library') == 'librarian'){?>
+                                        else if( $this->nativesession->get('loginas') == 'librarian'){?>
                                             <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/library/profile/<?php echo $user['photo']?>" alt="Avatar" title="Change the avatar">
                                             <?php
                                         }
-                                        else if($this->nativesession->get('is_login_library') == 'admin'){?>
+                                        else if($this->nativesession->get('loginas') == 'admin'){?>
                                             <img class="img-responsive avatar-view teacher_profile_img" src="<?php echo base_url() ?>assets/img/admin/<?php echo $user['photo']?>" alt="Avatar" title="Change the avatar">
                                             <?php
                                         }
@@ -53,14 +79,21 @@
                                     <li>
                                         ID&emsp;&emsp;:
                                         <?php
-                                        if( $this->nativesession->get('is_login_library') == 'student'){
-                                            echo $user['studentid']; }
-                                        else if( $this->nativesession->get('is_login_library') == 'teacher'){
-                                            echo $user['teacherid'];}
-                                        else if( $this->nativesession->get('is_login_library') == 'librarian'){
-                                            echo $user['librarianid'];}
-                                        else if($this->nativesession->get('is_login_library') == 'admin'){
+                                        if( $this->nativesession->get('loginas') == 'student'){
+                                            echo $user['studentid'];
+                                            $encrypted = $this->general->encryptParaID($user['studentid'],'student');
+                                        }
+                                        else if( $this->nativesession->get('loginas') == 'teacher'){
+                                            echo $user['teacherid'];
+                                            $encrypted = $this->general->encryptParaID($user['teacherid'],'teacher');
+                                        }
+                                        else if( $this->nativesession->get('loginas') == 'librarian'){
+                                            echo $user['librarianid'];
+                                            $encrypted = $this->general->encryptParaID($user['librarianid'],'librarian');
+                                        }
+                                        else if($this->nativesession->get('loginas') == 'admin'){
                                             echo $user['adminid'];
+                                            $encrypted = $this->general->encryptParaID($user['adminid'],'admin');
                                         }
                                         ?>
 
@@ -70,9 +103,9 @@
                             </div>
                         </div>
                         <?php
-                        $encrypted = $this->general->encryptParaID($user['studentid'],'student');
+
                         ?>
-                        <a class="btn btn-success set-right" href="<?php echo base_url() ?>index.php/student/student_profile_edit/<?php echo $encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Profile</a>
+                        <a class="btn btn-primary set-right" href="<?php echo base_url() ?>index.php/library/profileEdit/<?php echo $encrypted ?>"><i class="fa fa-edit m-right-xs"></i> Edit Profile</a>
                         <br />
 
                     </div>
@@ -134,32 +167,74 @@
                             </div>
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="profile_title">
-                                <div class="col-md-12">
-                                    <h2>Academic Information</h2>
+                        <div class="profile_title">
+                            <div class="col-md-12">
+                                <h2>Academic Information</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="teacher_profile_group">
+                                    <div class="teacher_profile_label">Working Experiences</div>
+                                    <div class="teacher_profile_value"><?php
+                                        if($user['experience']==NULL)
+                                            echo '-';
+                                        else
+                                            echo $user['experience']
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Senior High School</div>
-                                        <div class="teacher_profile_value"><?php echo $user['seniorhigh'] ?></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="teacher_profile_group">
+                                    <div class="teacher_profile_label">Post Graduate</div>
+                                    <div class="teacher_profile_value"><?php
+                                        if($user['postgraduate']==NULL)
+                                            echo '-';
+                                        else
+                                            echo $user['postgraduate']
+                                        ?>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Junior High School</div>
-                                        <div class="teacher_profile_value"><?php echo $user['juniorhigh'] ?></div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="teacher_profile_group">
+                                    <div class="teacher_profile_label">Graduate</div>
+                                    <div class="teacher_profile_value"><?php
+                                        if($user['graduate']==NULL)
+                                            echo '-';
+                                        else
+                                            echo $user['graduate']
+                                        ?>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <div class="teacher_profile_group">
-                                        <div class="teacher_profile_label">Elementary School</div>
-                                        <div class="teacher_profile_value"><?php echo $user['elementary'] ?></div>
-                                    </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="teacher_profile_group">
+                                    <div class="teacher_profile_label">Undergraduate</div>
+                                    <div class="teacher_profile_value"><?php echo $user['undergraduate'] ?></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="teacher_profile_group">
+                                    <div class="teacher_profile_label">Senior High School</div>
+                                    <div class="teacher_profile_value"><?php echo $user['seniorhigh'] ?></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="teacher_profile_group">
+                                    <div class="teacher_profile_label">Junior High School</div>
+                                    <div class="teacher_profile_value"><?php echo $user['juniorhigh'] ?></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="teacher_profile_group">
+                                    <div class="teacher_profile_label">Elementary School</div>
+                                    <div class="teacher_profile_value"><?php echo $user['elementary'] ?></div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>

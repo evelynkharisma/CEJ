@@ -18,6 +18,7 @@
     <span data-u="arrowright" class="jssora22r" style="top:0px;right:8px;width:40px;height:58px;" data-autocenter="2"></span>
 </div>
 
+<a href="<?php echo base_url() ?>index.php/library/homeSlides" class="btn-primary btn" style="width: 100%;"><i class="fa fa-edit"></i>Edit Slides</a>
 <!-------------------------------------------  SERVICE ----------------------------------->
 <div class="services-w3layouts" id="services">
     <div class="container">

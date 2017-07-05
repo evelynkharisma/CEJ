@@ -1,6 +1,5 @@
 <!-- page content -->
 
-                                                                                                                                                                                                                <div class="contact-agile">
 <div class="faq">
     <div class="container">
         <div class="row" style="margin-bottom: 3vw">

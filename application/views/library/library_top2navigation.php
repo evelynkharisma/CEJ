@@ -7,8 +7,8 @@ if($privilege == 1){?>
                 <a href="<?php echo base_url() ?>index.php/library/collection" class="btn btn-primary lib-top-btn">Search Collection</a>
                 <a href="<?php echo base_url() ?>index.php/library/allCollection" class="btn btn-primary lib-top-btn">View Collections</a>
                 <a href="<?php echo base_url() ?>index.php/library/addCollection" class="btn btn-primary lib-top-btn">Add Collection</a>
-                <a href="<?php echo base_url() ?>index.php/library/allBorrowedCollection" class="btn btn-primary lib-top-btn">View Borrowed Collections</a>
-                <a href="<?php echo base_url() ?>index.php/library/addBorrowedCollection" class="btn btn-primary lib-top-btn">Add Borrowing Collection</a>
+<!--                <a href="--><?php //echo base_url() ?><!--index.php/library/allBorrowedCollection" class="btn btn-primary lib-top-btn">View Borrowed Collections</a>-->
+<!--                <a href="--><?php //echo base_url() ?><!--index.php/library/addBorrowedCollection" class="btn btn-primary lib-top-btn">Add Borrowing Collection</a>-->
             </div>
         </div>
     </div>

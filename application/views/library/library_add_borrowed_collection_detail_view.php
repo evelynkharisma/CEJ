@@ -3,22 +3,11 @@
 <!--</div>-->
 <div class="contact-agile">
     <div class="faq">
-
-
         <div class="container">
-
-            <?php if (!empty($top2navigation)): ?>
-                <?php $this->load->view($top2navigation); ?>
-            <?php else: ?>
-                Navigation not found !
-            <?php endif; ?>
-
-
             <div class="row" style="margin-bottom: 3vw">
                 <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Add Borrowing Collection</h2>
                 </div>
             </div>
-
 
             <?php if ($this->nativesession->get('error')): ?>
                 <div  class="alert alert-error">
@@ -122,5 +111,5 @@
         </div>
         <!-- script change the active class in menu -->
         <script>
-            document.getElementById("libmenu_collection").className = "active";
+            document.getElementById("libmenu_borrowing").className = "active";
         </script>

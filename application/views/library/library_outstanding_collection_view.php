@@ -26,16 +26,11 @@
 
         <div class="row" style="margin-bottom: 3vw">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <h2>Borrowed Collections</h2>
+                <h2>Outstanding Collections</h2>
             </div>
         </div>
 
-        <?php if (!empty($top2subnavigation)): ?>
-            <?php $this->load->view($top2subnavigation); ?>
-        <?php else: ?>
-            Navigation not found !
-        <?php endif; ?>
-
+        <a href="<?php echo base_url() ?>index.php/library/" class="btn-success btn set-right" style="margin-bottom: 2vw"><i class="fa fa-bell"></i> Notify All</a>
 <!--        <a href="--><?php //echo base_url() ?><!--index.php/library/addBorrowedCollection" class="btn btn-primary lib-top-btn" style="margin-bottom: 2vw">Add Borrowing Collection</a>-->
 
         <div class="row">
@@ -50,8 +45,8 @@
                                 <th width="10%">Role</th>
                                 <th width="10%">Collection</th>
                                 <th width="15%">Borrowed Date</th>
-<!--                                <th width="10%">Returned Date</th>-->
-                                <th width="15%">Status</th>
+                                <th width="15%">Due Date</th>
+<!--                                <th width="15%">Status</th>-->
                                 <th width="15%">Action</th>
 
                             </tr>
@@ -63,44 +58,43 @@
                                 $date2=date_create(date("Y-m-d"));
                                 $diff=date_diff($date1,$date2);
                                 $late = $diff->format("%a");
-                                if(strcmp($bcollection['status'], "Borrowed")==0) {
+                                if($late>0 AND strcmp($bcollection['status'], "Returned")) {
                                     ?>
                                     <tr>
-                                        <!--                                        <td>-->
-                                        <?php //echo $collection['lcid'] ?><!--</td>-->
                                         <td><?php echo $bcollection['userid'] ?></td>
                                         <td><?php echo $bcollection['firstname'] ?></td>
                                         <td><?php echo $bcollection['usertype'] ?></td>
                                         <td><?php echo $bcollection['lcid'] ?></td>
                                         <td><?php echo date('d M Y', strtotime($bcollection['borrowed_date'])) ?></td>
-                                        <!--                                        <td>-->
-                                        <?php //echo $bcollection['returned_date'] ?><!--</td>-->
+                                        <td><?php
+                                            $date=date_create($bcollection['borrowed_date']);
+                                            if($borrowSetting) {
+                                                foreach ($borrowSetting as $bs) {
+                                                    if($bcollection['borrowCategory']==$bs['borrowCategory']){
+                                                        $period = $bs['borrowingPeriod'];
+                                                        date_add($date,date_interval_create_from_date_string($period." days"));
+                                                        echo date_format($date,"Y-m-d");
+//                                                        echo date('d M Y', strtotime($bcollection['returned_date']));
+                                                    }
 
-                                        <?php
-                                        if ($late > 0 AND strcmp($bcollection['status'], "Returned")) {
-                                            echo '<td style="color: red"> <strong>' . $bcollection['status'] . ' - Overdue</strong>';
-                                        } else {
-                                            echo '<td>' . $bcollection['status'];
-                                        }
-                                        ?>
+                                                }
+                                            }
+
+                                            ?>
                                         </td>
+
+<!--                                        </td>-->
                                         <td>
                                             <?php
-                                            $encrypted = $this->general->encryptParaID($bcollection['lbid'], 'libborrowed');
+                                            $encrypted = $this->general->encryptParaID($bcollection['lbid'],'libborrowed');
                                             ?>
-                                            <a href="<?php echo base_url() ?>index.php/library/editBorrowedCollection/<?php echo $encrypted ?>"
-                                               class="btn-primary btn"><i class="fa fa-eye"></i> View</a>
-                                            <a href="<?php echo base_url() ?>index.php/library/deleteBorrowedCollection/<?php echo $encrypted ?>"
-                                               class="btn-primary btn"
-                                               onclick="return confirm('Are you sure want to delete this?');"><i
-                                                        class="fa fa-trash"></i> Delete</a>
+                                            <a href="<?php echo base_url() ?>index.php/library/editBorrowedCollection/<?php echo $encrypted ?>" class="btn-success btn" ><i class="fa fa-bell"></i> Notify</a>
                                         </td>
                                     </tr>
                                     <?php
                                 }
                             }
-                            if($borrowed) {
-                            }
+
                             ?>
                             </tbody>
                         </table>

@@ -25,6 +25,19 @@
                     <ul class="nav navbar-nav">
                         <li><a href="<?php echo base_url() ?>index.php/library/home" id="libmenu_home">Home</a></li>
                         <li><a href="<?php echo base_url() ?>index.php/library/collection" id="libmenu_collection">Collection</a></li>
+                        <?php $privilege = $this->general->checkPrivilege($this->nativesession->get('librole'), 'p0038');
+                        if($privilege == 1){?>
+                            <li class="dropdown">
+<!--                                <a href="--><?php //echo base_url() ?><!--index.php/library/allBorrowedCollection" id="libmenu_borrowing">Borrowing<span class="caret"></span></a>-->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="libmenu_borrowing">Borrowing<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?php echo base_url() ?>index.php/library/allBorrowedCollection">Borrowed Collections</a></li>
+                                    <li><a href="<?php echo base_url() ?>index.php/library/outstandingCollection">Outstanding Collections</a></li>
+                                    <li><a href="<?php echo base_url() ?>index.php/library/allBorrowingSetting">Borrowing Setting</a></li>
+                                    <li><a href="<?php echo base_url() ?>index.php/library/allFineSetting">Fine Setting</a></li>
+                                </ul>
+                            </li>
+                        <?php } ?>
                         <li><a href="<?php echo base_url() ?>index.php/library/about" id="libmenu_about">About</a></li>
                         <li><a href="<?php echo base_url() ?>index.php/library/contact" id="libmenu_contact">Contact</a></li>
                     </ul>

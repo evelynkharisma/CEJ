@@ -1,11 +1,10 @@
 <!-- page content -->
 
-                                                                                                                                                                                                                <div class="contact-agile">
 <div class="faq">
     <div class="container">
         <div class="row" style="margin-bottom: 3vw">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <h2>Collection</h2>
+<!--                <h2>Collection</h2>-->
                 <?php if ($this->nativesession->get('error')): ?>
                     <div  class="alert alert-error">
                         <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
@@ -24,6 +23,14 @@
             </div>
         </div>
 
+        <div class="row" style="margin-bottom: 3vw">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <h2>Collection</h2>
+            </div>
+        </div>
+
+
+
         <?php if (!empty($top2navigation)): ?>
             <?php $this->load->view($top2navigation); ?>
         <?php else: ?>
@@ -38,8 +45,8 @@
                             <tr>
 <!--                                <th width="11%">Number</th>-->
                                 <th width="10%">ISBN</th>
-                                <th >Title</th>
-                                <th width="15%">Type</th>
+                                <th width="25%">Title</th>
+                                <th width="5%">Type</th>
                                 <th width="5%">Availability</th>
                                 <th width="5%">Borrowed</th>
                                 <th width="45%">Action</th>
