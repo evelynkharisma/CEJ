@@ -43,7 +43,7 @@
                                         <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
                                         <td><?php echo $order['description'] ?></td>
                                         <td><?php echo $order['value'] ?></td>
-                                        <td><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn <?php if (($order['transactiontype']=='1') OR ($order['notify']==(date('Y-m-d', now())))){echo 'btn-default disabled';} else{echo 'btn-danger';}?>">Notify</a><a data-toggle="modal" data-target="#<?php if($order['transactiontype']==1){echo'confirm';} else{echo 'receipt';}?>" role="button" class="btn btn-success"><?php if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Manual Receipt';}?></a></td>
+                                        <td class="action"><a href="<?php echo base_url() ?>index.php/operation/notify/<?php echo $order['paymentid'] ?>" class="btn <?php if (($order['transactiontype']=='1') OR ($order['notify']==(date('Y-m-d', now())))){echo 'btn-default disabled';} else{echo 'btn-danger';}?>">Notify</a><a data-toggle="modal" data-target="#<?php if($order['transactiontype']==1){echo'confirm';} else{echo 'receipt';}?>" role="button" class="btn btn-success"><?php if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Manual Receipt';}?></a></td>
                                     </tr>
                                     <?php $index += 1; }}
                             else {?>
@@ -53,6 +53,39 @@
                             <?php } ?>
                             </tbody>
 
+                            <div id="confirm" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">Confirm Transfer Payment</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <?php echo form_open_multipart('parents/payment_status'); ?>
+                                            <div class="form-group">
+                                                <?php
+                                                $paymentArray = array();
+                                                foreach($payments as $payment){?>
+                                                    <input type="hidden" name="paymentid[]" value="<?php echo $payment['paymentid']?>"/>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">File</label>
+                                                <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
+                                                    <img src=""/>
+                                                    <input class="btn btn-yellow" type="file" name="userfile" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-upload"></i> Upload</button>
+                                        </div>
+                                        <?php echo form_close(); ?>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="receipt" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">

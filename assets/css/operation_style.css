@@ -3,9 +3,12 @@
     margin: 0;
 }
 .order-accept-all{
-    margin: 17px 22px 0;
+    margin: 8px 22px;
     float: right;
 }
 .operation_title_right{
     color: red;
+}
+.operation_order_stationary .action .btn{
+    width: 48%;
 }
