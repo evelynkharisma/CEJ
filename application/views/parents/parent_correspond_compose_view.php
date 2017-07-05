@@ -1,15 +1,5 @@
 <!-- page content -->
 <div class="right_col" role="main">
-    <?php if ($this->nativesession->get('error')): ?>
-        <div  class="alert alert-error">
-            <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
-        </div>
-    <?php endif; ?>
-    <?php if (validation_errors()): ?>
-        <div  class="alert alert-error">
-            <?php echo validation_errors(); ?>
-        </div>
-    <?php endif; ?>
     <div class="">
 
         <div class="page-title">
@@ -42,6 +32,17 @@
         </div>
 
         <div class="clearfix"></div>
+
+        <?php if ($this->nativesession->get('error')): ?>
+            <div  class="alert alert-error">
+                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
+            </div>
+        <?php endif; ?>
+        <?php if (validation_errors()): ?>
+            <div  class="alert alert-error">
+                <?php echo validation_errors(); ?>
+            </div>
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-xs-12">

@@ -19,6 +19,8 @@
                 <?php echo validation_errors(); ?>
             </div>
         <?php endif; ?>
+        
+        
         <?php
         $encrypted = $this->general->encryptParaID($operation['operationid'],'operation');
         ?>

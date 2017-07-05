@@ -1,19 +1,4 @@
 <!-- page content -->
-<?php if ($this->nativesession->get('error')): ?>
-    <div  class="alert alert-error">
-        <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
-    </div>
-<?php endif; ?>
-<?php if ($this->nativesession->get('success')): ?>
-    <div  class="alert alert-success">
-        <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
-    </div>
-<?php endif; ?>
-<?php if (validation_errors()): ?>
-    <div  class="alert alert-error">
-        <?php echo validation_errors(); ?>
-    </div>
-<?php endif; ?>
 <div class="right_col" role="main">
     <div class="payment-status">
         <div class="page-title">
@@ -24,6 +9,22 @@
 
         <div class="clearfix"></div>
 
+        <?php if ($this->nativesession->get('error')): ?>
+            <div  class="alert alert-error">
+                <?php echo $this->nativesession->get('error');$this->nativesession->delete('error'); ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($this->nativesession->get('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
+            </div>
+        <?php endif; ?>
+        <?php if (validation_errors()): ?>
+            <div  class="alert alert-error">
+                <?php echo validation_errors(); ?>
+            </div>
+        <?php endif; ?>
+        
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <table id="directoryView" class="table table-striped table-bordered">

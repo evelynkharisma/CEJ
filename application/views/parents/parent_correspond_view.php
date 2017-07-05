@@ -1,10 +1,5 @@
 <!-- page content -->
 <div class="right_col" role="main">
-    <?php if ($this->nativesession->get('success')): ?>
-        <div  class="alert alert-success">
-            <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
-        </div>
-    <?php endif; ?>
     <div class="">
 
         <div class="page-title">
@@ -26,6 +21,12 @@
 
         <div class="clearfix"></div>
 
+        <?php if ($this->nativesession->get('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
+            </div>
+        <?php endif; ?>
+        
         <div class="row">
             <div class="col-xs-12">
                 <div class="x_panel">

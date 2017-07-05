@@ -1,10 +1,5 @@
 <!-- order tab -->
 <div class="right_col" role="main">
-    <?php if ($this->nativesession->get('success')): ?>
-        <div  class="alert alert-success">
-            <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
-        </div>
-    <?php endif; ?>
     <div class="operation_order_stationary">
         <div class="page-title">
             <div class="title_left">
@@ -14,6 +9,12 @@
         </div>
 
         <div class="clearfix"></div>
+        
+        <?php if ($this->nativesession->get('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
+            </div>
+        <?php endif; ?>
 
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
