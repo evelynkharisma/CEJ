@@ -63,6 +63,17 @@
                                 $date2=date_create(date("Y-m-d"));
                                 $diff=date_diff($date1,$date2);
                                 $late = $diff->format("%a");
+                                $period = 0;
+
+                                if($borrowSetting) {
+                                    foreach ($borrowSetting as $bs) {
+                                        if($bs['borrowCategory']==$bcollection['borrowCategory']) {
+                                            $period= $bs['borrowingPeriod'];
+                                        }
+
+                                    }
+                                }
+
                                 if(strcmp($bcollection['status'], "Borrowed")==0) {
                                     ?>
                                     <tr>
@@ -77,7 +88,7 @@
                                         <?php //echo $bcollection['returned_date'] ?><!--</td>-->
 
                                         <?php
-                                        if ($late > 0 AND strcmp($bcollection['status'], "Returned")) {
+                                        if ($late > $period AND strcmp($bcollection['status'], "Returned")) {
                                             echo '<td style="color: red"> <strong>' . $bcollection['status'] . ' - Overdue</strong>';
                                         } else {
                                             echo '<td>' . $bcollection['status'];

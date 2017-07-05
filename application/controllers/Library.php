@@ -1073,7 +1073,7 @@ class Library extends CI_Controller
         $data['top2navigation'] = 'library/library_top2navigation_borrowing';
         $data['top2subnavigation'] = 'library/library_top2navigation_subborrowing';
 
-
+        $data['borrowSetting'] =  $this->Library_model->getBorrowingSetting();
         $data['borrowed'] = $this->Library_model->getBorrowedCollection();
         $data['content'] = 'library/library_all_borrowed_collection_view';
         $this->load->view($this->template, $data);

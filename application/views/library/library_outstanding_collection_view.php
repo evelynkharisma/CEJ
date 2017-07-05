@@ -58,7 +58,18 @@
                                 $date2=date_create(date("Y-m-d"));
                                 $diff=date_diff($date1,$date2);
                                 $late = $diff->format("%a");
-                                if($late>0 AND strcmp($bcollection['status'], "Returned")) {
+                                $period = 0;
+
+                                if($borrowSetting) {
+                                    foreach ($borrowSetting as $bs) {
+                                        if($bs['borrowCategory']==$bcollection['borrowCategory']) {
+                                            $period= $bs['borrowingPeriod'];
+                                        }
+
+                                    }
+                                }
+
+                                if($late>$period AND strcmp($bcollection['status'], "Returned")) {
                                     ?>
                                     <tr>
                                         <td><?php echo $bcollection['userid'] ?></td>
@@ -73,7 +84,7 @@
                                                     if($bcollection['borrowCategory']==$bs['borrowCategory']){
                                                         $period = $bs['borrowingPeriod'];
                                                         date_add($date,date_interval_create_from_date_string($period." days"));
-                                                        echo date_format($date,"Y-m-d");
+                                                        echo date('d M Y', strtotime(date_format($date,"Y-m-d")));
 //                                                        echo date('d M Y', strtotime($bcollection['returned_date']));
                                                     }
 
