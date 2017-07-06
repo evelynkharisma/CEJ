@@ -1,6 +1,7 @@
 <!-- order tab -->
 <?php
     $transaction=[
+        "0" => "Manual",
         "1" => "Bank Transfer",
         "2" => "Credit Card"
     ];
