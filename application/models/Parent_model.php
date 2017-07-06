@@ -671,6 +671,7 @@ class Parent_model extends CI_Model {
         $this->db->insert($this->payment_file, $data);
     }
 
+    
     function notify($id){
         $data = array(
             'notify' => date('Y-m-d', now()),

@@ -10,6 +10,7 @@ class Operation_model extends CI_Model {
     var $book_request = 'book_request';
     var $photocopy_request = 'fotocopy_request';
     var $payment = 'payment';
+    var $payment_file = 'payment_file';
 
 
     function __construct() {
@@ -134,6 +135,28 @@ class Operation_model extends CI_Model {
         }
     }
 
+    function getPaymentFile ($id){
+        $this->db->select('*');
+        $this->db->where('paymentid', $id);
+        $query = $this->db->get($this->payment_file);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function approvePayment($id) {
+        $data = array(
+            'status' => '1',
+            'paymentdate' =>  date('Y-m-d', now()),
+        );
+
+        $this->db->where('paymentid', $id);
+        $this->db->update($this->payment, $data);
+
+        return TRUE;
+    }
+    
     function getAllOutstandingPayment()
     {
         $this->db->select('*, SUM(payment.value) AS value, GROUP_CONCAT(payment.inquirydate) AS inquirydate');

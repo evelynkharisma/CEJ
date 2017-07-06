@@ -6,6 +6,7 @@ class operation extends CI_Controller
 
     var $template = 'template';
     var $profilephotopath = 'assets/img/operation/profile/';
+    var $transferpath = 'assets/file/payment/';
 
     function __construct() {
         parent::__construct();
@@ -113,13 +114,69 @@ class operation extends CI_Controller
 
         $this->load->view($this->template, $data);
     }
+    public function approveTransfer()
+    {
+        $this->form_validation->set_rules('idT', 'ID', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $id = $this->input->post('idT');
+            if($this->Operation_model->approvePayment($id)){
+                $this->nativesession->set('success', 'Transfer payment has been approved');
+            }else{
+                $this->nativesession->set('error', 'Cannot be approved');
+            }
+        }
+        redirect('operation/outstanding_payment');
+    }
+    public function approveManual()
+    {
+        $this->form_validation->set_rules('idM', 'ID', 'required');
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+            $id = $this->input->post('idM');
+            if ($_FILES['attachmentM']['error'] != 4) {
+                $config['upload_path'] = $this->transferpath;
+                $config['allowed_types'] = "jpg|jpeg|png";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $id;
+                $this->load->library('upload', $config);
+                if (!$this->upload->do_upload('attachmentM')) {
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect('operation/outstanding_payment');
+                } else {
+                    $data = $this->upload->data();
+                    $config_image = array(
+                        'image_library' => 'gd2',
+                        'source_image' => $this->transferpath . '/' . $data['orig_name'],
+                        'new_image' => $this->transferpath . '/' . $data['orig_name'],
+                        'maintain_ratio' => TRUE,
+                        'rotate_by_exif' => TRUE
+                        //                'strip_exif' => TRUE,
+                    );
+                    $this->load->library('image_lib', $config_image);
+                    $this->image_lib->resize();
+
+                    $ext = pathinfo($_FILES['attachmentM']['name'], PATHINFO_EXTENSION);
+
+                    $filename = $id.'.'.$ext;
+                    $this->Parent_model->addTransferReceipt($id, $filename);
+                    $this->Operation_model->approvePayment($id);
+                    $this->nativesession->set('success', 'Manual payment has been set');
+                }
+            }
+        }
+        redirect('operation/outstanding_payment');
+    }
     public function outstanding_payment()
     {
         $data['title'] = 'SMS';
         $data['sidebar'] = 'operation/operation_sidebar';
         $data['topnavigation'] = 'operation/operation_topnavigation';
         $data['content'] = 'operation/operation_outstanding_payment_view';
-
+        
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
         $data['orders'] = $this->Operation_model->getAllOutstandingPayment();
 

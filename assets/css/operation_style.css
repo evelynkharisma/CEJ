@@ -10,5 +10,12 @@
     color: red;
 }
 .operation_order_stationary .action .btn{
-    width: 48%;
+    width: 47%;
+}
+.modal-body-text input, .modal-body-text1 input{
+    width: 100%;
+    padding: 1%;
+}
+.modal-body-text img{
+    width: 100%;
 }

@@ -868,7 +868,9 @@ class parents extends CI_Controller {
                 $this->load->library('image_lib', $config_image);
                 $this->image_lib->resize();
 
-                $filename = $data['orig_name'];
+                $ext = pathinfo($_FILES['userfile']['name'], PATHINFO_EXTENSION);
+
+                $filename = $name.'.'.$ext;
                 $payments = $this->Parent_model->getPaymentStatus($this->nativesession->get('id'));
                 foreach($payments as $paymentss) {
                     $this->Parent_model->addTransferReceipt($paymentss['paymentid'], $filename);
