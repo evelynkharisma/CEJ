@@ -64,6 +64,7 @@
                                             <td><?php echo date('d M Y', strtotime($bcollection['borrowed_date'])) ?></td>
                                             <td><?php echo date('d M Y', strtotime($bcollection['returned_date'])) ?></td>
 
+
                                         </tr>
                                         <?php
                                     }

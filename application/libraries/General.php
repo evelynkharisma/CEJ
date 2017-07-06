@@ -181,6 +181,11 @@ class General
             $value = substr($id,1) + 111;
             $id = $variable.$value;
         }
+        elseif($type == 'settingfee'){
+            $variable = ord('s');
+            $value = substr($id,1) + 113;
+            $id = $variable.$value;
+        }
 
         elseif($type == 'correspond'){
             $variable = ord('c');
@@ -319,6 +324,11 @@ class General
             $variable = strlen(ord('l'));
             $id = substr($id, $variable) - 111;
             $id = 'l'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
+        }
+        elseif($type == 'settingfee'){
+            $variable = strlen(ord('s'));
+            $id = substr($id, $variable) - 113;
+            $id = 's'.str_pad((int) $id, 4, "0", STR_PAD_LEFT);
         }
         elseif($type == 'correspond'){
             $variable = strlen(ord('c'));

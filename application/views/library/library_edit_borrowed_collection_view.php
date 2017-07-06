@@ -171,17 +171,24 @@
                                 $date2=date_create(date("Y-m-d"));
                                 $diff=date_diff($date1,$date2);
                                 $late = $diff->format("%a");
+                                $period = 0;
+//                                echo serialize($borrowSetting)."BOROW <BR>";
+                                if($borrowSetting) {
+                                    if($borrowSetting['borrowCategory']==$borrowedCollectionData['borrowCategory']) {
+                                        $period= $borrowSetting['borrowingPeriod'];
+                                    }
+                                }
                                 ?>
 
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="col-md-4 col-sm-4 col-xs-11 teacher_profile_label">Borrowing Period</div>
+                                    <div class="col-md-4 col-sm-4 col-xs-11 teacher_profile_label">Late</div>
                                     <div class="col-md-8 col-sm-8 col-xs-12">
-                                        <?php echo $late.' day(s)'?>
+                                        <?php echo ($late-$period).' day(s)'?>
                                     </div>
                                 </div>
 
                                 <?php
-                                $fine = $fines['fine'] *$late;
+                                $fine = $fines['fine'] *($late-$period);
 
                                 ?>
                                 <div class="col-md-12 col-sm-12 col-xs-12">

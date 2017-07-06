@@ -3978,6 +3978,102 @@ class admin extends CI_Controller {
 
 
 
+    public function settingFee()
+    {
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['info_db'] = $this->Admin_model->getAllSettingFee();
+        $data['content'] = 'admin/admin_setting_fee_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function deleteSettingFee($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0046') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $id = $this->general->decryptParaID($id, 'settingfee');
+        if($this->Teacher_model->deleteEvent($id)){
+            $this->nativesession->set('success', 'Setting Fee Deleted');
+        }
+        else{
+            $this->nativesession->set('error', 'Failed to Setting Fee');
+        }
+        redirect('admin/settingFee');
+    }
+
+    public function addSettingFee(){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0046') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+
+        $this->form_validation->set_rules('grade', 'grade', 'required');
+        $this->form_validation->set_rules('year', 'year', 'required');
+        $this->form_validation->set_rules('value', 'value', 'required');
+        $this->form_validation->set_rules('type', 'type', 'required');
+        $this->form_validation->set_rules('description', 'description', 'required');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $latestID =  $this->Admin_model->getSettingFeeLatestID();
+            if($latestID) {
+                $latestID = $latestID['settingid'];
+                $latestID = substr($latestID, 1);
+//                    ECHO $latestID;
+                $latestID = 's' . str_pad((int)$latestID + 1, 4, "0", STR_PAD_LEFT);
+            } else {
+                $latestID = 's0001';
+            }
+            $this->Admin_model->addSettingFee($latestID);
+            $this->nativesession->set('success', 'Setting fee saved');
+            redirect('admin/settingFee');
+        }
+
+        else {
+
+            $this->nativesession->set('error', 'All field are required');
+            redirect('admin/settingFee');
+        }
+
+
+    }
+
+    public function editSettingFee($id){
+        if($this->general->checkPrivilege($this->nativesession->get('role'), 'p0046') != 1){
+            $this->nativesession->set('error', 'Access Denied');
+            redirect('admin/home');
+        }
+        $this->form_validation->set_rules('grade', 'grade', 'required');
+        $this->form_validation->set_rules('year', 'year', 'required');
+        $this->form_validation->set_rules('value', 'value', 'required');
+        $this->form_validation->set_rules('type', 'type', 'required');
+        $this->form_validation->set_rules('description', 'description', 'required');
+
+        $id = $this->general->decryptParaID($id, 'settingfee');
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+        if ($this->form_validation->run() == TRUE) {
+            $this->Admin_model->editSettingFee($id);
+            $this->nativesession->set('success', 'Setting fee saved');
+            redirect('admin/settingFee');
+        }
+
+        else {
+
+            $this->nativesession->set('error', 'All field are required');
+            redirect('admin/settingFee');
+        }
+    }
+
+
 //    public function student_profile($id)
 //    {
 //        $id = $this->general->decryptParaID($id, 'student');
@@ -3988,6 +4084,108 @@ class admin extends CI_Controller {
 //        $data['content'] = 'student/student_profile_view';
 //        $this->load->view($this->template, $data);
 //    }
+    public function profileEdit($id)
+    {
+        $userid = $this->general->decryptParaID($id, 'admin');
+        $userdata = $this->Admin_model->getProfileDataByID($userid);
+
+
+        $this->form_validation->set_rules('firstname', 'firstname', 'required');
+        $this->form_validation->set_rules('lastname', 'lastname', 'required');
+        $this->form_validation->set_rules('gender', 'gender', 'required');
+        $this->form_validation->set_rules('phone', 'phone', 'required');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('address', 'address', 'required');
+        $this->form_validation->set_rules('dateofbirth', 'date of birth', 'required');
+        $this->form_validation->set_rules('placeofbirth', 'place of birth', 'required');
+        $this->form_validation->set_rules('religion', 'religion', 'required');
+        $this->form_validation->set_rules('elementary', 'elementary', 'required');
+        $this->form_validation->set_rules('juniorhigh', 'junior high', 'required');
+        $this->form_validation->set_rules('seniorhigh', 'senior high', 'required');
+        $this->form_validation->set_rules('undergraduate', 'undergraduate', 'required');
+//        $this->form_validation->set_rules('graduate', 'graduate', 'required');
+//        $this->form_validation->set_rules('postgraduate', 'postgraduate', 'required');
+//        $this->form_validation->set_rules('experience', 'working experience', 'required');
+
+
+        if ($this->input->post('password')):
+            $this->form_validation->set_rules('password', 'password', 'required');
+            $this->form_validation->set_rules('confirmpassword', 'confirm password', 'required|matches[password]');
+        endif;
+
+        $this->form_validation->set_error_delimiters('', '<br/>');
+
+        if ($this->form_validation->run() == TRUE) {
+//            echo "mask";
+            if ($_FILES['photo']['error'] != 4) {
+
+                $config['upload_path'] = $this->profileadminphotopath;
+                $config['allowed_types'] = "jpg|jpeg|png";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $userid;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('photo')) {
+
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect(current_url());
+                } else {
+                    $data = $this->upload->data();
+                    $config_image = array(
+                        'image_library' => 'gd2',
+                        'source_image' => $this->profileadminphotopath . '/' . $data['orig_name'],
+                        'new_image' => $this->profileadminphotopath . '/' . $data['orig_name'],
+                        'width' => 1240,
+                        'maintain_ratio' => TRUE,
+                        'rotate_by_exif' => TRUE,
+//                'strip_exif' => TRUE,
+                    );
+                    $this->load->library('image_lib', $config_image);
+                    $this->image_lib->resize();
+
+                    $filename = $data['orig_name'];
+                    if ($this->Admin_model->editProfilePhoto($userid, $filename)) {
+                    } else {
+                        $this->nativesession->set('error', 'Upload Photo Failed, try again !');
+                        redirect(current_url());
+                    }
+
+                }
+            }
+
+            $this->Admin_model->editProfile($userid);
+            $this->nativesession->set('success', 'Profile saved');
+            redirect('admin/profile');
+        }
+
+
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['content'] = 'admin/admin_profile_edit_view';
+        $this->load->view($this->template, $data);
+    }
+
+    public function profile()
+    {
+        $data['title'] = 'SMS';
+        $data['admin'] = $this->Admin_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['topnavigation'] = 'admin/admin_topnavigation';
+        $data['sidebar'] = 'admin/admin_sidebar';
+        $data['classes']  = $this->Admin_model->getAllClass();
+        $data['allcourses']  = $this->Admin_model->getAllCourses();
+        $data['allteacher']  = $this->Teacher_model->getAllTeacher();
+        $data['eventnotif'] = $this->Admin_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+
+        $data['content'] = 'admin/admin_profile_view';
+        $this->load->view($this->template, $data);
+    }
 
 
     public function logout(){

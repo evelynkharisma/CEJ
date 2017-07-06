@@ -16,7 +16,7 @@
                         <?php
                         $encrypted = $this->general->encryptParaID($this->nativesession->get('id'),'student');
                         ?>
-                        <li><a href="<?php echo base_url() ?>index.php/admin/admin_profile/<?php echo $encrypted ?>"> Profile</a></li>
+                        <li><a href="<?php echo base_url() ?>index.php/admin/profile/<?php echo $encrypted ?>"> Profile</a></li>
                         <!--                        <li><a href="--><?php //echo base_url() ?><!--index.php/teacher/teacher_settings">Settings</a></li>-->
                         <!--                        <li><a href="--><?php //echo base_url() ?><!--index.php/teacher/teacher_Help">Help</a></li>-->
                         <li><a href="<?php echo base_url() ?>index.php/admin/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
