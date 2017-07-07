@@ -1,4 +1,4 @@
-.operation_order_stationary input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+.operation_order_stationary input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button, .operation_order_book input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
@@ -9,8 +9,14 @@
 .operation_title_right{
     color: red;
 }
-.operation_order_stationary .action .btn{
-    width: 47%;
+.operation_order_stationary .btn{
+    /*width: 48%;*/
+}
+.operation_history_stationary .btn{
+    width: 100%;
+}
+.operation_order_book .action .btn{
+    width: 100%;
 }
 .modal-body-text input, .modal-body-text1 input{
     width: 100%;
@@ -18,4 +24,42 @@
 }
 .modal-body-text img{
     width: 100%;
+}
+.operation_invoice .btn{
+    width: 17%;
+    float: right;
+    margin-right: 5%;
+}
+.modal-footer{
+    border-top: none;
+}
+.logo-text{
+    font-size:17px;
+}
+.logo-text span{
+    font-size: 12px;
+    line-height: 15px;
+    /*display: -webkit-box;*/
+}
+.invoice .title_left {
+    padding-top: 2%;
+    padding-left: 3%;
+}
+
+.invoice .ui.header:first-child, .invoice .ui.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6), .invoice .ui.header, .invoice .ui.page.grid{
+    /*font-size: inherit;*/
+    /*padding: inherit;*/
+    border: none;
+    margin: inherit;
+    font-weight: inherit;
+    color: inherit;
+    text-transform: inherit;
+    font-family: inherit;
+}
+.payment-method{
+    padding-top: 5%;
+    display: inline-block;
+}
+.invoice .divider-dashed{
+    margin-bottom: 6%;
 }

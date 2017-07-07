@@ -5,6 +5,7 @@
             <div class="title_left">
                 <h3>Payment Status</h3>
             </div>
+            <a href="<?php echo base_url() ?>index.php/parents/invoice" class="order-accept-all btn btn-success">View Invoice</a>
         </div>
 
         <div class="clearfix"></div>

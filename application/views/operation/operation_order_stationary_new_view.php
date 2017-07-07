@@ -5,7 +5,7 @@
             <div class="title_left">
                 <h3>Stationary Order - Request</h3>
             </div>
-            <a href="<?php echo base_url() ?>index.php/parents/coursePerformance" class="order-accept-all btn btn-success">Accept All</a>
+            <a href="<?php echo base_url() ?>index.php/operation/stationary_accept_all" class="order-accept-all btn btn-success">Accept All</a>
         </div>
 
         <div class="clearfix"></div>

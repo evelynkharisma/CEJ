@@ -52,7 +52,7 @@
                                     ?>
 
                                     <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
-                                        <td><?php echo $order['inquirydate'] ?></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/operation/invoice/<?php echo $order['paymentid']?>"  style="color: cornflowerblue;"><?php echo $order['inquirydate'] ?></a></td>
                                         <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
                                         <td><?php echo $order['description'] ?></td>
                                         <td><?php echo $order['value'] ?></td>

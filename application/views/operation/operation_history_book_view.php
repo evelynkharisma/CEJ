@@ -1,18 +1,9 @@
 <!-- order tab -->
-<?php
-$transaction=[
-    "1" => "Bank Transfer",
-    "2" => "Credit Card"
-];
-?>
 <div class="right_col" role="main">
     <div class="operation_order_stationary">
         <div class="page-title">
             <div class="title_left">
                 <h3>History - Book</h3>
-            </div>
-            <div class="operation_title_right">
-                <p>*click on Payment ID to view payment receipt <br> *click on Transaction Type to view attachment</p>
             </div>
         </div>
 
@@ -28,31 +19,37 @@ $transaction=[
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Payment Date</th>
-                                <th>Payment ID</th>
-                                <th>Student Name</th>
+                                <th>ID</th>
+                                <th>Borrowed Date</th>
+                                <th>Returned Date</th>
+                                <th>Name</th>
+                                <th>User Type</th>
                                 <th>Value</th>
-                                <th>Transaction Type</th>
                             </tr>
                             </thead>
                             <tbody>
-<!--                            --><?php
-//                            if($orders){
-//                                $index = 0;
-//                                foreach($orders as $order){ ?>
-<!--                                    <tr role="row" class="--><?php //if ($index % 2 == 0) {echo "odd";} else{echo "even";}?><!--">-->
-<!--                                        <td>--><?php //echo $order['paymentdate'] ?><!--</td>-->
-<!--                                        <td><a href="#" style="color: cornflowerblue;">--><?php //echo $order['paymentid'] ?><!--</a></td>-->
-<!--                                        <td>--><?php //echo $order['firstname'] ?><!-- --><?php //echo $order['lastname'] ?><!--</td>-->
-<!--                                        <td>--><?php //echo $order['value'] ?><!--</td>-->
-<!--                                        <td><a href="#" style="color: cornflowerblue;">--><?php //echo $transaction[$order['transactiontype']]?><!--</a></td>-->
-<!--                                    </tr>-->
-<!--                                    --><?php //$index += 1; }}
-//                            else {?>
-<!--                                <tr>-->
-<!--                                    <td colspan="3">--><?php //echo 'No payment history, please check again later' ?><!--</td>-->
-<!--                                </tr>-->
-<!--                            --><?php //} ?>
+                            <?php
+                            if($orders){
+                                $index = 0;
+                                foreach($orders as $order){
+                                    ?>
+
+                                    <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
+                                        <td><?php echo $order['lbid'] ?></td>
+                                        <td><?php echo $order['borrowed_date'] ?></td>
+                                        <td><?php echo $order['returned_date'] ?></td>
+                                        <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>
+                                        <td><?php echo $order['usertype'] ?></td>
+                                        <td><?php echo $order['fine'] ?></td>
+                                        <!--                                            <a data-toggle="modal" --><?php //if($order['transactiontype']==1 OR $order['transactiontype']==0){echo'data-id="'.$order['paymentid'].'" data-name="'. $order['firstname'].' '. $order['lastname'].'" data-description="'. $order['description'] .'" data-value="'. $order['value'].'" data-picture="'. $pictures['attachment'].'"';}?><!-- data-target="#--><?php //if($order['transactiontype']==1){echo'confirm';} else{echo 'receipt';}?><!--" role="button" class="open-modal btn btn-success">--><?php //if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Manual Receipt';}?><!--</a>-->
+                                        <!--                                            <a data-toggle="modal" --><?php //if($order['transactiontype']==1){echo'onclick="viewTransfer('; echo '"'. $order['paymentid'].'","'. $order['firstname'].' '. $order['lastname'] .'","'. $order['description'] .'","'. $order['value'].'","'. $pictures['attachment'] .'")"';}?><!-- data-target="#--><?php //if($order['transactiontype']==1){echo'confirm';} else{echo 'receipt';}?><!--" role="button" class="btn btn-success">--><?php //if($order['transactiontype']==1){echo 'Confirm Payment';} else{echo'Manual Receipt';}?><!--</a></td>-->
+                                    </tr>
+                                    <?php $index += 1; }}
+                            else {?>
+                                <tr>
+                                    <td colspan="3"><?php echo 'No outstanding request, please check again later' ?></td>
+                                </tr>
+                            <?php } ?>
                             </tbody>
                         </table>
                         </form>

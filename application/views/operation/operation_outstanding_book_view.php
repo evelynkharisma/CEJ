@@ -1,6 +1,6 @@
 <!-- order tab -->
 <div class="right_col" role="main">
-    <div class="operation_order_stationary">
+    <div class="operation_order_book">
         <div class="page-title">
             <div class="title_left">
                 <h3>Outstanding - Book</h3>
@@ -36,6 +36,7 @@
                         <table id="directoryView" class="table table-striped table-bordered">
                             <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Borrowed Date</th>
                                 <th>Due Date</th>
                                 <th>Name</th>
@@ -54,6 +55,7 @@
                                     ?>
 
                                     <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
+                                        <td><?php echo $order['lbid'] ?></td>
                                         <td><?php echo $order['borrowed_date'] ?></td>
                                         <td><?php echo $time ?></td>
                                         <td><?php echo $order['firstname'] ?> <?php echo $order['lastname'] ?></td>

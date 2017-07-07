@@ -198,6 +198,30 @@ class operation extends CI_Controller
 
         $this->load->view($this->template, $data);
     }
+    public function invoice($id)
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'includes/invoice_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['payment'] = $this->Operation_model->getPayment($id);
+
+        $this->load->view($this->template, $data);
+    }
+    public function receipt($id)
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'includes/receipt_view';
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['payment'] = $this->Operation_model->getPayment($id);
+
+        $this->load->view($this->template, $data);
+    }
     public function outstanding_book()
     {
         $data['title'] = 'SMS';
@@ -218,7 +242,7 @@ class operation extends CI_Controller
         $data['content'] = 'operation/operation_history_book_view';
 
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
-//        $data['orders'] = $this->Operation_model->getAllHistoryPayment();
+        $data['orders'] = $this->Operation_model->getAllHistoryBook();
 
         $this->load->view($this->template, $data);
     }
@@ -233,6 +257,60 @@ class operation extends CI_Controller
         $data['orders'] = $this->Operation_model->getAllStationaryNew();
 
         $this->load->view($this->template, $data);
+    }
+    public function stationary_accept_all(){
+        $orders = $this->Operation_model->getAllStationaryNew();
+        foreach ($orders as $order){
+            $child = $this->Parent_model->getParent($payment['studentid']);
+            $student = $this->Parent_model->getChild($payment['studentid']);
+            $parent = $this->Parent_model->getProfileDataByID($child['parentid']);
+            if (!empty($parent)) {
+//            if (!empty($student)) {
+                $config = Array(
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'ssl://smtp.googlemail.com',
+                    'smtp_port' => 465,
+                    'smtp_user' => 'healthybonefamily@gmail.com',
+                    'smtp_pass' => 'healthybonefamilycb4',
+                );
+
+                $this->load->library('email', $config);
+                $this->email->set_newline('\r\n');
+                $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+                $this->email->to($parent['email']);
+//                $this->email->to($student['email']);
+                $this->email->subject('School Fee Reminder - XYZ International School');
+
+                $message = "\r\n";
+                $message .= "Dear ".$parent['firstname']." ".$parent['lastname'].",  \r\n";
+                $message .= "\r\n\r\n";
+                $message .= "We would like to remind you of the following invoice:\r\n\r\n";
+                $message .= "Name: ".$student['firstname']." ".$student['lastname']."\r\n";
+                $message .= "Description: ".$payment['description']."\r\n";
+                $message .= "\r\n";
+                $message .= "TOTAL   : $".$payment['value'];
+                $message .= "\r\n\r\n";
+                $message .= "Payment Method: \r\n";
+                $message .= "(1) Online Payment: Please access the school website to use the online payment method (www.rumputilmu.com/sms) \r\n\r\n";
+                $message .= "(2) Offline Payment: XYZ International School\r\n";
+                $message .= "BCA - XXXXXXXXXX\r\n";
+                $message .= "BNI - XXXXXXXXXX\r\n";
+                $message .= "Mandiri - XXXXXXXXXX\r\n";
+                $message .= "\r\n\r\n";
+                $message .= "Best Regards,\r\n";
+                $message .= "XYZ International School\r\n";
+                $message .= "Phone: xx-xx-xxx\r\n";
+                $message .= "Support Service: info@xyzinternationalschool.com\r\n";
+
+
+                $this->email->message($message);
+            }
+            if ($this->email->send()){
+                $this->nativesession->set("success", "Email sent successfully.");
+                $this->Parent_model->notify($payment['paymentid']);
+            }
+        }
+        redirect('operation/outstanding_payment');
     }
     public function order_stationary_history()
     {
@@ -344,11 +422,11 @@ class operation extends CI_Controller
                 $message .= "Title: ".$book['title']."\r\n";
                 $message .= "Author: ".$book['authorName']."\r\n";
                 $message .= "\r\n";
-                $message .= "Late book return will be charged Rp. 1000/day";
-                $message .= "Late journal return will be charged Rp. 1000/day";
-                $message .= "Charge   : $".$borrow['fine'];
+                $message .= "Late book return will be charged Rp. 1000/day\r\n";
+                $message .= "Late journal return will be charged Rp. 1000/day\r\n";
+                $message .= "Charge   : Rp.".$borrow['fine'];
                 $message .= "\r\n\r\n";
-                $message .= "Please return the book as soon as possible: \r\n";
+                $message .= "Please return the book on time, late retun will be charged accordingly. \r\n";
                 $message .= "For charges, please pay directly to the library.\r\n";
                 $message .= "\r\n\r\n";
                 $message .= "Best Regards,\r\n";
@@ -361,7 +439,7 @@ class operation extends CI_Controller
             }
             if ($this->email->send()){
                 $this->nativesession->set("success", "Email sent successfully.");
-                $this->Parent_model->notify($borrow['lbid']);
+                $this->Operation_model->notify($borrow['lbid']);
             }
         }
         redirect('operation/outstanding_book');
@@ -414,11 +492,11 @@ class operation extends CI_Controller
             $message .= "Title: ".$book['title']."\r\n";
             $message .= "Author: ".$book['authorName']."\r\n";
             $message .= "\r\n";
-            $message .= "Late book return will be charged Rp. 1000/day";
-            $message .= "Late journal return will be charged Rp. 1000/day";
-            $message .= "Charge   : $".$borrow['fine'];
+            $message .= "Late book return will be charged Rp. 1000/day\r\n";
+            $message .= "Late journal return will be charged Rp. 1000/day\r\n";
+            $message .= "Charge   : Rp.".$borrow['fine'];
             $message .= "\r\n\r\n";
-            $message .= "Please return the book as soon as possible: \r\n";
+            $message .= "Please return the book on time, late retun will be charged accordingly. \r\n";
             $message .= "For charges, please pay directly to the library.\r\n";
             $message .= "\r\n\r\n";
             $message .= "Best Regards,\r\n";
@@ -431,7 +509,7 @@ class operation extends CI_Controller
         }
         if ($this->email->send()) {
             $this->nativesession->set("success", "Email sent successfully.");
-            $this->Parent_model->notify($borrow['lbid']);
+            $this->Operation_model->notify($borrow['lbid']);
         }
         redirect('operation/outstanding_book');
     }
@@ -490,7 +568,7 @@ class operation extends CI_Controller
         redirect('operation/outstanding_payment');
     }
     public function notify($paymentid){
-        $payment = $this->Operation_model->getOutstandingPayment($paymentid);
+        $payment = $this->Operation_model->getPayment($paymentid);
         $child = $this->Parent_model->getParent($payment['studentid']);
         $student = $this->Parent_model->getChild($payment['studentid']);
         $parent = $this->Parent_model->getProfileDataByID($child['parentid']);

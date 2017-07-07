@@ -5,6 +5,9 @@
             <div class="title_left">
                 <h3>Payment Receipt</h3>
             </div>
+            <div class="operation_title_right">
+                <p>*click on update date to view invoice/receipt</p>
+            </div>
         </div>
 
         <?php
@@ -43,7 +46,7 @@
                             if($payments){
                                 foreach($payments as $payment){ ?>
                                     <tr>
-                                        <td><?php echo $payment['paymentdate'] ?></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/parents/<?php if($payment['status']=='1'){echo 'receipt/'.$payment['paymentid'];} else if($payment['transactiontype']=='0'){echo 'invoice';}?>"  style="color: cornflowerblue;"><?php echo $payment['paymentdate'] ?></a></td>
                                         <td><?php echo $payment['firstname'] ?> <?php echo $payment['lastname'] ?></td>
                                         <td><?php echo $payment['description'] ?></td>
                                         <td><?php echo $payment['value'] ?></td>

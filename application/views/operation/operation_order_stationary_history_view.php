@@ -1,6 +1,6 @@
 <!-- order tab -->
 <div class="right_col" role="main">
-    <div class="operation_order_stationary">
+    <div class="operation_history_stationary">
         <div class="page-title">
             <div class="title_left">
                 <h3>Stationary Order - History</h3>
@@ -32,7 +32,7 @@
                                     <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
                                         <td><a href=""><?php echo $order['completion'] ?></a></td>
                                         <td><?php echo $order['remains'] ?></td>
-                                        <td><a href="<?php echo base_url() ?>index.php/operation/completeOrder/<?php echo $order['completion'] ?>" class="btn btn-success">Finish Order</a></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/operation/completeOrder/<?php echo $order['completion'] ?>" class="btn <?php if ($order['status']=='2'){echo 'btn-default disable';}else{echo "btn-success";}?>">Finish Order</a></td>
                                     </tr>
                                     <?php $index += 1; }}
                             else {?>

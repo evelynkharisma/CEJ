@@ -11,6 +11,7 @@ class parents extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('Parent_model');
+        $this->load->model('Operation_model');
         $this->load->model('Teacher_model');
         $this->load->model('Student_model');
     }
@@ -910,6 +911,49 @@ class parents extends CI_Controller {
         $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
         $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
         $data['content'] = 'parents/payment_status_view';
+        $this->load->view($this->template, $data);
+    }
+    public function invoice()
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['content'] = 'includes/invoice_view';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+
+        $data['payments']  = $this->Parent_model->getPaymentStatus($this->nativesession->get('id'));
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
+        $this->load->view($this->template, $data);
+    }
+    public function receipt($id)
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'parents/parent_sidebar';
+        $data['topnavigation'] = 'parents/parent_topnavigation';
+        $data['content'] = 'includes/receipt_view';
+        $data['eventnotif'] = $this->Parent_model->getAllEventsCount($this->nativesession->get('id'),$this->nativesession->get('lastlogin'));
+        $data['events'] = $this->Parent_model->getAllEvents($this->nativesession->get('id'));
+        $data['parent'] = $this->Parent_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
+
+        $data['payment'] = $this->Operation_model->getPayment($id);
+        $data['type'] = 'parents';
+
+        $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
+        $data['student'] = $student;
+        $this->nativesession->set( 'classid', $student['classid'] );
+        $data['grades']  = $this->Student_model->getAllGradeByStudentID($this->nativesession->get('current_child_id'));
+        $data['studentGradeCourses']  = $this->Student_model->getAllClassesByStudentID($this->nativesession->get('current_child_id'));
+        $data['courses'] = $this->Student_model->getStudentCourses($this->nativesession->get('classid'));
         $this->load->view($this->template, $data);
     }
     public function payment_receipt()

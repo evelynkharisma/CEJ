@@ -57,6 +57,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>assets/css/component.css">
 
+    <!-- convert to pdf -->
+<!--    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.0/semantic.min.css" />-->
 
     <!-- iCheck -->
 <!--    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">-->
@@ -133,6 +135,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url() ?>assets/js/prettify.js"></script>
     <script src="<?php echo base_url() ?>assets/js/chosen.jquery.js" type="text/javascript"></script>
 
+    <!-- scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="//cdn.rawgit.com/MrRio/jsPDF/master/dist/jspdf.min.js">
+    </script>
+    <script type="text/javascript" src="//cdn.rawgit.com/niklasvh/html2canvas/0.5.0-alpha2/dist/html2canvas.min.js">
+    </script>
+    <script type="text/javascript" src="<?php echo base_url() ?>assets/js/app.js">
+    </script>
 
     <!-- Datatables -->
     <script>

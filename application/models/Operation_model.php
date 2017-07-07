@@ -173,7 +173,19 @@ class Operation_model extends CI_Model {
             return $query->result_array();
         }
     }
-    
+
+    function getAllHistoryBook()
+    {
+        $this->db->select('*');
+        $this->db->where('status', 'Returned');
+
+        $query = $this->db->get($this->outstanding_book);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
     function getAllNotifyBook()
     {
         $this->db->select('*');
@@ -226,9 +238,13 @@ class Operation_model extends CI_Model {
         }
     }
 
-    function getOutstandingPayment($id)
+    function getPayment($id)
     {
         $this->db->select('*');
+        $this->db->join('student', 'payment.studentid = student.studentid');
+        $this->db->group_by('payment.studentid');
+        $this->db->order_by('student.firstname', 'asc');
+        $this->db->order_by('payment.transactiontype', 'desc');
         $this->db->where('paymentid', $id);
         $this->db->limit(1);
         $query = $this->db->get($this->payment, 1);
