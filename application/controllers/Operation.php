@@ -12,6 +12,10 @@ class operation extends CI_Controller
         parent::__construct();
         $this->load->model('Operation_model');
         $this->load->model('Parent_model');
+        $this->load->model('Teacher_model');
+        $this->load->model('Student_model');
+        $this->load->model('Admin_model');
+        $this->load->model('Library_model');
     }
 
     public function home()
@@ -202,8 +206,8 @@ class operation extends CI_Controller
         $data['content'] = 'operation/operation_outstanding_book_view';
 
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
-//        $data['orders'] = $this->Operation_model->getAllOutstandingPayment();
-
+        $data['orders'] = $this->Operation_model->getAllBorrowedBook();
+        
         $this->load->view($this->template, $data);
     }
     public function history_book()
@@ -291,6 +295,146 @@ class operation extends CI_Controller
         $this->load->view($this->template, $data);
     }
 
+    public function notifyallbook(){
+        $borrowed = $this->Operation_model->getAllNotifyBook();
+        foreach ($borrowed as $borrow){
+            $book = $this->Operation_model->getCollectionDetail($borrow['lcid']);
+            if($this->Operation_model->getProfileDataByID($borrow['userid'])){
+                $user = $this->Operation_model->getProfileDataByID($borrow['userid']);
+            }
+            else if($this->Teacher_model->getProfileDataByID($borrow['userid'])){
+                $user = $this->Teacher_model->getProfileDataByID($borrow['userid']);
+            }
+            else if($this->Student_model->getProfileDataByID($borrow['userid'])){
+                $user = $this->Student_model->getProfileDataByID($borrow['userid']);
+            }
+            else if($this->Admin_model->getProfileDataByID($borrow['userid'])){
+                $user = $this->Admin_model->getProfileDataByID($borrow['userid']);
+            }
+            else if($this->Library_model->getProfileDataByID($borrow['userid'])){
+                $user = $this->Library_model->getProfileDataByID($borrow['userid']);
+            }
+            $time = $this->Library_model->getBorrowingSettingByID($borrow['borrowCategory']);
+            $time = date('Y-m-d', strtotime($borrow['borrowed_date']. ' + '.$time['borrowingPeriod'].' days'));
+            if (!empty($user)) {
+//            if (!empty($student)) {
+                $config = Array(
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'ssl://smtp.googlemail.com',
+                    'smtp_port' => 465,
+                    'smtp_user' => 'healthybonefamily@gmail.com',
+                    'smtp_pass' => 'healthybonefamilycb4',
+                );
+
+                $this->load->library('email', $config);
+                $this->email->set_newline('\r\n');
+                $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+                $this->email->to($user['email']);
+//                $this->email->to($student['email']);
+                $this->email->subject('Outstanding Book Reminder - XYZ International School');
+
+                $message = "\r\n";
+                $message .= "Dear ".$user['firstname']." ".$user['lastname'].",  \r\n";
+                $message .= "\r\n\r\n";
+                $message .= "We would like to remind you of the following invoice:\r\n\r\n";
+                $message .= "Name: ".$user['firstname']." ".$user['lastname']."\r\n";
+                $message .= "Borrowed On: ".$borrow['borrowed_date']."\r\n";
+                $message .= "Return Due Date: ".$time."\r\n";
+                $message .= "ISBN: ".$book['isbn']."\r\n";
+                $message .= "Title: ".$book['title']."\r\n";
+                $message .= "Author: ".$book['authorName']."\r\n";
+                $message .= "\r\n";
+                $message .= "Late book return will be charged Rp. 1000/day";
+                $message .= "Late journal return will be charged Rp. 1000/day";
+                $message .= "Charge   : $".$borrow['fine'];
+                $message .= "\r\n\r\n";
+                $message .= "Please return the book as soon as possible: \r\n";
+                $message .= "For charges, please pay directly to the library.\r\n";
+                $message .= "\r\n\r\n";
+                $message .= "Best Regards,\r\n";
+                $message .= "XYZ International School - Library\r\n";
+                $message .= "Phone: xx-xx-xxx\r\n";
+                $message .= "Support Service: library@xyzinternationalschool.com\r\n";
+
+
+                $this->email->message($message);
+            }
+            if ($this->email->send()){
+                $this->nativesession->set("success", "Email sent successfully.");
+                $this->Parent_model->notify($borrow['lbid']);
+            }
+        }
+        redirect('operation/outstanding_book');
+    }
+    public function notifyBook($lbid){
+        $borrow = $this->Library_model->getBorrowedCollectionDataByID($lbid);
+        $book = $this->Operation_model->getCollectionDetail($borrow['lcid']);
+        if($this->Operation_model->getProfileDataByID($borrow['userid'])){
+            $user = $this->Operation_model->getProfileDataByID($borrow['userid']);
+        }
+        else if($this->Parent_model->getProfileDataByID($borrow['userid'])){
+            $user = $this->Parent_model->getProfileDataByID($borrow['userid']);
+        }
+        else if($this->Student_model->getProfileDataByID($borrow['userid'])){
+            $user = $this->Student_model->getProfileDataByID($borrow['userid']);
+        }
+        else if($this->Admin_model->getProfileDataByID($borrow['userid'])){
+            $user = $this->Admin_model->getProfileDataByID($borrow['userid']);
+        }
+        else if($this->Library_model->getProfileDataByID($borrow['userid'])){
+            $user = $this->Library_model->getProfileDataByID($borrow['userid']);
+        }
+        $time = $this->Library_model->getBorrowingSettingByID($borrow['borrowCategory']);
+        $time = date('Y-m-d', strtotime($borrow['borrowed_date']. ' + '.$time['borrowingPeriod'].' days'));
+        if (!empty($user)) {
+//            if (!empty($student)) {
+            $config = Array(
+                'protocol' => 'smtp',
+                'smtp_host' => 'ssl://smtp.googlemail.com',
+                'smtp_port' => 465,
+                'smtp_user' => 'healthybonefamily@gmail.com',
+                'smtp_pass' => 'healthybonefamilycb4',
+            );
+
+            $this->load->library('email', $config);
+            $this->email->set_newline('\r\n');
+            $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+            $this->email->to($user['email']);
+//                $this->email->to($student['email']);
+            $this->email->subject('Outstanding Book Reminder - XYZ International School');
+
+            $message = "\r\n";
+            $message .= "Dear ".$user['firstname']." ".$user['lastname'].",  \r\n";
+            $message .= "\r\n\r\n";
+            $message .= "We would like to remind you of the following invoice:\r\n\r\n";
+            $message .= "Name: ".$user['firstname']." ".$user['lastname']."\r\n";
+            $message .= "Borrowed On: ".$borrow['borrowed_date']."\r\n";
+            $message .= "Return Due Date: ".$time."\r\n";
+            $message .= "ISBN: ".$book['isbn']."\r\n";
+            $message .= "Title: ".$book['title']."\r\n";
+            $message .= "Author: ".$book['authorName']."\r\n";
+            $message .= "\r\n";
+            $message .= "Late book return will be charged Rp. 1000/day";
+            $message .= "Late journal return will be charged Rp. 1000/day";
+            $message .= "Charge   : $".$borrow['fine'];
+            $message .= "\r\n\r\n";
+            $message .= "Please return the book as soon as possible: \r\n";
+            $message .= "For charges, please pay directly to the library.\r\n";
+            $message .= "\r\n\r\n";
+            $message .= "Best Regards,\r\n";
+            $message .= "XYZ International School - Library\r\n";
+            $message .= "Phone: xx-xx-xxx\r\n";
+            $message .= "Support Service: library@xyzinternationalschool.com\r\n";
+
+
+            $this->email->message($message);
+        }
+        if ($this->email->send()) {
+            $this->nativesession->set("success", "Email sent successfully.");
+            $this->Parent_model->notify($borrow['lbid']);
+        }
+        redirect('operation/outstanding_book');
+    }
     public function notifyall(){
         $payments = $this->Operation_model->getAllNotify();
         foreach ($payments as $payment){

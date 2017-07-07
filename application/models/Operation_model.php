@@ -11,6 +11,8 @@ class Operation_model extends CI_Model {
     var $photocopy_request = 'fotocopy_request';
     var $payment = 'payment';
     var $payment_file = 'payment_file';
+    var $outstanding_book = 'library_borrowed';
+    var $library_collection = 'library_collection';
 
 
     function __construct() {
@@ -122,6 +124,31 @@ class Operation_model extends CI_Model {
         return FALSE;
     }
 
+    function getCollectionDetail($id)
+    {
+        $this->db->select('*');
+        $this->db->where('lcid', $id);
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_collection, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+
+
+    function notify($id){
+        $data = array(
+            'notify' => date('Y-m-d', now()),
+        );
+
+        $this->db->where('lbid', $id);
+        $this->db->update($this->outstanding_book, $data);
+
+        return TRUE;
+    }
+
     function getAllNotify()
     {
         $this->db->select('*');
@@ -134,6 +161,32 @@ class Operation_model extends CI_Model {
             return $query->result_array();
         }
     }
+
+    function getAllBorrowedBook()
+    {
+        $this->db->select('*');
+        $this->db->where('status', 'Borrowed');
+
+        $query = $this->db->get($this->outstanding_book);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+    
+    function getAllNotifyBook()
+    {
+        $this->db->select('*');
+        $this->db->where('status', 'Borrowed');
+        $this->db->where('notify!=', date('Y-m-d', now()));
+
+        $query = $this->db->get($this->outstanding_book);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
 
     function getPaymentFile ($id){
         $this->db->select('*');
