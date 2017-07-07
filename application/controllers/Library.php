@@ -7,6 +7,7 @@ class Library extends CI_Controller
     var $template = 'template_library';
     var $profileadminphotopath = 'assets/img/admin/';
     var $profilelibrarianphotopath = 'assets/img/library/profile/';
+    var $libraryslidepath = 'assets/img/library/slide/';
 
 
     function __construct()
@@ -237,7 +238,7 @@ class Library extends CI_Controller
 
         $data['collections'] = $this->Library_model->getCollections();
         $data['borrowSetting'] =  $this->Library_model->getBorrowingSetting();
-        $data['borrowed'] = $this->Library_model->getBorrowedCollection();
+        $data['borrowed'] = $this->Library_model->getBorrowedCollectionDataByUserID($this->nativesession->get('libid'));
         $data['fines'] = $this->Library_model->getFineSetting();
 
         $data['title'] = 'Library LMS';
@@ -269,6 +270,9 @@ class Library extends CI_Controller
         $data['content'] = 'library/library_profile_view';
         $this->load->view($this->template, $data);
     }
+
+
+
 
     public function allCollection()
     {
@@ -1111,9 +1115,12 @@ class Library extends CI_Controller
         $data['top2navigation'] = 'library/library_top2navigation_borrowing';
 
         $data['borrowedCollectionData'] = $borrowed;
+//        echo serialize($borrowed);
         $data['borrowedIDEncrypted'] = $elbid;
         $data['borrowedID'] = $lbid;
         $data['fines'] = $this->Library_model->getFineDataByType($collData['materialType']);
+
+
         $data['collectionBorrowed'] = $collData;
         $data['borrowSetting'] =  $this->Library_model->getBorrowingSettingByID($borrowed['borrowCategory']);
         $data['content'] = 'library/library_edit_borrowed_collection_view';
@@ -1723,6 +1730,66 @@ class Library extends CI_Controller
         $this->load->view($this->template, $data);
     }
 
+    public function addHomeSlide()
+    {
+        if (empty($_FILES['userfile']['name'])){
+            $this->nativesession->set('error', 'Image is required');
+        }
+        else{
+            $latestID = $this->Library_model->getHomeSlideLatestID();
+            $latestID = $latestID['id']+1;
+            if ($_FILES['userfile']['error'] != 4) {
+                $config['upload_path'] = $this->libraryslidepath;
+                $config['allowed_types'] = "jpeg|jpg|png|JPEG|JPG|PNG";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $latestID;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('userfile')) {
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect('library/homeSlides');
+                } else {
+                    if($data = $this->upload->data()){
+                        $filename = $data['orig_name'];
+                        $this->Library_model->addHomeSlideImage($latestID, $filename);
+                        $this->nativesession->set('success', 'Library Home Slide Image Added');
+                        redirect('library/homeSlides');
+                    }
+                }
+            }
+        }
+    }
+
+    public function editHomeSlide($id)
+    {
+        if (empty($_FILES['userfile']['name'])){
+            $this->nativesession->set('error', 'Image is required');
+        }
+        else{
+            if ($_FILES['userfile']['error'] != 4) {
+                $config['upload_path'] = $this->libraryslidepath;
+                $config['allowed_types'] = "jpeg|jpg|png|JPEG|JPG|PNG";
+                $config['max_size'] = 200000;
+                $config['overwrite'] = TRUE;
+                $config['file_name'] = $id;
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('userfile')) {
+                    $this->nativesession->set('error', $this->upload->display_errors());
+                    redirect('library/homeSlides');
+                } else {
+                    if($data = $this->upload->data()){
+                        $filename = $data['orig_name'];
+                        $this->Library_model->editHomeSlideImage($id, $filename);
+                        $this->nativesession->set('success', 'Library Home Slide Image Save');
+                        redirect('library/homeSlides');
+                    }
+                }
+            }
+        }
+    }
+
 
 
     public function allNews()
@@ -2098,6 +2165,8 @@ class Library extends CI_Controller
         }
         redirect('library/usefulLinkContent/'.$cat);
     }
+
+
 
     public function profileEdit($id)
     {

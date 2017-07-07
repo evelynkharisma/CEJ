@@ -12,6 +12,7 @@ class Library_model extends CI_Model {
     var $library_fine_setting_table= 'library_fine_setting';
     var $library_useful_link_table = 'library_useful_link';
     var $library_useful_link_content_table = 'library_useful_link_content';
+    var $library_home_slide_table = 'library_slide';
 //    var $course_table = 'course';
 //    var $course_assign_table = 'course_assign';
 //    var $attendance_table = 'attendance';
@@ -585,6 +586,34 @@ class Library_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    function addHomeSlideImage($id, $img){
+        $data = array(
+            'id' => $id,
+            'name' => $img
+        );
+        $this->db->insert($this->library_home_slide_table, $data);
+    }
+
+    function getHomeSlideLatestID()
+    {
+        $this->db->select('id');
+        $this->db->order_by("id", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->library_home_slide_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function editHomeSlideImage($id, $img){
+        $data = array(
+            'name' => $img
+        );
+        $this->db->where('id', $id);
+        $this->db->update($this->library_home_slide_table, $data);
     }
 
 

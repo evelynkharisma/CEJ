@@ -4,9 +4,15 @@
         <img style="margin-top:-19.0px;position:relative;top:50%;width:38px;height:38px;" src="<?php echo base_url() ?>assets/img/library/oval.svg" />
     </div>
     <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:1500px;height:600px;overflow:hidden;">
-        <div style="background-image: url('<?php echo base_url() ?>assets/img/library/home1.jpg'); background-size: cover"></div>
-        <div style="background-image: url('<?php echo base_url() ?>assets/img/library/home2.jpg'); background-size: cover"></div>
-        <div style="background-image: url('<?php echo base_url() ?>assets/img/library/home1.jpg'); background-size: cover"></div>
+        <?php
+        if($slides) {
+            foreach ($slides as $slide) {
+                ?>
+                <div style="background-image: url('<?php echo base_url() ?>assets/img/library/slide/<?php echo $slide['name']?>'); background-size: cover"></div>
+        <?php
+            }
+        }
+        ?>
     </div>
     <!-- Bullet Navigator -->
     <div data-u="navigator" class="jssorb05" style="bottom:16px;right:16px;" data-autocenter="1">
@@ -17,8 +23,18 @@
     <span data-u="arrowleft" class="jssora22l" style="top:0px;left:8px;width:40px;height:58px;" data-autocenter="2"></span>
     <span data-u="arrowright" class="jssora22r" style="top:0px;right:8px;width:40px;height:58px;" data-autocenter="2"></span>
 </div>
-
-<a href="<?php echo base_url() ?>index.php/library/homeSlides" class="btn-primary btn" style="width: 100%;"><i class="fa fa-edit"></i>Edit Slides</a>
+<?php $privilege = $this->general->checkPrivilege($this->nativesession->get('librole'), 'p0043');
+if($privilege == 1){?>
+    <div class="row" style="margin-bottom: 3vw">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <a href="<?php echo base_url() ?>index.php/library/homeSlides" class="btn-primary btn" style="width: 100%;"><i class="fa fa-edit"></i>Edit Slides</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
 <!-------------------------------------------  SERVICE ----------------------------------->
 <div class="services-w3layouts" id="services">
     <div class="container">

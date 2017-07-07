@@ -38,6 +38,7 @@ class Admin_model extends CI_Model {
     var $fotocopy_request_table = 'fotocopy_request';
     var $librarian_table = 'librarian';
     var $operation_table = 'operations';
+    var $setting_fee_table = 'setting_fee';
 
     function __construct() {
         parent::__construct();
@@ -124,7 +125,6 @@ class Admin_model extends CI_Model {
                 'graduate' => $this->input->post('graduate'),
                 'postgraduate' => $this->input->post('postgraduate'),
                 'experience' => $this->input->post('experience'),
-//                'workinghour' => $at
             );
         } else {
             $data = array(
@@ -144,7 +144,6 @@ class Admin_model extends CI_Model {
                 'graduate' => $this->input->post('graduate'),
                 'postgraduate' => $this->input->post('postgraduate'),
                 'experience' => $this->input->post('experience'),
-//                'workinghour' => $at
             );
         }
         $this->db->where('adminid', $id);
@@ -928,6 +927,64 @@ class Admin_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+
+
+    function getAllSettingFee(){
+        $this->db->select('*');
+
+        $query = $this->db->get($this->setting_fee_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function deleteSettingFee($id) {
+        $this->db->where('settingid', $id);
+        $this->db->delete($this->setting_fee_table);
+        if ($this->db->affected_rows() == 1) {
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    function getSettingFeeLatestID()
+    {
+        $this->db->select('settingid');
+        $this->db->order_by("settingid", "desc");
+        $this->db->limit(1);
+        $query = $this->db->get($this->setting_fee_table, 1);
+
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
+        }
+    }
+
+    function addSettingFee($id) {
+        $data = array(
+            'settingid' => $id,
+            'grade' => $this->input->post('grade'),
+            'year' => $this->input->post('year'),
+            'value' => $this->input->post('value'),
+            'type' => $this->input->post('type'),
+            'description' => $this->input->post('description')
+        );
+
+        $this->db->insert($this->setting_fee_table, $data);
+    }
+
+    function editSettingFee($id) {
+        $data = array(
+            'grade' => $this->input->post('grade'),
+            'year' => $this->input->post('year'),
+            'value' => $this->input->post('value'),
+            'type' => $this->input->post('type'),
+            'description' => $this->input->post('description')
+        );
+        $this->db->where('settingid', $id);
+        $this->db->update($this->setting_fee_table, $data);
     }
 }
 

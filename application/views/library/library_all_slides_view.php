@@ -3,7 +3,7 @@
 <div class="faq">
     <div class="container">
         <div class="row" style="margin-bottom: 3vw">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 1vw">
 <!--                <h2>Borrowed Collection</h2>-->
                 <?php if ($this->nativesession->get('error')): ?>
                     <div  class="alert alert-error">
@@ -36,29 +36,21 @@
                         <div class="modal-header ">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                             </button>
-                            <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Add Image</h2>
+                            <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Upload Home Slide Image</h2>
                             </div>
                         </div>
                         <div class="modal-body">
-                            <?php echo form_open_multipart('library/addSlide'); ?>
+                            <?php echo form_open_multipart('library/addHomeSlide'); ?>
                             <div class="form-group">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="col-md-5 col-sm-3 col-xs-11 teacher_profile_label">Image</div>
-                                    <div class="col-md-7 col-sm-9 col-xs-12">
-                                        <input class="form-control teacher_profile_value" type="text" name="type">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="col-md-5 col-sm-3 col-xs-11 teacher_profile_label">Image</div>
-                                    <div class="col-md-7 col-sm-9 col-xs-12">
-                                        <input class="form-control teacher_profile_value" type="text" name="fine">
+                                    <div class="col-md-5 col-sm-4 col-xs-12 teacher_profile_label">File</div>
+                                    <div class="col-md-7 col-sm-8 col-xs-12">
+                                        <input class="btn btn-yellow" type="file" name="userfile" />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer" style="border: none">
+                        <div class="modal-footer" style="border: none; margin-top: 1vw">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
                         </div>
                         <?php echo form_close(); ?>
@@ -69,7 +61,7 @@
 
             </div>
         </div>
-        <a data-toggle="modal" data-target="#upload" class="btn btn-primary" style="margin-bottom: 2vw" ><!--<i class="fa fa-plus"></i>--> Add Image</a>
+        <a data-toggle="modal" data-target="#upload" class="btn btn-primary" style="margin-bottom: 2vw" ><i class="fa fa-upload"></i> Upload</a>
 
 
 <!--        <a href="--><?php //echo base_url() ?><!--index.php/library/addBorrowingSetting" class="btn btn-primary lib-top-btn" style="margin-bottom: 2vw">Add Borrowing Setting</a>-->
@@ -97,8 +89,8 @@
                                     <tr>
                                         <td><?php echo $i; ?></td>
                                         <td>
-                                            <img width="200" src="<?php echo base_url() ?>assets/img/library/<?php echo $info['name']?>"
-                                            <?php echo $info['name'] ?></td>
+                                            <img width="200" src="<?php echo base_url() ?>assets/img/library/slide/<?php echo $info['name']?>"
+                                        </td>
                                         <td><?php echo $info['name'] ?></td>
                                         <td>
                                             <a data-toggle="modal" data-target="#edit<?php echo $info['id']?>" class="btn btn-primary" ><i class="fa fa-edit"></i> Edit</a>
@@ -113,29 +105,29 @@
                                                     <div class="modal-header ">
                                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                                                         </button>
-                                                        <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Edit Fine Setting</h2>
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 teacher_profile_label"><h2>Edit Home Slide Image</h2>
                                                         </div>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <?php echo form_open_multipart('library/editFineSetting/'.$info['id']); ?>
+                                                    <div class="modal-body" style="margin-bottom: 2vw">
+                                                        <?php echo form_open_multipart('library/editHomeSlide/'.$info['id']); ?>
                                                         <div class="form-group">
                                                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="col-md-5 col-sm-4 col-xs-11 teacher_profile_label">Type</div>
+                                                                <div class="col-md-5 col-sm-4 col-xs-12 teacher_profile_label">Image</div>
                                                                 <div class="col-md-7 col-sm-8 col-xs-12">
-                                                                    <input class="form-control teacher_profile_value" type="text" name="type" value="<?php echo set_value('type', isset($info['type']) ? $info['type'] : ''); ?>">
+                                                                    <?php echo $info['name']?>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                                                <div class="col-md-5 col-sm-4 col-xs-11 teacher_profile_label">Fine (IDR)</div>
+                                                                <div class="col-md-5 col-sm-4 col-xs-12 teacher_profile_label">File</div>
                                                                 <div class="col-md-7 col-sm-8 col-xs-12">
-                                                                    <input class="form-control teacher_profile_value" type="text" name="fine" value="<?php echo set_value('fine', isset($info['fine']) ? $info['fine'] : ''); ?>">
+                                                                    <input class="btn btn-yellow" type="file" name="userfile" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="modal-footer" style="border: none">
+                                                    <div class="modal-footer" style="border: none; margin-top: 1vw">
                                                         <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
                                                     </div>
                                                     <?php echo form_close(); ?>

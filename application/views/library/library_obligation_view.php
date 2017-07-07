@@ -76,9 +76,10 @@
                                             }
                                             ?>
                                         </td>
-                                        <td><?php
+                                        <td><?php echo $bcollection['userid']; ?></td>
+                                        <td><?php/*
                                         echo $collectionData['materialType'];
-                                            ?></td>
+                                            */?><!--</td>-->
 
                                     </tr>
                                     <?php

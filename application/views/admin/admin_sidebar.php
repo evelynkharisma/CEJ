@@ -214,7 +214,12 @@
                 </ul>
             </li>
             <li><a href="<?php echo base_url() ?>index.php/admin/classesView"><i class="fa fa-table"></i> Classes </a></li>
-            <li><a href="<?php echo base_url() ?>index.php/admin/payment"><i class="fa fa-usd"></i>Payments</span></a></li>
+            <li><a ><i class="fa fa-usd"></i>Payments<span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="<?php echo base_url() ?>index.php/admin/settingFee">School Fee Setting</a></li>
+                    <li><a href="<?php echo base_url() ?>index.php/admin/payment">Payments</a></li>
+                </ul>
+            </li>
             <li><a><i class="fa fa-bell"></i> Events <span class="badge bg-green"><?php echo $eventnotif ?></span> <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
                     <?php
