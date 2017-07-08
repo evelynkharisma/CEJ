@@ -9,6 +9,12 @@
 
         <div class="clearfix"></div>
 
+        <?php if ($this->nativesession->get('success')): ?>
+            <div  class="alert alert-success">
+                <?php echo $this->nativesession->get('success'); $this->nativesession->delete('success');?>
+            </div>
+        <?php endif; ?>
+
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -30,9 +36,9 @@
                                 $index = 0;
                                 foreach($orders as $order){ ?>
                                     <tr role="row" class="<?php if ($index % 2 == 0) {echo "odd";} else{echo "even";}?>">
-                                        <td><a href=""><?php echo $order['completion'] ?></a></td>
+                                        <td><?php echo $order['completion'] ?></td>
                                         <td><?php echo $order['remains'] ?></td>
-                                        <td><a href="<?php echo base_url() ?>index.php/operation/completeOrder/<?php echo $order['completion'] ?>" class="btn <?php if ($order['status']=='2'){echo 'btn-default disable';}else{echo "btn-success";}?>">Finish Order</a></td>
+                                        <td><a href="<?php echo base_url() ?>index.php/operation/completeStationaryOrder/<?php echo $order['completion'] ?>" class="btn <?php if ($order['status']=='2'){echo 'btn-default disable';}else{echo "btn-success";}?>"><?php if ($order['status']=='2'){echo "View Order";}else{echo "Finish Order";}?></a></td>
                                     </tr>
                                     <?php $index += 1; }}
                             else {?>
@@ -42,7 +48,6 @@
                             <?php } ?>
                             </tbody>
                         </table>
-                        </form>
                     </div>
                 </div>
             </div>

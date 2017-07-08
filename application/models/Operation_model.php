@@ -283,6 +283,19 @@ class Operation_model extends CI_Model {
         }
     }
 
+    function acceptBookOrder($id)
+    {
+        $data = array(
+            'completion' => date('Y-m-d', now()),
+            'status' => '1',
+        );
+
+        $this->db->where('brequestid', $id);
+        $this->db->update($this->book_request, $data);
+
+        return TRUE;
+    }
+
 
     function getAllResourceCopyNew()
     {
@@ -298,6 +311,18 @@ class Operation_model extends CI_Model {
         }
     }
 
+    function acceptCopyOrder($id)
+    {
+        $data = array(
+            'completion' => date('Y-m-d', now()),
+            'status' => '1',
+        );
+
+        $this->db->where('frequestid', $id);
+        $this->db->update($this->photocopy_request, $data);
+
+        return TRUE;
+    }
 
     function getAllStationaryNew()
     {
@@ -306,6 +331,82 @@ class Operation_model extends CI_Model {
         $this->db->group_by('item_request.itemid');
         $this->db->order_by('items.name', 'asc');
         $this->db->where('status', '0');
+
+        $query = $this->db->get($this->item_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function acceptStationaryOrder($id)
+    {
+        $data = array(
+            'completion' => date('Y-m-d', now()),
+            'status' => '1',
+        );
+
+        $this->db->where('requestid', $id);
+        $this->db->update($this->item_request, $data);
+
+        return TRUE;
+    }
+
+    function finishStationaryOrder($id, $remains, $status)
+    {  
+        if($status=='1'){
+            $data = array(
+                'remains' => $remains,
+            );
+        }
+        else if($status=='2'){
+            $data = array(
+                'completion' => date('Y-m-d', now()),
+                'status' => $status,
+                'remains' => $remains,
+            );
+        }
+        
+        $this->db->where('requestid', $id);
+        $this->db->update($this->item_request, $data);
+
+        return TRUE;
+    }
+
+    function getStationaryOrderByID($id)
+    {
+        $this->db->select('*');
+        $this->db->join('items', 'items.itemid = item_request.itemid');
+//        $this->db->order_by('completion', 'asc');
+        $this->db->where('requestid', $id);
+
+        $query = $this->db->get($this->item_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getStationaryOrderByItem($id)
+    {
+        $this->db->select('*');
+//        $this->db->join('items', 'items.itemid = item_request.itemid');
+        $this->db->order_by('completion', 'desc');
+        $this->db->where('itemid', $id);
+
+        $query = $this->db->get($this->item_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getStationaryOrderByDate($date)
+    {
+        $this->db->select('*');
+        $this->db->join('items', 'items.itemid = item_request.itemid');
+        $this->db->order_by('items.itemid', 'asc');
+        $this->db->where('item_request.completion', $date);
 
         $query = $this->db->get($this->item_request);
 
@@ -342,6 +443,65 @@ class Operation_model extends CI_Model {
         }
     }
 
+    function finishBookOrder($id, $remains, $status)
+    {
+        if($status=='1'){
+            $data = array(
+                'remains' => $remains,
+            );
+        }
+        else if($status=='2'){
+            $data = array(
+                'completion' => date('Y-m-d', now()),
+                'status' => $status,
+                'remains' => $remains,
+            );
+        }
+
+        $this->db->where('brequestid', $id);
+        $this->db->update($this->book_request, $data);
+
+        return TRUE;
+    }
+
+    function getBookOrderByID($id)
+    {
+        $this->db->select('*');
+        $this->db->where('brequestid', $id);
+
+        $query = $this->db->get($this->book_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getBookOrderByItem($id)
+    {
+        $this->db->select('*');
+        $this->db->order_by('completion', 'desc');
+        $this->db->where('isbn', $id);
+
+        $query = $this->db->get($this->book_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getBookOrderByDate($date)
+    {
+        $this->db->select('*');
+        $this->db->order_by('isbn', 'asc');
+        $this->db->where('completion', $date);
+
+        $query = $this->db->get($this->book_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
 
     function getAllResourceCopyHistory()
     {
@@ -356,6 +516,66 @@ class Operation_model extends CI_Model {
             return $query->result_array();
         }
     }
+
+    function finishCopyOrder($id, $remains, $status)
+    {
+        if($status=='1'){
+            $data = array(
+                'remains' => $remains,
+            );
+        }
+        else if($status=='2'){
+            $data = array(
+                'completion' => date('Y-m-d', now()),
+                'status' => $status,
+                'remains' => $remains,
+            );
+        }
+
+        $this->db->where('frequestid', $id);
+        $this->db->update($this->photocopy_request, $data);
+
+        return TRUE;
+    }
+
+    function getCopyOrderByID($id)
+    {
+        $this->db->select('*');
+        $this->db->where('frequestid', $id);
+
+        $query = $this->db->get($this->photocopy_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getCopyOrderByItem($id)
+    {
+        $this->db->select('*');
+        $this->db->order_by('completion', 'desc');
+        $this->db->where('isbn', $id);
+
+        $query = $this->db->get($this->photocopy_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
+    function getCopyOrderByDate($date)
+    {
+        $this->db->select('*');
+        $this->db->order_by('isbn', 'asc');
+        $this->db->where('completion', $date);
+
+        $query = $this->db->get($this->photocopy_request);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+
 
     function getAllChildren($id){
         $this->db->select('*');

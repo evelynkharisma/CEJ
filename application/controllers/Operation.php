@@ -261,56 +261,10 @@ class operation extends CI_Controller
     public function stationary_accept_all(){
         $orders = $this->Operation_model->getAllStationaryNew();
         foreach ($orders as $order){
-            $child = $this->Parent_model->getParent($payment['studentid']);
-            $student = $this->Parent_model->getChild($payment['studentid']);
-            $parent = $this->Parent_model->getProfileDataByID($child['parentid']);
-            if (!empty($parent)) {
-//            if (!empty($student)) {
-                $config = Array(
-                    'protocol' => 'smtp',
-                    'smtp_host' => 'ssl://smtp.googlemail.com',
-                    'smtp_port' => 465,
-                    'smtp_user' => 'healthybonefamily@gmail.com',
-                    'smtp_pass' => 'healthybonefamilycb4',
-                );
-
-                $this->load->library('email', $config);
-                $this->email->set_newline('\r\n');
-                $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
-                $this->email->to($parent['email']);
-//                $this->email->to($student['email']);
-                $this->email->subject('School Fee Reminder - XYZ International School');
-
-                $message = "\r\n";
-                $message .= "Dear ".$parent['firstname']." ".$parent['lastname'].",  \r\n";
-                $message .= "\r\n\r\n";
-                $message .= "We would like to remind you of the following invoice:\r\n\r\n";
-                $message .= "Name: ".$student['firstname']." ".$student['lastname']."\r\n";
-                $message .= "Description: ".$payment['description']."\r\n";
-                $message .= "\r\n";
-                $message .= "TOTAL   : $".$payment['value'];
-                $message .= "\r\n\r\n";
-                $message .= "Payment Method: \r\n";
-                $message .= "(1) Online Payment: Please access the school website to use the online payment method (www.rumputilmu.com/sms) \r\n\r\n";
-                $message .= "(2) Offline Payment: XYZ International School\r\n";
-                $message .= "BCA - XXXXXXXXXX\r\n";
-                $message .= "BNI - XXXXXXXXXX\r\n";
-                $message .= "Mandiri - XXXXXXXXXX\r\n";
-                $message .= "\r\n\r\n";
-                $message .= "Best Regards,\r\n";
-                $message .= "XYZ International School\r\n";
-                $message .= "Phone: xx-xx-xxx\r\n";
-                $message .= "Support Service: info@xyzinternationalschool.com\r\n";
-
-
-                $this->email->message($message);
-            }
-            if ($this->email->send()){
-                $this->nativesession->set("success", "Email sent successfully.");
-                $this->Parent_model->notify($payment['paymentid']);
-            }
+            $this->Operation_model->acceptStationaryOrder($order['requestid']);
         }
-        redirect('operation/outstanding_payment');
+        $this->nativesession->set("success", "Orders are successfully accepted");
+        redirect('operation/order_stationary_new');
     }
     public function order_stationary_history()
     {
@@ -324,6 +278,84 @@ class operation extends CI_Controller
 
         $this->load->view($this->template, $data);
     }
+    public function completeStationaryOrder($date)
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/acceptOrder';
+
+        $data['orders'] = $this->Operation_model->getStationaryOrderByDate($date);
+        $data['dateO'] = $date;
+        $data['from'] = 'completeStationaryOrder';
+        if(!empty($_POST)){
+            $name = $_POST['itemid'];
+            $bought = $_POST['bought'];
+            $emails = [];
+            foreach( $name as $key => $n ) {
+                $ordersI = $this->Operation_model->getStationaryOrderByItem($n);
+                $left = $bought[$key];
+//                echo '<script language="javascript">';
+//                echo 'alert("'.$left.'")';
+//                echo '</script>';
+                foreach($ordersI as $order){
+                    $teacher = $this->Teacher_model->getProfileDataByID($order['teacherid']);
+                    if($left!=0){
+                        if($left<$order['remains']){
+                            $left = $order['remains']-$left;
+                            $this->Operation_model->finishStationaryOrder($order['requestid'], $left, '1');
+                            $left = 0;
+                        }
+                        else{
+                            $left = $left-$order['remains'];
+                            $this->Operation_model->finishStationaryOrder($order['requestid'], '0', '2');
+                            $status = 0;
+                            foreach($emails as $email){
+                                if($email == $teacher['email']){
+                                    $status = 1;
+                                }
+                            }
+                            if($status==0){
+                                array_push($emails,$teacher['email']);
+                                $config = Array(
+                                    'protocol' => 'smtp',
+                                    'smtp_host' => 'ssl://smtp.googlemail.com',
+                                    'smtp_port' => 465,
+                                    'smtp_user' => 'healthybonefamily@gmail.com',
+                                    'smtp_pass' => 'healthybonefamilycb4',
+                                );
+
+                                $this->load->library('email', $config);
+                                $this->email->set_newline('\r\n');
+                                $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+                                $this->email->to($teacher['email']);
+//                $this->email->to($student['email']);
+                                $this->email->subject('Stationary Order Updates - XYZ International School');
+
+                                $message = "\r\n";
+                                $message .= "Dear ".$teacher['firstname']." ".$teacher['lastname'].",  \r\n";
+                                $message .= "\r\n\r\n";
+                                $message .= "There is an update for your requested stationary, please visit the operation to retrieve your order.\r\n\r\n";
+                                $message .= "Best Regards,\r\n";
+                                $message .= "XYZ International School - Operation\r\n";
+                                $message .= "Phone: xx-xx-xxx\r\n";
+                                $message .= "Support Service: operation@xyzinternationalschool.com\r\n";
+
+
+                                $this->email->message($message);
+                                $this->email->send();
+                            }
+                        }
+                    }
+                }
+            }
+            $this->nativesession->set("success", "Orders are updated");
+            redirect('operation/order_stationary_history');
+        }
+        
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $this->load->view($this->template, $data);
+    }
     public function order_resource_original_new()
     {
         $data['title'] = 'SMS';
@@ -334,6 +366,93 @@ class operation extends CI_Controller
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
         $data['orders'] = $this->Operation_model->getAllResourceOriNew();
 
+        $this->load->view($this->template, $data);
+    }
+    public function book_accept_all(){
+        $orders = $this->Operation_model->getAllResourceOriNew();
+        foreach ($orders as $order){
+            $this->Operation_model->acceptBookOrder($order['brequestid']);
+        }
+        $this->nativesession->set("success", "Orders are successfully accepted");
+        redirect('operation/order_resource_original_new');
+    }
+
+    public function completeBookOrder($date)
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/acceptOrder';
+
+        $data['orders'] = $this->Operation_model->getBookOrderByDate($date);
+        $data['dateO'] = $date;
+        $data['from'] = 'completeBookOrder';
+        if(!empty($_POST)){
+            $name = $_POST['itemid'];
+            $bought = $_POST['bought'];
+            $emails = [];
+            foreach( $name as $key => $n ) {
+                $ordersI = $this->Operation_model->getBookOrderByItem($n);
+                $left = $bought[$key];
+//                echo '<script language="javascript">';
+//                echo 'alert("'.$left.'")';
+//                echo '</script>';
+                foreach($ordersI as $order){
+                    $teacher = $this->Teacher_model->getProfileDataByID($order['teacherid']);
+                    if($left!=0){
+                        if($left<$order['remains']){
+                            $left = $order['remains']-$left;
+                            $this->Operation_model->finishBookOrder($order['brequestid'], $left, '1');
+                            $left = 0;
+                        }
+                        else{
+                            $left = $left-$order['remains'];
+                            $this->Operation_model->finishBookOrder($order['brequestid'], '0', '2');
+                            $status = 0;
+                            foreach($emails as $email){
+                                if($email == $teacher['email']){
+                                    $status = 1;
+                                }
+                            }
+                            if($status==0){
+                                array_push($emails,$teacher['email']);
+                                $config = Array(
+                                    'protocol' => 'smtp',
+                                    'smtp_host' => 'ssl://smtp.googlemail.com',
+                                    'smtp_port' => 465,
+                                    'smtp_user' => 'healthybonefamily@gmail.com',
+                                    'smtp_pass' => 'healthybonefamilycb4',
+                                );
+
+                                $this->load->library('email', $config);
+                                $this->email->set_newline('\r\n');
+                                $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+                                $this->email->to($teacher['email']);
+//                $this->email->to($student['email']);
+                                $this->email->subject('Book Order Updates - XYZ International School');
+
+                                $message = "\r\n";
+                                $message .= "Dear ".$teacher['firstname']." ".$teacher['lastname'].",  \r\n";
+                                $message .= "\r\n\r\n";
+                                $message .= "There is an update for your requested book, please visit the operation to retrieve your order.\r\n\r\n";
+                                $message .= "Best Regards,\r\n";
+                                $message .= "XYZ International School - Operation\r\n";
+                                $message .= "Phone: xx-xx-xxx\r\n";
+                                $message .= "Support Service: operation@xyzinternationalschool.com\r\n";
+
+
+                                $this->email->message($message);
+                                $this->email->send();
+                            }
+                        }
+                    }
+                }
+            }
+            $this->nativesession->set("success", "Orders are updated");
+            redirect('operation/order_resource_original_history');
+        }
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
         $this->load->view($this->template, $data);
     }
     public function order_resource_original_history()
@@ -358,6 +477,92 @@ class operation extends CI_Controller
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
         $data['orders'] = $this->Operation_model->getAllResourceCopyNew();
 
+        $this->load->view($this->template, $data);
+    }
+    public function copy_accept_all(){
+        $orders = $this->Operation_model->getAllResourceCopyNew();
+        foreach ($orders as $order){
+            $this->Operation_model->acceptCopyOrder($order['frequestid']);
+        }
+        $this->nativesession->set("success", "Orders are successfully accepted");
+        redirect('operation/order_resource_photocopy_new');
+    }
+    public function completeCopyOrder($date)
+    {
+        $data['title'] = 'SMS';
+        $data['sidebar'] = 'operation/operation_sidebar';
+        $data['topnavigation'] = 'operation/operation_topnavigation';
+        $data['content'] = 'operation/acceptOrder';
+
+        $data['orders'] = $this->Operation_model->getCopyOrderByDate($date);
+        $data['dateO'] = $date;
+        $data['from'] = 'completeCopyOrder';
+        if(!empty($_POST)){
+            $name = $_POST['itemid'];
+            $bought = $_POST['bought'];
+            $emails = [];
+            foreach( $name as $key => $n ) {
+                $ordersI = $this->Operation_model->getCopyOrderByItem($n);
+                $left = $bought[$key];
+//                echo '<script language="javascript">';
+//                echo 'alert("'.$left.'")';
+//                echo '</script>';
+                foreach($ordersI as $order){
+                    $teacher = $this->Teacher_model->getProfileDataByID($order['teacherid']);
+                    if($left!=0){
+                        if($left<$order['remains']){
+                            $left = $order['remains']-$left;
+                            $this->Operation_model->finishCopyOrder($order['frequestid'], $left, '1');
+                            $left = 0;
+                        }
+                        else{
+                            $left = $left-$order['remains'];
+                            $this->Operation_model->finishCopyOrder($order['frequestid'], '0', '2');
+                            $status = 0;
+                            foreach($emails as $email){
+                                if($email == $teacher['email']){
+                                    $status = 1;
+                                }
+                            }
+                            if($status==0){
+                                array_push($emails,$teacher['email']);
+                                $config = Array(
+                                    'protocol' => 'smtp',
+                                    'smtp_host' => 'ssl://smtp.googlemail.com',
+                                    'smtp_port' => 465,
+                                    'smtp_user' => 'healthybonefamily@gmail.com',
+                                    'smtp_pass' => 'healthybonefamilycb4',
+                                );
+
+                                $this->load->library('email', $config);
+                                $this->email->set_newline('\r\n');
+                                $this->email->from('healthybonefamily@gmail.com', 'XYZ International School');
+                                $this->email->to($teacher['email']);
+//                $this->email->to($student['email']);
+                                $this->email->subject('Copy Order Updates - XYZ International School');
+
+                                $message = "\r\n";
+                                $message .= "Dear ".$teacher['firstname']." ".$teacher['lastname'].",  \r\n";
+                                $message .= "\r\n\r\n";
+                                $message .= "There is an update for your requested copy, please visit the operation to retrieve your order.\r\n\r\n";
+                                $message .= "Best Regards,\r\n";
+                                $message .= "XYZ International School - Operation\r\n";
+                                $message .= "Phone: xx-xx-xxx\r\n";
+                                $message .= "Support Service: operation@xyzinternationalschool.com\r\n";
+
+
+                                $this->email->message($message);
+                                $this->email->send();
+                            }
+                        }
+                    }
+                }
+            }
+            $this->nativesession->set("success", "Orders are updated");
+            redirect('operation/order_resource_photocopy_history');
+        }
+
+        $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
         $this->load->view($this->template, $data);
     }
     public function order_resource_photocopy_history()
