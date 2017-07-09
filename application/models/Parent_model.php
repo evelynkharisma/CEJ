@@ -671,7 +671,20 @@ class Parent_model extends CI_Model {
         $this->db->insert($this->payment_file, $data);
     }
 
-    
+    function setOnlineTransaction($id){
+        $data = array(
+            'transactiontype' => '2',
+            'paymentdate' => date('Y-m-d', now()),
+            'status' => '1',
+        );
+
+        $this->db->where('paymentid', $id);
+        $this->db->update($this->payment_table, $data);
+
+        return TRUE;
+    }
+
+
     function notify($id){
         $data = array(
             'notify' => date('Y-m-d', now()),
