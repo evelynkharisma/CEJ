@@ -166,7 +166,6 @@
 <!--                                        <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_paynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">-->
 <!--                                        <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">-->
 <!--                                    </form>-->
-
                                     <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
                                         <input type="hidden" name="cmd" value="_xclick">
                                         <input type="hidden" name="business" value="seller@rumputilmu.com">
@@ -177,7 +176,7 @@
                                         <input type='hidden' name='cancel_return' value='<?php echo base_url() ?>index.php/parents/payment_status'>
                                         <input type='hidden' name='return' value='<?php echo base_url() ?>index.php/parents/payment_success'>
                                         <input type='hidden' name='notify' value='<?php echo base_url() ?>index.php/parents/payment'>
-                                        <input type="hidden" name="hosted_button_id" value="TZ6MPESKMUPNW">
+                                        <input type="hidden" name="hosted_button_id" value="U2YWRRMNSRNTN">
                                         <input type="image" src="http://www.dermitech.com/image/PayPal-PayNow-Button.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                                         <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                                     </form>
