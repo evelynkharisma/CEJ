@@ -982,6 +982,7 @@ class parents extends CI_Controller {
         $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
         $data['payments']  = $this->Parent_model->getPaymentStatus($this->nativesession->get('id'));
+        $data['type']  = "parents";
 
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;

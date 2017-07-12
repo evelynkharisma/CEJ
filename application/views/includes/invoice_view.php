@@ -8,7 +8,7 @@
         </div>
 
         <div class="clearfix"></div>
-        <?php if ($type='parents'){
+        <?php if ($type=='parents'){
         if($payments){
             ?>
             <div class="row">

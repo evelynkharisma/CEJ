@@ -210,9 +210,10 @@ class operation extends CI_Controller
         $data['sidebar'] = 'operation/operation_sidebar';
         $data['topnavigation'] = 'operation/operation_topnavigation';
         $data['content'] = 'includes/invoice_view';
+        $data['type'] = 'operation';
 
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
-        $data['payments'] = $this->Operation_model->getPayment($id);
+        $data['payment'] = $this->Operation_model->getPayment($id);
 
         $this->load->view($this->template, $data);
     }

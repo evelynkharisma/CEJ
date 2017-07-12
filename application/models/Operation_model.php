@@ -295,8 +295,8 @@ class Operation_model extends CI_Model {
         $this->db->where('paymentid', $id);
         $query = $this->db->get($this->payment);
 
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
+        if ($query->num_rows() == 1) {
+            return $query->row_array();
         }
     }
 
