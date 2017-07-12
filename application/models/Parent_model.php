@@ -10,6 +10,7 @@ class Parent_model extends CI_Model {
     var $payment_file = 'payment_file';
     var $correspond = 'correspond';
     var $correspond_file = 'correspond_file';
+    var $schedule_table = 'schedule';
 
     function __construct() {
         parent::__construct();
@@ -28,6 +29,14 @@ class Parent_model extends CI_Model {
         }
     }
 
+    function resetPassword($id, $token){
+        $data = array(
+            'password' => crypt($token,'$6$rounds=5000$simsthesisproject$')
+        );
+        $this->db->where('parentid', $id);
+        $this->db->update($this->table, $data);
+    }
+    
     function setCurrentLogin($id){
         $data = array(
             'currentlogin' => date('Y-m-d', now()),
@@ -685,6 +694,20 @@ class Parent_model extends CI_Model {
     }
 
 
+    function getAllScheduleOfStudentOfDay($cid, $d){
+        $this->db->select('*');
+        $this->db->join('class', 'class.classid = schedule.classid');
+        $this->db->join('course', 'course.courseid = schedule.courseid');
+        $this->db->where('schedule.classid', $cid);
+        $this->db->where('schedule.day', $d);
+        $this->db->order_by('schedule.period', 'asc');
+        $query = $this->db->get($this->schedule_table);
+
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        }
+    }
+    
     function notify($id){
         $data = array(
             'notify' => date('Y-m-d', now()),

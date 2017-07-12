@@ -39,7 +39,7 @@
 
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Name</label>
                                                     <div class="col-md-9 col-sm-9 col-xs-12 set-margin-bottom">
-                                                    <span class="control-label" id="name"><?php echo $payment['firstname']; ?><?php echo $payment['lastname']; ?></span>
+                                                    <span class="control-label" id="name"><?php echo $payment['firstname']; ?> <?php echo $payment['lastname']; ?></span>
                                                     </div>
 
                                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>

@@ -28,6 +28,17 @@ class parents extends CI_Controller {
         $data['inbox'] = $this->Parent_model->getAllInbox($this->nativesession->get('id'));
 
 
+        $today = date('l', now());
+        $data['today'] = date('N', strtotime($today))-1;
+        $data['day'] = $this->Teacher_model->getSetting('s0005');
+        $data['period'] = $this->Teacher_model->getSetting('s0006');
+        $data['hour'] = $this->Teacher_model->getSetting('s0007');
+        $data['starttime'] = $this->Teacher_model->getSetting('s0008');
+        $data['breakstarttime'] = $this->Teacher_model->getSetting('s0009');
+        $data['breaktime'] = $this->Teacher_model->getSetting('s0011');
+        $data['lunchstarttime'] = $this->Teacher_model->getSetting('s0010');
+        $data['lunchtime'] = $this->Teacher_model->getSetting('s0012');
+
         $student  = $this->Student_model->getProfileDataByID($this->nativesession->get('current_child_id'));
         $data['student'] = $student;
         $this->nativesession->set( 'classid', $student['classid'] );

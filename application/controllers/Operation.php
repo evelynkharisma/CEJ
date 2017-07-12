@@ -26,6 +26,12 @@ class operation extends CI_Controller
         $data['content'] = 'operation/operation_home_view';
 
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
+        $data['borrowedBook'] = $this->Operation_model->countAllBorrowedBook();
+        $data['outstandingPayment'] = $this->Operation_model->countAllOutstandingPayment();
+        $data['confirmation'] = $this->Operation_model->countAllOutstandingPayment();
+        $data['stationary'] = $this->Operation_model->countAllStationaryNew();
+        $data['book'] = $this->Operation_model->countAllResourceOriNew();
+        $data['copy'] = $this->Operation_model->countAllResourceCopyNew();
         
         $this->load->view($this->template, $data);
     }
@@ -206,7 +212,7 @@ class operation extends CI_Controller
         $data['content'] = 'includes/invoice_view';
 
         $data['operation'] = $this->Operation_model->getProfileDataByID($this->nativesession->get('id'));
-        $data['payment'] = $this->Operation_model->getPayment($id);
+        $data['payments'] = $this->Operation_model->getPayment($id);
 
         $this->load->view($this->template, $data);
     }

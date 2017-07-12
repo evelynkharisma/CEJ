@@ -67,46 +67,47 @@
                             <div class="x_content">
                                 <div class="teacher_dashboard_today_schedule_container">
                                     <table class="teacher_dashboard_today_schedule_table">
-                                        <tr>
-                                            <th class="teacher_dashboard_today_schedule_period">Period 1<br>time</th>
-                                            <td>Subject<br>Room</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="teacher_dashboard_today_schedule_period">Period 2<br>time</th>
-                                            <td>Subject<br>Room</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="teacher_dashboard_today_schedule_period">Period 3<br>time</th>
-                                            <td>Subject<br>Room</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="teacher_dashboard_today_schedule_period">Period 4<br>time</th>
-                                            <td>Subject<br>Room</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="teacher_dashboard_today_schedule_break" colspan="2" width="5%">
-                                                <b>Break<b><br></td>
-                                        </tr>
-                                        <tr>
-                                            <th class="teacher_dashboard_today_schedule_period">Period 5<br>time</th>
-                                            <td>Subject<br>Room</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="teacher_dashboard_today_schedule_period">Period 6<br>time</th>
-                                            <td>Subject<br>Room</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="teacher_dashboard_today_schedule_break" colspan="2" width="5%">
-                                                <b>Break<b><br></td>
-                                        </tr>
-                                        <tr>
-                                            <th class="teacher_dashboard_today_schedule_period">Period 7<br>time</th>
-                                            <td>Subject<br>Room</td>
-                                        </tr>
-                                        <tr>
-                                            <th class="teacher_dashboard_today_schedule_period">Period 8<br>time</th>
-                                            <td>Subject<br>Room</td>
-                                        </tr>
+                                        <?php
+                                        $schedule = $this->Teacher_model->getAllScheduleOfTeacherOfDay($child['classid'], $today);
+                                        $thisperiod = $starttime['value'];
+                                        $break = false;
+                                        $lunch = false;
+                                        $a = 0;
+                                        $j = 0;
+                                        for($i=0; $i < $period['value'];){
+                                            if($break == false && $thisperiod >= date('H:i', strtotime($breakstarttime['value']))){
+                                                ?>
+                                                <td class="teacher_dashboard_today_schedule_break set-center">
+                                                    <?php echo $thisperiod; ?>
+                                                </td>
+                                                <td class="teacher_dashboard_today_schedule_break set-center" colspan="">Break</td>
+                                                <?php
+                                                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$breaktime['value']);
+                                                $break = true;
+                                            }
+                                            elseif ($lunch == false && $thisperiod >= date('H:i', strtotime($lunchstarttime['value']))){ ?>
+                                                <td class="teacher_dashboard_today_schedule_break set-center">
+                                                    <?php echo $thisperiod; ?>
+                                                </td>
+                                                <td class="teacher_dashboard_today_schedule_break set-center" colspan="">Lunch</td>
+                                                <?php
+                                                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$lunchtime['value']);
+                                                $lunch = true;
+                                            }
+                                            else{ ?>
+                                                <tr>
+                                                    <th class="teacher_dashboard_today_schedule_period">Period <?php echo $i+1; ?><br><?php echo $thisperiod; ?></th>
+                                                    <?php if(isset($schedule[$j]) && $schedule[$j]['period'] == $i){ ?>
+                                                        <td><?php echo $schedule[$j]['coursename']; ?><br><?php echo $schedule[$j]['classroom']; ?></td>
+                                                        <?php $j++; }else{ ?>
+                                                        <td>&nbsp<br>&nbsp</td>
+                                                    <?php } ?>
+                                                </tr>
+                                                <?php
+                                                $thisperiod = date('H:i', strtotime($thisperiod) + 60*$hour['value']);
+                                                $i++;
+                                            }
+                                        } ?>
 
                                     </table>
                                 </div>

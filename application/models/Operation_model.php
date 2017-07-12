@@ -32,6 +32,14 @@ class Operation_model extends CI_Model {
         }
     }
 
+    function resetPassword($id, $token){
+        $data = array(
+            'password' => crypt($token,'$6$rounds=5000$simsthesisproject$')
+        );
+        $this->db->where('operationid', $id);
+        $this->db->update($this->table, $data);
+    }
+
     function setCurrentLogin($id){
         $data = array(
             'currentlogin' => date('Y-m-d', now()),
@@ -174,6 +182,17 @@ class Operation_model extends CI_Model {
         }
     }
 
+    function countAllBorrowedBook()
+    {
+        $this->db->select('*');
+        $this->db->where('status', 'Borrowed');
+
+        $query = $this->db->get($this->outstanding_book);
+        $rowcount = $query->num_rows();
+
+        return $rowcount;
+    }
+    
     function getAllHistoryBook()
     {
         $this->db->select('*');
@@ -237,20 +256,47 @@ class Operation_model extends CI_Model {
             return $query->result_array();
         }
     }
+    
+    function countAllOutstandingPayment()
+    {
+        $this->db->select('*, SUM(payment.value) AS value, GROUP_CONCAT(payment.inquirydate) AS inquirydate');
+        $this->db->join('student', 'payment.studentid = student.studentid');
+        $this->db->group_by('payment.studentid');
+        $this->db->order_by('student.firstname', 'asc');
+        $this->db->order_by('payment.transactiontype', 'desc');
+        $this->db->where('payment.status', '0');
+        $this->db->where('payment.transactiontype', '1');
+
+        $query = $this->db->get($this->payment);
+        $rowcount = $query->num_rows();
+
+        return $rowcount;
+    }
+
+    function countAllConfirmationPayment()
+    {
+        $this->db->select('*, SUM(payment.value) AS value, GROUP_CONCAT(payment.inquirydate) AS inquirydate');
+        $this->db->join('student', 'payment.studentid = student.studentid');
+        $this->db->group_by('payment.studentid');
+        $this->db->order_by('student.firstname', 'asc');
+        $this->db->order_by('payment.transactiontype', 'desc');
+        $this->db->where('payment.status', '0');
+
+        $query = $this->db->get($this->payment);
+        $rowcount = $query->num_rows();
+
+        return $rowcount;
+    }
 
     function getPayment($id)
     {
         $this->db->select('*');
         $this->db->join('student', 'payment.studentid = student.studentid');
-        $this->db->group_by('payment.studentid');
-        $this->db->order_by('student.firstname', 'asc');
-        $this->db->order_by('payment.transactiontype', 'desc');
         $this->db->where('paymentid', $id);
-        $this->db->limit(1);
-        $query = $this->db->get($this->payment, 1);
+        $query = $this->db->get($this->payment);
 
-        if ($query->num_rows() == 1) {
-            return $query->row_array();
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
         }
     }
 
@@ -282,6 +328,17 @@ class Operation_model extends CI_Model {
             return $query->result_array();
         }
     }
+    
+    function countAllResourceOriNew()
+    {
+        $this->db->select('*');
+        $this->db->where('status', '0');
+
+        $query = $this->db->get($this->book_request);
+        $rowcount = $query->num_rows();
+
+        return $rowcount;
+    }
 
     function acceptBookOrder($id)
     {
@@ -311,6 +368,17 @@ class Operation_model extends CI_Model {
         }
     }
 
+    function countAllResourceCopyNew()
+    {
+        $this->db->select('*');
+        $this->db->where('status', '0');
+
+        $query = $this->db->get($this->photocopy_request);
+        $rowcount = $query->num_rows();
+
+        return $rowcount;
+    }
+
     function acceptCopyOrder($id)
     {
         $data = array(
@@ -337,6 +405,17 @@ class Operation_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
+    }
+
+    function countAllStationaryNew()
+    {
+        $this->db->select('*');
+        $this->db->where('status', '0');
+
+        $query = $this->db->get($this->item_request);
+        $rowcount = $query->num_rows();
+
+        return $rowcount;
     }
 
     function acceptStationaryOrder($id)
